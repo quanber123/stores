@@ -5,6 +5,7 @@ function App() {
   return (
     <>
       <Suspense fallback={<div>...Loading</div>}>
+        <Header />
         <Outlet />
       </Suspense>
     </>

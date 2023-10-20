@@ -23,7 +23,11 @@ export default {
       purple: '#717fe0',
       white: '#ffffff',
     },
-    fontSize: {},
+    fontSize: {
+      sm: '14px',
+      xl: '28px',
+      '4xl': '60px',
+    },
     fontWeight: {
       thin: '300',
       normal: '400',

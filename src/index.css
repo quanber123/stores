@@ -13,22 +13,48 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%; */
 }
-
+nav {
+  position: -webkit-sticky;
+  position: sticky;
+  /* position: fixed; */
+  top: 0;
+  background: transparent;
+  transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  z-index: 100;
+}
+button {
+  transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+/* Style banner*/
 .img-slider {
+  position: absolute;
+  width: 0;
+  height: 0;
   object-fit: cover;
   flex-shrink: 0;
   flex-grow: 0;
-  transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  scale: 0;
+  opacity: 0;
+  z-index: -100;
 }
-
+.img-slider-content {
+  position: absolute;
+  flex-shrink: 0;
+  flex-grow: 0;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  gap: 40px;
+  z-index: 10;
+}
 .btn-slider-prev,
 .btn-slider-next {
   position: absolute;
   top: 50%;
 }
 .btn-slider-prev {
-  left: 20px;
+  left: -80px;
 }
 .btn-slider-next {
-  right: 20px;
+  right: -80px;
 }
