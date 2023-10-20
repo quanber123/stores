@@ -1,5 +1,5 @@
-function BlogView() {
+function BlogViews() {
   return <div>BlogView</div>;
 }
 
-export default BlogView;
+export default BlogViews;

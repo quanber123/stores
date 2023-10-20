@@ -19,9 +19,13 @@ export default {
     },
     colors: {
       gray: '#999999',
+      lightGray: '#e1e0e0',
+      mediumGray: '#555555',
+      semiBoldGray: '#333333',
       darkGray: '#666666',
       purple: '#717fe0',
       white: '#ffffff',
+      overlayPurple: 'rgba(113, 127, 224, 0.8)',
     },
     fontSize: {
       sm: '14px',

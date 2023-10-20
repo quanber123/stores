@@ -1,3 +1,9 @@
-import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
+import {
+  FaCaretLeft,
+  FaCaretRight,
+  FaRegHeart,
+  FaAngleRight,
+  FaAngleLeft,
+} from 'react-icons/fa6';
 
-export { FaCaretLeft, FaCaretRight };
+export { FaCaretLeft, FaCaretRight, FaRegHeart, FaAngleRight, FaAngleLeft };

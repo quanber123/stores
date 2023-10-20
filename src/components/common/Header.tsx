@@ -5,10 +5,10 @@ function Header() {
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     const stickyFunc = () => {
-      if (window.innerHeight > 150) {
+      if (window.pageYOffset > 150) {
         setSticky(true);
       } else {
-        false;
+        setSticky(false);
       }
     };
     window.addEventListener('scroll', stickyFunc);
@@ -17,12 +17,12 @@ function Header() {
     };
   }, []);
   return (
-    <nav className={`flex items-center ${sticky ? 'h-[70px]' : 'h-[84px]'}`}>
-      <div className='container flex items-center gap-[80px]'>
+    <nav className={`${sticky ? 'active' : ''}`}>
+      <section className={`container flex items-center  gap-[80px]`}>
         <div>
           <Link to={`/`}>
             {' '}
-            <img className='h-full mix-blend-lighten' src={logo} alt='logo' />
+            <img className='h-full' src={logo} alt='logo' />
           </Link>
         </div>
         <ul className='flex items-center gap-[20px] text-sm font-bold'>
@@ -52,7 +52,7 @@ function Header() {
             </NavLink>
           </li>
         </ul>
-      </div>
+      </section>
     </nav>
   );
 }

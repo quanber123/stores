@@ -95,7 +95,7 @@ function BannerHome() {
     };
   }, [imgIndex]);
   return (
-    <section className='absolute top-0 left-0 w-full h-full aspect-[4/2] flex justify-center'>
+    <section className='relative w-full h-full aspect-[4/2] flex justify-center overflow-hidden'>
       <div className='w-full h-full flex justify-center items-center overflow-hidden'>
         {images.map((i, index) => {
           return (
