@@ -4,9 +4,10 @@ import img2 from '@/assets/images/slide-02.jpg.webp';
 import img3 from '@/assets/images/slide-03.jpg.webp';
 import { FaCaretLeft, FaCaretRight } from '@/assets/icons';
 import gsap from 'gsap';
-import Button from '@/utils/button';
+import { useObserver } from '@/components/customHooks/useObserver';
 function BannerHome() {
   const [imgIndex, setImgIndex] = useState<number>(0);
+  const { isVisible, containerRef } = useObserver();
   let imgRef = useRef(null);
   let contentRef = useRef(null);
   let categoryRef = useRef(null);
@@ -93,9 +94,14 @@ function BannerHome() {
     return () => {
       ctx.revert();
     };
-  }, [imgIndex]);
+  }, [imgIndex, isVisible]);
   return (
-    <section className='relative w-full h-full aspect-[4/2] flex justify-center overflow-hidden'>
+    <section
+      className={`${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      } relative w-full h-full aspect-[4/2] flex justify-center overflow-hidden`}
+      ref={containerRef}
+    >
       <div className='w-full h-full flex justify-center items-center overflow-hidden'>
         {images.map((i, index) => {
           return (
@@ -126,13 +132,13 @@ function BannerHome() {
                 >
                   {i.category}
                 </p>
-                <Button
+                <button
                   style={{ transform: 'translateY(120px)', opacity: 0 }}
-                  btnRef={imgIndex === index ? btnRef : null}
+                  ref={imgIndex === index ? btnRef : null}
                   className='w-[162px] h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
                 >
                   Shop Now
-                </Button>
+                </button>
               </div>
             </>
           );

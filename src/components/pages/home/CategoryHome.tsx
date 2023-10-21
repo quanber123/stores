@@ -1,9 +1,11 @@
 import { useState, useRef, useLayoutEffect } from 'react';
 import demoimg from '@/assets/images/banner-01.jpg.webp';
 import gsap from 'gsap';
+import { useObserver } from '@/components/customHooks/useObserver';
 function CategoryHome() {
   const [hoverCategory, setHoverCategory] = useState<number | null>(null);
   const categoryRef = useRef<Array<HTMLElement | null>>([]);
+  const { isVisible, containerRef } = useObserver();
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       categoryRef.current.forEach((ref, index) => {
@@ -25,9 +27,14 @@ function CategoryHome() {
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [isVisible]);
   return (
-    <section className='container relative w-full h-full flex justify-between gap-[20px]'>
+    <section
+      ref={containerRef}
+      className={`${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      } container relative w-full h-full flex justify-between gap-[20px]`}
+    >
       <div
         ref={(el) => (categoryRef.current[0] = el)}
         className='max-h-[270px]cursor-pointer'

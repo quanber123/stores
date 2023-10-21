@@ -2,9 +2,13 @@ import { useState, useRef, useLayoutEffect } from 'react';
 import demoimg from '@/assets/images/product-12.jpg.webp';
 import { FaRegHeart } from '@/assets/icons/index';
 import gsap from 'gsap';
+import { useObserver } from '@/components/customHooks/useObserver';
 function StoreHome() {
   const [hoverProduct, setHoverProduct] = useState<number | null>();
   const productRef = useRef<Array<HTMLElement | null>>([]);
+  const titleRef = useRef(null);
+  const routeRefs = useRef<Array<HTMLElement | null>>([]);
+  const { isVisible, containerRef } = useObserver();
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRef.current?.forEach((ref, index) => {
@@ -22,26 +26,70 @@ function StoreHome() {
           }
         );
       });
+      gsap.to(titleRef.current, {
+        x: 0,
+        opacity: 1,
+        ease: 'elastic',
+        duration: 2.5,
+      });
+      routeRefs.current?.forEach((ref, index) => {
+        gsap.fromTo(
+          ref,
+          {
+            x: '-180px',
+            opacity: 0,
+          },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 2,
+            delay: (routeRefs.current.length - index) * 0.3,
+          }
+        );
+      });
     });
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [isVisible]);
   return (
-    <section className='relative w-full h-full flex flex-col items-center justify-center gap-[20px] overflow-hidden'>
-      <h2 className='text-4xl text-darkGray font-bold'>Store Overview</h2>
+    <section
+      ref={containerRef}
+      className={`${
+        isVisible ? 'opacity-100' : 'opacity-0'
+      } relative w-full h-full flex flex-col items-center justify-center gap-[20px] overflow-hidden`}
+    >
+      <h2
+        ref={titleRef}
+        className='text-4xl text-darkGray font-bold'
+        style={{ transform: 'translateX(120px)', opacity: 0 }}
+      >
+        Store Overview
+      </h2>
       <div>
         <ul className='flex justify-center gap-[40px] text-gray font-bold'>
-          <li className='hover:text-semiBoldGray transition-colors cursor-pointer'>
+          <li
+            ref={(el) => (routeRefs.current[0] = el)}
+            className='hover:text-semiBoldGray transition-colors cursor-pointer'
+          >
             Best
           </li>
-          <li className='hover:text-semiBoldGray transition-colors cursor-pointer'>
+          <li
+            ref={(el) => (routeRefs.current[1] = el)}
+            className='hover:text-semiBoldGray transition-colors cursor-pointer'
+          >
             Seller
           </li>
-          <li className='hover:text-semiBoldGray transition-colors cursor-pointer'>
+          <li
+            ref={(el) => (routeRefs.current[2] = el)}
+            className='hover:text-semiBoldGray transition-colors cursor-pointer'
+          >
             Featured
           </li>
-          <li className='hover:text-semiBoldGray transition-colors cursor-pointer'>
+          <li
+            ref={(el) => (routeRefs.current[3] = el)}
+            className='hover:text-semiBoldGray transition-colors cursor-pointer'
+          >
             Top Rate
           </li>
         </ul>

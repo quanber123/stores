@@ -1,0 +1,58 @@
+import React, { useState, useEffect, useRef } from 'react';
+
+type LazyLoadImageProps = {
+  src: string;
+  alt?: string | null;
+  className?: string;
+};
+
+const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
+  src,
+  alt,
+  className,
+}) => {
+  const [imageSrc, setImageSrc] = useState('');
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  useEffect(() => {
+    let observer: IntersectionObserver | undefined;
+
+    const handleIntersection: IntersectionObserverCallback = (entries, obs) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setImageSrc(src);
+          if (obs && imgRef.current) {
+            obs.unobserve(imgRef.current);
+          }
+        }
+      });
+    };
+
+    if (imgRef.current && !imageSrc) {
+      observer = new IntersectionObserver(handleIntersection, {
+        root: null,
+        rootMargin: '100px',
+        threshold: 0.1,
+      });
+      if (imgRef.current) {
+        observer.observe(imgRef.current);
+      }
+    }
+
+    return () => {
+      if (observer) {
+        observer.disconnect();
+      }
+    };
+  }, [src, imageSrc]);
+  return (
+    <img
+      ref={imgRef}
+      className={className}
+      src={imageSrc}
+      alt={alt ? alt : undefined}
+      // style={{ display: imageSrc ? 'block' : 'none' }}
+    />
+  );
+};
+
+export default LazyLoadImage;
