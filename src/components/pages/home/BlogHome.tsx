@@ -1,14 +1,17 @@
-import { useRef, useLayoutEffect, RefObject } from 'react';
-import demoimg from '@/assets/images/blog-02.jpg.webp';
+import { useState, useRef, useLayoutEffect, RefObject } from 'react';
 import gsap from 'gsap';
+import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlog from '@/components/single-blog/PreviewBlog';
+import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 
 function BlogHome() {
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
   const { isVisible, containerRef } = useObserver();
-
+  const [slider, setSlider] = useState<number>(0);
+  const [breakpoints, setBreakPoints] = useState<number>(315);
+  const [indexSlider, setIndexSlider] = useState<number>(0);
   const blogs = [
     {
       title: 'The Great Big List of Men’s Gifts for the Holidays',
@@ -29,7 +32,18 @@ function BlogHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
     {
-      title: 'The Great Big List of Men’s Gifts for the Holidays',
+      title:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
+      description:
+        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
+      author: 'Nancy Ward',
+      date: 'July 18, 2017',
+      srcImg: demoimg,
+      altImg: 'Esprit Ruffle Shirt',
+    },
+    {
+      title:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
       description:
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
@@ -42,7 +56,17 @@ function BlogHome() {
       description:
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
-      date: 'July 18, 2017',
+      date: 'July 18, 2019',
+      srcImg: demoimg,
+      altImg: 'Esprit Ruffle Shirt',
+    },
+    {
+      title:
+        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
+      description:
+        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
+      author: 'Nancy Ward',
+      date: 'July 18, 2020',
       srcImg: demoimg,
       altImg: 'Esprit Ruffle Shirt',
     },
@@ -59,7 +83,7 @@ function BlogHome() {
               y: 0,
               opacity: 1,
               duration: 2,
-              delay: index * 0.3,
+              delay: index * 0.2,
             }
           );
         }
@@ -80,6 +104,26 @@ function BlogHome() {
     };
   }, [isVisible]);
 
+  const handlePrev = () => {
+    // setSlider((prevSlider) => {
+    //   if (prevSlider - 1 === -1) return blogs.length - 1 - breakpoints;
+    //   return prevSlider - 1;
+    // });
+    setIndexSlider((prevIndex) => {
+      if (prevIndex - 1 === 0) return blogs.length - 1;
+      return blogs.length - 1;
+    });
+  };
+  const handleNext = () => {
+    // setSlider((prevSlider) => {
+    //   if (prevSlider + breakpoints === blogs.length - 1) return 0;
+    //   return prevSlider + 1;
+    // });
+    setIndexSlider((prevIndex) => {
+      if (prevIndex - 1 === blogs.length - 1) return blogs.length - 1;
+      return blogs.length - 1;
+    });
+  };
   return (
     <section
       ref={containerRef}
@@ -94,21 +138,44 @@ function BlogHome() {
       >
         Our Blogs
       </h2>
-      <div className='mt-4 flex justify-center items-stretch gap-[20px]'>
-        {blogs.map((b, index) => (
-          <PreviewBlog
-            key={index}
-            srcImg={b.srcImg}
-            altImg={b.title}
-            refEl={(el: any) => {
-              blogRefs.current[index] = el;
-            }}
-            author={b.author}
-            date={b.date}
-            title={b.title}
-            description={b.description}
+      <div className='mt-4 relative'>
+        <div className='flex w-max h-full gap-[20px] overflow-hidden'>
+          {blogs.map((b, index) => {
+            const position =
+              (index + blogs.length - indexSlider) % blogs.length;
+            return (
+              <PreviewBlog
+                style={{
+                  flexShrink: 0,
+                  flexGrow: 0,
+                  transform: `translateX(${-100 * position}%)`,
+                  transition:
+                    'all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955)',
+                }}
+                key={index}
+                srcImg={b.srcImg}
+                altImg={b.title}
+                refEl={(el: any) => {
+                  blogRefs.current[index] = el;
+                }}
+                author={b.author}
+                date={b.date}
+                title={b.title}
+                description={b.description}
+              />
+            );
+          })}
+        </div>
+        <div className='text-xl'>
+          <FaAngleLeft
+            className='absolute z-50 top-1/2 -left-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            onClick={handlePrev}
           />
-        ))}
+          <FaAngleRight
+            className='absolute z-50 top-1/2 -right-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            onClick={handleNext}
+          />
+        </div>
       </div>
     </section>
   );

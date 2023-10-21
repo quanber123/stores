@@ -134,3 +134,11 @@ button {
 .product-preview:hover > img {
   transform: scale(1.1);
 }
+
+/* Style BlogHome*/
+.blog-preview > img {
+  transition: all 0.3s linear;
+}
+.blog-preview:hover > img {
+  transform: scale(1.1);
+}
