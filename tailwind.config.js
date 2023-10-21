@@ -29,6 +29,7 @@ export default {
     },
     fontSize: {
       sm: '14px',
+      lg: '24px',
       xl: '28px',
       '4xl': '60px',
     },

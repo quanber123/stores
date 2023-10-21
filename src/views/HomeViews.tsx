@@ -1,4 +1,5 @@
 import BannerHome from '@/components/pages/home/BannerHome';
+import BlogHome from '@/components/pages/home/BlogHome';
 import CategoryHome from '@/components/pages/home/CategoryHome';
 import StoreHome from '@/components/pages/home/StoreHome';
 function HomeViews() {
@@ -7,6 +8,7 @@ function HomeViews() {
       <BannerHome />
       <CategoryHome />
       <StoreHome />
+      <BlogHome />
     </main>
   );
 }

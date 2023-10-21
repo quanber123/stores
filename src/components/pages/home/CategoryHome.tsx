@@ -37,7 +37,7 @@ function CategoryHome() {
     >
       <div
         ref={(el) => (categoryRef.current[0] = el)}
-        className='max-h-[270px]cursor-pointer'
+        className='max-h-[270px] cursor-pointer'
         onMouseEnter={() => setHoverCategory(1)}
         onMouseLeave={() => setHoverCategory(null)}
       >
