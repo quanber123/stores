@@ -69,9 +69,7 @@ function BlogHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
   ];
-  const { breakpoints, width, indexSlider, handlePrev, handleNext } = Carousel(
-    blogs.length
-  );
+  const { width, indexSlider, handlePrev, handleNext } = Carousel(blogs.length);
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {

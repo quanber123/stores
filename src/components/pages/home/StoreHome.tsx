@@ -49,7 +49,7 @@ function StoreHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
   ];
-  const { breakpoints, width, indexSlider, handlePrev, handleNext } = Carousel(
+  const { width, indexSlider, handlePrev, handleNext } = Carousel(
     products.length
   );
   useLayoutEffect(() => {
