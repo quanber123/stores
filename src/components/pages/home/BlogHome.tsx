@@ -1,17 +1,15 @@
-import { useState, useRef, useLayoutEffect, RefObject } from 'react';
+import { useRef, useLayoutEffect, RefObject } from 'react';
 import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlog from '@/components/single-blog/PreviewBlog';
 import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
+import Carousel from '@/utils/carousel';
 
 function BlogHome() {
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
   const { isVisible, containerRef } = useObserver();
-  const [slider, setSlider] = useState<number>(0);
-  const [breakpoints, setBreakPoints] = useState<number>(315);
-  const [indexSlider, setIndexSlider] = useState<number>(0);
   const blogs = [
     {
       title: 'The Great Big List of Men’s Gifts for the Holidays',
@@ -71,6 +69,9 @@ function BlogHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
   ];
+  const { breakpoints, width, indexSlider, handlePrev, handleNext } = Carousel(
+    blogs.length
+  );
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -104,67 +105,51 @@ function BlogHome() {
     };
   }, [isVisible]);
 
-  const handlePrev = () => {
-    // setSlider((prevSlider) => {
-    //   if (prevSlider - 1 === -1) return blogs.length - 1 - breakpoints;
-    //   return prevSlider - 1;
-    // });
-    setIndexSlider((prevIndex) => {
-      if (prevIndex - 1 === 0) return blogs.length - 1;
-      return blogs.length - 1;
-    });
-  };
-  const handleNext = () => {
-    // setSlider((prevSlider) => {
-    //   if (prevSlider + breakpoints === blogs.length - 1) return 0;
-    //   return prevSlider + 1;
-    // });
-    setIndexSlider((prevIndex) => {
-      if (prevIndex - 1 === blogs.length - 1) return blogs.length - 1;
-      return blogs.length - 1;
-    });
-  };
   return (
     <section
       ref={containerRef}
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
-      } relative w-full h-full flex flex-col items-center justify-center gap-[20px] overflow-hidden`}
+      } relative w-full h-full flex flex-col justify-center items-center gap-[20px] overflow-hidden`}
     >
       <h2
         ref={titleRef}
-        className='text-4xl text-darkGray font-bold'
+        className='text-center text-4xl text-darkGray font-bold'
         style={{ transform: 'translateX(-120px)', opacity: 0 }}
       >
         Our Blogs
       </h2>
-      <div className='mt-4 relative'>
-        <div className='flex w-max h-full gap-[20px] overflow-hidden'>
-          {blogs.map((b, index) => {
-            const position =
-              (index + blogs.length - indexSlider) % blogs.length;
-            return (
-              <PreviewBlog
-                style={{
-                  flexShrink: 0,
-                  flexGrow: 0,
-                  transform: `translateX(${-100 * position}%)`,
-                  transition:
-                    'all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955)',
-                }}
-                key={index}
-                srcImg={b.srcImg}
-                altImg={b.title}
-                refEl={(el: any) => {
-                  blogRefs.current[index] = el;
-                }}
-                author={b.author}
-                date={b.date}
-                title={b.title}
-                description={b.description}
-              />
-            );
-          })}
+      <div className='container relative mt-4 w-full flex'>
+        <div className={`max-w-[${width * breakpoints}px] overflow-hidden`}>
+          <div
+            className='w-full flex justify-between gap-[20px]'
+            style={{
+              transform: `translateX(-${indexSlider * width}px)`,
+              transition: 'transform 0.3s ease',
+            }}
+          >
+            {blogs.map((b, index) => {
+              return (
+                <PreviewBlog
+                  style={{
+                    width: `${width - 20}px`,
+                    flexShrink: 0,
+                    flexGrow: 0,
+                  }}
+                  key={index}
+                  srcImg={b.srcImg}
+                  altImg={b.title}
+                  refEl={(el: any) => {
+                    blogRefs.current[index] = el;
+                  }}
+                  author={b.author}
+                  date={b.date}
+                  title={b.title}
+                  description={b.description}
+                />
+              );
+            })}
+          </div>
         </div>
         <div className='text-xl'>
           <FaAngleLeft

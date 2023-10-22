@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FaRegHeart } from '@/assets/icons/index';
 type propsProduct = {
+  style?: React.CSSProperties | undefined;
   srcImg: string;
   altImg?: string;
   refEl: (el: HTMLElement | null) => void;
@@ -8,6 +9,7 @@ type propsProduct = {
   priceProduct: number;
 };
 function PreviewProduct({
+  style,
   srcImg,
   altImg,
   refEl,
@@ -18,7 +20,8 @@ function PreviewProduct({
   return (
     <article
       ref={(el) => refEl?.(el)}
-      className='relative max-w-[315px]  flex flex-col gap-[15px]'
+      className='relative max-w-[315px] flex flex-col gap-[15px]'
+      style={style ? style : undefined}
     >
       <div
         className='product-preview relative overflow-hidden cursor-pointer'

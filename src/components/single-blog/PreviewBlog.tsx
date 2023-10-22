@@ -21,7 +21,7 @@ function PreviewBlog({
   return (
     <article
       ref={(el) => refEl?.(el)}
-      className='relative max-w-[315px]  flex flex-col gap-[15px]'
+      className='relative max-w-[315px] flex flex-col gap-[15px]'
       style={style ? style : undefined}
     >
       <div className='blog-preview relative overflow-hidden cursor-pointer'>

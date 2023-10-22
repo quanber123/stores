@@ -3,7 +3,8 @@ import demoimg from '@/assets/images/product-12.jpg.webp';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single-product/PreviewProduct';
-
+import Carousel from '@/utils/carousel';
+import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 function StoreHome() {
   const titleRef = useRef(null);
   const productRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
@@ -35,8 +36,22 @@ function StoreHome() {
       srcImg: demoimg,
       altImg: 'Esprit Ruffle Shirt',
     },
+    {
+      name: 'Esprit Ruffle Shirt',
+      price: 34.75,
+      srcImg: demoimg,
+      altImg: 'Esprit Ruffle Shirt',
+    },
+    {
+      name: 'Esprit Ruffle Shirt',
+      price: 34.75,
+      srcImg: demoimg,
+      altImg: 'Esprit Ruffle Shirt',
+    },
   ];
-
+  const { breakpoints, width, indexSlider, handlePrev, handleNext } = Carousel(
+    products.length
+  );
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -114,19 +129,44 @@ function StoreHome() {
           ))}
         </ul>
       </div>
-      <div className='mt-4 flex justify-center items-stretch gap-[20px]'>
-        {products.map((p, index) => (
-          <PreviewProduct
-            key={index}
-            srcImg={p.srcImg}
-            altImg={p.name}
-            refEl={(el: any) => {
-              productRefs.current[index] = el;
+      <div className='container relative mt-4 w-full flex'>
+        <div className={`max-w-[${width * breakpoints}px] overflow-hidden`}>
+          <div
+            className='w-full flex justify-between gap-[20px]'
+            style={{
+              transform: `translateX(-${indexSlider * width}px)`,
+              transition: 'transform 0.3s ease',
             }}
-            nameProduct='Esprit Ruffle Shirt'
-            priceProduct={p.price}
+          >
+            {products.map((p, index) => (
+              <PreviewProduct
+                style={{
+                  width: `${width - 20}px`,
+                  flexShrink: 0,
+                  flexGrow: 0,
+                }}
+                key={index}
+                srcImg={p.srcImg}
+                altImg={p.name}
+                refEl={(el: any) => {
+                  productRefs.current[index] = el;
+                }}
+                nameProduct='Esprit Ruffle Shirt'
+                priceProduct={p.price}
+              />
+            ))}
+          </div>
+        </div>
+        <div className='text-xl'>
+          <FaAngleLeft
+            className='absolute z-50 top-1/2 -left-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            onClick={handlePrev}
           />
-        ))}
+          <FaAngleRight
+            className='absolute z-50 top-1/2 -right-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            onClick={handleNext}
+          />
+        </div>
       </div>
     </section>
   );
