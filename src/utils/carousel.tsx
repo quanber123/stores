@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 function Carousel(length: number) {
   const [breakpoints, setBreakPoints] = useState<number>(4);
   const [indexSlider, setIndexSlider] = useState<number>(0);
@@ -13,6 +13,24 @@ function Carousel(length: number) {
       prevIndex + 1 >= length - (breakpoints - 1) ? 0 : prevIndex + 1
     );
   };
+  const handleResize = () => {
+    if (window.innerWidth > 1280) {
+      setBreakPoints(4);
+    } else if (window.innerWidth > 780) {
+      setBreakPoints(3);
+    } else if (window.innerWidth > 640) {
+      setBreakPoints(2);
+    } else {
+      setBreakPoints(1);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   return { breakpoints, width, indexSlider, handlePrev, handleNext };
 }
 
