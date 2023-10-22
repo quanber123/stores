@@ -1,9 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
+@font-face {
+  font-family: Poppins, sans-serif;
+  src: url('./assets/fonts/Poppins-Black.ttf');
+}
 :root {
-  font-family: Arial, sans-serif;
+  font-family: Poppins, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -141,4 +144,24 @@ button {
 }
 .blog-preview:hover > img {
   transform: scale(1.1);
+}
+
+/*Style AboutPage*/
+
+.article-about-img {
+  position: relative;
+}
+.article-about-img::before {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  content: '';
+  border: 4px solid #e1e0e0;
+  z-index: -1;
+}
+.article-about:nth-child(even) > .article-about-img::before {
+  transform: translate(20px, 20px);
+}
+.article-about:nth-child(odd) > .article-about-img::before {
+  transform: translate(-20px, 20px);
 }

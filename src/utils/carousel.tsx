@@ -14,14 +14,12 @@ function Carousel(length: number) {
     );
   };
   const handleResize = () => {
-    if (window.innerWidth > 1280) {
-      setBreakPoints(4);
-    } else if (window.innerWidth > 780) {
+    if (window.innerWidth < 1280) {
       setBreakPoints(3);
-    } else if (window.innerWidth > 640) {
+    } else if (window.innerWidth < 780) {
       setBreakPoints(2);
     } else {
-      setBreakPoints(1);
+      setBreakPoints(4);
     }
   };
   useEffect(() => {

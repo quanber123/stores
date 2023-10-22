@@ -4,12 +4,14 @@ type LazyLoadImageProps = {
   src: string;
   alt?: string | null;
   className?: string;
+  style?: React.CSSProperties | undefined;
 };
 
 const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
   src,
   alt,
   className,
+  style,
 }) => {
   const [imageSrc, setImageSrc] = useState('');
   const imgRef = useRef<HTMLImageElement | null>(null);
@@ -50,6 +52,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
       className={className}
       src={imageSrc}
       alt={alt ? alt : undefined}
+      style={style}
       // style={{ display: imageSrc ? 'block' : 'none' }}
     />
   );

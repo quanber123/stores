@@ -129,8 +129,8 @@ function StoreHome() {
           ))}
         </ul>
       </div>
-      <div className='container relative mt-4 w-full flex'>
-        <div className={`max-w-[${width * breakpoints}px] overflow-hidden`}>
+      <div className='container relative mt-4'>
+        <div className={`w-full overflow-hidden`}>
           <div
             className='w-full flex justify-between gap-[20px]'
             style={{

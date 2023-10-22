@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { NavLink, Link } from 'react-router-dom';
+import scrollElement from '@/utils/scroll-elements';
 function Header() {
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     const stickyFunc = () => {
-      if (window.pageYOffset > 150) {
+      if (window.pageYOffset > 250) {
         setSticky(true);
       } else {
         setSticky(false);
@@ -30,6 +31,7 @@ function Header() {
             <NavLink
               to={`about`}
               className={({ isActive }) => (isActive ? 'text-purple' : '')}
+              onClick={scrollElement}
               end
             >
               About
@@ -39,6 +41,7 @@ function Header() {
             <NavLink
               to={`shop`}
               className={({ isActive }) => (isActive ? 'text-purple' : '')}
+              onClick={scrollElement}
             >
               Shop
             </NavLink>
@@ -47,6 +50,7 @@ function Header() {
             <NavLink
               to={`blog`}
               className={({ isActive }) => (isActive ? 'text-purple' : '')}
+              onClick={scrollElement}
             >
               Blog
             </NavLink>
