@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { FaRegHeart } from '@/assets/icons/index';
+import LazyLoadImage from '@/utils/lazyload-image';
+import Carousel from '@/utils/carousel';
 type propsProduct = {
   style?: React.CSSProperties | undefined;
   srcImg: string;
@@ -9,7 +11,6 @@ type propsProduct = {
   priceProduct: number;
 };
 function PreviewProduct({
-  style,
   srcImg,
   altImg,
   refEl,
@@ -17,18 +18,24 @@ function PreviewProduct({
   priceProduct,
 }: propsProduct) {
   const [hoverProduct, setHoverProduct] = useState(false);
+  const { width } = Carousel(0);
+  console.log(width);
   return (
     <article
       ref={(el) => refEl?.(el)}
-      className='relative max-w-[315px] flex flex-col gap-[15px]'
-      style={style ? style : undefined}
+      className='relative flex-shrink-0 flex-grow-0 flex flex-col gap-[15px]'
+      style={{ width: `calc(${width}% - 20px)` }}
     >
       <div
-        className='product-preview relative overflow-hidden cursor-pointer'
+        className='product-preview relative w-full overflow-hidden cursor-pointer'
         onMouseEnter={() => setHoverProduct(true)}
         onMouseLeave={() => setHoverProduct(false)}
       >
-        <img className='max-h-[390px]' src={srcImg} alt={altImg} />
+        <LazyLoadImage
+          className='w-full max-h-[390px]'
+          src={srcImg}
+          alt={altImg}
+        />
         <div
           style={{
             transform: hoverProduct ? 'translateY(0)' : 'translateY(60px)',

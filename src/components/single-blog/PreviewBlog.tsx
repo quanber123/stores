@@ -1,5 +1,6 @@
+import Carousel from '@/utils/carousel';
+
 type propsBLog = {
-  style?: React.CSSProperties | undefined;
   srcImg: string;
   altImg?: string;
   refEl: (el: HTMLElement | null) => void;
@@ -9,7 +10,6 @@ type propsBLog = {
   description: string;
 };
 function PreviewBlog({
-  style,
   srcImg,
   altImg,
   author,
@@ -18,11 +18,12 @@ function PreviewBlog({
   title,
   description,
 }: propsBLog) {
+  const { width } = Carousel(0);
   return (
     <article
       ref={(el) => refEl?.(el)}
-      className='relative max-w-[315px] flex flex-col gap-[15px]'
-      style={style ? style : undefined}
+      className='relative flex-shrink-0 flex-grow-0 flex flex-col gap-[15px]'
+      style={{ width: `calc(${width}% - 20px)` }}
     >
       <div className='blog-preview relative overflow-hidden cursor-pointer'>
         <img className='max-h-[390px]' src={srcImg} alt={altImg} />

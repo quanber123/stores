@@ -6,7 +6,7 @@ function Header() {
   const [sticky, setSticky] = useState(false);
   useEffect(() => {
     const stickyFunc = () => {
-      if (window.pageYOffset > 250) {
+      if (window.pageYOffset > 75) {
         setSticky(true);
       } else {
         setSticky(false);

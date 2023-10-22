@@ -69,7 +69,9 @@ function BlogHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
   ];
-  const { width, indexSlider, handlePrev, handleNext } = Carousel(blogs.length);
+  const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
+    blogs.length
+  );
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -77,12 +79,12 @@ function BlogHome() {
         if (ref) {
           gsap.fromTo(
             ref,
-            { y: '180px', opacity: 0 },
+            { x: 200, opacity: 0 },
             {
-              y: 0,
+              x: 0,
               opacity: 1,
-              duration: 2,
-              delay: index * 0.2,
+              duration: 0.5,
+              delay: index * 0.3,
             }
           );
         }
@@ -118,22 +120,18 @@ function BlogHome() {
         Our Blogs
       </h2>
       <div className='container relative mt-4'>
-        <div className={`w-full overflow-hidden`}>
+        <div className={`max-w-[${width * breakpoints}%] overflow-hidden`}>
           <div
-            className='w-full flex justify-between gap-[20px]'
+            className='w-full flex justify-between items-center gap-[20px]'
             style={{
-              transform: `translateX(-${indexSlider * width}px)`,
+              width: `${width * breakpoints}%`,
+              transform: `translateX(-${indexSlider * width}%)`,
               transition: 'transform 0.3s ease',
             }}
           >
             {blogs.map((b, index) => {
               return (
                 <PreviewBlog
-                  style={{
-                    width: `${width - 20}px`,
-                    flexShrink: 0,
-                    flexGrow: 0,
-                  }}
                   key={index}
                   srcImg={b.srcImg}
                   altImg={b.title}

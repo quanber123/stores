@@ -1,5 +1,11 @@
+import Shop from '@/components/pages/shop/Shop';
+
 function ShopViews() {
-  return <div>ShopViews</div>;
+  return (
+    <main className='pt-[120px]'>
+      <Shop />
+    </main>
+  );
 }
 
 export default ShopViews;

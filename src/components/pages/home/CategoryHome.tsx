@@ -12,14 +12,14 @@ function CategoryHome() {
         gsap.fromTo(
           ref,
           {
-            y: '180px',
+            x: -200,
             opacity: 0,
           },
           {
-            y: 0,
+            x: 0,
             opacity: 1,
-            duration: 2,
-            delay: index * 0.3,
+            duration: 0.5,
+            delay: (3 - index) * 0.3,
           }
         );
       });

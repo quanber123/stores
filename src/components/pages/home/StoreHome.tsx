@@ -49,7 +49,7 @@ function StoreHome() {
       altImg: 'Esprit Ruffle Shirt',
     },
   ];
-  const { width, indexSlider, handlePrev, handleNext } = Carousel(
+  const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
     products.length
   );
   useLayoutEffect(() => {
@@ -58,11 +58,11 @@ function StoreHome() {
         if (ref) {
           gsap.fromTo(
             ref,
-            { y: '180px', opacity: 0 },
+            { x: 200, opacity: 0 },
             {
-              y: 0,
+              x: 0,
               opacity: 1,
-              duration: 2,
+              duration: 0.5,
               delay: index * 0.3,
             }
           );
@@ -83,13 +83,13 @@ function StoreHome() {
           gsap.fromTo(
             ref,
             {
-              x: '-180px',
+              x: -200,
               opacity: 0,
             },
             {
               x: 0,
               opacity: 1,
-              duration: 2,
+              duration: 1,
               delay: (routeRefs.current.length - 1 - index) * 0.3,
             }
           );
@@ -130,21 +130,19 @@ function StoreHome() {
         </ul>
       </div>
       <div className='container relative mt-4'>
-        <div className={`w-full overflow-hidden`}>
+        <div
+          className={`m-auto max-w-[${width * breakpoints}%] overflow-hidden`}
+        >
           <div
             className='w-full flex justify-between gap-[20px]'
             style={{
-              transform: `translateX(-${indexSlider * width}px)`,
+              transform: `translateX(-${indexSlider * width}%)`,
               transition: 'transform 0.3s ease',
             }}
           >
             {products.map((p, index) => (
               <PreviewProduct
-                style={{
-                  width: `${width - 20}px`,
-                  flexShrink: 0,
-                  flexGrow: 0,
-                }}
+                style={{ width: `${width}%` }}
                 key={index}
                 srcImg={p.srcImg}
                 altImg={p.name}
