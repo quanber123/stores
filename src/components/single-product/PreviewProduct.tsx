@@ -19,7 +19,6 @@ function PreviewProduct({
 }: propsProduct) {
   const [hoverProduct, setHoverProduct] = useState(false);
   const { width } = Carousel(0);
-  console.log(width);
   return (
     <article
       ref={(el) => refEl?.(el)}

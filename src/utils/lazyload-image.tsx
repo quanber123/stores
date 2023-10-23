@@ -13,14 +13,15 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
   className,
   style,
 }) => {
-  const [imageSrc, setImageSrc] = useState('');
+  const [imageSrc, setImageSrc] = useState(src);
   const imgRef = useRef<HTMLImageElement | null>(null);
+
   useEffect(() => {
     let observer: IntersectionObserver | undefined;
 
     const handleIntersection: IntersectionObserverCallback = (entries, obs) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && src !== imageSrc) {
           setImageSrc(src);
           if (obs && imgRef.current) {
             obs.unobserve(imgRef.current);
@@ -29,7 +30,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
       });
     };
 
-    if (imgRef.current && !imageSrc) {
+    if (imgRef.current && src !== imageSrc) {
       observer = new IntersectionObserver(handleIntersection, {
         root: null,
         rootMargin: '100px',
@@ -46,6 +47,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
       }
     };
   }, [src, imageSrc]);
+
   return (
     <img
       ref={imgRef}
@@ -53,7 +55,6 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
       src={imageSrc}
       alt={alt ? alt : undefined}
       style={style}
-      // style={{ display: imageSrc ? 'block' : 'none' }}
     />
   );
 };

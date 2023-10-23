@@ -33,7 +33,7 @@ function CategoryHome() {
       ref={containerRef}
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
-      } container relative w-full h-full flex justify-between gap-[20px]`}
+      } container relative w-full h-full flex flex-col laptop:flex-row justify-between gap-[20px]`}
     >
       <div
         ref={(el) => (categoryRef.current[0] = el)}
@@ -47,9 +47,9 @@ function CategoryHome() {
             src={demoimg}
             alt=''
           />
-          <div className='absolute top-0 left-0 z-40 px-[34px] py-[38px] w-full h-full'>
+          <div className='absolute top-0 left-0 z-40 px-[17px] tablet:px-[34px] py-[19px] tablet:py-[38px] w-full h-full'>
             <h4
-              className={`font-bold text-xl transition-colors ${
+              className={`font-bold text-md tablet:text-xl transition-colors ${
                 hoverCategory === 1 ? 'text-white' : 'text-semiBoldGray'
               }`}
             >
@@ -64,7 +64,7 @@ function CategoryHome() {
             </p>
           </div>
           <div
-            className={`overlay absolute top-0 left-0 px-[34px] py-[38px] w-full h-full z-10 flex items-end  ${
+            className={`overlay absolute top-0 left-0 tablet:px-[34px] px-[17px] tablet:py-[38px] py-[19px] w-full h-full z-10 flex items-end  ${
               hoverCategory === 1 ? 'bg-overlayPurple opacity-100' : 'opacity-0'
             }`}
           >
@@ -90,9 +90,9 @@ function CategoryHome() {
             src={demoimg}
             alt=''
           />
-          <div className='absolute top-0 left-0 z-40 px-[34px] py-[38px] w-full h-full'>
+          <div className='absolute top-0 left-0 z-40 px-[17px] tablet:px-[34px] py-[19px] tablet:py-[38px] w-full h-full'>
             <h4
-              className={`font-bold text-xl transition-colors ${
+              className={`font-bold text-md tablet:text-xl transition-colors ${
                 hoverCategory === 2 ? 'text-white' : 'text-semiBoldGray'
               }`}
             >
@@ -107,7 +107,7 @@ function CategoryHome() {
             </p>
           </div>
           <div
-            className={`overlay absolute top-0 left-0 px-[34px] py-[38px] w-full h-full z-10 flex items-end  ${
+            className={`overlay absolute top-0 left-0 tablet:px-[34px] px-[17px] tablet:py-[38px] py-[19px] w-full h-full z-10 flex items-end  ${
               hoverCategory === 2 ? 'bg-overlayPurple opacity-100' : 'opacity-0'
             }`}
           >
@@ -133,9 +133,9 @@ function CategoryHome() {
             src={demoimg}
             alt=''
           />
-          <div className='absolute top-0 left-0 z-40 px-[34px] py-[38px] w-full h-full'>
+          <div className='absolute top-0 left-0 z-40 px-[17px] tablet:px-[34px] py-[19px] tablet:py-[38px] w-full h-full'>
             <h4
-              className={`font-bold text-xl transition-colors ${
+              className={`font-bold text-md tablet:text-xl transition-colors ${
                 hoverCategory === 3 ? 'text-white' : 'text-semiBoldGray'
               }`}
             >
@@ -150,7 +150,7 @@ function CategoryHome() {
             </p>
           </div>
           <div
-            className={`overlay absolute top-0 left-0 px-[34px] py-[38px] w-full h-full z-10 flex items-end  ${
+            className={`overlay absolute top-0 left-0 tablet:px-[34px] px-[17px] tablet:py-[38px] py-[19px] w-full h-full z-10 flex items-end  ${
               hoverCategory === 3 ? 'bg-overlayPurple opacity-100' : 'opacity-0'
             }`}
           >

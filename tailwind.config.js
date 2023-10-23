@@ -5,7 +5,7 @@ export default {
     container: {
       center: true,
       padding: {
-        DEFAULT: '16px',
+        DEFAULT: '24px',
       },
     },
     screens: {
@@ -26,8 +26,11 @@ export default {
     },
     fontSize: {
       sm: '14px',
+      base: '16px',
+      md: '18px',
       lg: '24px',
       xl: '28px',
+      '2xl': '36px',
       '3xl': '50px',
       '4xl': '60px',
     },

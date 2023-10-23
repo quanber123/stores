@@ -1,37 +1,40 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
-
+import { useState, useEffect, useMemo } from 'react';
 function Carousel(length: number) {
   const [breakpoints, setBreakPoints] = useState<number>(4);
   const [indexSlider, setIndexSlider] = useState<number>(0);
-  const handlePrev = useCallback(() => {
+  const handlePrev = () => {
     setIndexSlider((prevIndex) =>
       prevIndex - 1 < 0 ? length - breakpoints : prevIndex - 1
     );
-  }, [indexSlider, breakpoints]);
-
-  const handleNext = useCallback(() => {
+  };
+  const handleNext = () => {
     setIndexSlider((prevIndex) =>
       prevIndex + 1 >= length - (breakpoints - 1) ? 0 : prevIndex + 1
     );
-  }, [indexSlider, breakpoints]);
+  };
 
+  const handleResize = () => {
+    let newBreakpoints;
+    if (window.innerWidth > 1280) {
+      newBreakpoints = 4;
+    } else if (window.innerWidth > 780) {
+      newBreakpoints = 3;
+    } else if (window.innerWidth > 640) {
+      newBreakpoints = 2;
+    } else {
+      newBreakpoints = 1;
+    }
+    setBreakPoints(newBreakpoints);
+  };
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 1280) {
-        setBreakPoints(4);
-      } else if (window.innerWidth > 780) {
-        setBreakPoints(3);
-      } else if (window.innerWidth > 640) {
-        setBreakPoints(2);
-      } else {
-        setBreakPoints(1);
-      }
-    };
-
+    handleResize();
+    const infinite = setInterval(() => {
+      handleNext();
+    }, 3000);
     window.addEventListener('resize', handleResize);
-
     return () => {
       window.removeEventListener('resize', handleResize);
+      window.clearInterval(infinite);
     };
   }, []);
   const width = useMemo(() => {

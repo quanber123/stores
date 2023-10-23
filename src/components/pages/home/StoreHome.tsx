@@ -111,13 +111,13 @@ function StoreHome() {
     >
       <h2
         ref={titleRef}
-        className='text-4xl text-darkGray font-bold'
+        className='text-xl tablet:text-4xl text-darkGray font-bold'
         style={{ transform: 'translateX(120px)', opacity: 0 }}
       >
         Store Overview
       </h2>
       <div>
-        <ul className='flex justify-center gap-[40px] text-gray font-bold'>
+        <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] text-gray font-bold'>
           {['Best', 'Seller', 'Featured', 'Top Rate'].map((text, index) => (
             <li
               key={index}
@@ -157,11 +157,11 @@ function StoreHome() {
         </div>
         <div className='text-xl'>
           <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            className='absolute z-50 top-1/2 -left-[4%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
             onClick={handlePrev}
           />
           <FaAngleRight
-            className='absolute z-50 top-1/2 -right-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
             onClick={handleNext}
           />
         </div>

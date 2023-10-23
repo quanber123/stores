@@ -99,7 +99,7 @@ function BannerHome() {
     <section
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
-      } relative w-full h-full aspect-[4/2] flex justify-center overflow-hidden`}
+      } relative w-full h-full min-h-[350px] aspect-[4/2] flex justify-center overflow-hidden`}
       ref={containerRef}
     >
       <div className='w-full h-full flex justify-center items-center overflow-hidden'>
@@ -116,26 +116,26 @@ function BannerHome() {
               />
               <div
                 style={{ display: imgIndex === index ? 'flex' : 'none' }}
-                className='absolute container img-slider-content'
+                className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
               >
                 <h3
                   style={{ transform: 'translateY(-120px)', opacity: 0 }}
                   ref={imgIndex === index ? contentRef : null}
-                  className='text-xl font-medium'
+                  className='text-md laptop:text-xl font-medium'
                 >
                   {i.content}
                 </h3>
                 <p
                   style={{ transform: 'translateX(120px)', opacity: 0 }}
                   ref={imgIndex === index ? categoryRef : null}
-                  className='text-4xl font-semiBold'
+                  className='text-2xl laptop:text-4xl font-semiBold'
                 >
                   {i.category}
                 </p>
                 <button
                   style={{ transform: 'translateY(120px)', opacity: 0 }}
                   ref={imgIndex === index ? btnRef : null}
-                  className='w-[162px] h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
+                  className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
                 >
                   Shop Now
                 </button>
@@ -146,7 +146,7 @@ function BannerHome() {
       </div>
       <button
         ref={btnPrev}
-        className='btn-slider-prev text-gray hover:text-purple'
+        className='absolute top-1/2 -left-[0] z-50 text-gray hover:text-purple'
         style={{ transition: '0.3s all ease' }}
         onClick={handlePrev}
       >
@@ -154,7 +154,7 @@ function BannerHome() {
       </button>
       <button
         ref={btnNext}
-        className='btn-slider-next text-gray hover:text-purple'
+        className='absolute top-1/2 -right-[0] z-50 text-gray hover:text-purple'
         style={{ transition: '0.3s all ease' }}
         onClick={handleNext}
       >

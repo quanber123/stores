@@ -114,7 +114,7 @@ function BlogHome() {
     >
       <h2
         ref={titleRef}
-        className='text-center text-4xl text-darkGray font-bold'
+        className='text-center text-xl tablet:text-4xl text-darkGray font-bold'
         style={{ transform: 'translateX(-120px)', opacity: 0 }}
       >
         Our Blogs
@@ -149,11 +149,11 @@ function BlogHome() {
         </div>
         <div className='text-xl'>
           <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            className='absolute z-50 top-1/2 -left-[4%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
             onClick={handlePrev}
           />
           <FaAngleRight
-            className='absolute z-50 top-1/2 -right-[80px] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
             onClick={handleNext}
           />
         </div>
