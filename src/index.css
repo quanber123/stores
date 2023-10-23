@@ -9,12 +9,11 @@
   font-family: Poppins, sans-serif;
   line-height: 1.5;
   font-weight: 400;
-
-  /* font-synthesis: none;
+  font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%; */
+  -webkit-text-size-adjust: 100%;
 }
 * {
   box-sizing: border-box;
@@ -31,8 +30,10 @@ main {
 }
 img {
   object-fit: cover;
+  -webkit-object-fit: cover;
   flex-shrink: 0;
   flex-grow: 0;
+  flex: 0 0 auto;
 }
 nav {
   /* position: -webkit-sticky; */
@@ -45,6 +46,7 @@ nav {
   justify-content: center;
   align-items: center;
   transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  -webkit-transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
   z-index: 100;
 }
 nav.active {
@@ -56,6 +58,7 @@ nav.active {
 }
 button {
   transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+  -webkit-transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
 }
 /* Style BannerHome*/
 .img-slider {
@@ -76,6 +79,7 @@ button {
 /*Overlay*/
 
 .overlay {
+  -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
 
@@ -97,9 +101,13 @@ button {
   align-items: center;
   background-color: #fff;
   transition: all 0.5s ease;
+  -webkit-transition: all 0.5s ease;
   transition-delay: 0.2s;
+  -webkit-transition-delay: 0.2s;
 }
 .btn-category > button {
+  -webkit-transition: all 0.3s ease;
+  -webkit-transition-delay: 0.3s;
   transition: all 0.3s ease;
   transition-delay: 0.3s;
   opacity: 0;
@@ -116,6 +124,7 @@ button {
 
 /* Style StoreHome*/
 .product-preview > img {
+  -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
 .product-preview:hover > img {
@@ -124,6 +133,7 @@ button {
 
 /* Style BlogHome*/
 .blog-preview > img {
+  -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
 }
 .blog-preview:hover > img {
@@ -158,6 +168,7 @@ button {
   color: #666666;
   border: none;
   transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
 }
 .sub-routes:hover {
   color: #333333;
@@ -173,6 +184,7 @@ button {
   background-color: #333333;
   opacity: 0;
   transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear;
   z-index: 2;
 }
 
