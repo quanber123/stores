@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
-import PreviewBlog from '@/components/single-blog/PreviewBlog';
+import PreviewBlogHome from '@/components/single-blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 import Carousel from '@/utils/carousel';
 
@@ -107,7 +107,7 @@ function BlogHome() {
   const renderedBlog = useMemo(() => {
     return blogs.map((b, index) => {
       return (
-        <PreviewBlog
+        <PreviewBlogHome
           key={index}
           srcImg={b.srcImg}
           altImg={b.title}
