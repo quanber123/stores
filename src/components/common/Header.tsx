@@ -1,10 +1,18 @@
-import { useState, useEffect, useRef, useLayoutEffect } from 'react';
+import {
+  useState,
+  useEffect,
+  useRef,
+  useLayoutEffect,
+  useCallback,
+} from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { NavLink, Link } from 'react-router-dom';
 import scrollElement from '@/utils/scroll-elements';
 import gsap from 'gsap';
+import './Header.css';
 function Header() {
   const [sticky, setSticky] = useState(false);
+  const [dropdownHeader, setDropdownHeader] = useState(false);
   const imgRef = useRef(null);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
   useEffect(() => {
@@ -20,6 +28,13 @@ function Header() {
       window.removeEventListener('scroll', stickyFunc);
     };
   }, []);
+  const handleDropdown = useCallback(() => {
+    setDropdownHeader((prevState) => (prevState = !prevState));
+  }, [dropdownHeader]);
+  const changeRoute = () => {
+    handleDropdown();
+    scrollElement();
+  };
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -63,6 +78,9 @@ function Header() {
       link: 'shop',
     },
     { link: 'blog' },
+    // {
+    //   link: 'contact',
+    // },
   ];
   const route = routes.map((r, index) => {
     return (
@@ -73,8 +91,10 @@ function Header() {
       >
         <NavLink
           to={r.link}
-          className={({ isActive }) => (isActive ? 'text-purple' : '')}
-          onClick={scrollElement}
+          className={({ isActive }) =>
+            isActive ? 'text-purple w-max' : 'w-max'
+          }
+          onClick={changeRoute}
           end
         >
           {r.link}
@@ -84,7 +104,9 @@ function Header() {
   });
   return (
     <nav className={`${sticky ? 'active' : ''}`}>
-      <section className={`container flex items-center  gap-[80px]`}>
+      <section
+        className={`container flex justify-between tablet:justify-start items-center  gap-[80px]`}
+      >
         <div>
           <Link to={`/`}>
             <img
@@ -95,9 +117,19 @@ function Header() {
             />
           </Link>
         </div>
-        <ul className='flex items-center gap-[20px] text-sm font-bold'>
-          {route}
-        </ul>
+        <div
+          className={`tablet:hidden relative w-[48px] h-[48px] cursor-pointer z-10 ${
+            dropdownHeader ? 'block' : 'flex flex-col'
+          }`}
+          onClick={handleDropdown}
+        >
+          <span className={`bars ${dropdownHeader ? 'active' : ''}`}></span>
+          <span className={`bars ${dropdownHeader ? 'active' : ''}`}></span>
+          <span className={`bars ${dropdownHeader ? 'active' : ''}`}></span>
+        </div>
+        <div className={`routes ${dropdownHeader ? `active` : ''}`}>
+          <ul className='p-[16px] h-max'>{route}</ul>
+        </div>
       </section>
     </nav>
   );

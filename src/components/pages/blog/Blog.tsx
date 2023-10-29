@@ -168,11 +168,12 @@ function Blog() {
               >
                 Categories
               </h4>
-              <FaArrowDownWideShort
-                ref={(el: HTMLElement) => (categoryRefs.current[0] = el)}
-                className='text-lg block desktop:hidden hover:text-purple cursor-pointer'
-                onClick={handleDropdown}
-              />
+              <div className='block desktop:hidden'>
+                <FaArrowDownWideShort
+                  className='text-lg hover:text-purple cursor-pointer'
+                  onClick={handleDropdown}
+                />
+              </div>
             </div>
             <div
               className={`${
