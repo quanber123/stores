@@ -5,6 +5,7 @@ import {
   FaAngleRight,
   FaAngleLeft,
   FaArrowDownWideShort,
+  FaAnglesUp,
 } from 'react-icons/fa6';
 
 export {
@@ -14,4 +15,5 @@ export {
   FaAngleRight,
   FaAngleLeft,
   FaArrowDownWideShort,
+  FaAnglesUp,
 };

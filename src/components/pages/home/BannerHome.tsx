@@ -108,7 +108,6 @@ function BannerHome() {
           >
             <img
               ref={imgIndex === index ? imgRef : null}
-              // style={{ display: imgIndex === index ? 'block' : 'none' }}
               className='img-slider'
               src={i.src}
               alt=''

@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
@@ -104,7 +104,22 @@ function BlogHome() {
       ctx.revert();
     };
   }, [isVisible]);
-
+  const renderedBlog = useMemo(() => {
+    return blogs.map((b, index) => {
+      return (
+        <PreviewBlog
+          key={index}
+          srcImg={b.srcImg}
+          altImg={b.title}
+          refEl={(el) => (blogRefs.current[index] = el)}
+          author={b.author}
+          date={b.date}
+          title={b.title}
+          description={b.description}
+        />
+      );
+    });
+  }, [blogs]);
   return (
     <section
       ref={containerRef}
@@ -129,20 +144,7 @@ function BlogHome() {
               transition: 'transform 0.3s ease-in-out',
             }}
           >
-            {blogs.map((b, index) => {
-              return (
-                <PreviewBlog
-                  key={index}
-                  srcImg={b.srcImg}
-                  altImg={b.title}
-                  refEl={(el) => (blogRefs.current[index] = el)}
-                  author={b.author}
-                  date={b.date}
-                  title={b.title}
-                  description={b.description}
-                />
-              );
-            })}
+            {renderedBlog}
           </div>
         </div>
         <div className='text-xl'>

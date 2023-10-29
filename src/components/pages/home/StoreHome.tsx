@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import demoimg from '@/assets/images/product-12.jpg.webp';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
@@ -99,7 +99,19 @@ function StoreHome() {
       ctx.revert();
     };
   }, [isVisible]);
-
+  const renderedProduct = useMemo(() => {
+    return products.map((p, index) => (
+      <PreviewProduct
+        style={{ width: `${width}%` }}
+        key={index}
+        srcImg={p.srcImg}
+        altImg={p.name}
+        refEl={(el) => (productRefs.current[index] = el)}
+        nameProduct='Esprit Ruffle Shirt'
+        priceProduct={p.price}
+      />
+    ));
+  }, [products]);
   return (
     <section
       ref={containerRef}
@@ -138,17 +150,7 @@ function StoreHome() {
               transition: 'transform 0.3s ease-in-out',
             }}
           >
-            {products.map((p, index) => (
-              <PreviewProduct
-                style={{ width: `${width}%` }}
-                key={index}
-                srcImg={p.srcImg}
-                altImg={p.name}
-                refEl={(el) => (productRefs.current[index] = el)}
-                nameProduct='Esprit Ruffle Shirt'
-                priceProduct={p.price}
-              />
-            ))}
+            {renderedProduct}
           </div>
         </div>
         <div className='text-xl'>

@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from 'react';
-
 type LazyLoadImageProps = {
   src: string;
   alt?: string | null;
@@ -51,7 +50,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
   return (
     <img
       ref={imgRef}
-      className={className}
+      className={`${className}`}
       src={imageSrc}
       alt={alt ? alt : undefined}
       style={style}
