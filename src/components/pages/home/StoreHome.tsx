@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, RefObject } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import demoimg from '@/assets/images/product-12.jpg.webp';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
