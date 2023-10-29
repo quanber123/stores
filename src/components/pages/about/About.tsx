@@ -1,14 +1,12 @@
-import { useRef, useLayoutEffect, RefObject } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import LazyLoadImage from '@/utils/lazyload-image';
-import { useObserver } from '@/components/customHooks/useObserver';
 import SingleAbout from './SingleAbout';
 import gsap from 'gsap';
 import bgImg from '@/assets/images/bg-01.jpg.webp';
 import src1 from '@/assets/images/about-01.jpg.webp';
 import src2 from '@/assets/images/about-02.jpg.webp';
 function About() {
-  const { isVisible, containerRef } = useObserver();
-  const aboutRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
+  const aboutRefs = useRef<Array<HTMLElement | null>>([]);
   const aboutTitleRef = useRef(null);
   const aboutImgRef = useRef(null);
   const abouts = [
@@ -102,7 +100,7 @@ function About() {
     return () => {
       ctx.revert();
     };
-  }, [isVisible]);
+  }, []);
   const renderedAbout = abouts.map((a, index) => {
     return (
       <SingleAbout
@@ -112,18 +110,13 @@ function About() {
         alt={a.alt}
         description={a.description}
         quotes={a.quotes}
-        refEl={(el: any) => (aboutRefs.current[index] = el)}
+        refEl={(el) => (aboutRefs.current[index] = el)}
       />
     );
   });
   return (
     <>
-      <section
-        ref={containerRef}
-        className={`${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } relative h-[240px] overflow-hidden`}
-      >
+      <section className={`relative h-[240px] overflow-hidden`}>
         <div className='w-full h-full' ref={aboutImgRef}>
           <LazyLoadImage src={bgImg} className='w-full h-full' />
         </div>
@@ -135,12 +128,7 @@ function About() {
           About
         </h2>
       </section>
-      <section
-        ref={containerRef}
-        className={`${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } container flex flex-col gap-[80px]`}
-      >
+      <section className={`container flex flex-col gap-[80px]`}>
         {renderedAbout}
       </section>
     </>

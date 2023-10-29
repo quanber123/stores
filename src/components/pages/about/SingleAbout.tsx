@@ -9,7 +9,7 @@ type propsAbout = {
     content: string;
     author: string;
   };
-  refEl: (el: HTMLElement | null) => void;
+  refEl: (el: HTMLElement) => HTMLElement;
 };
 function SingleAbout({
   title,
@@ -20,7 +20,7 @@ function SingleAbout({
 }: propsAbout) {
   return (
     <article
-      ref={(el) => refEl?.(el)}
+      ref={refEl}
       className='article-about flex flex-col laptop:flex-row laptop:even:flex-row-reverse gap-[80px]'
     >
       <div className='laptop:w-2/3 flex flex-col gap-[20px]'>
