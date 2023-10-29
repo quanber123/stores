@@ -95,9 +95,7 @@ function Shop() {
         key={index}
         srcImg={p.srcImg}
         altImg={p.name}
-        refEl={(el: any) => {
-          productRefs.current[index] = el;
-        }}
+        refEl={(el) => (productRefs.current[index] = el)}
         nameProduct='Esprit Ruffle Shirt'
         priceProduct={p.price}
       />
@@ -106,8 +104,8 @@ function Shop() {
   return (
     <>
       <section>
-        <div className='container flex justify-between items-center gap-[40px]'>
-          <ul className='flex items-center gap-[20px]'>
+        <div className='container block laptop:flex justify-between items-center gap-[40px]'>
+          <ul className='flex justify-center items-center gap-[20px]'>
             <li
               ref={(el) => (subRouteRefs.current[0] = el)}
               className='sub-routes'
@@ -129,7 +127,7 @@ function Shop() {
           </ul>
           <button
             ref={btnRef}
-            className='flex items-center gap-[8px] border-lightGray border px-6 py-2 rounded-[4px] text-darkGray hover:text-white hover:bg-purple'
+            className='mx-auto my-4 laptop:m-0 flex items-center gap-[8px] border-lightGray border px-6 py-2 rounded-[4px] text-darkGray hover:text-white hover:bg-purple'
             style={{ transform: 'translateX(200px)', opacity: 0 }}
           >
             <FaArrowDownWideShort />

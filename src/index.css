@@ -167,8 +167,8 @@ button {
   cursor: pointer;
   color: #666666;
   border: none;
-  transition: all 0.3s linear;
-  -webkit-transition: all 0.3s linear;
+  /* transition: all 0.3s linear;
+  -webkit-transition: all 0.3s linear; */
 }
 .sub-routes:hover {
   color: #333333;

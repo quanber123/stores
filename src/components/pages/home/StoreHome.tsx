@@ -7,7 +7,7 @@ import Carousel from '@/utils/carousel';
 import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 function StoreHome() {
   const titleRef = useRef(null);
-  const productRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
+  const productRefs = useRef<Array<HTMLElement | null>>([]);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
 
@@ -55,18 +55,16 @@ function StoreHome() {
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
-        if (ref) {
-          gsap.fromTo(
-            ref,
-            { x: 200, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.5,
-              delay: index * 0.3,
-            }
-          );
-        }
+        gsap.fromTo(
+          ref,
+          { x: 200, opacity: 0 },
+          {
+            x: 0,
+            opacity: 1,
+            duration: 0.5,
+            delay: index * 0.3,
+          }
+        );
       });
 
       if (titleRef.current) {
@@ -137,7 +135,7 @@ function StoreHome() {
             className='w-full flex justify-between gap-[20px]'
             style={{
               transform: `translateX(-${indexSlider * width}%)`,
-              transition: 'transform 0.3s ease',
+              transition: 'transform 0.3s ease-in-out',
             }}
           >
             {products.map((p, index) => (
@@ -146,9 +144,7 @@ function StoreHome() {
                 key={index}
                 srcImg={p.srcImg}
                 altImg={p.name}
-                refEl={(el: any) => {
-                  productRefs.current[index] = el;
-                }}
+                refEl={(el) => (productRefs.current[index] = el)}
                 nameProduct='Esprit Ruffle Shirt'
                 priceProduct={p.price}
               />

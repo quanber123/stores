@@ -4,7 +4,7 @@ import LazyLoadImage from '@/utils/lazyload-image';
 type propsBLog = {
   srcImg: string;
   altImg?: string;
-  refEl: (el: HTMLElement | null) => void;
+  refEl: (el: HTMLElement) => HTMLElement;
   author: string;
   date: string;
   title: string;
@@ -22,7 +22,7 @@ function PreviewBlog({
   const { width } = Carousel(0);
   return (
     <article
-      ref={(el) => refEl?.(el)}
+      ref={refEl}
       className='relative flex-shrink-0 flex-grow-0 flex flex-col gap-[15px]'
       style={{ width: `calc(${width}% - 20px)` }}
     >

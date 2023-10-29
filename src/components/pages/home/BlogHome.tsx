@@ -1,4 +1,4 @@
-import { useRef, useLayoutEffect, RefObject } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
@@ -8,7 +8,7 @@ import Carousel from '@/utils/carousel';
 
 function BlogHome() {
   const titleRef = useRef(null);
-  const blogRefs = useRef<Array<RefObject<HTMLElement> | null>>([]);
+  const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
   const blogs = [
     {
@@ -126,7 +126,7 @@ function BlogHome() {
             style={{
               width: `${width * breakpoints}%`,
               transform: `translateX(-${indexSlider * width}%)`,
-              transition: 'transform 0.3s ease',
+              transition: 'transform 0.3s ease-in-out',
             }}
           >
             {blogs.map((b, index) => {
@@ -135,9 +135,7 @@ function BlogHome() {
                   key={index}
                   srcImg={b.srcImg}
                   altImg={b.title}
-                  refEl={(el: any) => {
-                    blogRefs.current[index] = el;
-                  }}
+                  refEl={(el) => (blogRefs.current[index] = el)}
                   author={b.author}
                   date={b.date}
                   title={b.title}

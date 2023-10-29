@@ -79,16 +79,14 @@ function BannerHome() {
         duration: 0.1,
       });
       gsap.to(btnPrev.current, {
-        left: '20px',
+        scale: 1,
         opacity: 1,
-        duration: 0.2,
-        ease: 'elastic',
+        duration: 0.5,
       });
       gsap.to(btnNext.current, {
-        right: '20px',
+        scale: 1,
         opacity: 1,
-        duration: 0.2,
-        ease: 'elastic',
+        duration: 0.5,
       });
     });
     return () => {
@@ -102,60 +100,61 @@ function BannerHome() {
       } relative w-full h-full min-h-[350px] aspect-[4/2] flex justify-center overflow-hidden`}
       ref={containerRef}
     >
-      <div className='w-full h-full flex justify-center items-center overflow-hidden'>
-        {images.map((i, index) => {
-          return (
-            <>
-              <img
-                ref={imgIndex === index ? imgRef : null}
-                style={{ display: imgIndex === index ? 'block' : 'none' }}
-                className='img-slider'
-                src={i.src}
-                alt=''
-                key={index}
-              />
-              <div
-                style={{ display: imgIndex === index ? 'flex' : 'none' }}
-                className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
+      {images.map((i, index) => {
+        return (
+          <article
+            key={index}
+            className='absolute w-full h-full flex justify-center items-center overflow-hidden'
+          >
+            <img
+              ref={imgIndex === index ? imgRef : null}
+              style={{ display: imgIndex === index ? 'block' : 'none' }}
+              className='img-slider'
+              src={i.src}
+              alt=''
+              key={index}
+            />
+            <div
+              style={{ display: imgIndex === index ? 'flex' : 'none' }}
+              className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
+            >
+              <h3
+                style={{ transform: 'translateY(-120px)', opacity: 0 }}
+                ref={imgIndex === index ? contentRef : null}
+                className='text-md laptop:text-xl font-medium'
               >
-                <h3
-                  style={{ transform: 'translateY(-120px)', opacity: 0 }}
-                  ref={imgIndex === index ? contentRef : null}
-                  className='text-md laptop:text-xl font-medium'
-                >
-                  {i.content}
-                </h3>
-                <p
-                  style={{ transform: 'translateX(120px)', opacity: 0 }}
-                  ref={imgIndex === index ? categoryRef : null}
-                  className='text-2xl laptop:text-4xl font-semiBold'
-                >
-                  {i.category}
-                </p>
-                <button
-                  style={{ transform: 'translateY(120px)', opacity: 0 }}
-                  ref={imgIndex === index ? btnRef : null}
-                  className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
-                >
-                  Shop Now
-                </button>
-              </div>
-            </>
-          );
-        })}
-      </div>
+                {i.content}
+              </h3>
+              <p
+                style={{ transform: 'translateX(120px)', opacity: 0 }}
+                ref={imgIndex === index ? categoryRef : null}
+                className='text-2xl laptop:text-4xl font-semiBold'
+              >
+                {i.category}
+              </p>
+              <button
+                style={{ transform: 'translateY(120px)', opacity: 0 }}
+                ref={imgIndex === index ? btnRef : null}
+                className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
+              >
+                Shop Now
+              </button>
+            </div>
+          </article>
+        );
+      })}
       <button
         ref={btnPrev}
-        className='absolute top-1/2 -left-[0] z-50 text-gray hover:text-purple'
-        style={{ transition: '0.3s all ease' }}
+        className='absolute top-1/2 left-[5%] z-50 text-gray hover:text-purple'
+        style={{ opacity: 0, scale: 0 }}
         onClick={handlePrev}
       >
         <FaCaretLeft className='w-[40px] h-[40px]' />
       </button>
       <button
         ref={btnNext}
-        className='absolute top-1/2 -right-[0] z-50 text-gray hover:text-purple'
-        style={{ transition: '0.3s all ease' }}
+        className='absolute top-1/2 right-[5%] z-50 text-gray hover:text-purple'
+        style={{ opacity: 0, scale: 0 }}
         onClick={handleNext}
       >
         <FaCaretRight className='w-[40px] h-[40px]' />

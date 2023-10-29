@@ -12,7 +12,6 @@ function Carousel(length: number) {
       prevIndex + 1 >= length - (breakpoints - 1) ? 0 : prevIndex + 1
     );
   };
-
   const handleResize = () => {
     let newBreakpoints;
     if (window.innerWidth > 1280) {
@@ -27,16 +26,16 @@ function Carousel(length: number) {
     setBreakPoints(newBreakpoints);
   };
   useEffect(() => {
-    handleResize();
     const infinite = setInterval(() => {
       handleNext();
     }, 3000);
+    handleResize();
     window.addEventListener('resize', handleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
       window.clearInterval(infinite);
+      window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [length, breakpoints]);
   const width = useMemo(() => {
     return 100 / breakpoints;
   }, [breakpoints]);
