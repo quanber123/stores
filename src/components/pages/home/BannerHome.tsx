@@ -97,7 +97,7 @@ function BannerHome() {
     <section
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
-      } relative w-full h-full min-h-[350px] aspect-[4/2] flex justify-center overflow-hidden`}
+      } relative w-full h-full min-h-[350px] laptop:aspect-[4/2] flex justify-center overflow-hidden`}
       ref={containerRef}
     >
       {images.map((i, index) => {

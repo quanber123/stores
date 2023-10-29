@@ -87,7 +87,12 @@ function Header() {
       <section className={`container flex items-center  gap-[80px]`}>
         <div>
           <Link to={`/`}>
-            <img ref={imgRef} className='h-full' src={logo} alt='logo' />
+            <img
+              ref={imgRef}
+              className='max-w-[150px] h-full'
+              src={logo}
+              alt='logo'
+            />
           </Link>
         </div>
         <ul className='flex items-center gap-[20px] text-sm font-bold'>
