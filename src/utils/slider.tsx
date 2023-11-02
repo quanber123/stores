@@ -3,9 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 function Slider(length: number) {
   const [indexImage, setIndexImage] = useState<number>(0);
   const handleIndex = (index: number) => {
-    setIndexImage((prevIndex) => {
-      return (prevIndex = index);
-    });
+    setIndexImage(index);
   };
   const handlePrev = useCallback(() => {
     setIndexImage((prevIndex) => {
