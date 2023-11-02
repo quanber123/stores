@@ -3,10 +3,14 @@ import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import { products } from '@/fake-data/data';
+import scrollElement from '@/utils/scroll-elements';
+import { useNavigate } from 'react-router-dom';
 function StoreHome() {
+  const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
+  const btnRef = useRef(null);
   const { isVisible, containerRef } = useObserver();
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
@@ -49,6 +53,13 @@ function StoreHome() {
           );
         }
       });
+      if (btnRef.current) {
+        gsap.to(btnRef.current, {
+          x: 0,
+          opacity: 1,
+          delay: 1.5,
+        });
+      }
     });
 
     return () => {
@@ -64,6 +75,10 @@ function StoreHome() {
       />
     ));
   }, [products]);
+  const handleLinkClick = () => {
+    scrollElement();
+    navigate('/shop', { replace: true });
+  };
   return (
     <section
       ref={containerRef}
@@ -92,6 +107,13 @@ function StoreHome() {
         </ul>
       </div>
       <div className='container product-list mt-4'>{renderedProduct}</div>
+      <button
+        ref={btnRef}
+        className='px-6 py-2 bg-semiBoldGray hover:bg-purple text-white text-md rounded-[23px]'
+        onClick={handleLinkClick}
+      >
+        Load More
+      </button>
     </section>
   );
 }

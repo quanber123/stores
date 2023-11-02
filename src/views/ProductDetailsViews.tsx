@@ -12,7 +12,6 @@ function ProductDetailsViews() {
   const relatedRef = useRef(null);
   const findById = products.find((p) => p.id === Number(id));
   const relatedProduct = products.filter((p) => p.id !== Number(id));
-  console.log(findById);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(descriptionProductRef.current, {
@@ -26,7 +25,6 @@ function ProductDetailsViews() {
         duration: 1,
       });
       gsap.from(relatedRef.current, {
-        y: 200,
         opacity: 0,
         duration: 1,
       });
@@ -36,7 +34,7 @@ function ProductDetailsViews() {
     };
   }, []);
   return (
-    <main className='pt-[120px] relative'>
+    <main className='pt-[120px]'>
       {findById ? (
         <>
           <DescriptionProduct
