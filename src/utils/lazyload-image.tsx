@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 type LazyLoadImageProps = {
-  src: string;
+  src: string | undefined;
   alt?: string | null;
   className?: string;
   style?: React.CSSProperties | undefined;
@@ -20,7 +20,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
 
     const handleIntersection: IntersectionObserverCallback = (entries, obs) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting && src !== imageSrc) {
+        if (entry.isIntersecting && src == null) {
           setImageSrc(src);
           if (obs && imgRef.current) {
             obs.unobserve(imgRef.current);

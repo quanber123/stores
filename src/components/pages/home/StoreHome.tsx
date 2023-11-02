@@ -1,57 +1,13 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
-import demoimg from '@/assets/images/product-12.jpg.webp';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
-import PreviewProduct from '@/components/single-product/PreviewProduct';
-import Carousel from '@/utils/carousel';
-import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
+import PreviewProduct from '@/components/single/product/PreviewProduct';
+import { products } from '@/fake-data/data';
 function StoreHome() {
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
-
-  const products = [
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-  ];
-  const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
-    products.length
-  );
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -102,13 +58,9 @@ function StoreHome() {
   const renderedProduct = useMemo(() => {
     return products.map((p, index) => (
       <PreviewProduct
-        style={{ width: `${width}%` }}
         key={index}
-        srcImg={p.srcImg}
-        altImg={p.name}
+        product={p}
         refEl={(el) => (productRefs.current[index] = el)}
-        nameProduct='Esprit Ruffle Shirt'
-        priceProduct={p.price}
       />
     ));
   }, [products]);
@@ -117,7 +69,7 @@ function StoreHome() {
       ref={containerRef}
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
-      } relative w-full h-full flex flex-col items-center justify-center gap-[20px] overflow-hidden`}
+      } w-full h-full flex flex-col items-center justify-center gap-[20px] overflow-hidden`}
     >
       <h2
         ref={titleRef}
@@ -139,31 +91,7 @@ function StoreHome() {
           ))}
         </ul>
       </div>
-      <div className='container relative mt-4'>
-        <div
-          className={`m-auto max-w-[${width * breakpoints}%] overflow-hidden`}
-        >
-          <div
-            className='w-full flex justify-between gap-[20px]'
-            style={{
-              transform: `translateX(-${indexSlider * width}%)`,
-              transition: 'transform 0.3s ease-in-out',
-            }}
-          >
-            {renderedProduct}
-          </div>
-        </div>
-        <div className='text-xl'>
-          <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[4%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handlePrev}
-          />
-          <FaAngleRight
-            className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handleNext}
-          />
-        </div>
-      </div>
+      <div className='container product-list mt-4'>{renderedProduct}</div>
     </section>
   );
 }

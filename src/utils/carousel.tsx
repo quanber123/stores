@@ -1,19 +1,19 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 function Carousel(length: number) {
   const [breakpoints, setBreakPoints] = useState<number>(4);
   const [indexSlider, setIndexSlider] = useState<number>(0);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setIndexSlider((prevIndex) =>
       prevIndex - 1 < 0 ? length - breakpoints : prevIndex - 1
     );
-  };
+  }, [length]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setIndexSlider((prevIndex) =>
       prevIndex + 1 >= length - (breakpoints - 1) ? 0 : prevIndex + 1
     );
-  };
+  }, [length]);
 
   const handleResize = () => {
     let newBreakpoints;

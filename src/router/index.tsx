@@ -4,6 +4,7 @@ import App from '@/App';
 const HomeViews = lazy(() => import('@/views/HomeViews'));
 const AboutViews = lazy(() => import('@/views/AboutViews'));
 const ShopViews = lazy(() => import('@/views/ShopViews'));
+const ProductDetailsViews = lazy(() => import('@/views/ProductDetailsViews'));
 const BlogViews = lazy(() => import('@/views/BlogViews'));
 const NotFoundViews = lazy(() => import('@/views/NotFoundViews'));
 const routes: RouteObject[] = [
@@ -21,7 +22,16 @@ const routes: RouteObject[] = [
       },
       {
         path: 'shop',
-        element: <ShopViews />,
+        children: [
+          {
+            index: true,
+            element: <ShopViews />,
+          },
+          {
+            path: ':id',
+            element: <ProductDetailsViews />,
+          },
+        ],
       },
       {
         path: 'blog',

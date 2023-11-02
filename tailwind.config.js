@@ -16,6 +16,7 @@ export default {
       desktop: '1280px',
     },
     colors: {
+      black: '#000',
       gray: '#999999',
       lightGray: '#e1e0e0',
       mediumGray: '#555555',
@@ -23,6 +24,7 @@ export default {
       darkGray: '#666666',
       purple: '#717fe0',
       white: '#ffffff',
+      overlayBlack: 'rgba(0,0,0,0.6)',
       overlayPurple: 'rgba(113, 127, 224, 0.8)',
     },
     fontSize: {

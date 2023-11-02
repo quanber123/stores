@@ -7,6 +7,10 @@ import {
   FaArrowDownWideShort,
   FaAnglesUp,
   FaArrowRightLong,
+  FaCartPlus,
+  FaHeart,
+  FaFacebookF,
+  FaXmark,
 } from 'react-icons/fa6';
 
 export {
@@ -18,4 +22,8 @@ export {
   FaArrowDownWideShort,
   FaAnglesUp,
   FaArrowRightLong,
+  FaCartPlus,
+  FaHeart,
+  FaFacebookF,
+  FaXmark,
 };

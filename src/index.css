@@ -23,11 +23,37 @@ body {
   padding: 0;
 }
 main {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: 80px;
 }
+.custom-select {
+  position: relative;
+}
+
+select {
+  position: relative;
+  appearance: none;
+  /*  safari  */
+  -webkit-appearance: none;
+  /*  other styles for aesthetics */
+  width: 100%;
+  font-size: 1.15rem;
+  padding: 4px 12px;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 img {
   object-fit: cover;
   -webkit-object-fit: cover;
@@ -74,17 +100,35 @@ button {
   z-index: 20;
 }
 
-/*Overlay*/
-
-.overlay {
+/* Style CategoryHome*/
+.category {
+  color: #555555;
+  transition: color 0.3s linear;
+}
+.category:hover {
+  color: #fff;
+}
+.category::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  content: '';
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  opacity: 0;
   -webkit-transition: all 0.3s linear;
   transition: all 0.3s linear;
+  z-index: 10;
 }
-
-/* Style CategoryHome*/
-
+.category:hover::before {
+  background-color: rgba(113, 127, 224, 0.8);
+  opacity: 1;
+}
 .btn-category {
   position: relative;
+  max-width: 80px;
+  color: #fff;
 }
 .btn-category::after {
   position: absolute;
@@ -111,24 +155,14 @@ button {
   opacity: 0;
   transform: translateY(12px);
 }
-.btn-category.active > button {
+.category:hover .btn-category > button {
   transform: translateY(0);
   opacity: 1;
 }
 
-.btn-category.active::after {
+.category:hover .btn-category::after {
   width: 100%;
 }
-
-/* Style StoreHome*/
-.product-preview > img {
-  -webkit-transition: all 0.3s linear;
-  transition: all 0.3s linear;
-}
-.product-preview:hover > img {
-  transform: scale(1.1);
-}
-
 /* Style BlogHome*/
 .blog-preview > img {
   -webkit-transition: all 0.3s linear;
@@ -188,5 +222,32 @@ button {
 
 .sub-routes:hover.sub-routes::after {
   width: 100%;
+  opacity: 1;
+}
+
+/* Product Details*/
+.btn-wishlist,
+.btn-facebook {
+  position: relative;
+}
+
+.btn-wishlist > span,
+.btn-facebook > span {
+  position: absolute;
+  top: -200%;
+  left: -200%;
+  width: max-content;
+  padding: 1px 12px;
+  box-shadow: 0px 2px 10px #ccc;
+  color: #999999 !important;
+  font-size: 12px;
+  opacity: 0;
+  border: 1px solid #ccc;
+  transition: opacity 0.3s;
+  z-index: 20;
+}
+
+.btn-wishlist:hover > span,
+.btn-facebook:hover > span {
   opacity: 1;
 }

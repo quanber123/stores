@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
-import PreviewBlogHome from '@/components/single-blog/PreviewBlogHome';
+import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 import Carousel from '@/utils/carousel';
 
@@ -17,8 +17,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2017',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
     {
       title: 'The Great Big List of Men’s Gifts for the Holidays',
@@ -26,8 +25,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2017',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
     {
       title:
@@ -36,8 +34,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2017',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
     {
       title:
@@ -46,8 +43,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2017',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
     {
       title: 'The Great Big List of Men’s Gifts for the Holidays',
@@ -55,8 +51,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2019',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
     {
       title:
@@ -65,8 +60,7 @@ function BlogHome() {
         'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
       author: 'Nancy Ward',
       date: 'July 18, 2020',
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
+      imgSrc: demoimg,
     },
   ];
   const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
@@ -109,13 +103,8 @@ function BlogHome() {
       return (
         <PreviewBlogHome
           key={index}
-          srcImg={b.srcImg}
-          altImg={b.title}
+          blog={b}
           refEl={(el) => (blogRefs.current[index] = el)}
-          author={b.author}
-          date={b.date}
-          title={b.title}
-          description={b.description}
         />
       );
     });
@@ -149,7 +138,7 @@ function BlogHome() {
         </div>
         <div className='text-xl'>
           <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[4%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+            className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
             onClick={handlePrev}
           />
           <FaAngleRight

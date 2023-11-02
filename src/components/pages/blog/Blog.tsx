@@ -4,7 +4,7 @@ import LazyLoadImage from '@/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
 import testImg from '@/assets/images/blog-04.jpg.webp';
 import './blog.css';
-import PreviewBlog from '@/components/single-blog/PreviewBlog';
+import PreviewBlog from '@/components/single/blog/PreviewBlog';
 import { FaArrowDownWideShort } from '@/assets/icons/index';
 import { formatDate } from '@/utils/format-date';
 function Blog() {
@@ -63,7 +63,7 @@ function Blog() {
         <button
           ref={(el) => (categoryRefs.current[index] = el)}
           key={index}
-          className='btn-category flex justify-start py-4 opacity-0'
+          className='btn-category-list flex justify-start py-4 opacity-0'
         >
           {c}
         </button>

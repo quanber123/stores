@@ -1,24 +1,12 @@
+import { Blog } from '@/interfaces/interfaces';
 import Carousel from '@/utils/carousel';
 import LazyLoadImage from '@/utils/lazyload-image';
 
 type propsBLog = {
-  srcImg: string;
-  altImg?: string;
+  blog: Partial<Blog>;
   refEl: (el: HTMLElement) => HTMLElement;
-  author: string;
-  date: string;
-  title: string;
-  description: string;
 };
-function PreviewBlogHome({
-  srcImg,
-  altImg,
-  author,
-  date,
-  refEl,
-  title,
-  description,
-}: propsBLog) {
+function PreviewBlogHome({ blog, refEl }: propsBLog) {
   const { width } = Carousel(0);
   return (
     <article
@@ -29,18 +17,18 @@ function PreviewBlogHome({
       <div className='blog-preview relative overflow-hidden cursor-pointer'>
         <LazyLoadImage
           className='w-full max-h-[390px]'
-          src={srcImg}
-          alt={altImg}
+          src={blog.imgSrc}
+          alt={blog.title}
         />
       </div>
       <div className='flex flex-col gap-[5px]'>
         <p className='text-sm'>
-          By {author} on {date}
+          By {blog.author} on {blog.date}
         </p>
         <h5 className='text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'>
-          {title.substring(0, 50)}...
+          {blog?.title?.substring(0, 50)}...
         </h5>
-        <p className='text-sm text-gray'>{description}</p>
+        <p className='text-sm text-gray'>{blog.description}</p>
       </div>
     </article>
   );

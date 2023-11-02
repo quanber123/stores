@@ -1,14 +1,6 @@
 import LazyLoadImage from '@/utils/lazyload-image';
 import { FaArrowRightLong } from '@/assets/icons/index';
-interface Blog {
-  imgSrc: string;
-  title: string;
-  date: string;
-  description: string;
-  author: string;
-  tag: string[];
-  countCmt: number;
-}
+import { Blog } from '@/interfaces/interfaces';
 type Props = {
   blog: Blog;
   refEl: (el: HTMLElement) => HTMLElement;

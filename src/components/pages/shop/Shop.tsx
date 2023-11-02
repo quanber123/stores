@@ -1,52 +1,14 @@
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
-import PreviewProduct from '@/components/single-product/PreviewProduct';
-import demoimg from '@/assets/images/product-12.jpg.webp';
+import PreviewProduct from '@/components/single/product/PreviewProduct';
 import { FaArrowDownWideShort } from '@/assets/icons/index';
+import { products } from '@/fake-data/data';
 function Shop() {
   const { isVisible, containerRef } = useObserver();
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
-  const products = [
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-    {
-      name: 'Esprit Ruffle Shirt',
-      price: 34.75,
-      srcImg: demoimg,
-      altImg: 'Esprit Ruffle Shirt',
-    },
-  ];
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       subRouteRefs.current.forEach((ref, index) => {
@@ -93,11 +55,8 @@ function Shop() {
     return (
       <PreviewProduct
         key={index}
-        srcImg={p.srcImg}
-        altImg={p.name}
+        product={p}
         refEl={(el) => (productRefs.current[index] = el)}
-        nameProduct='Esprit Ruffle Shirt'
-        priceProduct={p.price}
       />
     );
   });
@@ -139,7 +98,7 @@ function Shop() {
         ref={containerRef}
         className={`${
           isVisible ? 'opacity-100' : 'opacity-0'
-        } container m-auto flex flex-wrap justify-start items-center gap-[20px]`}
+        } container m-auto product-list`}
       >
         {renderedProducts}
       </section>
