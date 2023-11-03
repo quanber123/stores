@@ -1,20 +1,20 @@
 import { useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
-import DescriptionProduct from '@/components/pages/product-details/Description';
+import ProductDetails from '@/components/pages/product-details/ProductsDetails';
 import MoreInformationProduct from '@/components/pages/product-details/MoreInformation';
 import RelatedProducts from '@/components/pages/product-details/RelatedProducts';
 import gsap from 'gsap';
 import { products } from '@/fake-data/data';
 function ProductDetailsViews() {
   const { id } = useParams();
-  const descriptionProductRef = useRef(null);
+  const productRef = useRef(null);
   const MoreInformationProductRef = useRef(null);
   const relatedRef = useRef(null);
   const findById = products.find((p) => p.id === Number(id));
   const relatedProduct = products.filter((p) => p.id !== Number(id));
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(descriptionProductRef.current, {
+      gsap.from(productRef.current, {
         x: 200,
         opacity: 0,
         duration: 1,
@@ -37,10 +37,7 @@ function ProductDetailsViews() {
     <main className='pt-[120px]'>
       {findById ? (
         <>
-          <DescriptionProduct
-            product={findById}
-            refEl={descriptionProductRef}
-          />
+          <ProductDetails product={findById} refEl={productRef} />
           <MoreInformationProduct
             tabs={findById.tabs}
             refEl={MoreInformationProductRef}

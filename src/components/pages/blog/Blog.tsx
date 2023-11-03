@@ -2,11 +2,10 @@ import { useRef, useMemo, useState, useCallback, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import LazyLoadImage from '@/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
-import testImg from '@/assets/images/blog-04.jpg.webp';
+import { blogs } from '@/fake-data/data';
 import './blog.css';
 import PreviewBlog from '@/components/single/blog/PreviewBlog';
 import { FaArrowDownWideShort } from '@/assets/icons/index';
-import { formatDate } from '@/utils/format-date';
 function Blog() {
   const [dropdownCategory, setDropdownCategory] = useState(false);
   const blogTitleRef = useRef(null);
@@ -16,29 +15,7 @@ function Blog() {
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const categoryRefs = useRef<Array<HTMLElement | null>>([]);
   const tagRefs = useRef<Array<HTMLElement | null>>([]);
-  const blogs = [
-    {
-      imgSrc: testImg,
-      title: '8 Inspiring Ways to Wear Dresses in the Winter',
-      date: formatDate(new Date()),
-      description:
-        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius',
-      author: 'Admin',
-      tag: ['StreetStyle', 'Fashion', 'Couple'],
-      countCmt: 8,
-    },
-    {
-      imgSrc: testImg,
-      title: '8 Inspiring Ways to Wear Dresses in the Winter',
-      date: formatDate(new Date()),
-      description:
-        'Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce eget dictum tortor. Donec dictum vitae sapien eu varius',
-      author: 'Admin',
-      tag: ['StreetStyle', 'Fashion', 'Couple', 'Crafts', 'StreetStyle'],
-      countCmt: 8,
-    },
-  ];
-  const buttons = ['Fashion', 'Lifestyle', 'Denim', 'StreetStyle', 'Crafts'];
+  const tags = ['Fashion', 'Lifestyle', 'Denim', 'StreetStyle', 'Crafts'];
   const categories = [
     'Fashion',
     'Beauty',
@@ -70,8 +47,8 @@ function Blog() {
       );
     });
   }, [categories]);
-  const renderedBtn = useMemo(() => {
-    return buttons.map((b, index) => {
+  const renderedTags = useMemo(() => {
+    return tags.map((b, index) => {
       return (
         <button
           ref={(el) => (tagRefs.current[index] = el)}
@@ -82,7 +59,7 @@ function Blog() {
         </button>
       );
     });
-  }, [buttons]);
+  }, [tags]);
   const handleDropdown = useCallback(() => {
     setDropdownCategory((prevState) => !prevState);
   }, [dropdownCategory]);
@@ -190,7 +167,7 @@ function Blog() {
             >
               Tags
             </h4>
-            <div className='flex flex-wrap gap-[5px]'>{renderedBtn}</div>
+            <div className='flex flex-wrap gap-[5px]'>{renderedTags}</div>
           </div>
         </div>
       </section>

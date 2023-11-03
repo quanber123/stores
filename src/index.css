@@ -59,7 +59,14 @@ img {
   -webkit-object-fit: cover;
   flex-shrink: 0;
   flex-grow: 0;
-  flex: 0 0 auto;
+}
+h5 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* Số dòng tối đa */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis; /* Hiển thị dấu ba chấm (...) khi dòng bị cắt */
+  /* Các thuộc tính khác như kích thước, màu sắc, vv. */
 }
 nav {
   /* position: -webkit-sticky; */

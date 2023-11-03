@@ -30,6 +30,7 @@ export interface Product {
   };
 }
 export interface Blog {
+  id: number | string;
   imgSrc: string;
   title: string;
   date: string;

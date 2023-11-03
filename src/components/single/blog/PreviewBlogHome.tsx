@@ -1,22 +1,28 @@
 import { Blog } from '@/interfaces/interfaces';
-import Carousel from '@/utils/carousel';
 import LazyLoadImage from '@/utils/lazyload-image';
+import scrollElement from '@/utils/scroll-elements';
+import { useNavigate } from 'react-router-dom';
 
 type propsBLog = {
-  blog: Partial<Blog>;
+  blog: Blog;
   refEl: (el: HTMLElement) => HTMLElement;
+  style?: React.CSSProperties;
 };
-function PreviewBlogHome({ blog, refEl }: propsBLog) {
-  const { width } = Carousel(0);
+function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
+  const navigate = useNavigate();
+  const handleLinkClick = (id: string | number) => {
+    scrollElement();
+    navigate(`/blog/${id}`);
+  };
   return (
     <article
       ref={refEl}
-      className='relative flex-shrink-0 flex-grow-0 flex flex-col gap-[15px]'
-      style={{ width: `calc(${width}% - 20px)` }}
+      className='flex flex-col gap-[15px] flex-shrink-0 flex-grow-0'
+      style={style}
     >
-      <div className='blog-preview relative overflow-hidden cursor-pointer'>
+      <div className='blog-preview overflow-hidden w-full max-h-[240px] cursor-pointer'>
         <LazyLoadImage
-          className='w-full max-h-[390px]'
+          className='w-full h-[240px]'
           src={blog.imgSrc}
           alt={blog.title}
         />
@@ -25,8 +31,11 @@ function PreviewBlogHome({ blog, refEl }: propsBLog) {
         <p className='text-sm'>
           By {blog.author} on {blog.date}
         </p>
-        <h5 className='text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'>
-          {blog?.title?.substring(0, 50)}...
+        <h5
+          className='text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'
+          onClick={() => handleLinkClick(blog.id)}
+        >
+          {blog?.title}
         </h5>
         <p className='text-sm text-gray'>{blog.description}</p>
       </div>

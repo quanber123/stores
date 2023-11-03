@@ -118,9 +118,7 @@ function Header() {
           </Link>
         </div>
         <div
-          className={`tablet:hidden relative w-[48px] h-[48px] cursor-pointer z-10 ${
-            dropdownHeader ? 'block' : 'flex flex-col'
-          }`}
+          className='tablet:hidden relative m-auto w-[32px] h-[48px] cursor-pointer z-10 flex flex-col items-center justify-center'
           onClick={handleDropdown}
         >
           <span className={`bars ${dropdownHeader ? 'active' : ''}`}></span>

@@ -3,6 +3,7 @@ import gsap from 'gsap';
 import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
+import { blogs } from '@/fake-data/data';
 import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
 import Carousel from '@/utils/carousel';
 
@@ -10,59 +11,6 @@ function BlogHome() {
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
-  const blogs = [
-    {
-      title: 'The Great Big List of Men’s Gifts for the Holidays',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2017',
-      imgSrc: demoimg,
-    },
-    {
-      title: 'The Great Big List of Men’s Gifts for the Holidays',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2017',
-      imgSrc: demoimg,
-    },
-    {
-      title:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2017',
-      imgSrc: demoimg,
-    },
-    {
-      title:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2017',
-      imgSrc: demoimg,
-    },
-    {
-      title: 'The Great Big List of Men’s Gifts for the Holidays',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2019',
-      imgSrc: demoimg,
-    },
-    {
-      title:
-        'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ut, debitis facilis!',
-      description:
-        'Nullam scelerisque, lacus sed consequat laoreet, dui enim iaculis leo, eu viverra ex nulla in tellus. Nullam nec ornare tellus, ac fringilla lacus. Ut sit ame',
-      author: 'Nancy Ward',
-      date: 'July 18, 2020',
-      imgSrc: demoimg,
-    },
-  ];
   const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
     blogs.length
   );
@@ -102,6 +50,7 @@ function BlogHome() {
     return blogs.map((b, index) => {
       return (
         <PreviewBlogHome
+          style={{ width: `calc(${width}% - 20px)` }}
           key={index}
           blog={b}
           refEl={(el) => (blogRefs.current[index] = el)}
@@ -126,9 +75,8 @@ function BlogHome() {
       <div className='container relative mt-4'>
         <div className={`max-w-[${width * breakpoints}%] overflow-hidden`}>
           <div
-            className='w-full flex justify-between items-center gap-[20px]'
+            className='w-full flex items-stretch gap-[20px]'
             style={{
-              width: `${width * breakpoints}%`,
               transform: `translateX(-${indexSlider * width}%)`,
               transition: 'transform 0.3s ease-in-out',
             }}

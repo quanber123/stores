@@ -1,17 +1,25 @@
 import LazyLoadImage from '@/utils/lazyload-image';
 import { FaArrowRightLong } from '@/assets/icons/index';
 import { Blog } from '@/interfaces/interfaces';
+import { useNavigate } from 'react-router-dom';
+import scrollElement from '@/utils/scroll-elements';
 type Props = {
   blog: Blog;
-  refEl: (el: HTMLElement) => HTMLElement;
+  refEl?: (el: HTMLElement) => HTMLElement;
 };
 const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
+  const navigate = useNavigate();
+  const handleLinkClick = (id: number | string) => {
+    scrollElement();
+    navigate(`/blog/${id}`, { replace: true });
+  };
   return (
     <article ref={refEl} className='relative flex flex-col gap-[20px]'>
-      <div>
+      <div className='w-full h-full overflow-hidden cursor-pointer'>
         <LazyLoadImage
           src={blog.imgSrc}
-          className='w-full h-full max-h-[480px]'
+          className='w-full max-h-[480px] hover:scale-110'
+          style={{ transition: 'all 0.3s linear' }}
           alt={blog.title}
         />
       </div>
@@ -22,9 +30,12 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
         <p>{blog.date}</p>
       </div>
       <div className='flex flex-col gap-[10px]'>
-        <h3 className='text-lg tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'>
+        <h5
+          className='text-lg tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'
+          onClick={() => handleLinkClick(blog.id)}
+        >
           {blog.title}
-        </h3>
+        </h5>
         <p className='text-mediumGray'>{blog.description}</p>
         <div className='block laptop:flex justify-between items-center'>
           <div className='flex flex-col tablet:flex-row tablet:items-center gap-[10px] text-sm text-semiBoldGray font-medium'>

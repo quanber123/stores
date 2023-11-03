@@ -13,7 +13,7 @@ type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
-const DescriptionProduct: React.FC<Props> = ({ product, refEl }) => {
+const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   const { title, code, shortDescription, price, images, categories, tabs } =
     product;
   const [count, setCount] = useState<number>(1);
@@ -164,4 +164,4 @@ const DescriptionProduct: React.FC<Props> = ({ product, refEl }) => {
   );
 };
 
-export default DescriptionProduct;
+export default ProductDetails;
