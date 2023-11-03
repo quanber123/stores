@@ -1,6 +1,5 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
-import demoimg from '@/assets/images/blog-02.jpg.webp';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { blogs } from '@/fake-data/data';
