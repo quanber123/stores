@@ -78,6 +78,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         <button
           className='ml-auto text-xl text-semiBoldGray'
           onClick={closeModal}
+          aria-label='CloseModal'
         >
           <FaXmark />
         </button>
@@ -91,12 +92,14 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
               <button
                 className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
                 onClick={handlePrev}
+                aria-label='Previous'
               >
                 <FaAngleLeft className='text-lg' />
               </button>
               <button
                 className='absolute top-1/2 right-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
                 onClick={handleNext}
+                aria-label='Next'
               >
                 <FaAngleRight className='text-lg' />
               </button>
@@ -112,10 +115,10 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
             <p className='text-darkGray'>{product.shortDescription}</p>
             <div className='desktop:container flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
-                <label htmlFor='size' className='w-1/6 text-darkGray'>
+                <label htmlFor='sizeProduct' className='w-1/6 text-darkGray'>
                   Sizes
                 </label>
-                <select name='size' id='size'>
+                <select name='sizeProduct' id='sizeProduct'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.sizes.map((s, index) => (
                     <option key={index} value={s} className='uppercase'>
@@ -125,10 +128,10 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </select>
               </div>
               <div className='flex items-center gap-[40px]'>
-                <label htmlFor='color' className='w-1/6 text-darkGray'>
+                <label htmlFor='colorProduct' className='w-1/6 text-darkGray'>
                   Colors
                 </label>
-                <select name='color' id='color'>
+                <select name='colorProduct' id='colorProduct'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.colors.map((c, index) => (
                     <option key={index} value={c} className='uppercase'>
@@ -143,6 +146,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 <button
                   className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-l-sm'
                   onClick={handleDecrease}
+                  aria-label='Decrease'
                 >
                   -
                 </button>
@@ -152,10 +156,12 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   min='1'
                   value={count}
                   onChange={handleChangeCount}
+                  aria-label='Number'
                 />
                 <button
                   className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-r-sm'
                   onClick={handleIncrease}
+                  aria-label='Increase'
                 >
                   +
                 </button>

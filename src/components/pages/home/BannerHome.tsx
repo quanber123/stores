@@ -93,7 +93,7 @@ function BannerHome() {
               <button
                 style={{ transform: 'translateY(120px)', opacity: 0 }}
                 ref={indexImage === index ? btnRef : null}
-                className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-purple hover:bg-darkGray rounded-[23px]'
+                className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-semiBoldGray hover:bg-purple rounded-[23px]'
                 onClick={() => navigate('/shop', { replace: true })}
               >
                 Shop Now
@@ -104,17 +104,19 @@ function BannerHome() {
       })}
       <button
         ref={btnPrev}
-        className='absolute top-1/2 left-[5%] z-50 text-gray hover:text-purple'
+        className='absolute top-1/2 left-[5%] z-50 text-semiBoldGray hover:text-purple'
         style={{ opacity: 0, scale: 0 }}
         onClick={handlePrev}
+        aria-label='Previous'
       >
         <FaCaretLeft className='w-[40px] h-[40px]' />
       </button>
       <button
         ref={btnNext}
-        className='absolute top-1/2 right-[5%] z-50 text-gray hover:text-purple'
+        className='absolute top-1/2 right-[5%] z-50 text-semiBoldGray hover:text-purple'
         style={{ opacity: 0, scale: 0 }}
         onClick={handleNext}
+        aria-label='Next'
       >
         <FaCaretRight className='w-[40px] h-[40px]' />
       </button>

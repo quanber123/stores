@@ -52,7 +52,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
       ref={imgRef}
       className={`${className}`}
       src={imageSrc}
-      alt={alt ? alt : undefined}
+      alt={alt ? alt : ''}
       style={style}
     />
   );
