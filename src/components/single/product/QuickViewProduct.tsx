@@ -36,10 +36,15 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   });
   const wrapImages = product.images?.map((image, index) => {
     return (
-      <div key={index} onClick={() => handleIndex(index)}>
+      <div
+        className='w-[70px] h-[84px]'
+        key={index}
+        onClick={() => handleIndex(index)}
+      >
         <LazyLoadImage
           src={image}
-          className='max-w-[70px] max-h-[84px] cursor-pointer'
+          className='w-[70px] h-[84px] cursor-pointer'
+          alt={image}
           style={{ border: `${indexImage === index ? '1px solid #ccc' : ''}` }}
         />
       </div>
