@@ -26,7 +26,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         key={index}
         className='object-cover'
         src={image}
-        alt=''
+        alt={image}
         style={{
           transform: `translateX(${-100 * indexImage}%)`,
           transition: 'all 0.3s ease-in-out',
@@ -112,7 +112,9 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
             <p className='text-darkGray'>{product.shortDescription}</p>
             <div className='desktop:container flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
-                <h6 className='w-1/6 text-darkGray'>Size</h6>
+                <label htmlFor='size' className='w-1/6 text-darkGray'>
+                  Sizes
+                </label>
                 <select name='size' id='size'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.sizes.map((s, index) => (
@@ -123,8 +125,10 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </select>
               </div>
               <div className='flex items-center gap-[40px]'>
-                <h6 className='w-1/6 text-darkGray'>Colors</h6>
-                <select name='size' id='size'>
+                <label htmlFor='color' className='w-1/6 text-darkGray'>
+                  Colors
+                </label>
+                <select name='color' id='color'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.colors.map((c, index) => (
                     <option key={index} value={c} className='uppercase'>
