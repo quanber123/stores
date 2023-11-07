@@ -14,11 +14,14 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
     navigate(`/blog/${id}`, { replace: true });
   };
   return (
-    <article ref={refEl} className='relative flex flex-col gap-[20px]'>
-      <div className='w-full h-full overflow-hidden cursor-pointer'>
+    <article
+      ref={refEl}
+      className='relative flex flex-col gap-[10px] tablet:gap-[20px]'
+    >
+      <div className='w-full overflow-hidden cursor-pointer'>
         <LazyLoadImage
           src={blog.imgSrc}
-          className='w-full max-h-[480px] hover:scale-110'
+          className='w-full h-[210px] tablet:h-[384px]  flex-shrink-0 flex-grow-0 hover:scale-110'
           style={{ transition: 'all 0.3s linear' }}
           alt={blog.title}
         />
@@ -31,12 +34,14 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
       </div>
       <div className='flex flex-col gap-[10px]'>
         <h5
-          className='text-lg tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'
+          className='text-[20px] tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'
           onClick={() => handleLinkClick(blog.id)}
         >
           {blog.title}
         </h5>
-        <p className='text-mediumGray'>{blog.description}</p>
+        <p className='text-sm tablet:text-base text-mediumGray'>
+          {blog.description}
+        </p>
         <div className='block laptop:flex justify-between items-center'>
           <div className='flex flex-col tablet:flex-row tablet:items-center gap-[10px] text-sm text-semiBoldGray font-medium'>
             <span>by {blog.author}</span>

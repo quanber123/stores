@@ -6,6 +6,8 @@ import img2 from '@/assets/images/slide-02.jpg.webp';
 import img3 from '@/assets/images/slide-03.jpg.webp';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
 import testImg from '@/assets/images/blog-04.jpg.webp';
+import demoimg from '@/assets/images/banner-01.jpg.webp';
+
 import { formatDate } from '@/utils/format-date';
 import { Product } from '@/interfaces/interfaces';
 export const products: Product[] = [
@@ -252,5 +254,23 @@ export const blogs = [
     imgSrc: blogImg,
     tag: ['StreetStyle', 'Fashion', 'Couple'],
     countCmt: 8,
+  },
+];
+
+export const categories = [
+  {
+    imgSrc: demoimg,
+    title: 'Women',
+    description: 'Spring 2018',
+  },
+  {
+    imgSrc: demoimg,
+    title: 'Women',
+    description: 'Spring 2018',
+  },
+  {
+    imgSrc: demoimg,
+    title: 'Women',
+    description: 'Spring 2018',
   },
 ];

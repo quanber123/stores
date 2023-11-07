@@ -6,11 +6,13 @@ type Props = {
   refEl: LegacyRef<HTMLElement>;
 };
 const RelatedProducts: React.FC<Props> = ({ products, refEl }) => {
-  const renderedProducts = useMemo(() => {
-    return products
-      .slice(0, 4)
-      .map((p, index) => <PreviewProduct key={index} product={p} />);
-  }, [products]);
+  const renderedProducts = useMemo(
+    () =>
+      products
+        .slice(0, 4)
+        .map((p, index) => <PreviewProduct key={index} product={p} />),
+    [products]
+  );
   return (
     <section
       ref={refEl}

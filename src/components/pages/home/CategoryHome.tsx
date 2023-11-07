@@ -1,37 +1,26 @@
-import { useRef, useLayoutEffect } from 'react';
-import demoimg from '@/assets/images/banner-01.jpg.webp';
+import { useRef, useLayoutEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewCategory from '@/components/single/category/PreviewCategory';
+import { getAllCategories } from '@/store/slice/categorySlice';
 function CategoryHome() {
+  const categories = useSelector(getAllCategories);
   const categoryRef = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
-  const categories = [
-    {
-      imgSrc: demoimg,
-      title: 'Women',
-      description: 'Spring 2018',
-    },
-    {
-      imgSrc: demoimg,
-      title: 'Women',
-      description: 'Spring 2018',
-    },
-    {
-      imgSrc: demoimg,
-      title: 'Women',
-      description: 'Spring 2018',
-    },
-  ];
-  const renderedCategory = categories.map((c, index) => {
-    return (
-      <PreviewCategory
-        key={index}
-        category={c}
-        refEl={(el) => (categoryRef.current[index] = el)}
-      />
-    );
-  });
+  const renderedCategory = useMemo(
+    () =>
+      categories.map((c, index) => {
+        return (
+          <PreviewCategory
+            key={index}
+            category={c}
+            refEl={(el) => (categoryRef.current[index] = el)}
+          />
+        );
+      }),
+    [categories]
+  );
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       categoryRef.current.forEach((ref, index) => {

@@ -1,17 +1,28 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
+import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
-import { products } from '@/fake-data/data';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
+import { getAllProducts } from '@/store/slice/productSlice';
 function StoreHome() {
+  const products = useSelector(getAllProducts);
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
   const { isVisible, containerRef } = useObserver();
+  const renderedProduct = useMemo(() => {
+    return products.map((p, index) => (
+      <PreviewProduct
+        key={index}
+        product={p}
+        refEl={(el) => (productRefs.current[index] = el)}
+      />
+    ));
+  }, [products]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -66,15 +77,6 @@ function StoreHome() {
       ctx.revert();
     };
   }, [isVisible]);
-  const renderedProduct = useMemo(() => {
-    return products.map((p, index) => (
-      <PreviewProduct
-        key={index}
-        product={p}
-        refEl={(el) => (productRefs.current[index] = el)}
-      />
-    ));
-  }, [products]);
   const handleLinkClick = () => {
     scrollElement();
     navigate('/shop', { replace: true });

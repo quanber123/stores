@@ -1,10 +1,12 @@
 import { useRef, useLayoutEffect } from 'react';
+import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import { FaArrowDownWideShort } from '@/assets/icons/index';
-import { products } from '@/fake-data/data';
+import { getAllProducts } from '@/store/slice/productSlice';
 function Shop() {
+  const products = useSelector(getAllProducts);
   const { isVisible, containerRef } = useObserver();
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
