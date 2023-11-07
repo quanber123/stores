@@ -31,12 +31,12 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
         <p className='text-sm'>
           By {blog.author} on {blog.date}
         </p>
-        <h5
+        <h6
           className='text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'
           onClick={() => handleLinkClick(blog.id)}
         >
           {blog?.title}
-        </h5>
+        </h6>
         <p className='text-sm text-gray'>{blog.description}</p>
       </div>
     </article>

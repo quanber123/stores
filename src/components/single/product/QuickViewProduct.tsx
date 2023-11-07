@@ -115,10 +115,10 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
             <p className='text-darkGray'>{product.shortDescription}</p>
             <div className='desktop:container flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
-                <label htmlFor='sizeProduct' className='w-1/6 text-darkGray'>
+                <label htmlFor='sizes' className='w-1/6 text-darkGray'>
                   Sizes
                 </label>
-                <select name='sizeProduct' id='sizeProduct'>
+                <select name='sizeProduct' id='sizes'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.sizes.map((s, index) => (
                     <option key={index} value={s} className='uppercase'>
@@ -128,10 +128,10 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </select>
               </div>
               <div className='flex items-center gap-[40px]'>
-                <label htmlFor='colorProduct' className='w-1/6 text-darkGray'>
+                <label htmlFor='colors' className='w-1/6 text-darkGray'>
                   Colors
                 </label>
-                <select name='colorProduct' id='colorProduct'>
+                <select name='colorProduct' id='colors'>
                   <option value=''>Chose an option</option>
                   {product.tabs?.addInformation.colors.map((c, index) => (
                     <option key={index} value={c} className='uppercase'>

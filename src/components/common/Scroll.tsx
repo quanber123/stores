@@ -18,9 +18,10 @@ function Scroll() {
   }, []);
   return (
     <button
-      className='fixed bottom-[10%] right-[5%] z-[500] w-[50px] h-[50px] bg-purple hover:bg-semiBoldGray flex justify-center items-center rounded-full'
+      className='fixed bottom-[10%] right-[5%] z-[500] w-[50px] h-[50px] bg-semiBoldGray hover:bg-purple flex justify-center items-center rounded-full'
       style={{ scale: `${btnFixed ? '1' : '0'}` }}
       onClick={scrollElement}
+      aria-label='ScrollToTop'
     >
       <FaAnglesUp className='text-white' />
     </button>
