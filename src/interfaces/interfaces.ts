@@ -50,5 +50,5 @@ export interface Blog {
   author: string;
   tag: string[];
   countCmt: number;
-  details: CmtUser[];
+  details?: CmtUser[];
 }
