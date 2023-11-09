@@ -57,7 +57,7 @@ function BlogHome() {
         />
       );
     });
-  }, [blogs]);
+  }, [blogs, breakpoints]);
   return (
     <section
       ref={containerRef}

@@ -4,30 +4,42 @@ export interface Category {
   description: string;
 }
 export interface Product {
-  id: string | number;
+  _id: string;
   images: string[];
-  title: string;
+  name: string;
   code: string;
-  categories: string[];
   price: number;
   shortDescription: string;
-  tabs: {
-    description: string;
-    addInformation: {
-      weight: string;
-      dimensions: string;
-      materials: string;
-      sizes: string[];
-      colors: string[];
-    };
-    reviews?: [
+  type: string;
+  details: {
+    variants: [
       {
-        avatar: string;
-        content: string;
-        vote: number;
+        size: string;
+        color: string;
+        quantity: number;
       }
     ];
+    description: string;
+    weight: string;
+    dimensions: string;
+    materials: string;
+    category: {
+      name: string;
+    };
   };
+  reviews?: [
+    {
+      avatar: string;
+      content: string;
+      vote: number;
+    }
+  ];
+}
+export interface CmtUser {
+  id: number | string;
+  avatar: string;
+  cmt: string;
+  dateCmt: string;
 }
 export interface Blog {
   id: number | string;
@@ -38,4 +50,5 @@ export interface Blog {
   author: string;
   tag: string[];
   countCmt: number;
+  details: CmtUser[];
 }

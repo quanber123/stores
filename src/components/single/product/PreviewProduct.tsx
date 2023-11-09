@@ -11,14 +11,14 @@ type Props = {
   refEl?: (el: HTMLElement) => HTMLElement;
 };
 function PreviewProduct({ product, refEl }: Props) {
-  const { id, images, title, price } = product;
+  const { _id, images, name, price } = product;
   const [openQuickView, setOpenQuickView] = useState<number | string | null>(
     null
   );
   const navigate = useNavigate();
   const handleLinkClick = (id: string | number) => {
     scrollElement();
-    navigate(`/shop/${id}`, { replace: true });
+    navigate(`/shop/${id}`);
   };
   return (
     <>
@@ -27,16 +27,19 @@ function PreviewProduct({ product, refEl }: Props) {
           <LazyLoadImage
             className='max-w-[290px] w-full h-[350px]'
             src={images[0]}
-            alt={title}
+            alt={name}
           />
           <div className='quick-view-btn'>
-            <button onClick={() => setOpenQuickView(id)}>Quick View</button>
+            <button onClick={() => setOpenQuickView(_id)}>Quick View</button>
           </div>
         </div>
         <div className='flex flex-col gap-[5px]'>
           <div className='flex justify-between items-center text-gray font-medium'>
-            <h5 className='cursor-pointer' onClick={() => handleLinkClick(id)}>
-              {title}
+            <h5
+              className='cursor-pointer capitalize'
+              onClick={() => handleLinkClick(_id)}
+            >
+              {name}
             </h5>
             <FaRegHeart className='cursor-pointer hover:text-purple transition-colors' />
           </div>

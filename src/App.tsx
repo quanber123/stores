@@ -7,15 +7,20 @@ import { products } from './fake-data/data';
 import { setAllBlogs } from './store/slice/blogSlice';
 import { setAllProducts } from './store/slice/productSlice';
 import { setAllCategories } from './store/slice/categorySlice';
+import { useGetProductsQuery } from './store/features/productFeatures';
 const Header = lazy(() => import('@/components/common/Header'));
 const Scroll = lazy(() => import('@/components/common/Scroll'));
 function App() {
   const dispatch = useDispatch();
+  const { data: dataProduct, isSuccess: isSuccessProduct } =
+    useGetProductsQuery();
   useEffect(() => {
+    if (isSuccessProduct) {
+      dispatch(setAllProducts(dataProduct));
+    }
     dispatch(setAllCategories(categories));
-    dispatch(setAllProducts({ products: products, totalPage: 0 }));
     dispatch(setAllBlogs({ blogs: blogs, totalPage: 0 }));
-  }, []);
+  }, [isSuccessProduct]);
   return (
     <>
       <Suspense fallback={<Loading />}>

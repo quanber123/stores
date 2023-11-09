@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent } from 'react';
+import React, { useState, useCallback, ChangeEvent, useMemo } from 'react';
 import Slider from '@/utils/slider';
 import {
   FaAngleRight,
@@ -20,20 +20,32 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   const { indexImage, handlePrev, handleNext, handleIndex } = Slider(
     product.images?.length
   );
-  const renderList = product.images?.map((image, index) => {
-    return (
-      <LazyLoadImage
-        key={index}
-        className='object-cover'
-        src={image}
-        alt={image}
-        style={{
-          transform: `translateX(${-100 * indexImage}%)`,
-          transition: 'all 0.3s ease-in-out',
-        }}
-      />
-    );
-  });
+  const sizes = useMemo(
+    () => product.details.variants.map((v) => v.size),
+    [product]
+  );
+  const colors = useMemo(() => {
+    const arrColors = product.details.variants.map((v) => v.color);
+    return [...new Set(arrColors)];
+  }, [product]);
+  const renderList = useMemo(
+    () =>
+      product.images?.map((image, index) => {
+        return (
+          <LazyLoadImage
+            key={index}
+            className='object-cover'
+            src={image}
+            alt={image}
+            style={{
+              transform: `translateX(${-100 * indexImage}%)`,
+              transition: 'all 0.3s ease-in-out',
+            }}
+          />
+        );
+      }),
+    [product]
+  );
   const wrapImages = product.images?.map((image, index) => {
     return (
       <div
@@ -82,45 +94,50 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         >
           <FaXmark />
         </button>
-        <div className='flex flex-col laptop:flex-row justify-between gap-[40px]'>
+        <div className='flex flex-col laptop:flex-row gap-[80px]'>
           <div className='flex flex-col mobileLg:flex-row gap-[40px]'>
             <div className='flex flex-row mobileLg:flex-col justify-between mobileLg:justify-start mobileLg:gap-[40px]'>
               {wrapImages}
             </div>
             <div className='relative max-w-[514px] max-h-[634px] overflow-hidden flex'>
               {renderList}
-              <button
-                className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
-                onClick={handlePrev}
-                aria-label='Previous'
-              >
-                <FaAngleLeft className='text-lg' />
-              </button>
-              <button
-                className='absolute top-1/2 right-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
-                onClick={handleNext}
-                aria-label='Next'
-              >
-                <FaAngleRight className='text-lg' />
-              </button>
+              {product.images.length > 1 ? (
+                <>
+                  <button
+                    className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
+                    onClick={handlePrev}
+                    aria-label='Previous'
+                  >
+                    <FaAngleLeft className='text-lg' />
+                  </button>
+                  <button
+                    className='absolute top-1/2 right-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
+                    onClick={handleNext}
+                    aria-label='Next'
+                  >
+                    <FaAngleRight className='text-lg' />
+                  </button>
+                </>
+              ) : (
+                <></>
+              )}
             </div>
           </div>
           <div className='flex flex-col gap-[20px]'>
-            <h3 className='text-lg font-medium'>{product.title}</h3>
+            <h3 className='text-lg font-medium capitalize'>{product.name}</h3>
             <div className='text-darkGray flex gap-[20px]'>
-              <p>{product.code}</p>
-              <p>Categories: {product.categories?.join(',')}</p>
+              <p>Category: {product.details.category.name}</p>
             </div>
             <p className='text-md font-bold'>${product.price}</p>
             <p className='text-darkGray'>{product.shortDescription}</p>
-            <div className='desktop:container flex flex-col gap-[20px]'>
+            <div className='flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
                 <label htmlFor='sizes' className='w-1/6 text-darkGray'>
                   Sizes
                 </label>
                 <select name='sizeProduct' id='sizes'>
                   <option value=''>Chose an option</option>
-                  {product.tabs?.addInformation.sizes.map((s, index) => (
+                  {sizes.map((s, index) => (
                     <option key={index} value={s} className='uppercase'>
                       Size {s}
                     </option>
@@ -133,7 +150,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </label>
                 <select name='colorProduct' id='colors'>
                   <option value=''>Chose an option</option>
-                  {product.tabs?.addInformation.colors.map((c, index) => (
+                  {colors.map((c, index) => (
                     <option key={index} value={c} className='uppercase'>
                       {c}
                     </option>
@@ -141,7 +158,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </select>
               </div>
             </div>
-            <div className='desktop:container flex flex-col mobileLg:flex-row items-center desktop:items-stretch gap-[40px]'>
+            <div className='flex flex-col mobileLg:flex-row items-center desktop:items-stretch gap-[40px]'>
               <div className='relative max-w-[135px] flex justify-between'>
                 <button
                   className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-l-sm'

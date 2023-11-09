@@ -34,7 +34,7 @@ function Carousel(length: number) {
       handleNext();
     }, 3000);
 
-    handleResize(); // Xử lý kích thước ban đầu
+    handleResize();
 
     const handleResizeListener = () => {
       handleResize();
