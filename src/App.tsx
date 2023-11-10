@@ -12,7 +12,7 @@ const Scroll = lazy(() => import('@/components/common/Scroll'));
 function App() {
   const dispatch = useDispatch();
   const { data: dataProduct, isSuccess: isSuccessProduct } =
-    useGetProductsQuery();
+    useGetProductsQuery(null);
   useEffect(() => {
     if (isSuccessProduct) {
       dispatch(setAllProducts(dataProduct));
