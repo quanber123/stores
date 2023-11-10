@@ -1,25 +1,21 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { Product } from '@/interfaces/interfaces';
 const end_point = import.meta.env.VITE_BACKEND_URL;
-
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}/products` }),
-  tagTypes: ['Product'],
+  tagTypes: ['Products'],
   endpoints: (builder) => {
     return {
-      getProducts: builder.query<Product, void>({
-        query: () => ({
-          url: '',
-          method: 'GET',
-        }),
-        transformErrorResponse: (res) => {
-          console.log(res);
-        },
-        providesTags: ['Product'],
+      getProducts: builder.query({
+        query: () => '',
+        providesTags: ['Products'],
+      }),
+      getProductById: builder.query({
+        query: (id) => `${id}`,
+        providesTags: (_, __, id) => [{ type: 'Products', id }],
       }),
     };
   },
 });
 
-export const { useGetProductsQuery } = productApi;
+export const { useGetProductsQuery, useGetProductByIdQuery } = productApi;

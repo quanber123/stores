@@ -20,12 +20,22 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   const { indexImage, handlePrev, handleNext, handleIndex } = Slider(
     product.images?.length
   );
+  const totalQuantity = useMemo(
+    () =>
+      product.details.variants.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.quantity,
+        0
+      ),
+    [product]
+  );
   const sizes = useMemo(
-    () => product.details.variants.map((v) => v.size),
+    () => product.details.variants.map((v) => (v.inStock ? v.size : '')),
     [product]
   );
   const colors = useMemo(() => {
-    const arrColors = product.details.variants.map((v) => v.color);
+    const arrColors = product.details.variants.map((v) =>
+      v.inStock ? v.color : ''
+    );
     return [...new Set(arrColors)];
   }, [product]);
   const renderList = useMemo(
@@ -95,7 +105,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
           <FaXmark />
         </button>
         <div className='flex flex-col laptop:flex-row gap-[80px]'>
-          <div className='flex flex-col mobileLg:flex-row gap-[40px]'>
+          <div className='w-full laptop:w-1/2 flex flex-col mobileLg:flex-row gap-[40px]'>
             <div className='flex flex-row mobileLg:flex-col justify-between mobileLg:justify-start mobileLg:gap-[40px]'>
               {wrapImages}
             </div>
@@ -123,13 +133,13 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
               )}
             </div>
           </div>
-          <div className='flex flex-col gap-[20px]'>
+          <div className='w-full laptop:w-1/2 flex flex-col gap-[20px]'>
             <h3 className='text-lg font-medium capitalize'>{product.name}</h3>
             <div className='text-darkGray flex gap-[20px]'>
               <p>Category: {product.details.category.name}</p>
             </div>
             <p className='text-md font-bold'>${product.price}</p>
-            <p className='text-darkGray'>{product.shortDescription}</p>
+            <p className='text-darkGray'>{product.details.shortDescription}</p>
             <div className='flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
                 <label htmlFor='sizes' className='w-1/6 text-darkGray'>
@@ -139,7 +149,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   <option value=''>Chose an option</option>
                   {sizes.map((s, index) => (
                     <option key={index} value={s} className='uppercase'>
-                      Size {s}
+                      Size {s.toUpperCase()}
                     </option>
                   ))}
                 </select>
@@ -150,15 +160,19 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 </label>
                 <select name='colorProduct' id='colors'>
                   <option value=''>Chose an option</option>
-                  {colors.map((c, index) => (
-                    <option key={index} value={c} className='uppercase'>
-                      {c}
-                    </option>
-                  ))}
+                  {colors.map((c, index) =>
+                    c ? (
+                      <option key={index} value={c} className='uppercase'>
+                        {c.toUpperCase()}
+                      </option>
+                    ) : (
+                      <></>
+                    )
+                  )}
                 </select>
               </div>
             </div>
-            <div className='flex flex-col mobileLg:flex-row items-center desktop:items-stretch gap-[40px]'>
+            <div className='flex flex-col mobileLg:flex-row items-center gap-[40px]'>
               <div className='relative max-w-[135px] flex justify-between'>
                 <button
                   className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-l-sm'
@@ -171,6 +185,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   className='w-[45px] text-center text-md outline-none border border-lightGray bg-lightGray'
                   type='number'
                   min='1'
+                  max={totalQuantity}
                   value={count}
                   onChange={handleChangeCount}
                   aria-label='Number'
@@ -183,23 +198,30 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   +
                 </button>
               </div>
+              <p className='flex gap-[5px] text-md font-medium'>
+                ( <span>{totalQuantity}</span>
+                <span>available</span>
+                <span>{totalQuantity > 1 ? 'products' : 'product'}</span>)
+              </p>
+            </div>
+            <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
               <div>
-                <button className='uppercase px-4 py-2 rounded-[24px] flex items-center gap-[10px] bg-purple hover:bg-black text-white'>
+                <button className='uppercase px-6 py-3 rounded-full flex items-center gap-[10px] bg-purple hover:bg-black text-white'>
                   <span>Add to Cart</span>
                   <FaCartPlus />
                 </button>
               </div>
-            </div>
-            <div className='desktop:container my-4 text-gray flex justify-center desktop:justify-start items-center gap-[20px]'>
-              <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
-                <span>Add to Wishlist</span>
-                <FaHeart />
-              </button>
-              <span>|</span>
-              <button className='btn-facebook hover:text-purple flex justify-center items-center'>
-                <span>Share to Facebook</span>
-                <FaFacebookF />
-              </button>
+              <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>
+                <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
+                  <span>Add to Wishlist</span>
+                  <FaHeart />
+                </button>
+                <span>|</span>
+                <button className='btn-facebook hover:text-purple flex justify-center items-center'>
+                  <span>Share to Facebook</span>
+                  <FaFacebookF />
+                </button>
+              </div>
             </div>
           </div>
         </div>

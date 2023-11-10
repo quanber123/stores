@@ -1,17 +1,34 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
 import ProductDetails from '@/components/pages/product-details/ProductsDetails';
 import MoreInformationProduct from '@/components/pages/product-details/MoreInformation';
 import RelatedProducts from '@/components/pages/product-details/RelatedProducts';
 import gsap from 'gsap';
-import { products } from '@/fake-data/data';
+import { useGetProductByIdQuery } from '@/store/features/productFeatures';
+import Loading from '@/components/common/Loading';
+import { Product } from '@/interfaces/interfaces';
 function ProductDetailsViews() {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const {
+    data: dataProduct,
+    error: errorProduct,
+    isSuccess: isSuccessProduct,
+    isLoading: isLoadingProduct,
+    isFetching: isFetchingProduct,
+  } = useGetProductByIdQuery(id) as {
+    data?: {
+      product: Product;
+      relatedProducts: Product[];
+    };
+    error?: any;
+    isSuccess: boolean;
+    isLoading: boolean;
+    isFetching: boolean;
+  };
   const productRef = useRef(null);
   const MoreInformationProductRef = useRef(null);
   const relatedRef = useRef(null);
-  const findById = products.find((p) => p.id === Number(id));
-  const relatedProduct = products.filter((p) => p.id !== Number(id));
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(productRef.current, {
@@ -32,22 +49,27 @@ function ProductDetailsViews() {
     return () => {
       ctx.revert();
     };
-  }, []);
-  return (
+  }, [dataProduct]);
+  if (isLoadingProduct || isFetchingProduct) {
+    return <Loading />;
+  }
+  if (errorProduct) {
+    return <>{navigate('/not-found', { replace: true })}</>;
+  }
+  return isSuccessProduct && dataProduct ? (
     <main className='pt-[120px]'>
-      {findById ? (
-        <>
-          <ProductDetails product={findById} refEl={productRef} />
-          <MoreInformationProduct
-            tabs={findById.tabs}
-            refEl={MoreInformationProductRef}
-          />
-          <RelatedProducts products={relatedProduct} refEl={relatedRef} />
-        </>
-      ) : (
-        <></>
-      )}
+      <ProductDetails product={dataProduct.product} refEl={productRef} />
+      <MoreInformationProduct
+        product={dataProduct.product}
+        refEl={MoreInformationProductRef}
+      />
+      <RelatedProducts
+        products={dataProduct.relatedProducts}
+        refEl={relatedRef}
+      />
     </main>
+  ) : (
+    <></>
   );
 }
 

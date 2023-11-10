@@ -1,13 +1,22 @@
-import { useState, LegacyRef } from 'react';
+import { useState, useMemo, LegacyRef } from 'react';
 import './product-details.css';
 import { Product } from '@/interfaces/interfaces';
 type Props = {
-  tabs: Product['tabs'];
+  product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
-const MoreInformationProduct: React.FC<Props> = ({ tabs, refEl }) => {
+const MoreInformationProduct: React.FC<Props> = ({ product, refEl }) => {
+  const { details } = product;
   const [tab, setTab] = useState(0);
   const tabpanel = ['description', 'additional information', 'reviews (1)'];
+  const sizes = useMemo(
+    () => details.variants.map((v) => (v.inStock ? v.size : '')),
+    [product]
+  );
+  const colors = useMemo(() => {
+    const arrColors = details.variants.map((v) => (v.inStock ? v.color : ''));
+    return [...new Set(arrColors)];
+  }, [product]);
   return (
     <section
       className='container border border-lightGray text-darkGray px-4 tablet:px-16 laptop:px-32 py-8 laptop:py-16 flex flex-col items-start tablet:items-center gap-[40px]'
@@ -28,7 +37,7 @@ const MoreInformationProduct: React.FC<Props> = ({ tabs, refEl }) => {
       </ul>
       <div className='w-full'>
         <div className={`tabpanel ${tab === 0 ? 'active' : ''}`}>
-          <p>{tabs?.description}</p>
+          <p>{details?.description}</p>
         </div>
         <div
           className={`tabpanel ${
@@ -39,31 +48,27 @@ const MoreInformationProduct: React.FC<Props> = ({ tabs, refEl }) => {
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>
               Weight
             </span>
-            <span className='w-1/2'>{tabs?.addInformation.weight}</span>
+            <span className='w-1/2'>{details?.weight}</span>
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>
               Dimensions
             </span>
-            <span className='w-1/2'>{tabs?.addInformation.dimensions}</span>
+            <span className='w-1/2'>{details?.dimensions}</span>
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>
               Materials
             </span>
-            <span className='w-1/2'>{tabs?.addInformation.materials}</span>
+            <span className='w-1/2'>{details?.materials}</span>
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>Color</span>
-            <span className='w-1/2 capitalize'>
-              {tabs?.addInformation.colors.join(',')}
-            </span>
+            <span className='w-1/2 capitalize'>{colors.join(',')}</span>
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>Size</span>
-            <span className='w-1/2 uppercase'>
-              {tabs?.addInformation.sizes.join(',')}
-            </span>
+            <span className='w-1/2 uppercase'>{sizes.join(',')}</span>
           </p>
         </div>
         <div></div>

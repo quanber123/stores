@@ -9,7 +9,6 @@ export interface Product {
   name: string;
   code: string;
   price: number;
-  shortDescription: string;
   type: string;
   details: {
     variants: [
@@ -17,8 +16,10 @@ export interface Product {
         size: string;
         color: string;
         quantity: number;
+        inStock: boolean;
       }
     ];
+    shortDescription: string;
     description: string;
     weight: string;
     dimensions: string;

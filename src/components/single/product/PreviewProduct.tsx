@@ -16,9 +16,9 @@ function PreviewProduct({ product, refEl }: Props) {
     null
   );
   const navigate = useNavigate();
-  const handleLinkClick = (id: string | number) => {
+  const handleLinkClick = (id: string) => {
     scrollElement();
-    navigate(`/shop/${id}`);
+    navigate(`/shop/${id}`, { replace: true });
   };
   return (
     <>

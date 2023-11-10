@@ -8,9 +8,7 @@ type Props = {
 const RelatedProducts: React.FC<Props> = ({ products, refEl }) => {
   const renderedProducts = useMemo(
     () =>
-      products
-        .slice(0, 4)
-        .map((p, index) => <PreviewProduct key={index} product={p} />),
+      products.map((p, index) => <PreviewProduct key={index} product={p} />),
     [products]
   );
   return (
