@@ -7,6 +7,7 @@ import {
   FaHeart,
   FaFacebookF,
   FaXmark,
+  FaFaceDizzy,
 } from '@/assets/icons/index';
 import LazyLoadImage from '@/utils/lazyload-image';
 import { Product } from '@/interfaces/interfaces';
@@ -16,62 +17,59 @@ type Props = {
   closeModal: () => void;
 };
 const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
+  const { name, price, images, details } = product;
   const [count, setCount] = useState<number>(1);
+  const [selectedSize, setSelectedSize] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('');
   const { indexImage, handlePrev, handleNext, handleIndex } = Slider(
     product.images?.length
   );
   const totalQuantity = useMemo(
     () =>
-      product.details.variants.reduce(
+      details.variants.reduce(
         (accumulator, currentValue) => accumulator + currentValue.quantity,
         0
       ),
     [product]
   );
-  const sizes = useMemo(
-    () => product.details.variants.map((v) => (v.inStock ? v.size : '')),
-    [product]
-  );
-  const colors = useMemo(() => {
-    const arrColors = product.details.variants.map((v) =>
-      v.inStock ? v.color : ''
-    );
-    return [...new Set(arrColors)];
+  const sizes = useMemo(() => {
+    const arrSizes = details.variants.map((v) => (v.inStock ? v.size : ''));
+    return [...new Set(arrSizes)];
   }, [product]);
-  const renderList = useMemo(
-    () =>
-      product.images?.map((image, index) => {
-        return (
-          <LazyLoadImage
-            key={index}
-            className='object-cover'
-            src={image}
-            alt={image}
-            style={{
-              transform: `translateX(${-100 * indexImage}%)`,
-              transition: 'all 0.3s ease-in-out',
-            }}
-          />
-        );
-      }),
-    [product]
+  const handleSelectSize = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedSize((prevSize) => (prevSize = e.target.value));
+      if (selectedSize === '') {
+        setSelectedColor((prevColor) => (prevColor = ''));
+      }
+    },
+    [selectedSize]
   );
-  const wrapImages = product.images?.map((image, index) => {
-    return (
-      <div
-        className='w-[70px] h-[84px]'
-        key={index}
-        onClick={() => handleIndex(index)}
-      >
-        <LazyLoadImage
-          src={image}
-          className='w-[70px] h-[84px] cursor-pointer'
-          alt={image}
-          style={{ border: `${indexImage === index ? '1px solid #ccc' : ''}` }}
-        />
-      </div>
-    );
-  });
+  const handleSelectColor = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedColor((prevColor) => (prevColor = e.target.value));
+    },
+    [selectedColor]
+  );
+  const filteredColors = useMemo(
+    () =>
+      details.variants
+        .filter((v) => v.size === selectedSize)
+        .map((v) => {
+          return {
+            color: v.color,
+            quantity: v.quantity,
+          };
+        }) ?? [],
+    [selectedSize]
+  );
+  const getQuantity = useMemo(
+    () =>
+      details.variants.find(
+        (v) => v.size === selectedSize && v.color === selectedColor
+      ) ?? null,
+    [selectedSize, selectedColor]
+  );
   const handleChangeCount = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setCount(Number(e.target.value));
@@ -90,6 +88,40 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
       }
     });
   }, [count]);
+  const renderList = useMemo(
+    () =>
+      images.map((image, index) => {
+        return (
+          <img
+            key={index}
+            className='object-cover'
+            src={image}
+            alt={`${name} ${index}`}
+            style={{
+              transform: `translateX(${-100 * indexImage}%)`,
+              transition: 'all 0.3s ease-in-out',
+            }}
+          />
+        );
+      }),
+    [product]
+  );
+  const wrapImages = images?.map((image, index) => {
+    return (
+      <div
+        className='max-w-[70px] w-[70px] h-[84px]'
+        key={index}
+        onClick={() => handleIndex(index)}
+      >
+        <LazyLoadImage
+          src={image}
+          className='w-[70px] h-[84px] cursor-pointer'
+          alt={image}
+          style={{ border: `${indexImage === index ? '1px solid #ccc' : ''}` }}
+        />
+      </div>
+    );
+  });
   return (
     <article
       className={`quick-view-product ${
@@ -134,18 +166,22 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
             </div>
           </div>
           <div className='w-full laptop:w-1/2 flex flex-col gap-[20px]'>
-            <h3 className='text-lg font-medium capitalize'>{product.name}</h3>
+            <h3 className='text-lg font-medium capitalize'>{name}</h3>
             <div className='text-darkGray flex gap-[20px]'>
-              <p>Category: {product.details.category.name}</p>
+              <p>Category: {details.category.name}</p>
             </div>
-            <p className='text-md font-bold'>${product.price}</p>
-            <p className='text-darkGray'>{product.details.shortDescription}</p>
+            <p className='text-md font-bold'>${price}</p>
+            <p className='text-darkGray'>{details.shortDescription}</p>
             <div className='flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
                 <label htmlFor='sizes' className='w-1/6 text-darkGray'>
                   Sizes
                 </label>
-                <select name='sizeProduct' id='sizes'>
+                <select
+                  name='sizeProduct'
+                  id='sizes'
+                  onChange={handleSelectSize}
+                >
                   <option value=''>Chose an option</option>
                   {sizes.map((s, index) => (
                     <option key={index} value={s} className='uppercase'>
@@ -158,16 +194,27 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                 <label htmlFor='colors' className='w-1/6 text-darkGray'>
                   Colors
                 </label>
-                <select name='colorProduct' id='colors'>
-                  <option value=''>Chose an option</option>
-                  {colors.map((c, index) =>
-                    c ? (
-                      <option key={index} value={c} className='uppercase'>
-                        {c.toUpperCase()}
+                <select
+                  name='colorProduct'
+                  id='colors'
+                  onChange={handleSelectColor}
+                >
+                  <option value=''>
+                    Chose an option{' '}
+                    {filteredColors.length > 0
+                      ? ''
+                      : '(Please chose size first)'}
+                  </option>
+                  {filteredColors.length > 0 ? (
+                    filteredColors.map((c, index) => (
+                      <option key={index} value={c.color}>
+                        {c.color.toUpperCase()}
                       </option>
-                    ) : (
-                      <></>
-                    )
+                    ))
+                  ) : (
+                    <option disabled>
+                      No colors available for the selected size.
+                    </option>
                   )}
                 </select>
               </div>
@@ -198,17 +245,40 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   +
                 </button>
               </div>
-              <p className='flex gap-[5px] text-md font-medium'>
-                ( <span>{totalQuantity}</span>
-                <span>available</span>
-                <span>{totalQuantity > 1 ? 'products' : 'product'}</span>)
-              </p>
+              {getQuantity?.quantity ? (
+                <p className='flex gap-[5px] text-md font-medium'>
+                  ( <span>{getQuantity.quantity}</span>
+                  <span>available</span>
+                  <span>
+                    {getQuantity.quantity > 1 ? 'products' : 'product'}
+                  </span>
+                  )
+                </p>
+              ) : (
+                <></>
+              )}
             </div>
             <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
               <div>
-                <button className='uppercase px-6 py-3 rounded-full flex items-center gap-[10px] bg-purple hover:bg-black text-white'>
-                  <span>Add to Cart</span>
-                  <FaCartPlus />
+                <button
+                  className={`uppercase px-6 py-3 rounded-full flex items-center gap-[10px] text-white ${
+                    selectedSize && selectedColor
+                      ? 'bg-purple hover:bg-black'
+                      : ' bg-semiBoldGray'
+                  }`}
+                  disabled={selectedSize ? false : true}
+                >
+                  {selectedSize && selectedColor ? (
+                    <>
+                      <span>Add to Cart</span>
+                      <FaCartPlus />
+                    </>
+                  ) : (
+                    <>
+                      <span>Disabled</span>
+                      <FaFaceDizzy />
+                    </>
+                  )}
                 </button>
               </div>
               <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>

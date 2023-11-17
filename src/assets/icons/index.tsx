@@ -11,6 +11,8 @@ import {
   FaHeart,
   FaFacebookF,
   FaXmark,
+  FaFaceDizzy,
+  FaUser,
 } from 'react-icons/fa6';
 
 export {
@@ -26,4 +28,6 @@ export {
   FaHeart,
   FaFacebookF,
   FaXmark,
+  FaFaceDizzy,
+  FaUser,
 };

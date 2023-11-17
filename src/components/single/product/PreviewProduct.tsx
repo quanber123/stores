@@ -22,7 +22,7 @@ function PreviewProduct({ product, refEl }: Props) {
   };
   return (
     <>
-      <article ref={refEl} className='flex flex-col gap-[20px]'>
+      <article ref={refEl} className='max-w-[290px] flex flex-col gap-[20px]'>
         <div className='product-preview relative w-full overflow-hidden cursor-pointer'>
           <LazyLoadImage
             className='max-w-[290px] w-full h-[350px]'

@@ -45,7 +45,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
         observer.disconnect();
       }
     };
-  }, [src, imageSrc]);
+  }, [imageSrc]);
 
   return (
     <img
