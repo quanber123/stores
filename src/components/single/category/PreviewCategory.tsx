@@ -1,4 +1,5 @@
 import { Category } from '@/interfaces/interfaces';
+import { capitalize } from '@/utils/capitalize';
 import { useNavigate } from 'react-router-dom';
 type Props = {
   category: Category;
@@ -11,18 +12,18 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
       <div className='category relative flex'>
         <img
           className='w-full h-full border border-lightGray'
-          src={category.imgSrc}
+          src={category.image}
           alt=''
         />
         <div className='absolute top-0 left-0 z-50 px-[17px] tablet:px-[34px] py-[19px] tablet:py-[38px] w-full h-full flex flex-col justify-between'>
           <div>
             <h4 className='font-bold text-md tablet:text-xl'>
-              {category.title}
+              {capitalize(category.name)}
             </h4>
-            <p>{category.description}</p>
+            <p>{capitalize(category.description)}</p>
           </div>
           <div className='font-bold text-white btn-category'>
-            <button onClick={() => navigate('shop', { replace: true })}>
+            <button onClick={() => navigate(`/shop?f=${category.name}`)}>
               Shop Now
             </button>
           </div>

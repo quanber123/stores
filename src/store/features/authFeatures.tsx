@@ -1,14 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
-interface User {
-  accessToken: string;
-  admin: {
-    username: string;
-    name: string;
-    imageSrc: string;
-  };
-  tokenExpiration: string;
-}
 export const authApi = createApi({
   reducerPath: 'authApi',
   tagTypes: ['Auth'],
@@ -17,9 +8,18 @@ export const authApi = createApi({
   }),
   endpoints: (builder) => {
     return {
-      loginByGoogle: builder.mutation<User, string>({
+      getUser: builder.query({
+        query: (token) => ({
+          url: 'get-user',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      }),
+      loginByGoogle: builder.mutation({
         query: (code) => ({
-          url: '/login-google',
+          url: 'login-google',
           method: 'POST',
           body: { code: code },
         }),
@@ -28,4 +28,4 @@ export const authApi = createApi({
   },
 });
 
-export const { useLoginByGoogleMutation } = authApi;
+export const { useGetUserQuery, useLoginByGoogleMutation } = authApi;

@@ -1,6 +1,6 @@
 export interface Category {
-  imgSrc: string;
-  title: string;
+  name: string;
+  image: string;
   description: string;
 }
 export interface Product {

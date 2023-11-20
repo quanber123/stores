@@ -20,11 +20,10 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setAuth: (state, action) => {
-      console.log(action.payload);
-      if (!state.token) {
-        state.token = action.payload.accessToken;
-        window.localStorage.setItem('accessToken', action.payload.accessToken);
-      }
+      state.token =
+        action.payload.accessToken ??
+        window.localStorage.getItem('accessToken');
+      window.localStorage.setItem('accessToken', action.payload.accessToken);
       state.user.username = action.payload.user.username;
       state.user.name = action.payload.user.name;
       state.user.imageSrc = action.payload.user.imageSrc;
