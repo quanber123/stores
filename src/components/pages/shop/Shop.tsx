@@ -14,7 +14,7 @@ function Shop() {
   const dispatch = useDispatch();
   const categories = useSelector(getAllCategories);
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const queryCategory = searchQuery.get('f') ?? '';
+  const queryCategory = searchQuery.get('c') ?? '';
   const pageCategory = searchQuery.get('p') ?? 1;
   const products = useSelector(getAllProducts);
   const { data: dataProducts, isSuccess: isSuccessProduct } =
@@ -107,7 +107,7 @@ function Shop() {
             <li
               ref={(el) => (subRouteRefs.current[0] = el)}
               className={`sub-routes ${queryCategory === '' ? 'active' : ''}`}
-              data-name='f'
+              data-name='c'
               value={''}
               onClick={handleChangeQuery}
             >
@@ -121,7 +121,7 @@ function Shop() {
                     queryCategory === c.name ? 'active' : ''
                   }`}
                   key={index + 1}
-                  data-name='f'
+                  data-name='c'
                   value={c.name}
                   onClick={handleChangeQuery}
                 >
