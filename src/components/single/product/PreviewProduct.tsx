@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { FaRegHeart } from '@/assets/icons/index';
-import LazyLoadImage from '@/utils/lazyload-image';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/utils/scroll-elements';
@@ -24,7 +23,7 @@ function PreviewProduct({ product, refEl }: Props) {
     <>
       <article ref={refEl} className='max-w-[290px] flex flex-col gap-[20px]'>
         <div className='product-preview relative w-full overflow-hidden cursor-pointer'>
-          <LazyLoadImage
+          <img
             className='max-w-[290px] w-full h-[350px]'
             src={images[0]}
             alt={name}

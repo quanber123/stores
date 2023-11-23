@@ -1,10 +1,13 @@
 import React, { useRef, useLayoutEffect, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
-import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import { FaArrowDownWideShort } from '@/assets/icons/index';
-import { getAllProducts, setAllProducts } from '@/store/slice/productSlice';
+import {
+  getAllProducts,
+  getTotalPage,
+  setAllProducts,
+} from '@/store/slice/productSlice';
 import { getAllCategories } from '@/store/slice/categorySlice';
 import { capitalize } from '@/utils/capitalize';
 import { useSearchParams } from 'react-router-dom';
@@ -13,6 +16,7 @@ import { useGetProductsQuery } from '@/store/features/productFeatures';
 function Shop() {
   const dispatch = useDispatch();
   const categories = useSelector(getAllCategories);
+  const totalPage = useSelector(getTotalPage);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const queryCategory = searchQuery.get('c') ?? '';
   const pageCategory = searchQuery.get('p') ?? 1;
@@ -22,12 +26,11 @@ function Shop() {
       category: queryCategory,
       page: Number(pageCategory),
     });
-  const { isVisible, containerRef } = useObserver();
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
   const handleChangeQuery = useCallback(
-    (e: React.MouseEvent<HTMLLIElement>) => {
+    (e: React.MouseEvent<HTMLElement>) => {
       const name = String(e.currentTarget.getAttribute('data-name'));
       const value = String(e.currentTarget.getAttribute('value'));
       setSearchQuery((prevQuery) => {
@@ -48,6 +51,15 @@ function Shop() {
       dispatch(setAllProducts(dataProducts));
     }
   }, [dispatch, isSuccessProduct, queryCategory, pageCategory]);
+  const renderedProducts = products.map((p, index) => {
+    return (
+      <PreviewProduct
+        key={index}
+        product={p}
+        refEl={(el) => (productRefs.current[index] = el)}
+      />
+    );
+  });
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       subRouteRefs.current.forEach((ref, index) => {
@@ -70,6 +82,13 @@ function Shop() {
         opacity: 1,
         // duration: 0.5,
       });
+    });
+    return () => {
+      ctx.revert();
+    };
+  }, []);
+  useLayoutEffect(() => {
+    const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
         gsap.fromTo(
           ref,
@@ -86,19 +105,8 @@ function Shop() {
         );
       });
     });
-    return () => {
-      ctx.revert();
-    };
-  }, [isVisible]);
-  const renderedProducts = products.map((p, index) => {
-    return (
-      <PreviewProduct
-        key={index}
-        product={p}
-        refEl={(el) => (productRefs.current[index] = el)}
-      />
-    );
-  });
+    return () => ctx.revert();
+  }, [queryCategory, pageCategory]);
   return (
     <>
       <section>
@@ -140,13 +148,33 @@ function Shop() {
           </button>
         </div>
       </section>
-      <section
-        ref={containerRef}
-        className={`${
-          isVisible ? 'opacity-100' : 'opacity-0'
-        } container m-auto product-list`}
-      >
-        {renderedProducts}
+      <section className='container m-auto flex flex-col gap-[40px]'>
+        <div className='product-list'>{renderedProducts}</div>
+        <div
+          className={`${
+            totalPage > 1 ? 'flex' : 'hidden'
+          } justify-center gap-[10px]`}
+        >
+          {(() => {
+            const pageElements = [];
+            for (let index = 1; index <= totalPage; index++) {
+              pageElements.push(
+                <button
+                  className={`pagination ${
+                    index === Number(pageCategory) ? 'active' : ''
+                  }`}
+                  key={index}
+                  data-name='p'
+                  value={index}
+                  onClick={handleChangeQuery}
+                >
+                  {index}
+                </button>
+              );
+            }
+            return pageElements;
+          })()}
+        </div>
       </section>
     </>
   );

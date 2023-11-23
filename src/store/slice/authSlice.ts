@@ -1,6 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
-  token: string | null;
   user: {
     username: string | null;
     name: string | null;
@@ -8,7 +7,6 @@ type InitialState = {
   };
 };
 const initialState: InitialState = {
-  token: window.localStorage.getItem('accessToken') || null,
   user: {
     username: null,
     name: null,
@@ -20,16 +18,12 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setAuth: (state, action) => {
-      state.token =
-        action.payload.accessToken ??
-        window.localStorage.getItem('accessToken');
       window.localStorage.setItem('accessToken', action.payload.accessToken);
       state.user.username = action.payload.user.username;
       state.user.name = action.payload.user.name;
       state.user.imageSrc = action.payload.user.imageSrc;
     },
     removeAuth: (state) => {
-      state.token = null;
       state.user.username = null;
       state.user.name = null;
       state.user.imageSrc = null;

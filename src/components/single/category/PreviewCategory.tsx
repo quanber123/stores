@@ -13,7 +13,7 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
         <img
           className='w-full h-full border border-lightGray'
           src={category.image}
-          alt=''
+          alt={category.name}
         />
         <div className='absolute top-0 left-0 z-50 px-[17px] tablet:px-[34px] py-[19px] tablet:py-[38px] w-full h-full flex flex-col justify-between'>
           <div>
@@ -23,7 +23,7 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
             <p>{capitalize(category.description)}</p>
           </div>
           <div className='font-bold text-white btn-category'>
-            <button onClick={() => navigate(`/shop?f=${category.name}`)}>
+            <button onClick={() => navigate(`/shop?c=${category.name}`)}>
               Shop Now
             </button>
           </div>

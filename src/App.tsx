@@ -16,18 +16,18 @@ const Header = lazy(() => import('@/components/common/Header'));
 const Scroll = lazy(() => import('@/components/common/Scroll'));
 function App() {
   const dispatch = useDispatch();
-  const { data: dataProduct, isSuccess: isSuccessProduct } =
+  const { data: dataProducts, isSuccess: isSuccessProduct } =
     useGetProductsQuery(null);
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const token = window.localStorage.getItem('accessToken');
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token);
   useEffect(() => {
+    if (isSuccessProduct) {
+      dispatch(setAllProducts(dataProducts));
+    }
     if (isSuccessCategories) {
       dispatch(setAllCategories(dataCategories));
-    }
-    if (isSuccessProduct) {
-      dispatch(setAllProducts(dataProduct));
     }
     dispatch(setAllBlogs({ blogs: blogs, totalPage: 0 }));
   }, [isSuccessProduct, isSuccessCategories]);
@@ -35,7 +35,6 @@ function App() {
   useEffect(() => {
     if (token && isSuccessUser) {
       dispatch(setAuth(dataUser));
-      console.log(dataUser);
     }
   }, [isSuccessUser]);
   return (
