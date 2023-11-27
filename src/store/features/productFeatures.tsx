@@ -1,3 +1,4 @@
+import { Category, Product } from '@/interfaces/interfaces';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
@@ -6,13 +7,18 @@ export const productApi = createApi({
   tagTypes: ['Products', 'Categories'],
   endpoints: (builder) => {
     return {
-      getCategories: builder.query({
+      getCategories: builder.query<Category[], void>({
         query: () => 'categories',
         providesTags: ['Categories'],
       }),
-      getProducts: builder.query({
+      getProducts: builder.query<
+        Product[],
+        void | { category?: string; page?: number }
+      >({
         query: (query) =>
-          `products?category=${query.category}&&page=${query.page}`,
+          query
+            ? `products?category=${query.category}&&page=${query.page}`
+            : `products`,
         providesTags: ['Products'],
       }),
       getProductById: builder.query({

@@ -1,4 +1,10 @@
-import React, { useRef, useLayoutEffect, useCallback, useEffect } from 'react';
+import React, {
+  useRef,
+  useLayoutEffect,
+  useCallback,
+  useEffect,
+  useMemo,
+} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
@@ -19,13 +25,21 @@ function Shop() {
   const totalPage = useSelector(getTotalPage);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const queryCategory = searchQuery.get('c') ?? '';
-  const pageCategory = searchQuery.get('p') ?? 1;
+  const pageCategory = searchQuery.get('c')
+    ? 1
+    : searchQuery.get('p')
+    ? Number(searchQuery.get('p'))
+    : 1;
+
   const products = useSelector(getAllProducts);
-  const { data: dataProducts, isSuccess: isSuccessProduct } =
-    useGetProductsQuery({
-      category: queryCategory,
-      page: Number(pageCategory),
-    });
+  const {
+    data: dataProducts,
+    isSuccess: isSuccessProduct,
+    isFetching: isFetchingProduct,
+  } = useGetProductsQuery({
+    category: queryCategory,
+    page: pageCategory,
+  });
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
@@ -37,29 +51,54 @@ function Shop() {
         const newQuery = new URLSearchParams(prevQuery);
         if (value.trim() !== '') {
           newQuery.set(name, value);
+          if (name !== 'p') {
+            newQuery.set('p', '1');
+          }
         } else {
           newQuery.delete(name);
         }
-
         return newQuery.toString();
       });
     },
-    [queryCategory]
+    [searchQuery]
   );
   useEffect(() => {
     if (isSuccessProduct) {
       dispatch(setAllProducts(dataProducts));
     }
-  }, [dispatch, isSuccessProduct, queryCategory, pageCategory]);
-  const renderedProducts = products.map((p, index) => {
-    return (
-      <PreviewProduct
-        key={index}
-        product={p}
-        refEl={(el) => (productRefs.current[index] = el)}
-      />
-    );
-  });
+  }, [isSuccessProduct, dataProducts]);
+  const renderedCategories = useMemo(
+    () =>
+      categories.map((c, index) => {
+        return (
+          <li
+            ref={(el) => (subRouteRefs.current[index + 1] = el)}
+            className={`sub-routes ${queryCategory === c.name ? 'active' : ''}`}
+            key={index + 1}
+            data-name='c'
+            value={c.name}
+            onClick={handleChangeQuery}
+            aria-disabled={isFetchingProduct ? true : false}
+          >
+            {capitalize(c.name)}
+          </li>
+        );
+      }),
+    [products]
+  );
+  const renderedProducts = useMemo(
+    () =>
+      products.map((p, index) => {
+        return (
+          <PreviewProduct
+            key={index}
+            product={p}
+            refEl={(el) => (productRefs.current[index] = el)}
+          />
+        );
+      }),
+    [products]
+  );
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       subRouteRefs.current.forEach((ref, index) => {
@@ -89,24 +128,26 @@ function Shop() {
   }, []);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      productRefs.current.forEach((ref, index) => {
-        gsap.fromTo(
-          ref,
-          {
-            x: 200,
-            opacity: 0,
-          },
-          {
-            x: 0,
-            opacity: 1,
-            duration: 0.5,
-            delay: index * 0.3,
-          }
-        );
-      });
+      if (productRefs.current.length > 0) {
+        productRefs.current.forEach((ref, index) => {
+          gsap.fromTo(
+            ref,
+            {
+              x: 200,
+              opacity: 0,
+            },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.5,
+              delay: index * 0.3,
+            }
+          );
+        });
+      }
     });
     return () => ctx.revert();
-  }, [queryCategory, pageCategory]);
+  }, [products]);
   return (
     <>
       <section>
@@ -118,25 +159,11 @@ function Shop() {
               data-name='c'
               value={''}
               onClick={handleChangeQuery}
+              aria-disabled={isFetchingProduct ? true : false}
             >
               All Products
             </li>
-            {categories.map((c, index) => {
-              return (
-                <li
-                  ref={(el) => (subRouteRefs.current[index + 1] = el)}
-                  className={`sub-routes ${
-                    queryCategory === c.name ? 'active' : ''
-                  }`}
-                  key={index + 1}
-                  data-name='c'
-                  value={c.name}
-                  onClick={handleChangeQuery}
-                >
-                  {capitalize(c.name)}
-                </li>
-              );
-            })}
+            {renderedCategories}
           </ul>
           <button
             ref={btnRef}
@@ -161,12 +188,13 @@ function Shop() {
               pageElements.push(
                 <button
                   className={`pagination ${
-                    index === Number(pageCategory) ? 'active' : ''
+                    index === pageCategory ? 'active' : ''
                   }`}
                   key={index}
                   data-name='p'
                   value={index}
                   onClick={handleChangeQuery}
+                  disabled={isFetchingProduct ? true : false}
                 >
                   {index}
                 </button>

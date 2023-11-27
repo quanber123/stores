@@ -16,6 +16,7 @@ export const authApi = createApi({
             Authorization: `Bearer ${token}`,
           },
         }),
+        providesTags: ['Auth'],
       }),
       loginByGoogle: builder.mutation({
         query: (code) => ({

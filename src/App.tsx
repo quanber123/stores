@@ -17,10 +17,11 @@ const Scroll = lazy(() => import('@/components/common/Scroll'));
 function App() {
   const dispatch = useDispatch();
   const { data: dataProducts, isSuccess: isSuccessProduct } =
-    useGetProductsQuery(null);
+    useGetProductsQuery();
   const { data: dataCategories, isSuccess: isSuccessCategories } =
-    useGetCategoriesQuery(null);
+    useGetCategoriesQuery();
   const token = window.localStorage.getItem('accessToken');
+  console.log(token);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token);
   useEffect(() => {
     if (isSuccessProduct) {
@@ -36,7 +37,7 @@ function App() {
     if (token && isSuccessUser) {
       dispatch(setAuth(dataUser));
     }
-  }, [isSuccessUser]);
+  }, [isSuccessUser, token]);
   return (
     <>
       <Suspense fallback={<Loading />}>
