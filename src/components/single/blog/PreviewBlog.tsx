@@ -1,5 +1,5 @@
 import LazyLoadImage from '@/utils/lazyload-image';
-import { FaArrowRightLong } from '@/assets/icons/index';
+import { FaArrowRightLong } from 'react-icons/fa6';
 import { Blog } from '@/interfaces/interfaces';
 import { useNavigate } from 'react-router-dom';
 import scrollElement from '@/utils/scroll-elements';

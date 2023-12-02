@@ -3,6 +3,10 @@ export interface Category {
   image: string;
   description: string;
 }
+export interface Tag {
+  _id: string;
+  name: string;
+}
 export interface Product {
   _id: string;
   images: string[];

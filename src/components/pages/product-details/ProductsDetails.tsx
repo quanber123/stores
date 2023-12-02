@@ -13,7 +13,7 @@ import {
   FaHeart,
   FaFacebookF,
   FaFaceDizzy,
-} from '@/assets/icons/index';
+} from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
 type Props = {
   product: Product;

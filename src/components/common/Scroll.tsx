@@ -1,4 +1,4 @@
-import { FaAnglesUp } from '@/assets/icons/index';
+import { FaAnglesUp } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
 import scrollElement from '@/utils/scroll-elements';
 function Scroll() {

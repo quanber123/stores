@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
-import { FaAngleLeft, FaAngleRight } from '@/assets/icons/index';
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import Carousel from '@/utils/carousel';
 import { getAllBlogs } from '@/store/slice/blogSlice';
 

@@ -10,7 +10,7 @@ import { NavLink, Link } from 'react-router-dom';
 import scrollElement from '@/utils/scroll-elements';
 import gsap from 'gsap';
 import './Header.css';
-import { FaUser, FaXmark } from '@/assets/icons';
+import { FaUser, FaXmark } from 'react-icons/fa6';
 import LoginByGoogle from '@/auth/LoginByGoogle';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
@@ -121,7 +121,7 @@ function Header() {
           <Link to={`/`}>
             <img
               ref={imgRef}
-              className='max-w-[150px] h-full'
+              className='w-[150px] h-full object-cover'
               src={logo}
               alt='logo'
             />
@@ -149,7 +149,7 @@ function Header() {
                 <div className='py-4 px-8 h-[68px] bg-black text-white flex items-center gap-[20px]'>
                   {user && user.user.imageSrc && user.user.username ? (
                     <img
-                      className='w-[32px] rounded-full border-2 border-white'
+                      className='w-[32px] h-[32px] rounded-full border-2 border-white'
                       src={user.user.imageSrc}
                       alt={user.user.username}
                     />

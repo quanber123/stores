@@ -13,11 +13,16 @@ export const productApi = createApi({
       }),
       getProducts: builder.query<
         Product[],
-        void | { category?: string; page?: number }
+        void | {
+          category?: string;
+          tag?: string;
+          arrange?: string;
+          page?: number;
+        }
       >({
         query: (query) =>
           query
-            ? `products?category=${query.category}&&page=${query.page}`
+            ? `products?category=${query.category}&&tag=${query.tag}&&arrange=${query.arrange}&&page=${query.page}`
             : `products`,
         providesTags: ['Products'],
       }),

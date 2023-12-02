@@ -12,6 +12,8 @@ import {
 } from './store/features/productFeatures';
 import { useGetUserQuery } from './store/features/authFeatures';
 import { setAuth } from './store/slice/authSlice';
+import { useGetTagsQuery } from './store/features/tagsFeatures';
+import { setAllTags } from './store/slice/tagSlice';
 const Header = lazy(() => import('@/components/common/Header'));
 const Scroll = lazy(() => import('@/components/common/Scroll'));
 function App() {
@@ -20,8 +22,8 @@ function App() {
     useGetProductsQuery();
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery();
+  const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery();
   const token = window.localStorage.getItem('accessToken');
-  console.log(token);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token);
   useEffect(() => {
     if (isSuccessProduct) {
@@ -30,8 +32,11 @@ function App() {
     if (isSuccessCategories) {
       dispatch(setAllCategories(dataCategories));
     }
+    if (isSuccessTags) {
+      dispatch(setAllTags(dataTags));
+    }
     dispatch(setAllBlogs({ blogs: blogs, totalPage: 0 }));
-  }, [isSuccessProduct, isSuccessCategories]);
+  }, [isSuccessProduct, isSuccessCategories, isSuccessTags]);
 
   useEffect(() => {
     if (token && isSuccessUser) {

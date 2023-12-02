@@ -8,8 +8,7 @@ import {
   FaFacebookF,
   FaXmark,
   FaFaceDizzy,
-} from '@/assets/icons/index';
-import LazyLoadImage from '@/utils/lazyload-image';
+} from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
 type Props = {
   product: Product;
@@ -94,7 +93,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         return (
           <img
             key={index}
-            className='object-cover'
+            className='w-[268px] h-[332px] tablet:w-[434px] tablet:h-[538px] object-cover'
             src={image}
             alt={`${name} ${index}`}
             style={{
@@ -113,7 +112,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         key={index}
         onClick={() => handleIndex(index)}
       >
-        <LazyLoadImage
+        <img
           src={image}
           className='w-[70px] h-[84px] cursor-pointer'
           alt={image}

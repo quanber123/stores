@@ -5,8 +5,14 @@ import blogImg from '@/assets/images/bg-02.jpg.webp';
 import { blogs } from '@/fake-data/data';
 import './blog.css';
 import PreviewBlog from '@/components/single/blog/PreviewBlog';
-import { FaArrowDownWideShort } from '@/assets/icons/index';
+import { FaArrowDownWideShort } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAllTags } from '@/store/slice/tagSlice';
+import { getAllCategories } from '@/store/slice/categorySlice';
 function Blog() {
+  const dispatch = useDispatch();
+  const categories = useSelector(getAllCategories);
+  const tags = useSelector(getAllTags);
   const [dropdownCategory, setDropdownCategory] = useState(false);
   const blogTitleRef = useRef(null);
   const blogImgRef = useRef(null);
@@ -15,14 +21,6 @@ function Blog() {
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const categoryRefs = useRef<Array<HTMLElement | null>>([]);
   const tagRefs = useRef<Array<HTMLElement | null>>([]);
-  const tags = ['Fashion', 'Lifestyle', 'Denim', 'StreetStyle', 'Crafts'];
-  const categories = [
-    'Fashion',
-    'Beauty',
-    'Street Style',
-    'Life Style',
-    'DIY & Crafts',
-  ];
   const renderedBlog = useMemo(() => {
     return blogs.map((b, index) => {
       return (
@@ -40,9 +38,9 @@ function Blog() {
         <button
           ref={(el) => (categoryRefs.current[index] = el)}
           key={index}
-          className='btn-category-list flex justify-start py-4 opacity-0'
+          className='btn-category-list flex justify-start py-4 opacity-0 capitalize'
         >
-          {c}
+          {c.name}
         </button>
       );
     });
@@ -53,9 +51,9 @@ function Blog() {
         <button
           ref={(el) => (tagRefs.current[index] = el)}
           key={index}
-          className='border border-lightGray text-gray hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl opacity-0'
+          className='border border-lightGray text-gray hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl opacity-0 capitalize'
         >
-          {b}
+          {b.name}
         </button>
       );
     });

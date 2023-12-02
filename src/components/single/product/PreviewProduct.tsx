@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FaRegHeart } from '@/assets/icons/index';
+import { FaRegHeart } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/utils/scroll-elements';
@@ -17,7 +17,7 @@ function PreviewProduct({ product, refEl }: Props) {
   const navigate = useNavigate();
   const handleLinkClick = (id: string) => {
     scrollElement();
-    navigate(`/shop/${id}`, { replace: true });
+    navigate(`/shop/${id}`);
   };
   return (
     <>

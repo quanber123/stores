@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from 'react';
-import { FaCaretLeft, FaCaretRight } from '@/assets/icons';
+import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
 import gsap from 'gsap';
 import Slider from '@/utils/slider';
 import { banners } from '@/fake-data/data';
@@ -69,7 +69,7 @@ function BannerHome() {
           >
             <img
               ref={indexImage === index ? imgRef : null}
-              className='img-slider'
+              className={`img-slider ${indexImage === index ? 'active' : ''}`}
               src={i.src}
               alt=''
               key={index}
