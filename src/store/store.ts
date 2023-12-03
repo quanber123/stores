@@ -7,6 +7,7 @@ import authReducer from './slice/authSlice';
 import { productApi } from './features/productFeatures';
 import { authApi } from './features/authFeatures';
 import { tagApi } from './features/tagsFeatures';
+import { emailApi } from './features/emailFeatures';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -17,12 +18,14 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,
+    [emailApi.reducerPath]: emailApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       productApi.middleware,
       tagApi.middleware,
-      authApi.middleware
+      authApi.middleware,
+      emailApi.middleware
     ),
 });
 

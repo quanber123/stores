@@ -23,7 +23,7 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
             <p>{capitalize(category.description)}</p>
           </div>
           <div className='font-bold text-white btn-category'>
-            <button onClick={() => navigate(`/shop?c=${category.name}`)}>
+            <button onClick={() => navigate(`/shop?category=${category.name}`)}>
               Shop Now
             </button>
           </div>

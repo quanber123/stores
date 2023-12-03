@@ -37,10 +37,8 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   }, [product]);
   const handleSelectSize = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedColor('');
       setSelectedSize((prevSize) => (prevSize = e.target.value));
-      if (selectedSize === '') {
-        setSelectedColor((prevColor) => (prevColor = ''));
-      }
     },
     [selectedSize]
   );
@@ -198,7 +196,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                   id='colors'
                   onChange={handleSelectColor}
                 >
-                  <option value=''>
+                  <option value={''}>
                     Chose an option{' '}
                     {filteredColors.length > 0
                       ? ''

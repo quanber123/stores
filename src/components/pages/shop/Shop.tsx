@@ -28,10 +28,12 @@ function Shop() {
   const categories = useSelector(getAllCategories);
   const tags = useSelector(getAllTags);
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const queryCategory = searchQuery.get('c') ?? '';
-  const queryTag = searchQuery.get('t') ?? '';
+  const queryCategory = searchQuery.get('category') ?? '';
+  const queryTag = searchQuery.get('tag') ?? '';
   const queryArrange = searchQuery.get('arrange') ?? '';
-  const pageCategory = searchQuery.get('p') ? Number(searchQuery.get('p')) : 1;
+  const pageCategory = searchQuery.get('page')
+    ? Number(searchQuery.get('page'))
+    : 1;
   const products = useSelector(getAllProducts);
   const {
     data: dataProducts,
@@ -47,22 +49,46 @@ function Shop() {
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
+  const sortButtons = [
+    {
+      name: 'Default',
+      value: 'default',
+    },
+    {
+      name: 'Newness',
+      value: 'date',
+    },
+    {
+      name: 'Oldness',
+      value: '-date',
+    },
+    {
+      name: 'Price: Low to High',
+      value: '-price',
+    },
+    {
+      name: 'Price: High to Low',
+      value: 'price',
+    },
+  ];
   const handleChangeQuery = useCallback(
     (e: React.MouseEvent<HTMLElement>) => {
-      const name = String(e.currentTarget.getAttribute('data-name'));
-      const value = String(e.currentTarget.getAttribute('value'));
+      const name = e.currentTarget.getAttribute('data-name') || '';
+      const value = e.currentTarget.getAttribute('value') || '';
+
       setSearchQuery((prevQuery) => {
         const newQuery = new URLSearchParams(prevQuery);
+
         if (value.trim() !== '') {
           newQuery.set(name, value);
-          if (name !== 'p') {
-            newQuery.set('p', '1');
+          if (name !== 'page') {
+            newQuery.set('page', '1');
           }
           if (name === 'arrange' && value === 'default') {
-            newQuery.set('p', '1');
-            newQuery.delete('c');
-            newQuery.delete('t');
-            newQuery.delete('arrange');
+            newQuery.set('page', '1');
+            ['category', 'tag', 'arrange'].forEach((param) =>
+              newQuery.delete(param)
+            );
           }
         } else {
           newQuery.delete(name);
@@ -72,6 +98,7 @@ function Shop() {
     },
     [searchQuery]
   );
+
   useEffect(() => {
     if (isSuccessProduct) {
       dispatch(setAllProducts(dataProducts));
@@ -96,7 +123,7 @@ function Shop() {
         ref={(el) => (subRouteRefs.current[index + 1] = el)}
         className={`sub-routes ${queryCategory === c.name ? 'active' : ''}`}
         key={index + 1}
-        data-name='c'
+        data-name='category'
         value={c.name}
         onClick={handleChangeQuery}
         aria-disabled={isFetchingProduct ? true : false}
@@ -115,10 +142,28 @@ function Shop() {
               : 'border-semiBoldGray text-semiBoldGray'
           }`}
           onClick={handleChangeQuery}
-          data-name='t'
+          data-name='tag'
           value={t.name}
         >
           {capitalize(t.name)}
+        </button>
+      </li>
+    );
+  });
+  const renderSortBtn = sortButtons.map((s, index) => {
+    return (
+      <li
+        className={`${
+          queryArrange === s.value ? 'text-purple font-bold' : ''
+        } ${
+          queryArrange === '' && s.value === 'default'
+            ? 'text-purple font-bold'
+            : ''
+        }`}
+        key={index}
+      >
+        <button data-name='arrange' value={s.value} onClick={handleChangeQuery}>
+          {s.name}
         </button>
       </li>
     );
@@ -183,7 +228,7 @@ function Shop() {
             <li
               ref={(el) => (subRouteRefs.current[0] = el)}
               className={`sub-routes ${queryCategory === '' ? 'active' : ''}`}
-              data-name='c'
+              data-name='category'
               value={''}
               onClick={handleChangeQuery}
               aria-disabled={isFetchingProduct ? true : false}
@@ -208,42 +253,7 @@ function Shop() {
           <div className='flex flex-col gap-[10px]'>
             <h3 className='font-bold text-semiBoldGray'>Sort By</h3>
             <ul className='flex flex-col gap-[5px] text-darkGray'>
-              <li>
-                <button
-                  data-name='arrange'
-                  value='default'
-                  onClick={handleChangeQuery}
-                >
-                  Default
-                </button>
-              </li>
-              <li>
-                <button
-                  data-name='arrange'
-                  value='date'
-                  onClick={handleChangeQuery}
-                >
-                  Newness
-                </button>
-              </li>
-              <li>
-                <button
-                  data-name='arrange'
-                  value='-price'
-                  onClick={handleChangeQuery}
-                >
-                  Price: Low to High
-                </button>
-              </li>
-              <li>
-                <button
-                  data-name='arrange'
-                  value='price'
-                  onClick={handleChangeQuery}
-                >
-                  Price: High to Low
-                </button>
-              </li>
+              {renderSortBtn}
             </ul>
           </div>
           <div className='flex flex-col gap-[10px]'>
@@ -253,7 +263,7 @@ function Shop() {
         </div>
       </section>
       {renderedProducts.length && !isFetchingProduct ? (
-        <section className='container m-auto flex flex-col gap-[40px]'>
+        <section className='container min-h-[60vh] m-auto flex flex-col gap-[40px]'>
           <div className='product-list'>{renderedProducts}</div>
           <div
             className={`${
@@ -269,7 +279,7 @@ function Shop() {
                       index === pageCategory ? 'active' : ''
                     }`}
                     key={index}
-                    data-name='p'
+                    data-name='page'
                     value={index}
                     onClick={handleChangeQuery}
                     disabled={isFetchingProduct ? true : false}
@@ -286,7 +296,7 @@ function Shop() {
         <></>
       )}
       {!products.length && !isFetchingProduct ? (
-        <section className='container h-[20vh] flex justify-center items-center'>
+        <section className='container h-[50vh] flex justify-center items-center'>
           <p className='text-2xl tablet:text-4xl text-semiBoldGray font-bold'>
             Not Found Product!
           </p>

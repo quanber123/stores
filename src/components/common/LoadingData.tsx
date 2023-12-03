@@ -1,7 +1,14 @@
 import './Loading.css';
 function LoadingData() {
   return (
-    <section className='h-[50vh] flex justify-center items-center'>
+    <section className='container loaders'>
+      <div className='loader'></div>
+      <div className='loader'></div>
+      <div className='loader'></div>
+      <div className='loader'></div>
+      <div className='loader'></div>
+      <div className='loader'></div>
+      <div className='loader'></div>
       <div className='loader'></div>
     </section>
   );

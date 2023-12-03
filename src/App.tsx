@@ -4,7 +4,10 @@ import { useDispatch } from 'react-redux';
 import Loading from './components/common/Loading';
 import { blogs } from './fake-data/data';
 import { setAllBlogs } from './store/slice/blogSlice';
-import { setAllProducts } from './store/slice/productSlice';
+import {
+  setAllProducts,
+  setAllProductsOverview,
+} from './store/slice/productSlice';
 import { setAllCategories } from './store/slice/categorySlice';
 import {
   useGetCategoriesQuery,
@@ -16,6 +19,7 @@ import { useGetTagsQuery } from './store/features/tagsFeatures';
 import { setAllTags } from './store/slice/tagSlice';
 const Header = lazy(() => import('@/components/common/Header'));
 const Scroll = lazy(() => import('@/components/common/Scroll'));
+const Footer = lazy(() => import('@/components/common/Footer'));
 function App() {
   const dispatch = useDispatch();
   const { data: dataProducts, isSuccess: isSuccessProduct } =
@@ -28,6 +32,7 @@ function App() {
   useEffect(() => {
     if (isSuccessProduct) {
       dispatch(setAllProducts(dataProducts));
+      dispatch(setAllProductsOverview(dataProducts));
     }
     if (isSuccessCategories) {
       dispatch(setAllCategories(dataCategories));
@@ -49,6 +54,7 @@ function App() {
         <Header />
         <Outlet />
         <Scroll />
+        <Footer />
       </Suspense>
     </>
   );

@@ -5,9 +5,9 @@ import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
-import { getAllProducts } from '@/store/slice/productSlice';
+import { getAllProductsOverview } from '@/store/slice/productSlice';
 function StoreHome() {
-  const products = useSelector(getAllProducts);
+  const products = useSelector(getAllProductsOverview);
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
@@ -79,7 +79,7 @@ function StoreHome() {
   }, [isVisible]);
   const handleLinkClick = () => {
     scrollElement();
-    navigate('/shop', { replace: true });
+    navigate('/shop');
   };
   return (
     <section
