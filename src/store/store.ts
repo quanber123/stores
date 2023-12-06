@@ -8,6 +8,7 @@ import { productApi } from './features/productFeatures';
 import { authApi } from './features/authFeatures';
 import { tagApi } from './features/tagsFeatures';
 import { emailApi } from './features/emailFeatures';
+import { categoryApi } from './features/categoryFeatures';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
@@ -18,12 +19,14 @@ export const store = configureStore({
     [authApi.reducerPath]: authApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,
+    [categoryApi.reducerPath]: categoryApi.reducer,
     [emailApi.reducerPath]: emailApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       productApi.middleware,
       tagApi.middleware,
+      categoryApi.middleware,
       authApi.middleware,
       emailApi.middleware
     ),

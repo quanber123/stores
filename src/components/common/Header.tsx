@@ -11,7 +11,6 @@ import scrollElement from '@/utils/scroll-elements';
 import gsap from 'gsap';
 import './Header.css';
 import { FaUser, FaXmark } from 'react-icons/fa6';
-import LoginByGoogle from '@/auth/LoginByGoogle';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
 function Header() {
@@ -158,7 +157,7 @@ function Header() {
                       <FaUser className='text-md' />
                     </div>
                   )}
-                  <div>
+                  {/* <div>
                     {user && user?.user?.username?.length ? (
                       <>
                         <h2>{user.user.name}</h2>
@@ -174,7 +173,7 @@ function Header() {
                         <button className='text-sm'>Login</button>
                       </>
                     )}
-                  </div>
+                  </div> */}
                   <div className='absolute top-2 right-4'>
                     <button
                       className='text-lg'
@@ -185,11 +184,9 @@ function Header() {
                     </button>
                   </div>
                 </div>
-                <div></div>
               </div>
             </div>
           </div>
-          <LoginByGoogle />
         </div>
         <div
           className={`tablet:hidden relative ${

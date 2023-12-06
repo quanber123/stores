@@ -8,7 +8,7 @@ function LoginByGoogle() {
   const navigate = useNavigate();
   const [
     loginByGoogle,
-    { data: dataAdmin, isSuccess: isLoginSuccess, isLoading: isLoginLoading },
+    { data: dataUser, isSuccess: isLoginSuccess, isLoading: isLoginLoading },
   ] = useLoginByGoogleMutation();
   const dispatch = useDispatch();
   const googleLogin = useGoogleLogin({
@@ -19,7 +19,7 @@ function LoginByGoogle() {
   });
   useEffect(() => {
     if (isLoginSuccess) {
-      dispatch(setAuth(dataAdmin));
+      dispatch(setAuth(dataUser));
       navigate('/', { replace: true });
     }
   }, [isLoginSuccess, dispatch]);
