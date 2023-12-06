@@ -1,60 +1,42 @@
 import React, { useState, useEffect, useRef } from 'react';
 type LazyLoadImageProps = {
-  src: string | undefined;
-  alt?: string | null;
-  className?: string;
-  style?: React.CSSProperties | undefined;
+  src: string;
+  alt: string;
+  className: string;
+  style?: React.CSSProperties;
 };
 
-const LazyLoadImage: React.FC<LazyLoadImageProps> = ({
-  src,
-  alt,
-  className,
-  style,
-}) => {
-  const [imageSrc, setImageSrc] = useState(src);
-  const imgRef = useRef<HTMLImageElement | null>(null);
-
+const LazyLoadImage: React.FC<LazyLoadImageProps> = (props) => {
+  const [inView, setInView] = useState(false);
+  const imgRef = useRef<HTMLImageElement>(null);
+  let handleIntersection: IntersectionObserverCallback = (entries, _) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        setInView(true);
+      }
+    });
+  };
+  const configOptions = {
+    rootMargin: '0px',
+    threshold: 0.5,
+  };
   useEffect(() => {
-    let observer: IntersectionObserver | undefined;
-
-    const handleIntersection: IntersectionObserverCallback = (entries, obs) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting && src == null) {
-          setImageSrc(src);
-          if (obs && imgRef.current) {
-            obs.unobserve(imgRef.current);
-          }
-        }
-      });
-    };
-
-    if (imgRef.current && src !== imageSrc) {
-      observer = new IntersectionObserver(handleIntersection, {
-        root: null,
-        rootMargin: '100px',
-        threshold: 0.1,
-      });
-      if (imgRef.current) {
-        observer.observe(imgRef.current);
-      }
+    let observer: IntersectionObserver = new IntersectionObserver(
+      handleIntersection,
+      configOptions
+    );
+    if (imgRef?.current) {
+      observer.observe(imgRef.current);
     }
-
     return () => {
-      if (observer) {
-        observer.disconnect();
-      }
+      observer.disconnect();
     };
-  }, [imageSrc]);
+  }, []);
 
-  return (
-    <img
-      ref={imgRef}
-      className={`${className}`}
-      src={imageSrc}
-      alt={alt ? alt : ''}
-      style={style}
-    />
+  return inView ? (
+    <img {...props} />
+  ) : (
+    <div ref={imgRef} className={`skeleton-img`}></div>
   );
 };
 

@@ -71,33 +71,30 @@ function Shop() {
       value: 'price',
     },
   ];
-  const handleChangeQuery = useCallback(
-    (e: React.MouseEvent<HTMLElement>) => {
-      const name = e.currentTarget.getAttribute('data-name') || '';
-      const value = e.currentTarget.getAttribute('value') || '';
+  const handleChangeQuery = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const name = e.currentTarget.getAttribute('data-name') || '';
+    const value = e.currentTarget.getAttribute('value') || '';
 
-      setSearchQuery((prevQuery) => {
-        const newQuery = new URLSearchParams(prevQuery);
+    setSearchQuery((prevQuery) => {
+      const newQuery = new URLSearchParams(prevQuery);
 
-        if (value.trim() !== '') {
-          newQuery.set(name, value);
-          if (name !== 'page') {
-            newQuery.set('page', '1');
-          }
-          if (name === 'arrange' && value === 'default') {
-            newQuery.set('page', '1');
-            ['category', 'tag', 'arrange'].forEach((param) =>
-              newQuery.delete(param)
-            );
-          }
-        } else {
-          newQuery.delete(name);
+      if (value.trim() !== '') {
+        newQuery.set(name, value);
+        if (name !== 'page') {
+          newQuery.set('page', '1');
         }
-        return newQuery.toString();
-      });
-    },
-    [searchQuery]
-  );
+        if (name === 'arrange' && value === 'default') {
+          newQuery.set('page', '1');
+          ['category', 'tag', 'arrange'].forEach((param) =>
+            newQuery.delete(param)
+          );
+        }
+      } else {
+        newQuery.delete(name);
+      }
+      return newQuery.toString();
+    });
+  }, []);
 
   useEffect(() => {
     if (isSuccessProduct) {
@@ -199,26 +196,28 @@ function Shop() {
     };
   }, []);
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      if (products.length > 0) {
-        productRefs.current.forEach((ref, index) => {
-          gsap.fromTo(
-            ref,
-            {
-              x: 200,
-              opacity: 0,
-            },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.5,
-              delay: index * 0.3,
-            }
-          );
-        });
-      }
-    });
-    return () => ctx.revert();
+    if (productRefs.current) {
+      const ctx = gsap.context(() => {
+        productRefs.current
+          .filter((ref) => ref)
+          .forEach((ref, index) => {
+            gsap.fromTo(
+              ref,
+              {
+                x: 200,
+                opacity: 0,
+              },
+              {
+                x: 0,
+                opacity: 1,
+                duration: 0.5,
+                delay: index * 0.3,
+              }
+            );
+          });
+      });
+      return () => ctx.revert();
+    }
   }, [products]);
   return (
     <>

@@ -10,6 +10,7 @@ import {
   FaFaceDizzy,
 } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
+import LazyLoadImage from '@/utils/lazyload-image';
 type Props = {
   product: Product;
   status: number | string | null;
@@ -89,7 +90,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
     () =>
       images.map((image, index) => {
         return (
-          <img
+          <LazyLoadImage
             key={index}
             className='w-[268px] h-[332px] tablet:w-[434px] tablet:h-[538px] object-cover'
             src={image}
@@ -110,7 +111,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
         key={index}
         onClick={() => handleIndex(index)}
       >
-        <img
+        <LazyLoadImage
           src={image}
           className='w-[70px] h-[84px] cursor-pointer'
           alt={image}

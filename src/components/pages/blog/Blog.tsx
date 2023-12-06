@@ -120,7 +120,7 @@ function Blog() {
     <>
       <section className='relative h-[240px] overflow-hidden'>
         <div className='w-full h-full' ref={blogImgRef}>
-          <LazyLoadImage src={blogImg} className='w-full h-full' />
+          <LazyLoadImage src={blogImg} alt='' className='w-full h-full' />
         </div>
         <h2
           ref={blogTitleRef}

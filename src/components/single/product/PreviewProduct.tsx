@@ -5,6 +5,7 @@ import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/utils/scroll-elements';
 import './product.css';
 import QuickViewProduct from './QuickViewProduct';
+import LazyLoadImage from '@/utils/lazyload-image';
 type Props = {
   product: Product;
   refEl?: (el: HTMLElement) => HTMLElement;
@@ -26,7 +27,7 @@ function PreviewProduct({ product, refEl }: Props) {
         className='m-auto max-w-[250px] flex flex-col gap-[20px]'
       >
         <div className='product-preview relative w-full overflow-hidden cursor-pointer'>
-          <img
+          <LazyLoadImage
             className='max-w-[290px] w-full h-[350px]'
             src={images[0]}
             alt={name}
@@ -37,12 +38,12 @@ function PreviewProduct({ product, refEl }: Props) {
         </div>
         <div className='flex flex-col gap-[5px]'>
           <div className='flex justify-between items-center text-gray font-medium'>
-            <h5
+            <h6
               className='cursor-pointer capitalize'
               onClick={() => handleLinkClick(_id)}
             >
               {name}
-            </h5>
+            </h6>
             <FaRegHeart className='cursor-pointer hover:text-purple transition-colors' />
           </div>
           <p>${price}</p>

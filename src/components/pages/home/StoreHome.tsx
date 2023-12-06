@@ -1,13 +1,28 @@
-import { useRef, useLayoutEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import {
+  useRef,
+  useLayoutEffect,
+  useMemo,
+  useEffect,
+  useCallback,
+} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
-import { useNavigate } from 'react-router-dom';
-import { getAllProductsOverview } from '@/store/slice/productSlice';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  getAllProductsOverview,
+  setAllProductsOverview,
+} from '@/store/slice/productSlice';
+import { useGetProductOverviewQuery } from '@/store/features/productFeatures';
 function StoreHome() {
+  const dispatch = useDispatch();
   const products = useSelector(getAllProductsOverview);
+  const { data: dataProductOverview, isSuccess: isSuccessProductOverview } =
+    useGetProductOverviewQuery();
+  const [queryParams, setQueryParams] = useSearchParams();
+  const queryProduct = queryParams.get('product') ?? '';
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
@@ -23,6 +38,29 @@ function StoreHome() {
       />
     ));
   }, [products]);
+  useEffect(() => {
+    if (isSuccessProductOverview) {
+      dispatch(setAllProductsOverview(dataProductOverview));
+    }
+  }, [isSuccessProductOverview]);
+  const handleLinkClick = () => {
+    scrollElement();
+    navigate('/shop');
+  };
+  const handleQueryChange = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    const name = e.currentTarget.getAttribute('data-name') || '';
+    const value = e.currentTarget.getAttribute('value') || '';
+    setQueryParams((prevQuery) => {
+      const newQuery = new URLSearchParams(prevQuery);
+      if (value.trim() !== '') {
+        newQuery.set(name, value);
+      } else {
+        newQuery.delete(name);
+      }
+      return newQuery.toString();
+    });
+  }, []);
+
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -77,10 +115,6 @@ function StoreHome() {
       ctx.revert();
     };
   }, [isVisible]);
-  const handleLinkClick = () => {
-    scrollElement();
-    navigate('/shop');
-  };
   return (
     <section
       ref={containerRef}
@@ -97,15 +131,24 @@ function StoreHome() {
       </h2>
       <div>
         <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] text-gray font-bold'>
-          {['Best', 'Seller', 'Featured', 'Top Rate'].map((text, index) => (
-            <li
-              key={index}
-              ref={(el) => (routeRefs.current[index] = el)}
-              className='hover:text-semiBoldGray transition-colors cursor-pointer'
-            >
-              {text}
-            </li>
-          ))}
+          {['Best Seller', 'Featured', 'Top Rate'].map((text, index) => {
+            return (
+              <li key={index} ref={(el) => (routeRefs.current[index] = el)}>
+                <button
+                  className={`hover:text-semiBoldGray ${
+                    queryProduct === text.toLowerCase()
+                      ? 'text-semiBoldGray'
+                      : ''
+                  }`}
+                  data-name='product'
+                  value={text.toLowerCase()}
+                  onClick={handleQueryChange}
+                >
+                  {text}
+                </button>
+              </li>
+            );
+          })}
         </ul>
       </div>
       <div className='container product-list mt-4'>{renderedProduct}</div>
