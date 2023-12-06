@@ -4,13 +4,9 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Products', 'Categories'],
+  tagTypes: ['Products', 'ProductsOverview'],
   endpoints: (builder) => {
     return {
-      getCategories: builder.query<Category[], void>({
-        query: () => 'categories',
-        providesTags: ['Categories'],
-      }),
       getProducts: builder.query<
         Product[],
         void | {
@@ -26,6 +22,10 @@ export const productApi = createApi({
             : `products`,
         providesTags: ['Products'],
       }),
+      getProductOverview: builder.query<Product[], void>({
+        query: () => `products-overview`,
+        providesTags: ['ProductsOverview'],
+      }),
       getProductById: builder.query({
         query: (id) => `products/${id}`,
         providesTags: (_, __, id) => [{ type: 'Products', id }],
@@ -35,7 +35,7 @@ export const productApi = createApi({
 });
 
 export const {
-  useGetCategoriesQuery,
   useGetProductsQuery,
+  useGetProductOverviewQuery,
   useGetProductByIdQuery,
 } = productApi;
