@@ -2,7 +2,7 @@ import Blog from '@/components/pages/blog/Blog';
 
 function BlogViews() {
   return (
-    <main className='pt-[84px]'>
+    <main className='py-[84px]'>
       <Blog />
     </main>
   );

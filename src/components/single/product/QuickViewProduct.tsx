@@ -1,5 +1,4 @@
 import React, { useState, useCallback, ChangeEvent, useMemo } from 'react';
-import Slider from '@/utils/slider';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -11,6 +10,7 @@ import {
 } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
 import LazyLoadImage from '@/utils/lazyload-image';
+import { useSlider } from '@/components/customHooks/useSlider';
 type Props = {
   product: Product;
   status: number | string | null;
@@ -21,7 +21,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const { indexImage, handlePrev, handleNext, handleIndex } = Slider(
+  const { indexImage, handlePrev, handleNext, handleIndex } = useSlider(
     product.images?.length
   );
   const totalQuantity = useMemo(
@@ -39,13 +39,13 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   const handleSelectSize = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setSelectedColor('');
-      setSelectedSize((prevSize) => (prevSize = e.target.value));
+      setSelectedSize(e.target.value);
     },
     [selectedSize]
   );
   const handleSelectColor = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedColor((prevColor) => (prevColor = e.target.value));
+      setSelectedColor(e.target.value);
     },
     [selectedColor]
   );

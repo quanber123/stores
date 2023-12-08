@@ -20,7 +20,7 @@ function StoreHome() {
   const dispatch = useDispatch();
   const products = useSelector(getAllProductsOverview);
   const { data: dataProductOverview, isSuccess: isSuccessProductOverview } =
-    useGetProductOverviewQuery();
+    useGetProductOverviewQuery(null);
   const [queryParams, setQueryParams] = useSearchParams();
   const queryProduct = queryParams.get('product') ?? '';
   const navigate = useNavigate();
@@ -130,15 +130,13 @@ function StoreHome() {
         Store Overview
       </h2>
       <div>
-        <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] text-gray font-bold'>
+        <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] font-bold'>
           {['Best Seller', 'Featured', 'Top Rate'].map((text, index) => {
             return (
               <li key={index} ref={(el) => (routeRefs.current[index] = el)}>
                 <button
-                  className={`hover:text-semiBoldGray ${
-                    queryProduct === text.toLowerCase()
-                      ? 'text-semiBoldGray'
-                      : ''
+                  className={`text-semiBoldGray hover:text-purple ${
+                    queryProduct === text.toLowerCase() ? 'text-purple' : ''
                   }`}
                   data-name='product'
                   value={text.toLowerCase()}

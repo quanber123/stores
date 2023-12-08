@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
-function Carousel(length: number) {
+export const useCarousel = (length: number) => {
   const [breakpoints, setBreakPoints] = useState<number>(4);
   const [indexSlider, setIndexSlider] = useState<number>(0);
 
@@ -53,6 +53,4 @@ function Carousel(length: number) {
   }, [breakpoints]);
 
   return { breakpoints, width, indexSlider, handlePrev, handleNext };
-}
-
-export default Carousel;
+};

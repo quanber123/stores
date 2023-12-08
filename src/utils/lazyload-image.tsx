@@ -6,9 +6,9 @@ type LazyLoadImageProps = {
   style?: React.CSSProperties;
 };
 
-const LazyLoadImage: React.FC<LazyLoadImageProps> = (props) => {
+function LazyLoadImage(props: LazyLoadImageProps) {
   const [inView, setInView] = useState(false);
-  const imgRef = useRef<HTMLImageElement>(null);
+  const imgRef = useRef(null);
   let handleIntersection: IntersectionObserverCallback = (entries, _) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -25,7 +25,7 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = (props) => {
       handleIntersection,
       configOptions
     );
-    if (imgRef?.current) {
+    if (imgRef.current) {
       observer.observe(imgRef.current);
     }
     return () => {
@@ -38,6 +38,6 @@ const LazyLoadImage: React.FC<LazyLoadImageProps> = (props) => {
   ) : (
     <div ref={imgRef} className={`skeleton-img`}></div>
   );
-};
+}
 
 export default LazyLoadImage;

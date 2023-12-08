@@ -4,7 +4,7 @@ import CategoryHome from '@/components/pages/home/CategoryHome';
 import StoreHome from '@/components/pages/home/StoreHome';
 function HomeViews() {
   return (
-    <main>
+    <main className='pb-[85px]'>
       <BannerHome />
       <CategoryHome />
       <StoreHome />

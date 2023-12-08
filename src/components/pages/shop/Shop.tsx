@@ -21,7 +21,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery } from '@/store/features/productFeatures';
 import './shop.css';
 import { getAllTags } from '@/store/slice/tagSlice';
-import LoadingData from '@/components/common/LoadingData';
+import LoadingData from '@/components/common/Loading/LoadingData';
 function Shop() {
   const dispatch = useDispatch();
   const totalPage = useSelector(getTotalPage);
@@ -71,30 +71,33 @@ function Shop() {
       value: 'price',
     },
   ];
-  const handleChangeQuery = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const name = e.currentTarget.getAttribute('data-name') || '';
-    const value = e.currentTarget.getAttribute('value') || '';
+  const handleChangeQuery = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const name = e.currentTarget.getAttribute('data-name') || '';
+      const value = e.currentTarget.getAttribute('value') || '';
 
-    setSearchQuery((prevQuery) => {
-      const newQuery = new URLSearchParams(prevQuery);
+      setSearchQuery((prevQuery) => {
+        const newQuery = new URLSearchParams(prevQuery);
 
-      if (value.trim() !== '') {
-        newQuery.set(name, value);
-        if (name !== 'page') {
-          newQuery.set('page', '1');
+        if (value.trim() !== '') {
+          newQuery.set(name, value);
+          if (name !== 'page') {
+            newQuery.set('page', '1');
+          }
+          if (value === 'default') {
+            newQuery.set('page', '1');
+            ['tag', 'arrange'].forEach((param) => newQuery.delete(param));
+          } else {
+            newQuery.set(name, value);
+          }
+        } else {
+          newQuery.delete(name);
         }
-        if (name === 'arrange' && value === 'default') {
-          newQuery.set('page', '1');
-          ['category', 'tag', 'arrange'].forEach((param) =>
-            newQuery.delete(param)
-          );
-        }
-      } else {
-        newQuery.delete(name);
-      }
-      return newQuery.toString();
-    });
-  }, []);
+        return newQuery.toString();
+      });
+    },
+    [searchQuery]
+  );
 
   useEffect(() => {
     if (isSuccessProduct) {
@@ -296,7 +299,7 @@ function Shop() {
       )}
       {!products.length && !isFetchingProduct ? (
         <section className='container h-[50vh] flex justify-center items-center'>
-          <p className='text-2xl tablet:text-4xl text-semiBoldGray font-bold'>
+          <p className='text-lg mobile:text-xl mobileLg:text-2xl tablet:text-4xl text-semiBoldGray font-bold'>
             Not Found Product!
           </p>
         </section>
@@ -307,5 +310,4 @@ function Shop() {
     </>
   );
 }
-
 export default Shop;

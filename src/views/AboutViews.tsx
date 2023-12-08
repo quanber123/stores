@@ -2,7 +2,7 @@ import About from '@/components/pages/about/About';
 
 function AboutViews() {
   return (
-    <main className='pt-[84px]'>
+    <main className='py-[84px]'>
       <About />
     </main>
   );

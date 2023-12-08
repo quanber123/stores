@@ -86,7 +86,7 @@ h5 {
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm (...) khi dòng bị cắt */
   /* Các thuộc tính khác như kích thước, màu sắc, vv. */
 }
-nav {
+header {
   /* position: -webkit-sticky; */
   /* position: sticky; */
   position: fixed;
@@ -100,7 +100,7 @@ nav {
   -webkit-transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
   z-index: 100;
 }
-nav.active {
+header.active {
   background: #fff;
   height: 74px;
   box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);

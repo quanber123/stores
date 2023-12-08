@@ -5,7 +5,7 @@ import MoreInformationProduct from '@/components/pages/product-details/MoreInfor
 import RelatedProducts from '@/components/pages/product-details/RelatedProducts';
 import gsap from 'gsap';
 import { useGetProductByIdQuery } from '@/store/features/productFeatures';
-import Loading from '@/components/common/Loading';
+import Loading from '@/components/common/Loading/Loading';
 import { Product } from '@/interfaces/interfaces';
 function ProductDetailsViews() {
   const { id } = useParams();
@@ -57,7 +57,7 @@ function ProductDetailsViews() {
     return <>{navigate('/not-found', { replace: true })}</>;
   }
   return isSuccessProduct && dataProduct ? (
-    <main className='pt-[120px]'>
+    <main className='py-[120px]'>
       <ProductDetails product={dataProduct.product} refEl={productRef} />
       <MoreInformationProduct
         product={dataProduct.product}

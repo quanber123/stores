@@ -5,7 +5,6 @@ import React, {
   LegacyRef,
   useMemo,
 } from 'react';
-import Slider from '@/utils/slider';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -15,6 +14,7 @@ import {
   FaFaceDizzy,
 } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
+import { useSlider } from '@/components/customHooks/useSlider';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
@@ -24,7 +24,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-  const { indexImage, handlePrev, handleNext, handleIndex } = Slider(
+  const { indexImage, handlePrev, handleNext, handleIndex } = useSlider(
     images.length
   );
   const totalQuantity = useMemo(
@@ -41,16 +41,16 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   }, [product, refEl]);
   const handleSelectSize = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedSize((prevSize) => (prevSize = e.target.value));
+      setSelectedSize(e.target.value);
       if (selectedSize === '') {
-        setSelectedColor((prevColor) => (prevColor = ''));
+        setSelectedColor('');
       }
     },
     [selectedSize]
   );
   const handleSelectColor = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedColor((prevColor) => (prevColor = e.target.value));
+      setSelectedColor(e.target.value);
     },
     [selectedColor]
   );

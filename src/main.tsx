@@ -6,6 +6,19 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { GoogleOAuthProvider } from '@react-oauth/google';
 import './index.css';
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker
+    .register('/sw.js')
+    .then((registration) => {
+      console.log('Service Worker registered with scope:', registration.scope);
+    })
+    .catch((error) => {
+      console.error('Error registering Service Worker:', error);
+    });
+}
+
+// ... your React app setup
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <GoogleOAuthProvider clientId={import.meta.env.VITE_CLIENT_ID}>

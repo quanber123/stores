@@ -1,6 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-
-function Slider(length: number) {
+export const useSlider = (length: number) => {
   const [indexImage, setIndexImage] = useState<number>(0);
   const handleIndex = (index: number) => {
     setIndexImage(index);
@@ -24,6 +23,4 @@ function Slider(length: number) {
     return clearInterval(infiniteSlider);
   }, []);
   return { indexImage, handlePrev, handleNext, handleIndex };
-}
-
-export default Slider;
+};

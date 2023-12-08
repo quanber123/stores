@@ -1,9 +1,9 @@
 import { useRef, useLayoutEffect } from 'react';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
 import gsap from 'gsap';
-import Slider from '@/utils/slider';
 import { banners } from '@/fake-data/data';
 import { useNavigate } from 'react-router-dom';
+import { useSlider } from '@/components/customHooks/useSlider';
 function BannerHome() {
   const navigate = useNavigate();
   let imgRef = useRef(null);
@@ -12,7 +12,7 @@ function BannerHome() {
   let btnRef = useRef(null);
   let btnNext = useRef(null);
   let btnPrev = useRef(null);
-  const { indexImage, handlePrev, handleNext } = Slider(banners.length);
+  const { indexImage, handlePrev, handleNext } = useSlider(banners.length);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(imgRef.current, {

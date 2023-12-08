@@ -1,7 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import Loading from './components/common/Loading';
 import { blogs } from './fake-data/data';
 import { setAllBlogs } from './store/slice/blogSlice';
 import { setAllCategories } from './store/slice/categorySlice';
@@ -10,16 +9,19 @@ import { setAuth } from './store/slice/authSlice';
 import { useGetTagsQuery } from './store/features/tagsFeatures';
 import { setAllTags } from './store/slice/tagSlice';
 import { useGetCategoriesQuery } from './store/features/categoryFeatures';
-const Header = lazy(() => import('@/components/common/Header'));
-const Scroll = lazy(() => import('@/components/common/Scroll'));
-const Footer = lazy(() => import('@/components/common/Footer'));
+import Loading from './components/common/Loading/Loading';
+const Header = lazy(() => import('@/components/common/Header/Header'));
+const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
+const Footer = lazy(() => import('@/components/common/Footer/Footer'));
 function App() {
   const dispatch = useDispatch();
   const { data: dataCategories, isSuccess: isSuccessCategories } =
-    useGetCategoriesQuery();
-  const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery();
+    useGetCategoriesQuery(null);
+  const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery(null);
   const token = window.localStorage.getItem('accessToken');
-  const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token);
+  const { data: dataUser, isSuccess: isSuccessUser } = token
+    ? useGetUserQuery(token)
+    : { data: undefined, isSuccess: false };
   useEffect(() => {
     if (isSuccessCategories) {
       dispatch(setAllCategories(dataCategories));

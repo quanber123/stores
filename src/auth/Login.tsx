@@ -1,8 +1,18 @@
 import { useState, useEffect } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle } from 'react-icons/fa6';
+import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { authInfo } from '@/store/slice/authSlice';
 import './login.css';
 function Login() {
+  const user = useSelector(authInfo);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (user.username) {
+      navigate('/', { replace: true });
+    }
+  }, [user]);
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const googleLogin = () => {
     window.open('http://localhost:3000/api/auth/google', '_self');
@@ -10,19 +20,19 @@ function Login() {
   const facebookLogin = () => {
     window.open('http://localhost:3000/api/auth/facebook', '_self');
   };
-  useEffect(() => {
-    fetch('http://localhost:3000/api/auth/login/success', {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('User Info:', data);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   fetch('http://localhost:3000/api/auth/login/success', {
+  //     method: 'GET',
+  //     credentials: 'include',
+  //   })
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       console.log('User Info:', data);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error:', error);
+  //     });
+  // }, []);
   return (
     <main className='login-form py-[128px] px-[24px] w-full h-full flex justify-center items-center'>
       <form

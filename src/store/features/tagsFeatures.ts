@@ -1,6 +1,5 @@
-import { Tag } from '@/interfaces/interfaces';
+import providesList from '@/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const tagApi = createApi({
   reducerPath: 'tagApi',
@@ -8,9 +7,9 @@ export const tagApi = createApi({
   tagTypes: ['Tags'],
   endpoints: (builder) => {
     return {
-      getTags: builder.query<Tag[], void>({
+      getTags: builder.query({
         query: () => 'tags',
-        providesTags: ['Tags'],
+        providesTags: (result) => providesList(result, 'Tags'),
       }),
     };
   },

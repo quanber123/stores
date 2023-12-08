@@ -1,16 +1,15 @@
-import { useRef, useMemo, useState, useCallback, useLayoutEffect } from 'react';
+import { useRef, useMemo, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import LazyLoadImage from '@/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
 import { blogs } from '@/fake-data/data';
-import './blog.css';
 import PreviewBlog from '@/components/single/blog/PreviewBlog';
 import { FaArrowDownWideShort } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getAllTags } from '@/store/slice/tagSlice';
 import { getAllCategories } from '@/store/slice/categorySlice';
+import './blog.css';
 function Blog() {
-  const dispatch = useDispatch();
   const categories = useSelector(getAllCategories);
   const tags = useSelector(getAllTags);
   const [dropdownCategory, setDropdownCategory] = useState(false);
@@ -58,9 +57,9 @@ function Blog() {
       );
     });
   }, [tags]);
-  const handleDropdown = useCallback(() => {
+  const handleDropdown = () => {
     setDropdownCategory((prevState) => !prevState);
-  }, [dropdownCategory]);
+  };
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.from(blogImgRef.current, {

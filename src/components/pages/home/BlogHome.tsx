@@ -4,17 +4,16 @@ import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import Carousel from '@/utils/carousel';
 import { getAllBlogs } from '@/store/slice/blogSlice';
+import { useCarousel } from '@/components/customHooks/useCarousel';
 
 function BlogHome() {
   const blogs = useSelector(getAllBlogs);
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
-  const { width, indexSlider, breakpoints, handlePrev, handleNext } = Carousel(
-    blogs.length
-  );
+  const { width, indexSlider, breakpoints, handlePrev, handleNext } =
+    useCarousel(blogs.length);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       blogRefs.current.forEach((ref, index) => {

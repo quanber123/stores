@@ -1,3 +1,47 @@
+.user {
+  cursor: pointer;
+  position: relative;
+}
+.user::before {
+  position: absolute;
+  content: 'Account';
+  top: 180%;
+  left: 50%;
+  transform: translate(-50%);
+  width: 96px;
+  height: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333333;
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  -webkit-transition: opacity 0.1s linear;
+  z-index: 1;
+}
+.user::after {
+  position: absolute;
+  top: 155%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  content: '';
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 10px solid #333333;
+  opacity: 0;
+  transition: opacity 0.1s linear;
+  -webkit-transition: opacity 0.1s linear;
+  z-index: -1;
+}
+.user:hover::after,
+.user:hover::before {
+  opacity: 1;
+}
 .bars::before {
   position: absolute;
   content: '';
@@ -10,7 +54,7 @@
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
   opacity: 1;
-  z-index: -1;
+  z-index: 20;
 }
 .bars:first-child::before {
   top: 30%;
@@ -51,8 +95,8 @@
     color: #333333;
     /* gap: 80px; */
     transition: width 0.5s, opacity 0.5s;
+    z-index: 10;
     overflow: hidden;
-    z-index: 5;
   }
   .routes.active {
     width: 100%;
@@ -86,38 +130,3 @@
   width: 300px;
   background-color: #fff;
 }
-
-/* .dropdown-user {
-  position: relative;
-  width: 48px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-.dropdown-user:hover .btn-login {
-  opacity: 1;
-}
-.btn-login {
-  position: absolute;
-  top: 200%;
-  width: calc(100% + 48px);
-  height: 36px;
-  background-color: #333333;
-  color: #fff;
-  z-index: 10;
-  opacity: 0;
-}
-
-.btn-login::after {
-  position: absolute;
-  top: -20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  content: '';
-  width: 0;
-  height: 0;
-  border-left: 15px solid transparent;
-  border-right: 15px solid transparent;
-  border-bottom: 15px solid #333333;
-  z-index: -1;
-} */

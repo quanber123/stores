@@ -1,6 +1,5 @@
-import { Category } from '@/interfaces/interfaces';
+import providesList from '@/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const categoryApi = createApi({
   reducerPath: 'categoryApi',
@@ -8,9 +7,9 @@ export const categoryApi = createApi({
   tagTypes: ['Categories'],
   endpoints: (builder) => {
     return {
-      getCategories: builder.query<Category[], void>({
+      getCategories: builder.query({
         query: () => 'categories',
-        providesTags: ['Categories'],
+        providesTags: (result) => providesList(result, 'Categories'),
       }),
     };
   },

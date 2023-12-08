@@ -118,7 +118,7 @@ function About() {
     <>
       <section className={`relative h-[240px] overflow-hidden`}>
         <div className='w-full h-full' ref={aboutImgRef}>
-          <LazyLoadImage src={bgImg} className='w-full h-full' />
+          <LazyLoadImage src={bgImg} alt='' className='w-full h-full' />
         </div>
         <h2
           ref={aboutTitleRef}

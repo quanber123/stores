@@ -42,7 +42,7 @@ function SingleAbout({
         )}
       </div>
       <div className='article-about-img laptop:max-w-[370px] laptop:max-h-[370px]'>
-        <LazyLoadImage src={srcImg} className='w-full h-full' />
+        <LazyLoadImage src={srcImg} alt='' className='w-full h-full' />
       </div>
     </article>
   );

@@ -1,5 +1,5 @@
-import { Category, Product } from '@/interfaces/interfaces';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import providesList from '@/utils/providesList';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
@@ -7,28 +7,20 @@ export const productApi = createApi({
   tagTypes: ['Products', 'ProductsOverview'],
   endpoints: (builder) => {
     return {
-      getProducts: builder.query<
-        Product[],
-        void | {
-          category?: string;
-          tag?: string;
-          arrange?: string;
-          page?: number;
-        }
-      >({
+      getProducts: builder.query({
         query: (query) =>
           query
             ? `products?category=${query.category}&&tag=${query.tag}&&arrange=${query.arrange}&&page=${query.page}`
             : `products`,
-        providesTags: ['Products'],
+        providesTags: (result) => providesList(result, 'Products'),
       }),
-      getProductOverview: builder.query<Product[], void>({
+      getProductOverview: builder.query({
         query: () => `products-overview`,
-        providesTags: ['ProductsOverview'],
+        providesTags: (result) => providesList(result, 'ProductsOverview'),
       }),
       getProductById: builder.query({
         query: (id) => `products/${id}`,
-        providesTags: (_, __, id) => [{ type: 'Products', id }],
+        providesTags: (result) => providesList(result, 'Products'),
       }),
     };
   },
