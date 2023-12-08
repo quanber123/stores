@@ -1,6 +1,6 @@
 // public/sw.js
 
-const cacheName = 'my-app-cache';
+const cacheName = 'CozaStore-cache';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
