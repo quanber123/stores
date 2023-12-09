@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import './Header.css';
 import DesktopNavBar from './desktop';
 // import Router from './desktop/Route';
@@ -9,7 +9,7 @@ import DesktopNavBar from './desktop';
 // import RegisterModal from '@/components/modal/register/Register';
 function Header() {
   const [sticky, setSticky] = useState(false);
-  const [dropdownRoutes, setDropdownRoutes] = useState(false);
+  // const [dropdownRoutes, setDropdownRoutes] = useState(false);
   useEffect(() => {
     const stickyFunc = () => {
       if (window.pageYOffset > 75) {
@@ -23,9 +23,9 @@ function Header() {
       window.removeEventListener('scroll', stickyFunc);
     };
   }, []);
-  const handleDropdownRoutes = useCallback(() => {
-    setDropdownRoutes((prevState) => (prevState = !prevState));
-  }, [dropdownRoutes]);
+  // const handleDropdownRoutes = useCallback(() => {
+  //   setDropdownRoutes((prevState) => (prevState = !prevState));
+  // }, [dropdownRoutes]);
   return (
     <header className={`${sticky ? 'active' : ''} text-sm`}>
       {/* <nav className='container relative flex justify-start items-center gap-[20px] tablet:gap-[80px]'>
