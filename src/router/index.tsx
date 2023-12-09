@@ -8,7 +8,6 @@ const ProductDetailsViews = lazy(() => import('@/views/ProductDetailsViews'));
 const BlogViews = lazy(() => import('@/views/BlogViews'));
 const BlogDetailsViews = lazy(() => import('@/views/BlogDetailsViews'));
 const NotFoundViews = lazy(() => import('@/views/NotFoundViews'));
-const LoginViews = lazy(() => import('@/auth/Login'));
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -47,10 +46,6 @@ const routes: RouteObject[] = [
             element: <BlogDetailsViews />,
           },
         ],
-      },
-      {
-        path: 'login',
-        element: <LoginViews />,
       },
       {
         path: '*',

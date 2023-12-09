@@ -4,6 +4,7 @@ import productReducer from './slice/productSlice';
 import categoryReducer from './slice/categorySlice';
 import tagReducer from './slice/tagSlice';
 import authReducer from './slice/authSlice';
+import modalReducer from './slice/modalSlice';
 import { productApi } from './features/productFeatures';
 import { authApi } from './features/authFeatures';
 import { tagApi } from './features/tagsFeatures';
@@ -16,6 +17,7 @@ export const store = configureStore({
     products: productReducer,
     blogs: blogReducer,
     tags: tagReducer,
+    modal: modalReducer,
     [authApi.reducerPath]: authApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,

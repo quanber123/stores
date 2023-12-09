@@ -1,5 +1,3 @@
-// public/sw.js
-
 const cacheName = 'CozaStore-cache';
 
 self.addEventListener('install', (event) => {
@@ -18,14 +16,14 @@ self.addEventListener('install', (event) => {
         '/components/common/Loading/Loading.tsx',
         '/components/common/Loading/LoadingData.tsx',
         '/components/common/ScrollElement/Scroll.tsx',
-        '/views/HomeViews.tsx',
-        '/views/AboutViews.tsx',
-        '/views/ShopViews.tsx',
-        '/views/BlogViews.tsx',
-        '/views/NotFoundViews.tsx',
+        // '/views/HomeViews.tsx',
+        // '/views/AboutViews.tsx',
+        // '/views/ShopViews.tsx',
+        // '/views/BlogViews.tsx',
+        // '/views/NotFoundViews.tsx',
+        '/utils/lazyload-image.tsx',
         '/utils/capitalize.ts',
         '/utils/format-date.ts',
-        '/utils/lazyload-image.tsx',
         '/utils/providesList.ts',
         '/utils/scroll-elements.ts',
         '/utils/validate.ts',

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/utils/scroll-elements';
 import './product.css';
-import QuickViewProduct from './QuickViewProduct';
+import QuickViewProduct from '@/components/modal/quick-view-product/QuickViewProduct';
 import LazyLoadImage from '@/utils/lazyload-image';
 type Props = {
   product: Product;

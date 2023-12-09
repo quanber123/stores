@@ -1,19 +1,28 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
-import { FaFacebookF, FaGoogle } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { authInfo } from '@/store/slice/authSlice';
+import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
 import './login.css';
-function Login() {
-  const user = useSelector(authInfo);
-  const navigate = useNavigate();
-  useEffect(() => {
-    if (user.username) {
-      navigate('/', { replace: true });
-    }
-  }, [user]);
+import {
+  getVisibleLoginModal,
+  setVisibleLoginModal,
+  setVisibleRegisterModal,
+} from '@/store/slice/modalSlice';
+import { ErrValidate, SuccessValidate, validateEmail } from '@/utils/validate';
+function LoginModal() {
+  const dispatch = useDispatch();
+  const visibleModal = useSelector(getVisibleLoginModal);
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+  });
   const [focusInput, setFocusInput] = useState<string | null>(null);
+  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setForm((prevForm) => {
+      return { ...prevForm, [name]: value };
+    });
+  };
   const googleLogin = () => {
     window.open('http://localhost:3000/api/auth/google', '_self');
   };
@@ -34,12 +43,19 @@ function Login() {
   //     });
   // }, []);
   return (
-    <main className='login-form py-[128px] px-[24px] w-full h-full flex justify-center items-center'>
+    <section className={`${visibleModal ? 'active' : ''} login-form`}>
       <form
         className='px-[24px] tablet:px-[55px] py-[75px]'
         onSubmit={(e) => e.preventDefault()}
       >
-        <h1 className='text-semiBoldGray font-bold text-lg tablet:text-xl text-center'>
+        <button
+          className='absolute top-[20px] right-[20px] w-[40px] h-[40px] flex justify-center items-center text-md bg-lightGray rounded-full'
+          aria-label='close-modal'
+          onClick={() => dispatch(setVisibleLoginModal())}
+        >
+          <FaXmark />
+        </button>
+        <h1 className='w-full text-semiBoldGray font-bold text-lg tablet:text-xl text-center'>
           Welcome
         </h1>
         <img
@@ -50,7 +66,7 @@ function Login() {
         <div className='wrap-input-login mt-[20px]'>
           <label
             className={`text-darkGray ${
-              focusInput === 'email' ? 'active' : ''
+              focusInput === 'email' || form.email ? 'active' : ''
             }`}
             htmlFor='email'
           >
@@ -60,19 +76,31 @@ function Login() {
             type='email'
             id='email'
             name='email'
+            value={form.email}
             onFocus={() => setFocusInput('email')}
             onBlur={() => setFocusInput(null)}
+            onChange={handleChangeForm}
           />
           <div
             className={`focus-input-login ${
-              focusInput === 'email' ? 'active' : ''
+              focusInput === 'email' || form.email ? 'active' : ''
             }`}
           ></div>
+          {!validateEmail(form.email) && form.email ? (
+            <ErrValidate message='The email must contain @.' />
+          ) : (
+            <></>
+          )}
+          {validateEmail(form.email) && form.email ? (
+            <SuccessValidate />
+          ) : (
+            <></>
+          )}
         </div>
         <div className='wrap-input-login'>
           <label
             className={`text-darkGray ${
-              focusInput === 'password' ? 'active' : ''
+              focusInput === 'password' || form.password ? 'active' : ''
             }`}
             htmlFor='password'
           >
@@ -82,19 +110,31 @@ function Login() {
             id='password'
             name='password'
             type='password'
+            value={form.password}
             onFocus={() => setFocusInput('password')}
             onBlur={() => setFocusInput(null)}
+            onChange={handleChangeForm}
           />
           <div
             className={`focus-input-login ${
-              focusInput === 'password' ? 'active' : ''
+              focusInput === 'password' || form.password ? 'active' : ''
             }`}
           ></div>
         </div>
-        <div className='login-form-btn'>
-          <button>LOGIN</button>
+        <div className='w-full login-form-btn'>
+          <button
+            style={{
+              filter: `${
+                !validateEmail(form.email) ? 'grayscale(80%)' : 'none'
+              }`,
+              cursor: `${!validateEmail(form.email) ? 'no-drop' : 'pointer'}`,
+            }}
+            disabled={!validateEmail(form.email)}
+          >
+            LOGIN
+          </button>
         </div>
-        <div className='flex flex-col mobile:flex-row justify-center items-center gap-[20px] text-white'>
+        <div className='w-full flex flex-col mobile:flex-row justify-center items-center gap-[20px] text-white'>
           <button
             type='submit'
             className='w-full mobile:w-1/2 h-[48px] bg-boldBlue flex justify-center items-center gap-[10px] rounded-[4px]'
@@ -116,13 +156,16 @@ function Login() {
         </div>
         <div className='flex justify-center items-center gap-[10px]'>
           <p className='text-darkGray'>Don't have an account?</p>
-          <button className='text-darkGray hover:text-blue font-bold'>
+          <button
+            className='text-darkGray hover:text-blue font-bold'
+            onClick={() => dispatch(setVisibleRegisterModal())}
+          >
             Sign Up
           </button>
         </div>
       </form>
-    </main>
+    </section>
   );
 }
 
-export default Login;
+export default LoginModal;

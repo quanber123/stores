@@ -1,10 +1,9 @@
 import scrollElement from '@/utils/scroll-elements';
 import { NavLink } from 'react-router-dom';
 type PropsRoutes = {
-  handleDropdownRoutes: () => void;
   routeRefs: any;
 };
-function Router({ handleDropdownRoutes, routeRefs }: PropsRoutes) {
+function Router({ routeRefs }: PropsRoutes) {
   const routes = [
     {
       link: 'about',
@@ -17,10 +16,6 @@ function Router({ handleDropdownRoutes, routeRefs }: PropsRoutes) {
     //   link: 'contact',
     // },
   ];
-  const changeRoute = () => {
-    handleDropdownRoutes();
-    scrollElement();
-  };
   const route = routes.map((r, index) => {
     return (
       <li
@@ -33,7 +28,7 @@ function Router({ handleDropdownRoutes, routeRefs }: PropsRoutes) {
           className={({ isActive }) =>
             isActive ? 'text-purple w-max' : 'w-max'
           }
-          onClick={changeRoute}
+          onClick={scrollElement}
           end
         >
           {r.link}
@@ -41,7 +36,13 @@ function Router({ handleDropdownRoutes, routeRefs }: PropsRoutes) {
       </li>
     );
   });
-  return <ul className='p-[16px] h-max'>{route}</ul>;
+  return (
+    <div>
+      <ul className='p-[16px] h-max flex items-center gap-[20px] font-bold'>
+        {route}
+      </ul>
+    </div>
+  );
 }
 
 export default Router;

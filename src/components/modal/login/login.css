@@ -1,32 +1,40 @@
 .login-form {
-  background-color: #f2f2f2;
-  animation: displayPage 1s linear;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 0;
+  height: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  opacity: 0;
+  overflow: hidden;
+  z-index: -100;
 }
-
-@keyframes displayPage {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.login-form.active {
+  width: 100%;
+  height: 100%;
+  opacity: 1;
 }
 .login-form > form {
+  position: relative;
   background-color: #fff;
   max-width: 460px;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 40px;
   border: 1px solid #e1e0e0;
   border-radius: 10px;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-  gap: 40px;
-}
-.login-form > form > * {
-  width: 100%;
 }
 .wrap-input-login {
+  width: 100%;
   cursor: text;
   position: relative;
 }
@@ -89,6 +97,7 @@
   width: 100%;
   height: 50px;
   padding: 0 20px;
+  font-weight: 600;
   color: #fff;
   background-image: -webkit-linear-gradient(
     to left,

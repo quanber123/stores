@@ -39,7 +39,9 @@ function StoreHome() {
     ));
   }, [products]);
   useEffect(() => {
+    console.log(isSuccessProductOverview);
     if (isSuccessProductOverview) {
+      console.log(dataProductOverview);
       dispatch(setAllProductsOverview(dataProductOverview));
     }
   }, [isSuccessProductOverview]);
