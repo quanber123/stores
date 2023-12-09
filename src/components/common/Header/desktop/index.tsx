@@ -44,7 +44,7 @@ function DesktopNavBar() {
     };
   }, []);
   return (
-    <nav className='container relative flex justify-start items-center gap-[20px] tablet:gap-[80px]'>
+    <nav className='container relative flex justify-start items-center gap-[80px]'>
       <Logo imgRef={imgRef} />
       <Router routeRefs={routeRefs} />
       <Buttons />
