@@ -7,8 +7,8 @@ import { useNavigate } from 'react-router-dom';
 import { usePostEmailMutation } from '@/store/features/emailFeatures';
 import { validateEmail } from '@/utils/validate';
 
-function H6({ title }: { title: string }) {
-  return <h6 className='text-md text-white font-bold uppercase'>{title}</h6>;
+function Paragraph({ title }: { title: string }) {
+  return <p className='text-md text-white font-bold uppercase'>{title}</p>;
 }
 function Footer() {
   const categories = useSelector(getAllCategories);
@@ -69,22 +69,22 @@ function Footer() {
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}
       >
         <div className='flex flex-col gap-[20px]'>
-          <H6 title='Categories' />
+          <Paragraph title='Categories' />
           <ul className='flex flex-col gap-[10px]'>{renderedCategories}</ul>
         </div>
         <div className='flex flex-col gap-[20px]'>
-          <H6 title='Help' />
+          <Paragraph title='Help' />
           <ul className='flex flex-col gap-[10px]'>{renderHelps}</ul>
         </div>
         <div className='flex flex-col gap-[20px]'>
-          <H6 title='Get in touch' />
+          <Paragraph title='Get in touch' />
           <p className='text-sm'>
             Any questions? Let us know in store at 8th floor, 379 Hudson St, New
             York, NY 10018 or call us on (+1) 96 716 6879
           </p>
         </div>
         <div className='flex flex-col gap-[20px]'>
-          <H6 title='Newsletter' />
+          <Paragraph title='Newsletter' />
           <div className='flex flex-col gap-[20px] text-lightGray text-sm'>
             <div className='wrap-input'>
               <input
@@ -110,7 +110,7 @@ function Footer() {
               <></>
             )}
             <button
-              className='w-[180px] h-[46px] rounded-[26px] text-sm font-bold bg-purple text-white hover:bg-white hover:text-purple uppercase'
+              className='w-[180px] h-[46px] rounded-[26px] text-sm font-bold bg-white text-semiBoldGray hover:bg-purple hover:text-white uppercase'
               onClick={handlePostEmail}
               disabled={isLoading ? true : false}
             >

@@ -7,10 +7,10 @@ import {
 } from 'react';
 import gsap from 'gsap';
 import './Header.css';
-import User from './User';
 import Router from './Route';
 import Logo from './Logo';
 import Bars from './Bars';
+import Buttons from './Buttons';
 function Header() {
   const [sticky, setSticky] = useState(false);
   const [dropdownRoutes, setDropdownRoutes] = useState(false);
@@ -68,10 +68,8 @@ function Header() {
     };
   }, []);
   return (
-    <header className={`${sticky ? 'active' : ''}`}>
-      <nav
-        className={`container relative flex justify-between items-center  gap-[80px]`}
-      >
+    <header className={`${sticky ? 'active' : ''} text-sm`}>
+      <nav className='container relative flex justify-start items-center gap-[20px] tablet:gap-[80px]'>
         <Logo imgRef={imgRef} />
         <div className='flex items-center'>
           <div
@@ -84,14 +82,12 @@ function Header() {
               routeRefs={routeRefs}
             />
           </div>
-          <div className='flex items-center gap-[10px]'>
-            <User />
-            <Bars
-              handleDropdownRoutes={handleDropdownRoutes}
-              dropdownRoutes={dropdownRoutes}
-            />
-          </div>
         </div>
+        <Buttons />
+        <Bars
+          handleDropdownRoutes={handleDropdownRoutes}
+          dropdownRoutes={dropdownRoutes}
+        />
       </nav>
     </header>
   );
