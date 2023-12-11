@@ -6,6 +6,7 @@ import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { getAllBlogs } from '@/store/slice/blogSlice';
 import { useCarousel } from '@/components/customHooks/useCarousel';
+import LoadingBlogHome from '@/components/common/Loading/LoadingBlogHome';
 
 function BlogHome() {
   const blogs = useSelector(getAllBlogs);
@@ -81,6 +82,7 @@ function BlogHome() {
             }}
           >
             {renderedBlog}
+            {/* <LoadingBlogHome style={{ width: `calc(${width}% - 20px)` }} /> */}
           </div>
         </div>
         <div className='text-xl'>

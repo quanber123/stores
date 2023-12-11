@@ -11,16 +11,10 @@ import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import {
-  getAllProductsOverview,
-  setAllProductsOverview,
-} from '@/store/slice/productSlice';
-import { useGetProductOverviewQuery } from '@/store/features/productFeatures';
+import { getAllProductsOverview } from '@/store/slice/productSlice';
+import LoadingProduct from '@/components/common/Loading/LoadingProduct';
 function StoreHome() {
-  const dispatch = useDispatch();
   const products = useSelector(getAllProductsOverview);
-  const { data: dataProductOverview, isSuccess: isSuccessProductOverview } =
-    useGetProductOverviewQuery(null);
   const [queryParams, setQueryParams] = useSearchParams();
   const queryProduct = queryParams.get('product') ?? '';
   const navigate = useNavigate();
@@ -38,13 +32,7 @@ function StoreHome() {
       />
     ));
   }, [products]);
-  useEffect(() => {
-    console.log(isSuccessProductOverview);
-    if (isSuccessProductOverview) {
-      console.log(dataProductOverview);
-      dispatch(setAllProductsOverview(dataProductOverview));
-    }
-  }, [isSuccessProductOverview]);
+
   const handleLinkClick = () => {
     scrollElement();
     navigate('/shop');
@@ -62,7 +50,6 @@ function StoreHome() {
       return newQuery.toString();
     });
   }, []);
-
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -151,7 +138,9 @@ function StoreHome() {
           })}
         </ul>
       </div>
-      <div className='container product-list mt-4'>{renderedProduct}</div>
+      <div className='container product-list mt-4'>
+        {products.length ? renderedProduct : <LoadingProduct />}
+      </div>
       <button
         ref={btnRef}
         className='px-6 py-2 bg-semiBoldGray hover:bg-purple text-white text-md rounded-[23px]'

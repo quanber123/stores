@@ -4,19 +4,38 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Products', 'ProductsOverview'],
+  tagTypes: ['Products'],
   endpoints: (builder) => {
     return {
       getProducts: builder.query({
-        query: (query) =>
-          query
-            ? `products?category=${query.category}&&tag=${query.tag}&&arrange=${query.arrange}&&page=${query.page}`
-            : `products`,
+        query: (query) => {
+          if (!query) {
+            return 'products';
+          }
+
+          const queryParams = [];
+
+          if (query.category) {
+            queryParams.push(`category=${query.category}`);
+          }
+
+          if (query.tag) {
+            queryParams.push(`tag=${query.tag}`);
+          }
+
+          if (query.arrange) {
+            queryParams.push(`arrange=${query.arrange}`);
+          }
+
+          if (query.page) {
+            queryParams.push(`page=${query.page}`);
+          }
+
+          const queryString = queryParams.join('&&');
+
+          return `products?${queryString}`;
+        },
         providesTags: (result) => providesList(result, 'Products'),
-      }),
-      getProductOverview: builder.query({
-        query: () => `products-overview`,
-        providesTags: (result) => providesList(result, 'ProductsOverview'),
       }),
       getProductById: builder.query({
         query: (id) => `products/${id}`,
@@ -26,8 +45,4 @@ export const productApi = createApi({
   },
 });
 
-export const {
-  useGetProductsQuery,
-  useGetProductOverviewQuery,
-  useGetProductByIdQuery,
-} = productApi;
+export const { useGetProductsQuery, useGetProductByIdQuery } = productApi;

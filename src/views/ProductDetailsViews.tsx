@@ -57,7 +57,7 @@ function ProductDetailsViews() {
     return <>{navigate('/not-found', { replace: true })}</>;
   }
   return isSuccessProduct && dataProduct ? (
-    <main className='py-[120px]'>
+    <main>
       <ProductDetails product={dataProduct.product} refEl={productRef} />
       <MoreInformationProduct
         product={dataProduct.product}

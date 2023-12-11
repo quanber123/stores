@@ -33,12 +33,34 @@ body {
 }
 main {
   position: relative;
+  padding: 60px 0 84px;
   display: flex;
   flex: 1;
   flex-direction: column;
   justify-content: space-between;
   gap: 80px;
   overflow: hidden;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #e1e0e0;
+  border-radius: 5px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #b1aeae;
+  border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #999999;
 }
 .custom-select {
   position: relative;
@@ -78,31 +100,22 @@ img {
   flex-shrink: 0;
   flex-grow: 0;
 }
-h5 {
+.line-camp-text,
+.line-camp-paragraph {
   display: -webkit-box;
-  -webkit-line-clamp: 2; /* Số dòng tối đa */
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis; /* Hiển thị dấu ba chấm (...) khi dòng bị cắt */
   /* Các thuộc tính khác như kích thước, màu sắc, vv. */
 }
-header {
-  /* position: -webkit-sticky; */
-  /* position: sticky; */
-  position: fixed;
-  top: 0;
-  width: 100%;
-  height: 84px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  -webkit-transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  z-index: 100;
+.line-camp-text {
+  -webkit-line-clamp: 2; /* Số dòng tối đa */
 }
-header.active {
-  background: #fff;
-  height: 74px;
+.line-camp-paragraph {
+  -webkit-line-clamp: 2; /* Số dòng tối đa */
+}
+header {
+  position: fixed;
   box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
   -moz-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
   -webkit-box-shadow: 0 0px 3px 0px rgba(0, 0, 0, 0.2);
@@ -287,5 +300,18 @@ button {
   }
   100% {
     transform: translateX(100%);
+  }
+}
+
+.skeleton {
+  opacity: 0.7;
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+@keyframes skeleton-loading {
+  from {
+    background-color: hsl(195, 10%, 80%);
+  }
+  to {
+    background-color: hsl(200, 20%, 95%);
   }
 }

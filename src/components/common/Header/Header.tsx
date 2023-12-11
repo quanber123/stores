@@ -1,53 +1,25 @@
-import { useState, useEffect } from 'react';
-import './Header.css';
+import { useEffect, useState } from 'react';
 import DesktopNavBar from './desktop';
-// import Router from './desktop/Route';
-// import Logo from './desktop/Logo';
-// import Bars from './desktop/Bars';
-// import Buttons from './desktop/Buttons';
-// import LoginModal from '@/components/modal/login/Login';
-// import RegisterModal from '@/components/modal/register/Register';
+import MobileNavBar from './mobile';
+import './Header.css';
 function Header() {
-  const [sticky, setSticky] = useState(false);
-  // const [dropdownRoutes, setDropdownRoutes] = useState(false);
+  const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
+
   useEffect(() => {
-    const stickyFunc = () => {
-      if (window.pageYOffset > 75) {
-        setSticky(true);
-      } else {
-        setSticky(false);
-      }
+    const handleResize = () => {
+      setIsDesktop(window.innerWidth > 640);
     };
-    window.addEventListener('scroll', stickyFunc);
+
+    window.addEventListener('resize', handleResize);
+
     return () => {
-      window.removeEventListener('scroll', stickyFunc);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
-  // const handleDropdownRoutes = useCallback(() => {
-  //   setDropdownRoutes((prevState) => (prevState = !prevState));
-  // }, [dropdownRoutes]);
+
   return (
-    <header className={`${sticky ? 'active' : ''} text-sm`}>
-      {/* <nav className='container relative flex justify-start items-center gap-[20px] tablet:gap-[80px]'>
-        <Logo imgRef={imgRef} />
-        <div className='flex items-center'>
-          <div
-            className={`routes ${
-              dropdownRoutes ? `active` : ''
-            } flex items-center gap-[20px]`}
-          >
-            <Router routeRefs={routeRefs} />
-          </div>
-        </div>
-        <Buttons />
-        <Bars
-          handleDropdownRoutes={handleDropdownRoutes}
-          dropdownRoutes={dropdownRoutes}
-        />
-      </nav>
-      <LoginModal />
-      <RegisterModal /> */}
-      <DesktopNavBar />
+    <header className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'>
+      {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
     </header>
   );
 }

@@ -1,8 +1,7 @@
-import Blog from '@/components/pages/blog/Blog';
-
+import Blog from '@/components/pages/blog/index';
 function BlogViews() {
   return (
-    <main className='py-[84px]'>
+    <main>
       <Blog />
     </main>
   );

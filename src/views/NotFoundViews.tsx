@@ -56,11 +56,8 @@ function NotFoundViews() {
     };
   }, []);
   return (
-    <main
-      className='absolute top-1/2 left-1/2 -z-20'
-      style={{ transform: 'translate(-50%, -50%)' }}
-    >
-      <div className='container flex flex-col justify-center items-center gap-[20px]'>
+    <main>
+      <div className='relative container h-full flex flex-col justify-center items-center gap-[20px]'>
         <h2
           ref={h2Ref}
           className='text-[72px] mobileLg:text-[158px] laptop:text-[236px] font-thin'
@@ -75,10 +72,10 @@ function NotFoundViews() {
         </p>
         <div
           ref={btnRef}
-          className='w-full absolute -bottom-[100%] mobileLg:-bottom-[20%] laptop:-bottom-[10%] left-1/2 -translate-y-1/2 flex justify-center items-center'
+          className='w-full absolute -bottom-[75%] mobileLg:-bottom-[20%] laptop:-bottom-[10%] left-1/2 -translate-y-1/2 flex justify-center items-center'
         >
           <button
-            className='uppercase laptop:bottom-0 py-[13px] px-2 mobileLg:px-[23px] bg-purple text-white hover:bg-semiBoldGray mobileLg:text-md font-bold'
+            className='uppercase py-[13px] px-2 mobileLg:px-[23px] bg-purple text-white hover:bg-semiBoldGray text-sm mobileLg:text-md font-bold'
             onClick={() => navigate('/', { replace: true })}
           >
             Go to homepage

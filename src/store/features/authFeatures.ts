@@ -19,15 +19,8 @@ export const authApi = createApi({
         }),
         providesTags: (result) => providesList(result, 'Auth'),
       }),
-      loginByGoogle: builder.mutation({
-        query: (code) => ({
-          url: 'login-google',
-          method: 'POST',
-          body: { code: code },
-        }),
-      }),
     };
   },
 });
 
-export const { useGetUserQuery, useLoginByGoogleMutation } = authApi;
+export const { useGetUserQuery } = authApi;

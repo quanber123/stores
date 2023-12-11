@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
@@ -9,6 +9,7 @@ import {
   setVisibleRegisterModal,
 } from '@/store/slice/modalSlice';
 import { ErrValidate, SuccessValidate, validateEmail } from '@/utils/validate';
+import { setAuth } from '@/store/slice/authSlice';
 function LoginModal() {
   const dispatch = useDispatch();
   const visibleModal = useSelector(getVisibleLoginModal);
@@ -29,19 +30,20 @@ function LoginModal() {
   const facebookLogin = () => {
     window.open('http://localhost:3000/api/auth/facebook', '_self');
   };
-  // useEffect(() => {
-  //   fetch('http://localhost:3000/api/auth/login/success', {
-  //     method: 'GET',
-  //     credentials: 'include',
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       console.log('User Info:', data);
-  //     })
-  //     .catch((error) => {
-  //       console.error('Error:', error);
-  //     });
-  // }, []);
+  useEffect(() => {
+    fetch('http://localhost:3000/api/auth/login/success', {
+      method: 'GET',
+      credentials: 'include',
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('User Info:', data);
+        dispatch(setAuth(data));
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
   return (
     <section className={`${visibleModal ? 'active' : ''} login-form`}>
       <form

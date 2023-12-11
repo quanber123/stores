@@ -21,7 +21,8 @@ import { useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery } from '@/store/features/productFeatures';
 import './shop.css';
 import { getAllTags } from '@/store/slice/tagSlice';
-import LoadingData from '@/components/common/Loading/LoadingData';
+import LoadingProduct from '@/components/common/Loading/LoadingProduct';
+('@/components/common/Loading/LoadingData');
 function Shop() {
   const dispatch = useDispatch();
   const totalPage = useSelector(getTotalPage);
@@ -39,12 +40,18 @@ function Shop() {
     data: dataProducts,
     isSuccess: isSuccessProduct,
     isFetching: isFetchingProduct,
-  } = useGetProductsQuery({
-    category: queryCategory,
-    tag: queryTag,
-    arrange: queryArrange,
-    page: pageCategory,
-  });
+  } = products
+    ? useGetProductsQuery({
+        category: queryCategory,
+        tag: queryTag,
+        arrange: queryArrange,
+        page: pageCategory,
+      })
+    : {
+        data: undefined,
+        isSuccess: false,
+        isFetching: false,
+      };
   const [modalFilter, setModalFilter] = useState(false);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
@@ -306,7 +313,7 @@ function Shop() {
       ) : (
         <></>
       )}
-      {isFetchingProduct ? <LoadingData /> : <></>}
+      {isFetchingProduct ? <LoadingProduct /> : <></>}
     </>
   );
 }

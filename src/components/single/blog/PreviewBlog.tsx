@@ -34,12 +34,12 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
       </div>
       <div className='flex flex-col gap-[10px]'>
         <h5
-          className='text-[20px] tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'
+          className='line-camp-text text-[20px] tablet:text-xl text-semiBoldGray hover:text-purple transition-colors font-bold cursor-pointer'
           onClick={() => handleLinkClick(blog.id)}
         >
           {blog.title}
         </h5>
-        <p className='text-sm tablet:text-base text-mediumGray'>
+        <p className='line-camp-text text-sm tablet:text-base text-mediumGray'>
           {blog.description}
         </p>
         <div className='block laptop:flex justify-between items-center'>

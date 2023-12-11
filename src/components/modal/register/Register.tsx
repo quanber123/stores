@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
-import { FaXmark } from 'react-icons/fa6';
+import { FaXmark, FaLightbulb } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import './register.css';
 import {
@@ -141,8 +141,16 @@ function RegisterModal() {
               focusInput === 'password' || form.password ? 'active' : ''
             }`}
           ></div>
+          <div className='absolute -bottom-[120%] flex gap-[5px]'>
+            <FaLightbulb className='text-[20px]' />
+            <span>:</span>
+            <p className='font-semiBold text-semiBoldGray'>
+              The password must be longer than 6 characters and contain at least
+              1 uppercase letter.
+            </p>
+          </div>
           {!validatePassword(form.password) && form.password ? (
-            <ErrValidate message='More than 6 characters and 1 uppercase letter.' />
+            <ErrValidate message='Password is not valid!' />
           ) : (
             <></>
           )}
@@ -152,7 +160,7 @@ function RegisterModal() {
             <></>
           )}
         </div>
-        <div className='w-full h-[48px] relative'>
+        <div className='w-full h-[48px] my-8 relative'>
           <input
             className='w-full h-full px-[16px] border border-gray rounded-[23px]'
             type='text'
