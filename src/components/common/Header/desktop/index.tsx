@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
 import NotificationsModal from '@/components/modal/notifications/Notifications';
 import CartModal from '@/components/modal/cart/Cart';
+import FavoriteModal from '@/components/modal/favourite/Favorite';
 function DesktopNavBar() {
   const user = useSelector(authInfo);
   const imgRef = useRef(null);
@@ -56,6 +57,7 @@ function DesktopNavBar() {
       {user ? (
         <div className='ml-auto flex items-center gap-[20px]'>
           <CartModal />
+          <FavoriteModal />
           <NotificationsModal />
           <User />
         </div>

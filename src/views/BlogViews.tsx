@@ -1,4 +1,4 @@
-import Blog from '@/components/pages/blog/index';
+import Blog from '@/components/pages/blog/Blog';
 function BlogViews() {
   return (
     <main>

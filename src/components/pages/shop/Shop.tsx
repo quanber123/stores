@@ -231,7 +231,7 @@ function Shop() {
   }, [products]);
   return (
     <>
-      <section className='container flex flex-col gap-[40px]'>
+      <section className='container mt-[40px] flex flex-col gap-[40px]'>
         <div className='block laptop:flex justify-between items-center gap-[40px]'>
           <ul className='flex justify-center items-center gap-[20px]'>
             <li
@@ -271,9 +271,11 @@ function Shop() {
           </div>
         </div>
       </section>
-      {renderedProducts.length && !isFetchingProduct ? (
+      {renderedProducts.length ? (
         <section className='container min-h-[60vh] m-auto flex flex-col gap-[40px]'>
-          <div className='product-list'>{renderedProducts}</div>
+          <div className='product-list'>
+            {!isFetchingProduct ? renderedProducts : <LoadingProduct />}
+          </div>
           <div
             className={`${
               totalPage > 1 ? 'flex' : 'hidden'
@@ -313,7 +315,6 @@ function Shop() {
       ) : (
         <></>
       )}
-      {isFetchingProduct ? <LoadingProduct /> : <></>}
     </>
   );
 }

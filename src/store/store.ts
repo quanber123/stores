@@ -1,9 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import blogReducer from './slice/blogSlice';
+import authReducer from './slice/authSlice';
 import productReducer from './slice/productSlice';
+import cartReducer from './slice/cartSlice';
+import blogReducer from './slice/blogSlice';
 import categoryReducer from './slice/categorySlice';
 import tagReducer from './slice/tagSlice';
-import authReducer from './slice/authSlice';
 import modalReducer from './slice/modalSlice';
 import { productApi } from './features/productFeatures';
 import { authApi } from './features/authFeatures';
@@ -13,9 +14,10 @@ import { categoryApi } from './features/categoryFeatures';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    category: categoryReducer,
     products: productReducer,
     blogs: blogReducer,
+    cart: cartReducer,
+    category: categoryReducer,
     tags: tagReducer,
     modal: modalReducer,
     [authApi.reducerPath]: authApi.reducer,

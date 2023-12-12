@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/utils/scroll-elements';
 import './product.css';
-import QuickViewProduct from '@/components/modal/quick-view-product/QuickViewProduct';
+import QuickViewProductModal from '@/components/modal/quick-view-product/QuickViewProduct';
 import LazyLoadImage from '@/utils/lazyload-image';
 type Props = {
   product: Product;
@@ -49,7 +49,7 @@ function PreviewProduct({ product, refEl }: Props) {
           <p>${price}</p>
         </div>
       </article>
-      <QuickViewProduct
+      <QuickViewProductModal
         product={product}
         status={openQuickView}
         closeModal={() => setOpenQuickView(null)}

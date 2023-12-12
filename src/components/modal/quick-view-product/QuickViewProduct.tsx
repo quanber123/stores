@@ -11,81 +11,27 @@ import {
 import { Product } from '@/interfaces/interfaces';
 import LazyLoadImage from '@/utils/lazyload-image';
 import { useSlider } from '@/components/customHooks/useSlider';
+import { useDispatch } from 'react-redux';
+import { addToCart } from '@/store/slice/cartSlice';
+import { setVisibleAlertModal } from '@/store/slice/modalSlice';
 type Props = {
   product: Product;
   status: number | string | null;
   closeModal: () => void;
 };
-const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
-  const { name, price, images, details } = product;
+const QuickViewProductModal: React.FC<Props> = ({
+  product,
+  status,
+  closeModal,
+}) => {
+  const dispatch = useDispatch();
+  const { _id, name, price, images, details } = product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
   const { indexImage, handlePrev, handleNext, handleIndex } = useSlider(
     product.images?.length
   );
-  const totalQuantity = useMemo(
-    () =>
-      details.variants.reduce(
-        (accumulator, currentValue) => accumulator + currentValue.quantity,
-        0
-      ),
-    [product]
-  );
-  const sizes = useMemo(() => {
-    const arrSizes = details.variants.map((v) => (v.inStock ? v.size : ''));
-    return [...new Set(arrSizes)];
-  }, [product]);
-  const handleSelectSize = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedColor('');
-      setSelectedSize(e.target.value);
-    },
-    [selectedSize]
-  );
-  const handleSelectColor = useCallback(
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      setSelectedColor(e.target.value);
-    },
-    [selectedColor]
-  );
-  const filteredColors = useMemo(
-    () =>
-      details.variants
-        .filter((v) => v.size === selectedSize)
-        .map((v) => {
-          return {
-            color: v.color,
-            quantity: v.quantity,
-          };
-        }) ?? [],
-    [selectedSize]
-  );
-  const getQuantity = useMemo(
-    () =>
-      details.variants.find(
-        (v) => v.size === selectedSize && v.color === selectedColor
-      ) ?? null,
-    [selectedSize, selectedColor]
-  );
-  const handleChangeCount = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setCount(Number(e.target.value));
-    },
-    [count]
-  );
-  const handleIncrease = useCallback(() => {
-    setCount((prevCount) => prevCount + 1);
-  }, [count]);
-  const handleDecrease = useCallback(() => {
-    setCount((prevCount) => {
-      if (prevCount <= 1) {
-        return 1;
-      } else {
-        return prevCount - 1;
-      }
-    });
-  }, [count]);
   const renderList = useMemo(
     () =>
       images.map((image, index) => {
@@ -115,11 +61,98 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
           src={image}
           className='w-[70px] h-[84px] cursor-pointer'
           alt={image}
-          style={{ border: `${indexImage === index ? '1px solid #ccc' : ''}` }}
+          style={{
+            border: `${indexImage === index ? '1px solid #ccc' : ''}`,
+          }}
         />
       </div>
     );
   });
+  const totalQuantity = useMemo(
+    () =>
+      details.variants.reduce(
+        (accumulator, currentValue) => accumulator + currentValue.quantity,
+        0
+      ),
+    [product]
+  );
+  const sizes = useMemo(() => {
+    const arrSizes = details.variants.map((v) => (v.inStock ? v.size : ''));
+    return [...new Set(arrSizes)];
+  }, [product]);
+  const filteredColors = useMemo(
+    () =>
+      details.variants
+        .filter((v) => v.size === selectedSize)
+        .map((v) => {
+          return {
+            color: v.color,
+            quantity: v.quantity,
+          };
+        }) ?? [],
+    [selectedSize]
+  );
+  const getQuantity = useMemo(
+    () =>
+      details.variants.find(
+        (v) => v.size === selectedSize && v.color === selectedColor
+      ) ?? null,
+    [selectedSize, selectedColor]
+  );
+  const handleSelectSize = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedColor('');
+      setSelectedSize(e.target.value);
+    },
+    [selectedSize, selectedColor]
+  );
+  const handleSelectColor = useCallback(
+    (e: ChangeEvent<HTMLSelectElement>) => {
+      setSelectedColor(e.target.value);
+    },
+    [selectedColor]
+  );
+  const handleChangeCount = useCallback(
+    (e: ChangeEvent<HTMLInputElement>) => {
+      setCount(Number(e.target.value));
+    },
+    [count]
+  );
+  const handleIncrease = useCallback(() => {
+    setCount((prevCount) => prevCount + 1);
+  }, [count]);
+  const handleDecrease = useCallback(() => {
+    setCount((prevCount) => {
+      if (prevCount <= 1) {
+        return 1;
+      } else {
+        return prevCount - 1;
+      }
+    });
+  }, [count]);
+  const handleAddToCart = () => {
+    dispatch(
+      addToCart({
+        _id: _id,
+        name: name,
+        image: images[0],
+        size: selectedSize,
+        color: selectedColor,
+        quantity: count,
+        price: price,
+        totalPrice: count * price,
+      })
+    );
+    closeModal();
+    dispatch(
+      setVisibleAlertModal({
+        status: 'success',
+        message: 'Success: Added Product!',
+        color: 'green',
+        backgroundColor: 'lightGreen',
+      })
+    );
+  };
   return (
     <article
       className={`quick-view-product ${
@@ -265,6 +298,7 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
                       : ' bg-semiBoldGray'
                   }`}
                   disabled={selectedSize ? false : true}
+                  onClick={handleAddToCart}
                 >
                   {selectedSize && selectedColor ? (
                     <>
@@ -298,4 +332,4 @@ const QuickViewProduct: React.FC<Props> = ({ product, status, closeModal }) => {
   );
 };
 
-export default QuickViewProduct;
+export default QuickViewProductModal;

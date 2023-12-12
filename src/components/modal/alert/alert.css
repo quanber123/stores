@@ -1,0 +1,37 @@
+.alert-modal {
+  position: fixed;
+  bottom: 10%;
+  right: 5%;
+  width: 300px;
+  height: 72px;
+  padding: 16px 32px;
+  border-radius: 8px;
+  display: none;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 800;
+  z-index: 999;
+  overflow: hidden;
+}
+.alert-modal.active {
+  display: flex;
+}
+
+.count-down-alert {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 6px;
+  animation: count-down-animation 2s linear;
+  z-index: 10;
+}
+
+@keyframes count-down-animation {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0;
+  }
+}

@@ -128,7 +128,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
     [product, refEl, indexImage, images]
   );
   return (
-    <section className='container' ref={refEl}>
+    <section className='container mt-[40px]' ref={refEl}>
       <article className='flex flex-col laptop:flex-row justify-between gap-[40px]'>
         <div className='flex flex-col mobileLg:flex-row gap-[40px]'>
           <div className='flex flex-row mobileLg:flex-col justify-between mobileLg:justify-start mobileLg:gap-[40px]'>
