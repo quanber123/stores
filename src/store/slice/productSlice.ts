@@ -3,14 +3,38 @@ import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   products: Product[];
   productsOverview: Product[];
+  quickViewProduct: {
+    statusModal: boolean;
+    productModal: Product;
+  };
   totalPage: number;
   status: string;
   err: string | null;
 };
-
+const defaultViewProduct: Product = {
+  _id: '',
+  images: [],
+  name: '',
+  code: '',
+  price: 0,
+  type: '',
+  details: {
+    variants: [{ size: '', color: '', quantity: 0, inStock: false }],
+    shortDescription: '',
+    description: '',
+    weight: '',
+    dimensions: '',
+    materials: '',
+    category: { name: '' },
+  },
+};
 const initialState: InitialState = {
   products: [],
   productsOverview: [],
+  quickViewProduct: {
+    statusModal: false,
+    productModal: defaultViewProduct,
+  },
   totalPage: 0,
   status: 'idle',
   err: null,
@@ -27,13 +51,27 @@ const productSlice = createSlice({
     setAllProductsOverview: (state, action) => {
       state.productsOverview = action.payload.products;
     },
+    setQuickViewProduct: (state, action) => {
+      state.quickViewProduct.statusModal = true;
+      state.quickViewProduct.productModal = action.payload;
+    },
+    closeQuickViewProduct: (state) => {
+      state.quickViewProduct.statusModal = false;
+    },
   },
 });
-export const { setAllProducts, setAllProductsOverview } = productSlice.actions;
+export const {
+  setAllProducts,
+  setAllProductsOverview,
+  setQuickViewProduct,
+  closeQuickViewProduct,
+} = productSlice.actions;
 export const getAllProducts = (state: { products: InitialState }) =>
   state.products.products;
 export const getAllProductsOverview = (state: { products: InitialState }) =>
   state.products.productsOverview;
+export const getQuickViewProduct = (state: { products: InitialState }) =>
+  state.products.quickViewProduct;
 export const getTotalPage = (state: { products: InitialState }) =>
   state.products.totalPage;
 export default productSlice.reducer;

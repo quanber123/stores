@@ -1,5 +1,5 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { blogs } from './fake-data/data';
 import { setAllBlogs } from './store/slice/blogSlice';
@@ -16,6 +16,10 @@ import {
   setAllProductsOverview,
 } from './store/slice/productSlice';
 import { setHeader } from './utils/set-header';
+import { useGetBannersQuery } from './store/features/bannerFeatures';
+import { setAllBanners } from './store/slice/bannerSlice';
+import AlertModal from './components/modal/alert-modal/AlertModal';
+import ViewProductModal from './components/modal/view-product-modal/ViewProductModal';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
@@ -23,7 +27,9 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  const token = window.localStorage.getItem('accessToken');
+  const token = useMemo(() => {
+    return window.localStorage.getItem('accessToken');
+  }, []);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token, {
     skip: token ? false : true,
   });
@@ -31,6 +37,8 @@ function App() {
     useGetProductsQuery({
       page: 1,
     });
+  const { data: dataBanners, isSuccess: isSuccessBanners } =
+    useGetBannersQuery(null);
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery(null);
@@ -39,7 +47,6 @@ function App() {
   }, [location.pathname]);
   useEffect(() => {
     if (token && isSuccessUser && dataUser) {
-      console.log(dataUser);
       dispatch(setAuth(dataUser));
       if (dataUser.isVerified === false) {
         navigate('/verified', { replace: true });
@@ -53,13 +60,17 @@ function App() {
     }
   }, [isSuccessProducts]);
   useEffect(() => {
+    if (isSuccessBanners && dataBanners) {
+      dispatch(setAllBanners(dataBanners));
+    }
+  }, [isSuccessBanners]);
+  useEffect(() => {
     if (isSuccessCategories && dataCategories) {
       dispatch(setAllCategories(dataCategories));
     }
   }, [isSuccessCategories]);
-
   useEffect(() => {
-    if (isSuccessTags) {
+    if (isSuccessTags && dataTags) {
       dispatch(setAllTags(dataTags));
     }
     dispatch(setAllBlogs({ blogs: blogs, totalPage: 0 }));

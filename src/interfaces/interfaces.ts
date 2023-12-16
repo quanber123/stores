@@ -7,6 +7,12 @@ export interface Tag {
   _id: string;
   name: string;
 }
+export interface Banner {
+  _id: string;
+  image: string;
+  content: string;
+  category: string;
+}
 export interface Product {
   _id: string;
   images: string[];

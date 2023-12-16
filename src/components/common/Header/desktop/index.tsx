@@ -1,16 +1,16 @@
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
+import { useSelector } from 'react-redux';
+import { authInfo } from '@/store/slice/authSlice';
 import Router from './Route';
 import Logo from './Logo';
 import Buttons from './Buttons';
-import NotificationsModal from '@/components/modal/notifications/Notifications';
-import FavoriteModal from '@/components/modal/favourite/Favorite';
-import LoginModal from '@/components/modal/login/Login';
-import RegisterModal from '@/components/modal/register/Register';
-import UserModal from '@/components/modal/user/UserModal';
-import { useSelector } from 'react-redux';
-import { authInfo } from '@/store/slice/authSlice';
-import CartModal from '@/components/modal/cart/Cart';
+import NotificationsModal from '@/components/modal/notifications-modal/NotificationsModal';
+import FavoriteModal from '@/components/modal/favorite-modal/FavoriteModal';
+import LoginModal from '@/components/modal/login-modal/LoginModal';
+import RegisterModal from '@/components/modal/register-modal/RegisterModal';
+import UserModal from '@/components/modal/user-modal/UserModal';
+import CartModal from '@/components/modal/cart-modal/CartModal';
 function DesktopNavBar() {
   const user = useSelector(authInfo);
   const imgRef = useRef(null);

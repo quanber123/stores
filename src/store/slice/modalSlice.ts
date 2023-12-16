@@ -2,10 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 type AlertModalState = {
   status: string;
   message: string;
-  color: string;
-  backgroundColor: string;
 };
-
 type InitialState = {
   visibleLoginModal: boolean;
   visibleRegisterModal: boolean;
@@ -26,8 +23,6 @@ const initialState: InitialState = {
   visibleAlertModal: {
     status: '',
     message: '',
-    color: '',
-    backgroundColor: '',
   },
 };
 const resetModal = (state: InitialState, currentModal: ModalType | null) => {

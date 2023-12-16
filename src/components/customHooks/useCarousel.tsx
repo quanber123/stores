@@ -32,14 +32,12 @@ export const useCarousel = (length: number) => {
   useEffect(() => {
     const infinite = setInterval(() => {
       handleNext();
-    }, 3000);
+    }, 4000);
 
     handleResize();
-
     const handleResizeListener = () => {
       handleResize();
     };
-
     window.addEventListener('resize', handleResizeListener);
 
     return () => {

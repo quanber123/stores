@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getCart, removeFormCart } from '@/store/slice/cartSlice';
-import './Cart.css';
+import './CartModal.css';
 function CartModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -37,8 +37,6 @@ function CartModal() {
       setVisibleAlertModal({
         status: 'success',
         message: 'Success: Deleted Product!',
-        color: 'green',
-        backgroundColor: 'lightGreen',
       })
     );
   };

@@ -1,31 +1,11 @@
 import test2 from '@/assets/images/product-detail-02.jpg.webp';
 import test3 from '@/assets/images/product-detail-03.jpg.webp';
-import img1 from '@/assets/images/slide-01.jpg.webp';
-import img2 from '@/assets/images/slide-02.jpg.webp';
 import img3 from '@/assets/images/slide-03.jpg.webp';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
 import testImg from '@/assets/images/blog-04.jpg.webp';
 import demoimg from '@/assets/images/banner-01.jpg.webp';
 
 import { formatDate } from '@/utils/format-date';
-
-export const banners = [
-  {
-    src: img1,
-    content: 'Women Collection 2018',
-    category: 'New Season',
-  },
-  {
-    src: img2,
-    content: 'Men Collection 2018',
-    category: 'New Arrivals',
-  },
-  {
-    src: img3,
-    content: 'Men New Season',
-    category: 'New Arrivals',
-  },
-];
 
 export const blogs = [
   {

@@ -1,16 +1,19 @@
 import { useEffect, useState } from 'react';
 import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
-import './Header.css';
-import AlertModal from '@/components/modal/alert/alert';
+import AlertModal from '@/components/modal/alert-modal/AlertModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getVisibleAlertModal,
   setVisibleAlertModal,
 } from '@/store/slice/modalSlice';
+import './Header.css';
+import ViewProductModal from '@/components/modal/view-product-modal/ViewProductModal';
+import { getQuickViewProduct } from '@/store/slice/productSlice';
 function Header() {
   const dispatch = useDispatch();
   const visibleAlertModal = useSelector(getVisibleAlertModal);
+  const visibleProductModal = useSelector(getQuickViewProduct);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
   useEffect(() => {
     const handleResize = () => {
@@ -24,17 +27,20 @@ function Header() {
     };
   }, []);
   useEffect(() => {
-    const closeModal = setTimeout(() => {
-      dispatch(setVisibleAlertModal({}));
-    }, 2000);
-    return () => {
-      clearTimeout(closeModal);
-    };
-  }, [visibleAlertModal?.message]);
+    if (visibleAlertModal) {
+      const closeModal = setTimeout(() => {
+        dispatch(setVisibleAlertModal({}));
+      }, 2000);
+      return () => {
+        clearTimeout(closeModal);
+      };
+    }
+  }, [dispatch, visibleAlertModal]);
   return (
     <header className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
-      <AlertModal />
+      {visibleAlertModal?.message ? <AlertModal /> : <></>}
+      {visibleProductModal.statusModal ? <ViewProductModal /> : <></>}
     </header>
   );
 }

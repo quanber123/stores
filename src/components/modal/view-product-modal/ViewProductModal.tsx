@@ -1,4 +1,4 @@
-import React, { useState, useCallback, ChangeEvent, useMemo } from 'react';
+import { useState, useCallback, ChangeEvent, useMemo } from 'react';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -8,35 +8,29 @@ import {
   FaXmark,
   FaFaceDizzy,
 } from 'react-icons/fa6';
-import { Product } from '@/interfaces/interfaces';
-import LazyLoadImage from '@/utils/lazyload-image';
 import { useSlider } from '@/components/customHooks/useSlider';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '@/store/slice/cartSlice';
 import { setVisibleAlertModal } from '@/store/slice/modalSlice';
-type Props = {
-  product: Product;
-  status: number | string | null;
-  closeModal: () => void;
-};
-const QuickViewProductModal: React.FC<Props> = ({
-  product,
-  status,
-  closeModal,
-}) => {
+import {
+  closeQuickViewProduct,
+  getQuickViewProduct,
+} from '@/store/slice/productSlice';
+const ViewProductModal = () => {
   const dispatch = useDispatch();
-  const { _id, name, price, images, details } = product;
+  const visibleModal = useSelector(getQuickViewProduct);
+  const { _id, name, price, images, details } = visibleModal.productModal;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
   const { indexImage, handlePrev, handleNext, handleIndex } = useSlider(
-    product.images?.length
+    images?.length
   );
   const renderList = useMemo(
     () =>
-      images.map((image, index) => {
+      images?.map((image, index) => {
         return (
-          <LazyLoadImage
+          <img
             key={index}
             className='w-[268px] h-[332px] tablet:w-[434px] tablet:h-[538px] object-cover'
             src={image}
@@ -48,42 +42,44 @@ const QuickViewProductModal: React.FC<Props> = ({
           />
         );
       }),
-    [product]
+    [visibleModal?.productModal]
   );
-  const wrapImages = images?.map((image, index) => {
-    return (
-      <div
-        className='max-w-[70px] w-[70px] h-[84px]'
-        key={index}
-        onClick={() => handleIndex(index)}
-      >
-        <LazyLoadImage
-          src={image}
-          className='w-[70px] h-[84px] cursor-pointer'
-          alt={image}
-          style={{
-            border: `${indexImage === index ? '1px solid #ccc' : ''}`,
-          }}
-        />
-      </div>
-    );
-  });
+  const wrapImages = useMemo(() => {
+    return images?.map((image, index) => {
+      return (
+        <div
+          className='max-w-[70px] w-[70px] h-[84px]'
+          key={index}
+          onClick={() => handleIndex(index)}
+        >
+          <img
+            src={image}
+            className='w-[70px] h-[84px] cursor-pointer'
+            alt={image}
+            style={{
+              border: `${indexImage === index ? '1px solid #ccc' : ''}`,
+            }}
+          />
+        </div>
+      );
+    });
+  }, [visibleModal?.productModal]);
   const totalQuantity = useMemo(
     () =>
-      details.variants.reduce(
+      details?.variants?.reduce(
         (accumulator, currentValue) => accumulator + currentValue.quantity,
         0
       ),
-    [product]
+    [visibleModal?.productModal]
   );
   const sizes = useMemo(() => {
-    const arrSizes = details.variants.map((v) => (v.inStock ? v.size : ''));
+    const arrSizes = details?.variants?.map((v) => (v.inStock ? v.size : ''));
     return [...new Set(arrSizes)];
-  }, [product]);
+  }, [visibleModal?.productModal]);
   const filteredColors = useMemo(
     () =>
-      details.variants
-        .filter((v) => v.size === selectedSize)
+      details?.variants
+        ?.filter((v) => v.size === selectedSize)
         .map((v) => {
           return {
             color: v.color,
@@ -94,7 +90,7 @@ const QuickViewProductModal: React.FC<Props> = ({
   );
   const getQuantity = useMemo(
     () =>
-      details.variants.find(
+      details?.variants?.find(
         (v) => v.size === selectedSize && v.color === selectedColor
       ) ?? null,
     [selectedSize, selectedColor]
@@ -143,7 +139,7 @@ const QuickViewProductModal: React.FC<Props> = ({
         totalPrice: count * price,
       })
     );
-    closeModal();
+    dispatch(closeQuickViewProduct());
     dispatch(
       setVisibleAlertModal({
         status: 'success',
@@ -154,15 +150,15 @@ const QuickViewProductModal: React.FC<Props> = ({
     );
   };
   return (
-    <article
+    <section
       className={`quick-view-product ${
-        status ? 'active' : ''
+        visibleModal.statusModal ? 'active' : ''
       } overflow-y-auto laptop:overflow-hidden`}
     >
-      <div className='container flex flex-col gap-[10px]'>
+      <article className='container flex flex-col gap-[10px]'>
         <button
           className='ml-auto text-xl text-semiBoldGray'
-          onClick={closeModal}
+          onClick={() => dispatch(closeQuickViewProduct())}
           aria-label='CloseModal'
         >
           <FaXmark />
@@ -174,7 +170,7 @@ const QuickViewProductModal: React.FC<Props> = ({
             </div>
             <div className='relative max-w-[514px] max-h-[634px] overflow-hidden flex'>
               {renderList}
-              {product.images.length > 1 ? (
+              {images?.length > 1 ? (
                 <>
                   <button
                     className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
@@ -199,10 +195,10 @@ const QuickViewProductModal: React.FC<Props> = ({
           <div className='w-full laptop:w-1/2 flex flex-col gap-[20px]'>
             <h3 className='text-lg font-medium capitalize'>{name}</h3>
             <div className='text-darkGray flex gap-[20px]'>
-              <p>Category: {details.category.name}</p>
+              <p>Category: {details?.category?.name}</p>
             </div>
             <p className='text-md font-bold'>${price}</p>
-            <p className='text-darkGray'>{details.shortDescription}</p>
+            <p className='text-darkGray'>{details?.shortDescription}</p>
             <div className='flex flex-col gap-[20px]'>
               <div className='flex items-center gap-[40px]'>
                 <label htmlFor='sizes' className='w-1/6 text-darkGray'>
@@ -327,9 +323,9 @@ const QuickViewProductModal: React.FC<Props> = ({
             </div>
           </div>
         </div>
-      </div>
-    </article>
+      </article>
+    </section>
   );
 };
 
-export default QuickViewProductModal;
+export default ViewProductModal;

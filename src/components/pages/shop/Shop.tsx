@@ -40,18 +40,12 @@ function Shop() {
     data: dataProducts,
     isSuccess: isSuccessProduct,
     isFetching: isFetchingProduct,
-  } = products
-    ? useGetProductsQuery({
-        category: queryCategory,
-        tag: queryTag,
-        arrange: queryArrange,
-        page: pageCategory,
-      })
-    : {
-        data: undefined,
-        isSuccess: false,
-        isFetching: false,
-      };
+  } = useGetProductsQuery({
+    category: queryCategory,
+    tag: queryTag,
+    arrange: queryArrange,
+    page: pageCategory,
+  });
   const [modalFilter, setModalFilter] = useState(false);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);

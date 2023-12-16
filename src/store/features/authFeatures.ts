@@ -24,6 +24,11 @@ export const authApi = createApi({
           url: 'login/success',
           method: 'GET',
           credentials: 'include',
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true',
+          },
         }),
       }),
     };

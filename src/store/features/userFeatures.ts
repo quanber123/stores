@@ -18,9 +18,11 @@ export const userApi = createApi({
       }),
       resendEmail: builder.mutation({
         query: (email) => ({
-          url: '/auth/resend-email',
+          url: '/auth/send-code-email',
           method: 'POST',
-          body: email,
+          body: {
+            email: email,
+          },
         }),
       }),
       registerUser: builder.mutation({

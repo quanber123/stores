@@ -5,7 +5,7 @@ import {
 import { FaBell } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import logoImg from '@/assets/images/logo-04.png-fotor-2023121102555.png';
-import './Notifications.css';
+import './NotificationsModal.css';
 function NotificationsModal() {
   const dispatch = useDispatch();
   const visibleModal = useSelector(getVisibleNotificationsModal);

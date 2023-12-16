@@ -13,7 +13,6 @@ function UserModal() {
     dispatch(removeAuth());
     window.open('http://localhost:3000/api/auth/logout', '_self');
   };
-  console.log(`localhost:3000/public${user.image}`);
   return user.email && user.name && user.image ? (
     <div
       className='relative text-semiBoldGray cursor-pointer'

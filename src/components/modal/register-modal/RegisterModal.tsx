@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaXmark, FaLightbulb } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import './register.css';
 import {
   closeAllModal,
   getVisibleRegisterModal,
@@ -18,6 +17,8 @@ import {
 import { useRegisterUserMutation } from '@/store/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import { setAuth } from '@/store/slice/authSlice';
+import './RegisterModal.css';
+
 function RegisterModal() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

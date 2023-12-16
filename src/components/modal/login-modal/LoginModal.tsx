@@ -1,48 +1,59 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import './login.css';
 import {
   getVisibleLoginModal,
+  setVisibleAlertModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
 } from '@/store/slice/modalSlice';
 import { ErrValidate, SuccessValidate, validateEmail } from '@/utils/validate';
 import { setAuth } from '@/store/slice/authSlice';
-import { useGetUserSuccessQuery } from '@/store/features/authFeatures';
 import { useLoginUserMutation } from '@/store/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
+import './LoginModal.css';
 function LoginModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { data: dataUser, isSuccess: isSuccessGetUser } =
-    useGetUserSuccessQuery(null);
-  const [loginUser, { data: dataLogin, isSuccess: isSuccessLogin }] =
-    useLoginUserMutation();
+  const [
+    loginUser,
+    { data: dataLogin, isSuccess: isSuccessLogin, isLoading: isLoadingUser },
+  ] = useLoginUserMutation();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const visibleModal = useSelector(getVisibleLoginModal);
-  const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prevForm) => {
-      return { ...prevForm, [name]: value };
-    });
-  };
+  const handleChangeForm = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = e.target;
+      setForm((prevForm) => {
+        return { ...prevForm, [name]: value };
+      });
+    },
+    [form]
+  );
   const googleLogin = () => {
     window.open('http://localhost:3000/api/auth/google', '_self');
   };
   const facebookLogin = () => {
     window.open('http://localhost:3000/api/auth/facebook', '_self');
   };
+  const handleLoginUser = () => {
+    loginUser(form);
+    if (!isSuccessLogin && !isLoadingUser) {
+      dispatch(
+        setVisibleAlertModal({
+          status: 'failed',
+          message: `Failed: Account is unauthorized`,
+        })
+      );
+    }
+  };
   useEffect(() => {
-    if (isSuccessGetUser) dispatch(setAuth(dataUser));
-  }, [isSuccessGetUser]);
-  useEffect(() => {
-    if (isSuccessLogin) {
+    if (isSuccessLogin && !isLoadingUser && dataLogin) {
       dispatch(setAuth(dataLogin));
       navigate('/verified', { replace: true });
     }
@@ -135,7 +146,7 @@ function LoginModal() {
               cursor: `${!validateEmail(form.email) ? 'no-drop' : 'pointer'}`,
             }}
             disabled={!validateEmail(form.email)}
-            onClick={() => loginUser(form)}
+            onClick={handleLoginUser}
           >
             LOGIN
           </button>

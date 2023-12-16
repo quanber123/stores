@@ -1,11 +1,13 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
 import gsap from 'gsap';
-import { banners } from '@/fake-data/data';
 import { useNavigate } from 'react-router-dom';
 import { useSlider } from '@/components/customHooks/useSlider';
+import { useSelector } from 'react-redux';
+import { getAllBanners } from '@/store/slice/bannerSlice';
 function BannerHome() {
   const navigate = useNavigate();
+  const banners = useSelector(getAllBanners);
   let imgRef = useRef(null);
   let contentRef = useRef(null);
   let categoryRef = useRef(null);
@@ -13,6 +15,49 @@ function BannerHome() {
   let btnNext = useRef(null);
   let btnPrev = useRef(null);
   const { indexImage, handlePrev, handleNext } = useSlider(banners.length);
+  const renderedBanners = useMemo(() => {
+    return banners?.map((i, index) => {
+      return (
+        <article
+          key={index}
+          className='absolute w-full h-full flex justify-center items-center overflow-hidden'
+        >
+          <img
+            ref={indexImage === index ? imgRef : null}
+            className={`img-slider ${indexImage === index ? 'active' : ''}`}
+            src={i.image}
+            alt=''
+            key={index}
+          />
+          <div
+            style={{ display: indexImage === index ? 'flex' : 'none' }}
+            className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
+          >
+            <h3
+              ref={indexImage === index ? contentRef : null}
+              className='text-md laptop:text-xl font-medium capitalize'
+            >
+              {i.content}
+            </h3>
+            <p
+              ref={indexImage === index ? categoryRef : null}
+              className='text-2xl laptop:text-4xl font-semiBold capitalize'
+            >
+              {i.category}
+            </p>
+            <button
+              style={{ transform: 'translateY(120px)', opacity: 0 }}
+              ref={indexImage === index ? btnRef : null}
+              className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-semiBoldGray hover:bg-purple rounded-[23px]'
+              onClick={() => navigate('/shop', { replace: true })}
+            >
+              Shop Now
+            </button>
+          </div>
+        </article>
+      );
+    });
+  }, [banners, indexImage]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.to(imgRef.current, {
@@ -61,47 +106,7 @@ function BannerHome() {
     <section
       className={` relative w-full h-full min-h-[350px] laptop:aspect-[4/2] flex justify-center overflow-hidden`}
     >
-      {banners.map((i, index) => {
-        return (
-          <article
-            key={index}
-            className='absolute w-full h-full flex justify-center items-center overflow-hidden'
-          >
-            <img
-              ref={indexImage === index ? imgRef : null}
-              className={`img-slider ${indexImage === index ? 'active' : ''}`}
-              src={i.src}
-              alt=''
-              key={index}
-            />
-            <div
-              style={{ display: indexImage === index ? 'flex' : 'none' }}
-              className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
-            >
-              <h3
-                ref={indexImage === index ? contentRef : null}
-                className='text-md laptop:text-xl font-medium'
-              >
-                {i.content}
-              </h3>
-              <p
-                ref={indexImage === index ? categoryRef : null}
-                className='text-2xl laptop:text-4xl font-semiBold'
-              >
-                {i.category}
-              </p>
-              <button
-                style={{ transform: 'translateY(120px)', opacity: 0 }}
-                ref={indexImage === index ? btnRef : null}
-                className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-semiBoldGray hover:bg-purple rounded-[23px]'
-                onClick={() => navigate('/shop', { replace: true })}
-              >
-                Shop Now
-              </button>
-            </div>
-          </article>
-        );
-      })}
+      {renderedBanners}
       <button
         ref={btnPrev}
         className='absolute top-1/2 left-[5%] z-50 text-semiBoldGray hover:text-purple'

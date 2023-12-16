@@ -1,11 +1,5 @@
-import {
-  useRef,
-  useLayoutEffect,
-  useMemo,
-  useEffect,
-  useCallback,
-} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useLayoutEffect, useMemo, useCallback } from 'react';
+import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
@@ -15,8 +9,8 @@ import { getAllProductsOverview } from '@/store/slice/productSlice';
 import LoadingProduct from '@/components/common/Loading/LoadingProduct';
 function StoreHome() {
   const products = useSelector(getAllProductsOverview);
-  const [queryParams, setQueryParams] = useSearchParams();
-  const queryProduct = queryParams.get('product') ?? '';
+  // const [queryParams, setQueryParams] = useSearchParams();
+  // const queryProduct = queryParams.get('product') ?? '';
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
@@ -37,19 +31,19 @@ function StoreHome() {
     scrollElement();
     navigate('/shop');
   };
-  const handleQueryChange = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    const name = e.currentTarget.getAttribute('data-name') || '';
-    const value = e.currentTarget.getAttribute('value') || '';
-    setQueryParams((prevQuery) => {
-      const newQuery = new URLSearchParams(prevQuery);
-      if (value.trim() !== '') {
-        newQuery.set(name, value);
-      } else {
-        newQuery.delete(name);
-      }
-      return newQuery.toString();
-    });
-  }, []);
+  // const handleQueryChange = useCallback((e: React.MouseEvent<HTMLElement>) => {
+  //   const name = e.currentTarget.getAttribute('data-name') || '';
+  //   const value = e.currentTarget.getAttribute('value') || '';
+  //   setQueryParams((prevQuery) => {
+  //     const newQuery = new URLSearchParams(prevQuery);
+  //     if (value.trim() !== '') {
+  //       newQuery.set(name, value);
+  //     } else {
+  //       newQuery.delete(name);
+  //     }
+  //     return newQuery.toString();
+  //   });
+  // }, []);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -118,7 +112,7 @@ function StoreHome() {
       >
         Store Overview
       </h2>
-      <div>
+      {/* <div>
         <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] font-bold'>
           {['Best Seller', 'Featured', 'Top Rate'].map((text, index) => {
             return (
@@ -137,10 +131,8 @@ function StoreHome() {
             );
           })}
         </ul>
-      </div>
-      <div className='container product-list mt-4'>
-        {products.length ? renderedProduct : <LoadingProduct />}
-      </div>
+      </div> */}
+      <div className='container product-list mt-4'>{renderedProduct}</div>
       <button
         ref={btnRef}
         className='px-6 py-2 bg-semiBoldGray hover:bg-purple text-white text-md rounded-[23px]'

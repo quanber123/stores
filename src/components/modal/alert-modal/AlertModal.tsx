@@ -1,14 +1,16 @@
 import { getVisibleAlertModal } from '@/store/slice/modalSlice';
 import { FaCheck, FaXmark } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
-import './alert.css';
+import './AlertModal.css';
 function AlertModal() {
   const visibleModal = useSelector(getVisibleAlertModal);
   return (
     <section
-      className={`alert-modal ${visibleModal?.message ? 'active' : ''} bg-${
-        visibleModal?.backgroundColor
-      } text-${visibleModal?.color}`}
+      className={`alert-modal ${visibleModal?.message ? 'active' : ''}  ${
+        visibleModal?.status === 'success'
+          ? 'bg-lightGreen text-green'
+          : 'bg-bgRed text-darkRed'
+      }`}
     >
       {visibleModal?.status === 'success' ? (
         <FaCheck className='text-lg' />
@@ -20,8 +22,12 @@ function AlertModal() {
       ) : (
         <></>
       )}
-      <p>{visibleModal?.message}</p>
-      <div className={`count-down-alert bg-${visibleModal?.color}`}></div>
+      <p className='text-sm'>{visibleModal?.message}</p>
+      <div
+        className={`count-down-alert  ${
+          visibleModal?.status === 'success' ? 'bg-green' : 'bg-darkRed'
+        }`}
+      ></div>
     </section>
   );
 }
