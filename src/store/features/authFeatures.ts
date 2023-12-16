@@ -19,8 +19,14 @@ export const authApi = createApi({
         }),
         providesTags: (result) => providesList(result, 'Auth'),
       }),
+      getUserSuccess: builder.query({
+        query: () => ({
+          url: 'login/success',
+          method: 'GET',
+          credentials: 'include',
+        }),
+      }),
     };
   },
 });
-
-export const { useGetUserQuery } = authApi;
+export const { useGetUserQuery, useGetUserSuccessQuery } = authApi;

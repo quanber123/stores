@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaXmark, FaLightbulb } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import './register.css';
 import {
+  closeAllModal,
   getVisibleRegisterModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
@@ -14,15 +15,20 @@ import {
   validateEmail,
   validatePassword,
 } from '@/utils/validate';
+import { useRegisterUserMutation } from '@/store/features/userFeatures';
+import { useNavigate } from 'react-router-dom';
+import { setAuth } from '@/store/slice/authSlice';
 function RegisterModal() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const visibleModal = useSelector(getVisibleRegisterModal);
   const [form, setForm] = useState({
     name: '',
     email: '',
     password: '',
-    code: '',
   });
+  const [registerUser, { data: dataRegister, isSuccess: isSuccessRegister }] =
+    useRegisterUserMutation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -30,6 +36,20 @@ function RegisterModal() {
       return { ...prevForm, [name]: value };
     });
   };
+  const handleVerifiedEmail = () => {
+    registerUser({
+      name: form.name,
+      email: form.email,
+      password: form.password,
+    });
+  };
+  useEffect(() => {
+    if (isSuccessRegister) {
+      dispatch(closeAllModal());
+      dispatch(setAuth(dataRegister));
+      navigate('/verified', { replace: true });
+    }
+  }, [isSuccessRegister]);
   return (
     <section className={`${visibleModal ? 'active' : ''} register-form`}>
       <form
@@ -160,7 +180,7 @@ function RegisterModal() {
             <></>
           )}
         </div>
-        <div className='w-full h-[48px] my-8 relative'>
+        {/* <div className='w-full h-[48px] my-8 relative'>
           <input
             className='w-full h-full px-[16px] border border-gray rounded-[23px]'
             type='text'
@@ -169,33 +189,31 @@ function RegisterModal() {
             value={form.code}
             onChange={handleChangeForm}
           />
-          <button className='absolute top-1/2 right-[5px] -translate-y-1/2 h-4/5 px-[16px] bg-semiBoldGray hover:bg-purple text-white rounded-[23px]'>
+          <button
+            className='absolute top-1/2 right-[5px] -translate-y-1/2 h-4/5 px-[16px] bg-semiBoldGray hover:bg-purple text-white rounded-[23px]'
+            onClick={handleVerifiedEmail}
+          >
             Send Code
           </button>
-        </div>
-        <div className='w-full register-form-btn'>
+        </div> */}
+        <div className='mt-8 w-full register-form-btn'>
           <button
             style={{
               filter: `${
-                !form.code ||
-                !validateEmail(form.email) ||
-                !validatePassword(form.password)
+                !validateEmail(form.email) || !validatePassword(form.password)
                   ? 'grayscale(80%)'
                   : 'none'
               }`,
               cursor: `${
-                !form.code ||
-                !validateEmail(form.email) ||
-                !validatePassword(form.password)
+                !validateEmail(form.email) || !validatePassword(form.password)
                   ? 'no-drop'
                   : 'pointer'
               }`,
             }}
             disabled={
-              !form.code ||
-              !validateEmail(form.email) ||
-              !validatePassword(form.password)
+              !validateEmail(form.email) || !validatePassword(form.password)
             }
+            onClick={handleVerifiedEmail}
           >
             Register
           </button>

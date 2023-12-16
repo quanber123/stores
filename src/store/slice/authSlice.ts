@@ -1,16 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   user: {
-    username: string | null;
+    email: string | null;
     name: string | null;
-    imageSrc: string | null;
+    image: string | null;
+    isVerified: boolean;
   };
 };
 const initialState: InitialState = {
   user: {
-    username: null,
+    email: null,
     name: null,
-    imageSrc: null,
+    image: null,
+    isVerified: false,
   },
 };
 const authSlice = createSlice({
@@ -21,15 +23,17 @@ const authSlice = createSlice({
       action.payload.accessToken
         ? window.localStorage.setItem('accessToken', action.payload.accessToken)
         : '';
-      state.user.username = action.payload.user.username;
+      state.user.email = action.payload.user.email;
       state.user.name = action.payload.user.name;
-      state.user.imageSrc = action.payload.user.imageSrc;
+      state.user.image = action.payload.user.image;
+      state.user.isVerified = action.payload.user.isVerified;
     },
     removeAuth: (state) => {
-      state.user.username = null;
-      state.user.name = null;
-      state.user.imageSrc = null;
       window.localStorage.removeItem('accessToken');
+      state.user.email = null;
+      state.user.name = null;
+      state.user.image = null;
+      state.user.isVerified = false;
     },
   },
 });

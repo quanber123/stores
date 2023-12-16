@@ -18,7 +18,7 @@ function LazyLoadImage(props: LazyLoadImageProps) {
   };
   const configOptions = {
     rootMargin: '0px',
-    threshold: 0.5,
+    threshold: 0.1,
   };
   useEffect(() => {
     let observer: IntersectionObserver = new IntersectionObserver(

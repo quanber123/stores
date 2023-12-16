@@ -7,6 +7,8 @@ const ShopViews = lazy(() => import('@/views/ShopViews'));
 const ProductDetailsViews = lazy(() => import('@/views/ProductDetailsViews'));
 const BlogViews = lazy(() => import('@/views/BlogViews'));
 const BlogDetailsViews = lazy(() => import('@/views/BlogDetailsViews'));
+const Auth = lazy(() => import('@/components/auth/Auth'));
+const VerifiedAccount = lazy(() => import('@/components/auth/VerifiedAccount'));
 const NotFoundViews = lazy(() => import('@/views/NotFoundViews'));
 const routes: RouteObject[] = [
   {
@@ -44,6 +46,16 @@ const routes: RouteObject[] = [
           {
             path: ':id',
             element: <BlogDetailsViews />,
+          },
+        ],
+      },
+      {
+        path: 'verified',
+        element: <Auth />,
+        children: [
+          {
+            index: true,
+            element: <VerifiedAccount />,
           },
         ],
       },

@@ -30,7 +30,7 @@ function Header() {
     return () => {
       clearTimeout(closeModal);
     };
-  }, [visibleAlertModal]);
+  }, [visibleAlertModal?.message]);
   return (
     <header className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}

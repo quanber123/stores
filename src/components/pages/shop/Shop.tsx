@@ -175,6 +175,24 @@ function Shop() {
       </li>
     );
   });
+  const renderPagination = () => {
+    const pageElements = [];
+    for (let index = 1; index <= totalPage; index++) {
+      pageElements.push(
+        <button
+          className={`pagination ${index === pageCategory ? 'active' : ''}`}
+          key={index}
+          data-name='page'
+          value={index}
+          onClick={handleChangeQuery}
+          disabled={isFetchingProduct ? true : false}
+        >
+          {index}
+        </button>
+      );
+    }
+    return pageElements;
+  };
   const openFilter = () => {
     setModalFilter((prevState) => (prevState = !prevState));
   };
@@ -281,26 +299,7 @@ function Shop() {
               totalPage > 1 ? 'flex' : 'hidden'
             } justify-center gap-[10px]`}
           >
-            {(() => {
-              const pageElements = [];
-              for (let index = 1; index <= totalPage; index++) {
-                pageElements.push(
-                  <button
-                    className={`pagination ${
-                      index === pageCategory ? 'active' : ''
-                    }`}
-                    key={index}
-                    data-name='page'
-                    value={index}
-                    onClick={handleChangeQuery}
-                    disabled={isFetchingProduct ? true : false}
-                  >
-                    {index}
-                  </button>
-                );
-              }
-              return pageElements;
-            })()}
+            {renderPagination()}
           </div>
         </section>
       ) : (

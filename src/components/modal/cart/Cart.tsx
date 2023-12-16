@@ -83,41 +83,39 @@ function CartModal() {
     );
   });
   return (
-    <>
-      <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
-        <div className='flex items-center gap-[20px]'>
-          <FaCartShopping
-            className='text-lg hover:text-purple transition-colors cursor-pointer'
-            onClick={handleCheckCart}
-          />
-          <p className='block tablet:hidden font-bold'>Your Cart</p>
+    <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
+      <div className='flex items-center gap-[20px]'>
+        <FaCartShopping
+          className='text-lg hover:text-purple transition-colors cursor-pointer'
+          onClick={handleCheckCart}
+        />
+        <p className='block tablet:hidden font-bold'>Your Cart</p>
+        {cart.length ? (
+          <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
+            {cart.length}
+          </span>
+        ) : (
+          <></>
+        )}
+      </div>
+      <div className={`cart-modal ${visibleModal ? 'active' : ''}`}>
+        <div className='pl-[16px] pr-[32px] flex justify-between items-center'>
+          <h3 className='text-md text-semiBoldGray font-bold'>Your Cart</h3>
+          <button className='text-purple font-bold' onClick={redirectCart}>
+            See all
+          </button>
+        </div>
+        <div className='pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-y-auto'>
           {cart.length ? (
-            <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
-              {cart.length}
-            </span>
+            renderedCart
           ) : (
-            <></>
+            <p className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-purple font-bold text-xl text-center'>
+              No Product In Your Cart
+            </p>
           )}
         </div>
-        <div className={`cart-modal ${visibleModal ? 'active' : ''}`}>
-          <div className='pl-[16px] pr-[32px] flex justify-between items-center'>
-            <h3 className='text-md text-semiBoldGray font-bold'>Your Cart</h3>
-            <button className='text-purple font-bold' onClick={redirectCart}>
-              See all
-            </button>
-          </div>
-          <div className='pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-y-auto'>
-            {cart.length ? (
-              renderedCart
-            ) : (
-              <p className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-purple font-bold text-xl text-center'>
-                No Product In Your Cart
-              </p>
-            )}
-          </div>
-        </div>
       </div>
-    </>
+    </div>
   );
 }
 

@@ -3,14 +3,14 @@ import gsap from 'gsap';
 import Router from './Route';
 import Logo from './Logo';
 import Buttons from './Buttons';
+import NotificationsModal from '@/components/modal/notifications/Notifications';
+import FavoriteModal from '@/components/modal/favourite/Favorite';
 import LoginModal from '@/components/modal/login/Login';
 import RegisterModal from '@/components/modal/register/Register';
-import User from './User';
+import UserModal from '@/components/modal/user/UserModal';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
-import NotificationsModal from '@/components/modal/notifications/Notifications';
 import CartModal from '@/components/modal/cart/Cart';
-import FavoriteModal from '@/components/modal/favourite/Favorite';
 function DesktopNavBar() {
   const user = useSelector(authInfo);
   const imgRef = useRef(null);
@@ -54,12 +54,12 @@ function DesktopNavBar() {
     <nav className='container relative h-[60px] flex justify-start items-center gap-[80px]'>
       <Logo imgRef={imgRef} />
       <Router routeRefs={routeRefs} />
-      {user ? (
+      {user.email ? (
         <div className='ml-auto flex items-center gap-[20px]'>
           <CartModal />
           <FavoriteModal />
           <NotificationsModal />
-          <User />
+          <UserModal />
         </div>
       ) : (
         <>

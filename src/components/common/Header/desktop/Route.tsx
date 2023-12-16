@@ -1,5 +1,6 @@
 import { closeAllModal } from '@/store/slice/modalSlice';
 import scrollElement from '@/utils/scroll-elements';
+import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 type PropsRoutes = {
@@ -23,26 +24,28 @@ function Router({ routeRefs }: PropsRoutes) {
     dispatch(closeAllModal());
     scrollElement();
   };
-  const route = routes.map((r, index) => {
-    return (
-      <li
-        key={index}
-        className='capitalize'
-        ref={(el) => (routeRefs.current[index] = el)}
-      >
-        <NavLink
-          to={r.link}
-          className={({ isActive }) =>
-            isActive ? 'text-purple w-max' : 'w-max'
-          }
-          onClick={closeModal}
-          end
+  const route = useMemo(() => {
+    return routes.map((r, index) => {
+      return (
+        <li
+          key={index}
+          className='capitalize'
+          ref={(el) => (routeRefs.current[index] = el)}
         >
-          {r.link}
-        </NavLink>
-      </li>
-    );
-  });
+          <NavLink
+            to={r.link}
+            className={({ isActive }) =>
+              isActive ? 'text-purple w-max' : 'w-max'
+            }
+            onClick={closeModal}
+            end
+          >
+            {r.link}
+          </NavLink>
+        </li>
+      );
+    });
+  }, []);
   return (
     <div>
       <ul className='p-[16px] h-max flex items-center gap-[20px] font-bold'>

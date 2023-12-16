@@ -10,14 +10,22 @@ import {
 } from '@/store/slice/modalSlice';
 import { ErrValidate, SuccessValidate, validateEmail } from '@/utils/validate';
 import { setAuth } from '@/store/slice/authSlice';
+import { useGetUserSuccessQuery } from '@/store/features/authFeatures';
+import { useLoginUserMutation } from '@/store/features/userFeatures';
+import { useNavigate } from 'react-router-dom';
 function LoginModal() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const visibleModal = useSelector(getVisibleLoginModal);
+  const { data: dataUser, isSuccess: isSuccessGetUser } =
+    useGetUserSuccessQuery(null);
+  const [loginUser, { data: dataLogin, isSuccess: isSuccessLogin }] =
+    useLoginUserMutation();
   const [form, setForm] = useState({
     email: '',
     password: '',
   });
   const [focusInput, setFocusInput] = useState<string | null>(null);
+  const visibleModal = useSelector(getVisibleLoginModal);
   const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setForm((prevForm) => {
@@ -31,19 +39,14 @@ function LoginModal() {
     window.open('http://localhost:3000/api/auth/facebook', '_self');
   };
   useEffect(() => {
-    fetch('http://localhost:3000/api/auth/login/success', {
-      method: 'GET',
-      credentials: 'include',
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('User Info:', data);
-        dispatch(setAuth(data));
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }, []);
+    if (isSuccessGetUser) dispatch(setAuth(dataUser));
+  }, [isSuccessGetUser]);
+  useEffect(() => {
+    if (isSuccessLogin) {
+      dispatch(setAuth(dataLogin));
+      navigate('/verified', { replace: true });
+    }
+  }, [isSuccessLogin]);
   return (
     <section className={`${visibleModal ? 'active' : ''} login-form`}>
       <form
@@ -132,6 +135,7 @@ function LoginModal() {
               cursor: `${!validateEmail(form.email) ? 'no-drop' : 'pointer'}`,
             }}
             disabled={!validateEmail(form.email)}
+            onClick={() => loginUser(form)}
           >
             LOGIN
           </button>
