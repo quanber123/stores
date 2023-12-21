@@ -1,19 +1,19 @@
 import {
-  getVisibleFavoriteModal,
-  setVisibleAlertModal,
+  // getVisibleFavoriteModal,
+  // setVisibleAlertModal,
   setVisibleFavoriteModal,
 } from '@/store/slice/modalSlice';
 import { FaHeart } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
-import { getFavorite, removeFormFavorite } from '@/store/slice/favoriteSlice';
+// import { useState } from 'react';
+// import { getFavorite, removeFormFavorite } from '@/store/slice/favoriteSlice';
 function FavoriteModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const favorite = useSelector(getFavorite);
-  const visibleModal = useSelector(getVisibleFavoriteModal);
-  const [removeItem, setRemoveItem] = useState<string | null>(null);
+  // const favorite = useSelector(getFavorite);
+  // const visibleModal = useSelector(getVisibleFavoriteModal);
+  // const [removeItem, setRemoveItem] = useState<string | null>(null);
   const handleCheckFavorite = () => {
     if (window.innerWidth > 640) {
       dispatch(setVisibleFavoriteModal());
@@ -90,13 +90,13 @@ function FavoriteModal() {
             onClick={handleCheckFavorite}
           />
           <p className='block tablet:hidden font-bold'>Your Favorite</p>
-          {favorite.length ? (
+          {/* {favorite.length ? (
             <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
               {favorite.length}
             </span>
           ) : (
             <></>
-          )}
+          )} */}
         </div>
         {/* <div className={`favorite-modal ${visibleModal ? 'active' : ''}`}>
           <div className='pl-[16px] pr-[32px] flex justify-between items-center'>

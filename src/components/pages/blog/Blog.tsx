@@ -2,14 +2,15 @@ import { useRef, useMemo, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import LazyLoadImage from '@/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
-import { blogs } from '@/fake-data/data';
 import PreviewBlog from '@/components/single/blog/PreviewBlog';
 import { FaArrowDownWideShort } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import { getAllTags } from '@/store/slice/tagSlice';
 import { getAllCategories } from '@/store/slice/categorySlice';
 import './blog.css';
+import { getAllBlogs } from '@/store/slice/blogSlice';
 function Blog() {
+  const blogs = useSelector(getAllBlogs);
   const categories = useSelector(getAllCategories);
   const tags = useSelector(getAllTags);
   const [dropdownCategory, setDropdownCategory] = useState(false);

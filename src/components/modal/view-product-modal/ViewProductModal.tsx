@@ -16,10 +16,12 @@ import {
   closeQuickViewProduct,
   getQuickViewProduct,
 } from '@/store/slice/productSlice';
+import { Product } from '@/interfaces/interfaces';
 const ViewProductModal = () => {
   const dispatch = useDispatch();
   const visibleModal = useSelector(getQuickViewProduct);
-  const { _id, name, price, images, details } = visibleModal.productModal;
+  const { _id, name, price, images, details } =
+    visibleModal.productModal as Product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');

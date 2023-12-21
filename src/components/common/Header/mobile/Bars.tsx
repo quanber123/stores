@@ -1,18 +1,14 @@
-type PropsBars = {
-  handleDropdownRoutes: () => void;
-  dropdownRoutes: boolean;
-};
-function Bars({ handleDropdownRoutes, dropdownRoutes }: PropsBars) {
+function Bars() {
   return (
     <div className='flex items-center gap-[10px]'>
-      <div
+      {/* <div
         className={`relative m-auto w-[24px] h-[42px] cursor-pointer`}
         onClick={handleDropdownRoutes}
       >
         <span className={`bars ${dropdownRoutes ? 'active' : ''}`}></span>
         <span className={`bars ${dropdownRoutes ? 'active' : ''}`}></span>
         <span className={`bars ${dropdownRoutes ? 'active' : ''}`}></span>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { FaRightToBracket } from 'react-icons/fa6';
+// import { FaRightToBracket } from 'react-icons/fa6';
 import Bars from './Bars';
 import Logo from './Logo';
 import { useSelector } from 'react-redux';

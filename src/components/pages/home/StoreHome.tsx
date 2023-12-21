@@ -1,16 +1,13 @@
-import { useRef, useLayoutEffect, useMemo, useCallback } from 'react';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getAllProductsOverview } from '@/store/slice/productSlice';
-import LoadingProduct from '@/components/common/Loading/LoadingProduct';
 function StoreHome() {
   const products = useSelector(getAllProductsOverview);
-  // const [queryParams, setQueryParams] = useSearchParams();
-  // const queryProduct = queryParams.get('product') ?? '';
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
@@ -31,19 +28,6 @@ function StoreHome() {
     scrollElement();
     navigate('/shop');
   };
-  // const handleQueryChange = useCallback((e: React.MouseEvent<HTMLElement>) => {
-  //   const name = e.currentTarget.getAttribute('data-name') || '';
-  //   const value = e.currentTarget.getAttribute('value') || '';
-  //   setQueryParams((prevQuery) => {
-  //     const newQuery = new URLSearchParams(prevQuery);
-  //     if (value.trim() !== '') {
-  //       newQuery.set(name, value);
-  //     } else {
-  //       newQuery.delete(name);
-  //     }
-  //     return newQuery.toString();
-  //   });
-  // }, []);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
@@ -112,26 +96,6 @@ function StoreHome() {
       >
         Store Overview
       </h2>
-      {/* <div>
-        <ul className='text-sm tablet:text-base flex justify-center gap-[20px] tablet:gap-[40px] font-bold'>
-          {['Best Seller', 'Featured', 'Top Rate'].map((text, index) => {
-            return (
-              <li key={index} ref={(el) => (routeRefs.current[index] = el)}>
-                <button
-                  className={`text-semiBoldGray hover:text-purple ${
-                    queryProduct === text.toLowerCase() ? 'text-purple' : ''
-                  }`}
-                  data-name='product'
-                  value={text.toLowerCase()}
-                  onClick={handleQueryChange}
-                >
-                  {text}
-                </button>
-              </li>
-            );
-          })}
-        </ul>
-      </div> */}
       <div className='container product-list mt-4'>{renderedProduct}</div>
       <button
         ref={btnRef}

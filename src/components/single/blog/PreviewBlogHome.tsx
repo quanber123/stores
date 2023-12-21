@@ -1,4 +1,3 @@
-import { Blog } from '@/interfaces/interfaces';
 import { capitalizeFirstLetter, formatDate } from '@/utils/format';
 import LazyLoadImage from '@/utils/lazyload-image';
 import scrollElement from '@/utils/scroll-elements';

@@ -3,7 +3,7 @@ import authReducer from './slice/authSlice';
 import productReducer from './slice/productSlice';
 import bannerReducer from './slice/bannerSlice';
 import cartReducer from './slice/cartSlice';
-import favoriteReucer from './slice/favoriteSlice';
+// import favoriteReducer from './slice/favoriteSlice';
 import blogReducer from './slice/blogSlice';
 import categoryReducer from './slice/categorySlice';
 import tagReducer from './slice/tagSlice';
@@ -23,7 +23,7 @@ export const store = configureStore({
     banners: bannerReducer,
     blogs: blogReducer,
     cart: cartReducer,
-    favorite: favoriteReucer,
+    // favorite: favoriteReducer,
     category: categoryReducer,
     tags: tagReducer,
     modal: modalReducer,
