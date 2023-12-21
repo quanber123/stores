@@ -11,7 +11,7 @@ self.addEventListener('install', (event) => {
         '/assets/js/bundle.js',
         '../src/assets/images/logo-01.png.webp',
         '../src/assets/images/logo-02.png.webp',
-        '../srcindex.css',
+        '../src/index.css',
         '../src/App.tsx',
         // '/components/common/Header/Header.tsx',
         // '/components/common/Footer/Footer.tsx',
