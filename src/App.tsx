@@ -1,10 +1,13 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { blogs } from './fake-data/data';
+import { setHeader } from './utils/set-header';
 import { setAllBlogs } from './store/slice/blogSlice';
 import { setAllCategories } from './store/slice/categorySlice';
-import { useGetUserQuery } from './store/features/authFeatures';
+import {
+  useGetUserQuery,
+  useGetUserSuccessQuery,
+} from './store/features/authFeatures';
 import { setAuth } from './store/slice/authSlice';
 import { useGetTagsQuery } from './store/features/tagsFeatures';
 import { setAllTags } from './store/slice/tagSlice';
@@ -15,11 +18,10 @@ import {
   setAllProducts,
   setAllProductsOverview,
 } from './store/slice/productSlice';
-import { setHeader } from './utils/set-header';
 import { useGetBannersQuery } from './store/features/bannerFeatures';
 import { setAllBanners } from './store/slice/bannerSlice';
-import AlertModal from './components/modal/alert-modal/AlertModal';
-import ViewProductModal from './components/modal/view-product-modal/ViewProductModal';
+import { useGetBlogsQuery } from './store/features/blogFeatures';
+// import { checkSession } from './utils/validate';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
@@ -27,16 +29,24 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
+  console.log(document.cookie);
   const token = useMemo(() => {
     return window.localStorage.getItem('accessToken');
   }, []);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(token, {
     skip: token ? false : true,
   });
+  // const { data: dataUserSession, isSuccess: isSuccessSession } =
+  //   useGetUserSuccessQuery(null, { skip: checkSession() ? false : true });
+  const { data: dataUserSession, isSuccess: isSuccessSession } =
+    useGetUserSuccessQuery(null, { skip: token ? true : false });
   const { data: dataProducts, isSuccess: isSuccessProducts } =
     useGetProductsQuery({
       page: 1,
     });
+  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery({
+    page: 1,
+  });
   const { data: dataBanners, isSuccess: isSuccessBanners } =
     useGetBannersQuery(null);
   const { data: dataCategories, isSuccess: isSuccessCategories } =
@@ -52,7 +62,12 @@ function App() {
         navigate('/verified', { replace: true });
       }
     }
-  }, [isSuccessUser]);
+  }, [token, isSuccessUser]);
+  useEffect(() => {
+    if (isSuccessSession) {
+      dispatch(setAuth(dataUserSession));
+    }
+  }, [isSuccessSession]);
   useEffect(() => {
     if (isSuccessProducts && dataProducts) {
       dispatch(setAllProductsOverview(dataProducts));
@@ -73,8 +88,12 @@ function App() {
     if (isSuccessTags && dataTags) {
       dispatch(setAllTags(dataTags));
     }
-    dispatch(setAllBlogs({ blogs: blogs, totalPage: 0 }));
   }, [isSuccessTags]);
+  useEffect(() => {
+    if (isSuccessBlogs && dataBlogs) {
+      dispatch(setAllBlogs(dataBlogs));
+    }
+  }, [isSuccessBlogs]);
   return (
     <Suspense fallback={<Loading />}>
       <Header />

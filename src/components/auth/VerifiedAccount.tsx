@@ -26,11 +26,18 @@ function VerifiedAccount() {
       data: DataVerified,
       isSuccess: isSuccessVerified,
       isLoading: isLoadingVerified,
+      status: statusVerified,
+      error: errorVerified,
     },
   ] = useVerifiedEmailMutation();
-  const [resendEmail, { isSuccess: isResendEmailSuccess }] =
-    useResendEmailMutation();
-
+  const [
+    resendEmail,
+    {
+      isSuccess: isResendEmailSuccess,
+      isLoading: isLoadingSendMail,
+      status: statusResend,
+    },
+  ] = useResendEmailMutation();
   const handleChangeCode = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCode(e.target.value);
@@ -39,39 +46,57 @@ function VerifiedAccount() {
   );
   const handleVerified = () => {
     verifiedEmail({ email: user.email, code: code });
-    if (!isSuccessVerified) {
-      dispatch(
-        setVisibleAlertModal({
-          status: 'failed',
-          message: 'Failed: Code is not incorrect! ',
-        })
-      );
-    }
   };
   const handleResendEmail = () => {
     resendEmail(user.email);
-    if (isResendEmailSuccess && !isLoadingVerified) {
+  };
+  useEffect(() => {
+    if (
+      isResendEmailSuccess &&
+      !isLoadingSendMail &&
+      statusResend === 'fulfilled'
+    ) {
       dispatch(
         setVisibleAlertModal({
           status: 'success',
           message: 'Success: Code was sent!',
         })
       );
-    } else {
-      dispatch(
-        setVisibleAlertModal({
-          status: 'failed',
-          message: 'Failed: Failed to send!',
-        })
-      );
     }
-  };
+  }, [
+    resendEmail,
+    dispatch,
+    isResendEmailSuccess,
+    isLoadingSendMail,
+    statusResend,
+  ]);
   useEffect(() => {
-    if (isSuccessVerified) {
+    if (
+      isSuccessVerified &&
+      !isLoadingVerified &&
+      statusVerified === 'fulfilled'
+    ) {
       dispatch(setAuth(DataVerified));
       navigate('/', { replace: true });
     }
-  }, [isSuccessVerified]);
+    if (errorVerified && 'data' in errorVerified) {
+      const errorData = errorVerified.data as { message: string };
+      dispatch(
+        setVisibleAlertModal({
+          status: 'failed',
+          message: `Failed: ${errorData}`,
+        })
+      );
+    }
+  }, [
+    verifiedEmail,
+    dispatch,
+    navigate,
+    isSuccessVerified,
+    isLoadingVerified,
+    statusVerified,
+    errorVerified,
+  ]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
@@ -123,12 +148,14 @@ function VerifiedAccount() {
         <div className='flex justify-end p-4'>
           <button
             className={`${
-              code ? 'bg-[#1877f2]' : 'bg-lightGray'
+              !code || statusResend === 'pending'
+                ? 'bg-lightGray'
+                : 'bg-[#1877f2]'
             } text-white w-[145px] h-[36px] rounded-[4px]`}
-            disabled={code ? false : true}
+            disabled={!code || statusResend === 'pending'}
             onClick={handleVerified}
           >
-            Continue
+            {statusResend === 'pending' ? '...Loading' : 'Continue'}
           </button>
         </div>
       </form>

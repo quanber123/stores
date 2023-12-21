@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   closeAllModal,
   getVisibleRegisterModal,
+  setVisibleAlertModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
 } from '@/store/slice/modalSlice';
@@ -28,8 +29,16 @@ function RegisterModal() {
     email: '',
     password: '',
   });
-  const [registerUser, { data: dataRegister, isSuccess: isSuccessRegister }] =
-    useRegisterUserMutation();
+  const [
+    registerUser,
+    {
+      data: dataRegister,
+      isSuccess: isSuccessRegister,
+      isLoading: isLoadingRegister,
+      status: statusRegister,
+      error: errorRegister,
+    },
+  ] = useRegisterUserMutation();
   const [focusInput, setFocusInput] = useState<string | null>(null);
   const handleChangeForm = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -45,12 +54,32 @@ function RegisterModal() {
     });
   };
   useEffect(() => {
-    if (isSuccessRegister) {
+    if (
+      isSuccessRegister &&
+      !isLoadingRegister &&
+      statusRegister === 'fulfilled'
+    ) {
       dispatch(closeAllModal());
       dispatch(setAuth(dataRegister));
       navigate('/verified', { replace: true });
     }
-  }, [isSuccessRegister]);
+    if (errorRegister && 'data' in errorRegister) {
+      const errorData = errorRegister.data as { message: string };
+      dispatch(
+        setVisibleAlertModal({
+          status: 'failed',
+          message: `Failed: ${errorData}`,
+        })
+      );
+    }
+  }, [
+    dispatch,
+    navigate,
+    isSuccessRegister,
+    isLoadingRegister,
+    statusRegister,
+    errorRegister,
+  ]);
   return (
     <section className={`${visibleModal ? 'active' : ''} register-form`}>
       <form
@@ -64,7 +93,7 @@ function RegisterModal() {
         >
           <FaXmark />
         </button>
-        <h1 className='w-full text-semiBoldGray font-bold text-lg tablet:text-xl text-center'>
+        <h1 className='w-full text-darkGray font-bold text-lg tablet:text-xl text-center'>
           Register
         </h1>
         <img
@@ -104,7 +133,7 @@ function RegisterModal() {
           onClick={() => setFocusInput('email')}
         >
           <label
-            className={`text-darkGray ${
+            className={`text-mediumGray ${
               focusInput === 'email' || form.email ? 'active' : ''
             }`}
             htmlFor='email'
@@ -141,7 +170,7 @@ function RegisterModal() {
           onClick={() => setFocusInput('password')}
         >
           <label
-            className={`text-darkGray ${
+            className={`text-mediumGray ${
               focusInput === 'password' || form.password ? 'active' : ''
             }`}
             htmlFor='password'
@@ -220,9 +249,9 @@ function RegisterModal() {
           </button>
         </div>
         <div className='flex justify-center items-center gap-[10px]'>
-          <p className='text-darkGray'>Already Have account ?</p>
+          <p className='text-mediumGray'>Already Have account ?</p>
           <button
-            className='text-darkGray hover:text-blue font-bold'
+            className='text-mediumGray hover:text-blue font-bold'
             onClick={() => dispatch(setVisibleLoginModal())}
           >
             Login

@@ -15,7 +15,7 @@ function Buttons() {
         Login
       </button>
       <button
-        className='px-5 py-2 font-bold bg-semiBoldGray text-white hover:bg-purple rounded-[28px]'
+        className='px-5 py-2 font-bold bg-darkGray text-white hover:bg-purple rounded-[28px]'
         onClick={() => dispatch(setVisibleRegisterModal())}
       >
         Register

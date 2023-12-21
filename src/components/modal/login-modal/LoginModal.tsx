@@ -3,6 +3,7 @@ import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  closeAllModal,
   getVisibleLoginModal,
   setVisibleAlertModal,
   setVisibleLoginModal,
@@ -18,7 +19,13 @@ function LoginModal() {
   const dispatch = useDispatch();
   const [
     loginUser,
-    { data: dataLogin, isSuccess: isSuccessLogin, isLoading: isLoadingUser },
+    {
+      data: dataLogin,
+      isSuccess: isSuccessLogin,
+      isLoading: isLoadingUser,
+      status: statusLogin,
+      error: errorLogin,
+    },
   ] = useLoginUserMutation();
   const [form, setForm] = useState({
     email: '',
@@ -43,21 +50,31 @@ function LoginModal() {
   };
   const handleLoginUser = () => {
     loginUser(form);
-    if (!isSuccessLogin && !isLoadingUser) {
-      dispatch(
-        setVisibleAlertModal({
-          status: 'failed',
-          message: `Failed: Account is unauthorized`,
-        })
-      );
-    }
   };
   useEffect(() => {
-    if (isSuccessLogin && !isLoadingUser && dataLogin) {
+    if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
+      dispatch(closeAllModal());
       dispatch(setAuth(dataLogin));
       navigate('/verified', { replace: true });
     }
-  }, [isSuccessLogin]);
+    if (errorLogin && 'data' in errorLogin) {
+      const errorData = errorLogin.data as { message: string };
+      dispatch(
+        setVisibleAlertModal({
+          status: 'failed',
+          message: `Failed: ${errorData}`,
+        })
+      );
+    }
+  }, [
+    loginUser,
+    navigate,
+    dispatch,
+    isSuccessLogin,
+    isLoadingUser,
+    statusLogin,
+    errorLogin,
+  ]);
   return (
     <section className={`${visibleModal ? 'active' : ''} login-form`}>
       <form
@@ -71,7 +88,7 @@ function LoginModal() {
         >
           <FaXmark />
         </button>
-        <h1 className='w-full text-semiBoldGray font-bold text-lg tablet:text-xl text-center'>
+        <h1 className='w-full text-darkGray font-bold text-lg tablet:text-xl text-center'>
           Welcome
         </h1>
         <img
@@ -81,7 +98,7 @@ function LoginModal() {
         />
         <div className='wrap-input-login mt-[20px]'>
           <label
-            className={`text-darkGray ${
+            className={`text-mediumGray ${
               focusInput === 'email' || form.email ? 'active' : ''
             }`}
             htmlFor='email'
@@ -115,7 +132,7 @@ function LoginModal() {
         </div>
         <div className='wrap-input-login'>
           <label
-            className={`text-darkGray ${
+            className={`text-mediumGray ${
               focusInput === 'password' || form.password ? 'active' : ''
             }`}
             htmlFor='password'
@@ -141,14 +158,20 @@ function LoginModal() {
           <button
             style={{
               filter: `${
-                !validateEmail(form.email) ? 'grayscale(80%)' : 'none'
+                !validateEmail(form.email) || statusLogin === 'pending'
+                  ? 'grayscale(80%)'
+                  : 'none'
               }`,
-              cursor: `${!validateEmail(form.email) ? 'no-drop' : 'pointer'}`,
+              cursor: `${
+                !validateEmail(form.email) || statusLogin === 'pending'
+                  ? 'no-drop'
+                  : 'pointer'
+              }`,
             }}
-            disabled={!validateEmail(form.email)}
+            disabled={!validateEmail(form.email) || statusLogin === 'pending'}
             onClick={handleLoginUser}
           >
-            LOGIN
+            {statusLogin === 'pending' ? '...Loading' : 'Login'}
           </button>
         </div>
         <div className='w-full flex flex-col mobile:flex-row justify-center items-center gap-[20px] text-white'>
@@ -172,9 +195,9 @@ function LoginModal() {
           </button>
         </div>
         <div className='flex justify-center items-center gap-[10px]'>
-          <p className='text-darkGray'>Don't have an account?</p>
+          <p className='text-mediumGray'>Don't have an account?</p>
           <button
-            className='text-darkGray hover:text-blue font-bold'
+            className='text-mediumGray hover:text-blue font-bold'
             onClick={() => dispatch(setVisibleRegisterModal())}
           >
             Sign Up

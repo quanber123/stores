@@ -1,5 +1,5 @@
 import { Category } from '@/interfaces/interfaces';
-import { capitalize } from '@/utils/capitalize';
+import { capitalize } from '@/utils/format';
 import { useNavigate } from 'react-router-dom';
 type Props = {
   category: Category;

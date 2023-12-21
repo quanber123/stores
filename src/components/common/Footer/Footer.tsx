@@ -63,7 +63,7 @@ function Footer() {
     []
   );
   return (
-    <footer className='py-[75px] bg-semiBoldGray text-lightGray'>
+    <footer className='py-[75px] bg-darkGray text-lightGray'>
       <div
         className='container grid gap-[40px]'
         style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))' }}

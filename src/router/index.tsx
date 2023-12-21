@@ -50,7 +50,7 @@ const routes: RouteObject[] = [
         ],
       },
       {
-        path: 'verified',
+        path: '/verified',
         element: <Auth />,
         children: [
           {

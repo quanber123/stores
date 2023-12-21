@@ -11,11 +11,14 @@ self.addEventListener('install', (event) => {
         '/assets/js/bundle.js',
         '/assets/images/logo-01.png.webp',
         '/assets/images/logo-02.png.webp',
-        '/components/common/Header/Header.tsx',
-        '/components/common/Footer/Footer.tsx',
-        '/components/common/Loading/Loading.tsx',
-        '/components/common/Loading/LoadingData.tsx',
-        '/components/common/ScrollElement/Scroll.tsx',
+        'index.css',
+        'App.tsx',
+        // '/components/common/Header/Header.tsx',
+        // '/components/common/Footer/Footer.tsx',
+        // '/components/common/Loading/Loading.tsx',
+        // '/components/common/Loading/LoadingBlog.tsx',
+        // '/components/common/Loading/LoadingProduct.tsx',
+        // '/components/common/ScrollElement/Scroll.tsx',
         '/views/HomeViews.tsx',
         '/views/AboutViews.tsx',
         '/views/ShopViews.tsx',
@@ -26,7 +29,7 @@ self.addEventListener('install', (event) => {
         '/utils/format-date.ts',
         '/utils/providesList.ts',
         '/utils/scroll-elements.ts',
-        '/utils/validate.ts',
+        '/utils/validate.tsx',
         // Thêm các thành phần khác mà bạn muốn lưu trữ
         // Cũng nhớ thêm hình ảnh, font, và các tài nguyên khác
       ]);

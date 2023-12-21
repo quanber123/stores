@@ -41,16 +41,22 @@ const RelatedProducts: React.FC<Props> = ({ products, refEl }) => {
             {renderedProducts}
           </div>
         </div>
-        <div className='text-xl'>
-          <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handlePrev}
-          />
-          <FaAngleRight
-            className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handleNext}
-          />
-        </div>
+        {products.length > 4 ? (
+          <>
+            <div className='text-xl'>
+              <FaAngleLeft
+                className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+                onClick={handlePrev}
+              />
+              <FaAngleRight
+                className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+                onClick={handleNext}
+              />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );

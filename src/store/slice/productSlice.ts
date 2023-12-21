@@ -5,7 +5,7 @@ type InitialState = {
   productsOverview: Product[];
   quickViewProduct: {
     statusModal: boolean;
-    productModal: Product;
+    productModal: Product | {};
   };
   totalPage: number;
   status: string;

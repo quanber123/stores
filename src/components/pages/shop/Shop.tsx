@@ -16,7 +16,7 @@ import {
   setAllProducts,
 } from '@/store/slice/productSlice';
 import { getAllCategories } from '@/store/slice/categorySlice';
-import { capitalize } from '@/utils/capitalize';
+import { capitalize } from '@/utils/format';
 import { useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery } from '@/store/features/productFeatures';
 import './shop.css';
@@ -25,6 +25,7 @@ import LoadingProduct from '@/components/common/Loading/LoadingProduct';
 ('@/components/common/Loading/LoadingData');
 function Shop() {
   const dispatch = useDispatch();
+  const products = useSelector(getAllProducts);
   const totalPage = useSelector(getTotalPage);
   const categories = useSelector(getAllCategories);
   const tags = useSelector(getAllTags);
@@ -35,17 +36,20 @@ function Shop() {
   const pageCategory = searchQuery.get('page')
     ? Number(searchQuery.get('page'))
     : 1;
-  const products = useSelector(getAllProducts);
   const {
     data: dataProducts,
     isSuccess: isSuccessProduct,
     isFetching: isFetchingProduct,
-  } = useGetProductsQuery({
-    category: queryCategory,
-    tag: queryTag,
-    arrange: queryArrange,
-    page: pageCategory,
-  });
+  } = useGetProductsQuery(
+    {
+      category: queryCategory,
+      tag: queryTag,
+      arrange: queryArrange,
+      page: pageCategory,
+    },
+    { skip: searchQuery.size > 0 ? false : true }
+  );
+
   const [modalFilter, setModalFilter] = useState(false);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const subRouteRefs = useRef<Array<HTMLElement | null>>([]);
@@ -218,28 +222,26 @@ function Shop() {
     };
   }, []);
   useLayoutEffect(() => {
-    if (productRefs.current) {
-      const ctx = gsap.context(() => {
-        productRefs.current
-          .filter((ref) => ref)
-          .forEach((ref, index) => {
-            gsap.fromTo(
-              ref,
-              {
-                x: 200,
-                opacity: 0,
-              },
-              {
-                x: 0,
-                opacity: 1,
-                duration: 0.5,
-                delay: index * 0.3,
-              }
-            );
-          });
-      });
-      return () => ctx.revert();
-    }
+    const ctx = gsap.context(() => {
+      productRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          gsap.fromTo(
+            ref,
+            {
+              x: 200,
+              opacity: 0,
+            },
+            {
+              x: 0,
+              opacity: 1,
+              duration: 0.5,
+              delay: index * 0.3,
+            }
+          );
+        });
+    });
+    return () => ctx.revert();
   }, [products]);
   return (
     <>

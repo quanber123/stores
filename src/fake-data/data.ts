@@ -5,7 +5,7 @@ import blogImg from '@/assets/images/bg-02.jpg.webp';
 import testImg from '@/assets/images/blog-04.jpg.webp';
 import demoimg from '@/assets/images/banner-01.jpg.webp';
 
-import { formatDate } from '@/utils/format-date';
+import { formatDate } from '@/utils/format';
 
 export const blogs = [
   {

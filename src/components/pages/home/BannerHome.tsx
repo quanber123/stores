@@ -31,7 +31,7 @@ function BannerHome() {
           />
           <div
             style={{ display: indexImage === index ? 'flex' : 'none' }}
-            className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px] laptop:gap-[40px]'
+            className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
           >
             <h3
               ref={indexImage === index ? contentRef : null}
@@ -48,7 +48,7 @@ function BannerHome() {
             <button
               style={{ transform: 'translateY(120px)', opacity: 0 }}
               ref={indexImage === index ? btnRef : null}
-              className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-semiBoldGray hover:bg-purple rounded-[23px]'
+              className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-darkGray hover:bg-purple rounded-[23px]'
               onClick={() => navigate('/shop', { replace: true })}
             >
               Shop Now

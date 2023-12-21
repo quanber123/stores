@@ -7,9 +7,9 @@ import {
   getVisibleAlertModal,
   setVisibleAlertModal,
 } from '@/store/slice/modalSlice';
-import './Header.css';
 import ViewProductModal from '@/components/modal/view-product-modal/ViewProductModal';
 import { getQuickViewProduct } from '@/store/slice/productSlice';
+import './Header.css';
 function Header() {
   const dispatch = useDispatch();
   const visibleAlertModal = useSelector(getVisibleAlertModal);
@@ -27,7 +27,7 @@ function Header() {
     };
   }, []);
   useEffect(() => {
-    if (visibleAlertModal) {
+    if (visibleAlertModal?.status) {
       const closeModal = setTimeout(() => {
         dispatch(setVisibleAlertModal({}));
       }, 2000);
@@ -35,11 +35,11 @@ function Header() {
         clearTimeout(closeModal);
       };
     }
-  }, [dispatch, visibleAlertModal]);
+  }, [dispatch, visibleAlertModal?.status]);
   return (
     <header className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
-      {visibleAlertModal?.message ? <AlertModal /> : <></>}
+      {visibleAlertModal?.status ? <AlertModal /> : <></>}
       {visibleProductModal.statusModal ? <ViewProductModal /> : <></>}
     </header>
   );

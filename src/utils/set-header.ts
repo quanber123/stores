@@ -1,4 +1,4 @@
-import { capitalize } from './capitalize';
+import { capitalize } from './format';
 
 export const setHeader = (title: string) => {
   const newTitle = capitalize(title.split('/')[1]);

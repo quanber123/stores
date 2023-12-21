@@ -4,10 +4,12 @@ import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import { getAllBlogs } from '@/store/slice/blogSlice';
+import { getAllBlogs, getTotalPageBlogs } from '@/store/slice/blogSlice';
 import { useCarousel } from '@/components/customHooks/useCarousel';
 function BlogHome() {
   const blogs = useSelector(getAllBlogs);
+  const totalPage = useSelector(getTotalPageBlogs);
+  console.log(blogs);
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
     useCarousel(blogs.length);
   const titleRef = useRef(null);
@@ -15,20 +17,22 @@ function BlogHome() {
   const { isVisible, containerRef } = useObserver();
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
-      blogRefs.current.forEach((ref, index) => {
-        if (ref) {
-          gsap.fromTo(
-            ref,
-            { x: 200, opacity: 0 },
-            {
-              x: 0,
-              opacity: 1,
-              duration: 0.5,
-              delay: index * 0.3,
-            }
-          );
-        }
-      });
+      blogRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          if (ref) {
+            gsap.fromTo(
+              ref,
+              { x: 200, opacity: 0 },
+              {
+                x: 0,
+                opacity: 1,
+                duration: 0.5,
+                delay: index * 0.3,
+              }
+            );
+          }
+        });
 
       if (titleRef.current) {
         gsap.to(titleRef.current, {
@@ -82,16 +86,20 @@ function BlogHome() {
             {renderedBlog}
           </div>
         </div>
-        <div className='text-xl'>
-          <FaAngleLeft
-            className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handlePrev}
-          />
-          <FaAngleRight
-            className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
-            onClick={handleNext}
-          />
-        </div>
+        {totalPage > 1 ? (
+          <div className='text-xl'>
+            <FaAngleLeft
+              className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+              onClick={handlePrev}
+            />
+            <FaAngleRight
+              className='absolute z-50 top-1/2 -right-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
+              onClick={handleNext}
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </div>
     </section>
   );

@@ -1,9 +1,10 @@
-import { useParams } from 'react-router-dom';
-
+import BlogDetails from '@/components/pages/blog-details/BlogDetails';
 function BlogDetailsViews() {
-  const { id } = useParams();
-  console.log(id);
-  return <main></main>;
+  return (
+    <main>
+      <BlogDetails />
+    </main>
+  );
 }
 
 export default BlogDetailsViews;

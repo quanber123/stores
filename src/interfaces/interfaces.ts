@@ -1,4 +1,5 @@
 export interface Category {
+  _id: string;
   name: string;
   image: string;
   description: string;
@@ -46,20 +47,38 @@ export interface Product {
     }
   ];
 }
-export interface CmtUser {
-  id: number | string;
-  avatar: string;
-  cmt: string;
-  dateCmt: string;
-}
 export interface Blog {
-  id: number | string;
+  _id: string;
+  author: string;
   imgSrc: string;
   title: string;
-  date: string;
-  description: string;
-  author: string;
-  tag: string[];
-  countCmt: number;
-  details?: CmtUser[];
+  created_at: string;
+  updated_at: string;
+  open_paragraph: string;
+  body_paragraph: string;
+  close_paragraph: string;
+  quotes: string;
+  category: {
+    _id: string;
+    name: string;
+  };
+  views: number;
+  totalComments: number;
+  tags: [
+    {
+      _id: string;
+      name: string;
+    }
+  ];
+  comments?: [
+    {
+      user: {
+        _id: string;
+        name: string;
+        image: string;
+      };
+      text: string;
+      created_at: string;
+    }
+  ];
 }

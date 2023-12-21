@@ -6,7 +6,6 @@ import RelatedProducts from '@/components/pages/product-details/RelatedProducts'
 import gsap from 'gsap';
 import { useGetProductByIdQuery } from '@/store/features/productFeatures';
 import Loading from '@/components/common/Loading/Loading';
-import { Product } from '@/interfaces/interfaces';
 function ProductDetailsViews() {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -16,16 +15,7 @@ function ProductDetailsViews() {
     isSuccess: isSuccessProduct,
     isLoading: isLoadingProduct,
     isFetching: isFetchingProduct,
-  } = useGetProductByIdQuery(id) as {
-    data?: {
-      product: Product;
-      relatedProducts: Product[];
-    };
-    error?: any;
-    isSuccess: boolean;
-    isLoading: boolean;
-    isFetching: boolean;
-  };
+  } = useGetProductByIdQuery(id, { skip: !id });
   const productRef = useRef(null);
   const MoreInformationProductRef = useRef(null);
   const relatedRef = useRef(null);

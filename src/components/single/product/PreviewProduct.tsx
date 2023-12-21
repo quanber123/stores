@@ -38,7 +38,7 @@ function PreviewProduct({ product, refEl, style }: Props) {
         </div>
       </div>
       <div className='flex flex-col gap-[5px]'>
-        <div className='flex justify-between items-center text-gray font-medium'>
+        <div className='flex justify-between items-center text-mediumGray font-bold'>
           <h6
             className='cursor-pointer capitalize'
             onClick={() => handleLinkClick(_id)}

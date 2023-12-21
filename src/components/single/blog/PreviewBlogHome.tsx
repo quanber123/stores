@@ -1,10 +1,11 @@
 import { Blog } from '@/interfaces/interfaces';
+import { capitalizeFirstLetter, formatDate } from '@/utils/format';
 import LazyLoadImage from '@/utils/lazyload-image';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
 
 type propsBLog = {
-  blog: Blog;
+  blog: any;
   refEl: (el: HTMLElement) => HTMLElement;
   style?: React.CSSProperties;
 };
@@ -22,23 +23,31 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
     >
       <div className='blog-preview overflow-hidden w-full max-h-[240px] cursor-pointer'>
         <LazyLoadImage
-          className='w-full h-[240px]'
+          className='w-full h-[240px] hover:scale-110'
+          style={{ transition: 'all 0.3s linear' }}
           src={blog.imgSrc}
           alt={blog.title}
         />
       </div>
       <div className='flex flex-col gap-[5px]'>
         <p className='text-sm'>
-          By {blog.author} on {blog.date}
+          By{' '}
+          <span className='text-darkGray font-bold'>
+            {capitalizeFirstLetter(blog.author)}
+          </span>{' '}
+          on{' '}
+          <span className='text-darkGray font-bold'>
+            {formatDate(blog.created_at)}
+          </span>
         </p>
         <p
           className='line-camp-text text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'
-          onClick={() => handleLinkClick(blog.id)}
+          onClick={() => handleLinkClick(blog._id)}
         >
           {blog?.title}
         </p>
         <p className='line-camp-paragraph ext-sm text-semiBoldGray'>
-          {blog.description}
+          {blog.open_paragraph}
         </p>
       </div>
     </article>
