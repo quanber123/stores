@@ -37,7 +37,7 @@ const routes: RouteObject[] = [
         ],
       },
       {
-        path: 'blog',
+        path: 'blogs',
         children: [
           {
             index: true,

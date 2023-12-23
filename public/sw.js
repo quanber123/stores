@@ -10,7 +10,7 @@ self.addEventListener('install', (event) => {
         '/assets/js/2.chunk.js',
         '/assets/js/bundle.js',
         'assets/images/logo-01.png.webp',
-        'src/assets/images/logo-02.png.webp',
+        'assets/images/logo-02.png.webp',
         // Thêm các thành phần khác mà bạn muốn lưu trữ
         // Cũng nhớ thêm hình ảnh, font, và các tài nguyên khác
       ]);

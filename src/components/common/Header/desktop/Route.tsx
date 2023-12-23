@@ -15,7 +15,7 @@ function Router({ routeRefs }: PropsRoutes) {
     {
       link: 'shop',
     },
-    { link: 'blog' },
+    { link: 'blogs' },
     // {
     //   link: 'contact',
     // },

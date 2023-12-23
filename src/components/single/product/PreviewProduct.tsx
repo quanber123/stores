@@ -23,7 +23,7 @@ function PreviewProduct({ product, refEl, style }: Props) {
     <article
       ref={refEl}
       style={style}
-      className='m-auto flex flex-col flex-shrink-0 flex-grow-0 gap-[20px]'
+      className='m-auto flex flex-col flex-shrink-0 flex-grow-1 gap-[20px]'
     >
       <div className='product-preview relative w-full overflow-hidden cursor-pointer'>
         <LazyLoadImage

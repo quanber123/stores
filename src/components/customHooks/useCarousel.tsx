@@ -21,7 +21,7 @@ export const useCarousel = (length: number) => {
       newBreakpoints = 4;
     } else if (window.innerWidth > 780) {
       newBreakpoints = 3;
-    } else if (window.innerWidth > 640) {
+    } else if (window.innerWidth > 480) {
       newBreakpoints = 2;
     } else {
       newBreakpoints = 1;

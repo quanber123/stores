@@ -3,7 +3,7 @@ import { FaArrowRightLong } from 'react-icons/fa6';
 import { Blog } from '@/interfaces/interfaces';
 import { useNavigate } from 'react-router-dom';
 import scrollElement from '@/utils/scroll-elements';
-import { formatDate } from '@/utils/format';
+import { capitalize, capitalizeFirstLetter, formatDate } from '@/utils/format';
 type Props = {
   blog: Blog;
   refEl?: (el: HTMLElement) => HTMLElement;
@@ -12,7 +12,7 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
   const navigate = useNavigate();
   const handleLinkClick = (id: number | string) => {
     scrollElement();
-    navigate(`/blog/${id}`, { replace: true });
+    navigate(`/blogs/${id}`, { replace: true });
   };
   return (
     <article
@@ -45,15 +45,22 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
         </p>
         <div className='block laptop:flex justify-between items-center'>
           <div className='flex flex-col tablet:flex-row tablet:items-center gap-[10px] text-sm text-semiBoldGray font-medium'>
-            <span>by {blog.author}</span>
+            <p>
+              by{' '}
+              <span className='font-bold'>
+                {capitalizeFirstLetter(blog.author)}
+              </span>
+            </p>
             <span className='hidden tablet:block'>|</span>
-            <span>{blog.tags.join(' , ')}</span>
+            <p className='font-bold'>
+              {blog.tags.map((t) => capitalize(t.name)).join(' , ')}
+            </p>
             <span className='hidden tablet:block'>|</span>
-            <span>
+            <p>
               {blog.totalComments > 1
                 ? `${blog.totalComments} Comments`
                 : `${blog.totalComments} Comment`}
-            </span>
+            </p>
           </div>
           <button className='my-4 laptop:my-0 text-sm tablet:text-base text-semiBoldGray hover:text-purple font-bold flex items-center gap-[10px] uppercase'>
             <span>continue reading</span>

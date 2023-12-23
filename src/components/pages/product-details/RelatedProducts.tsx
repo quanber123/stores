@@ -19,7 +19,7 @@ const RelatedProducts: React.FC<Props> = ({ products, refEl }) => {
           product={p}
         />
       )),
-    [products]
+    [products, width]
   );
   return (
     <section
@@ -41,7 +41,7 @@ const RelatedProducts: React.FC<Props> = ({ products, refEl }) => {
             {renderedProducts}
           </div>
         </div>
-        {products.length > 4 ? (
+        {products.length > breakpoints ? (
           <>
             <div className='text-xl'>
               <FaAngleLeft

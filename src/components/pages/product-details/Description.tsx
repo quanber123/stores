@@ -1,11 +1,10 @@
 import { useState, useMemo, LegacyRef } from 'react';
-import './product-details.css';
 import { Product } from '@/interfaces/interfaces';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
-const MoreInformationProduct: React.FC<Props> = ({ product, refEl }) => {
+const Description: React.FC<Props> = ({ product, refEl }) => {
   const { details } = product;
   const [tab, setTab] = useState(0);
   const tabpanel = ['description', 'additional information', 'reviews (1)'];
@@ -77,4 +76,4 @@ const MoreInformationProduct: React.FC<Props> = ({ product, refEl }) => {
   );
 };
 
-export default MoreInformationProduct;
+export default Description;

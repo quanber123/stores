@@ -41,6 +41,12 @@ export const blogApi = createApi({
         query: ({ id, userId, text }) => ({
           url: `blogs/${id}/comments`,
           method: 'POST',
+          credentials: 'include',
+          headers: {
+            Accept: 'application/json',
+            'Content-type': 'application/json',
+            'Access-Control-Allow-Credentials': 'true',
+          },
           body: {
             userId: userId,
             text: text,

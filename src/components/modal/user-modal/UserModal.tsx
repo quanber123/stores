@@ -5,6 +5,11 @@ import {
   getVisibleUserModal,
   setVisibleUserModal,
 } from '@/store/slice/modalSlice';
+import {
+  FaRegCircleUser,
+  FaGear,
+  FaArrowRightFromBracket,
+} from 'react-icons/fa6';
 function UserModal() {
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
@@ -35,16 +40,21 @@ function UserModal() {
             <p className='text-darkGray'>{user.email.slice(0, 20)}...</p>
           </div>
         </div>
-        <div className='mx-[26px] my-[16px] flex flex-col gap-[20px]'>
-          <button className='w-full py-[12px] border-t border-b border-lightGray text-gray font-bold text-start'>
-            Profile
+        <div className='mx-[26px] my-[16px] flex flex-col gap-[20px] text-darkGray font-bold'>
+          <button className='w-full py-[12px] border-t border-b border-lightGray flex items-center gap-[15px]'>
+            <FaRegCircleUser className='text-md' />
+            <span>Profile</span>
           </button>
-          <button className='text-gray font-bold text-start'>Settings</button>
+          <button className='flex items-center gap-[15px]'>
+            <FaGear className='text-md' />
+            <span>Settings</span>
+          </button>
           <button
-            className='text-gray font-bold text-start'
+            className='flex items-center gap-[15px]'
             onClick={handleLogout}
           >
-            Logout
+            <FaArrowRightFromBracket className='text-md' />
+            <span>Logout</span>
           </button>
         </div>
       </div>

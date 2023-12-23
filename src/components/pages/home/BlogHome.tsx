@@ -4,12 +4,10 @@ import gsap from 'gsap';
 import { useObserver } from '@/components/customHooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import { getAllBlogs, getTotalPageBlogs } from '@/store/slice/blogSlice';
+import { getAllBlogs } from '@/store/slice/blogSlice';
 import { useCarousel } from '@/components/customHooks/useCarousel';
 function BlogHome() {
   const blogs = useSelector(getAllBlogs);
-  const totalPage = useSelector(getTotalPageBlogs);
-  console.log(blogs);
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
     useCarousel(blogs.length);
   const titleRef = useRef(null);
@@ -86,7 +84,7 @@ function BlogHome() {
             {renderedBlog}
           </div>
         </div>
-        {totalPage > 1 ? (
+        {blogs.length > breakpoints ? (
           <div className='text-xl'>
             <FaAngleLeft
               className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
