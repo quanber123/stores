@@ -1,4 +1,4 @@
-import Shop from '@/components/pages/shop/Shop';
+import Shop from '@/components/pages/default/shop/Shop';
 
 function ShopViews() {
   return (

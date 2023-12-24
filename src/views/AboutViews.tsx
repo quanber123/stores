@@ -1,4 +1,4 @@
-import About from '@/components/pages/about/About';
+import About from '@/components/pages/default/about/About';
 
 function AboutViews() {
   return (

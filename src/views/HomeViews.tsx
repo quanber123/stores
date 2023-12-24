@@ -1,7 +1,7 @@
-import BannerHome from '@/components/pages/home/BannerHome';
-import BlogHome from '@/components/pages/home/BlogHome';
-import CategoryHome from '@/components/pages/home/CategoryHome';
-import StoreHome from '@/components/pages/home/StoreHome';
+import BannerHome from '@/components/pages/default/home/BannerHome';
+import BlogHome from '@/components/pages/default/home/BlogHome';
+import CategoryHome from '@/components/pages/default/home/CategoryHome';
+import StoreHome from '@/components/pages/default/home/StoreHome';
 function HomeViews() {
   return (
     <main className='pb-[84px]'>

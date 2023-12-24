@@ -1,12 +1,12 @@
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
-import RelatedProducts from '@/components/pages/product-details/RelatedProducts';
+import RelatedProducts from '@/components/pages/default/product-details/RelatedProducts';
 import gsap from 'gsap';
 import { useGetProductByIdQuery } from '@/store/features/productFeatures';
 import Loading from '@/components/common/Loading/Loading';
-import Images from '@/components/pages/product-details/Images';
-import Description from '@/components/pages/product-details/Description';
-import ProductDetails from '@/components/pages/product-details/ProductsDetails';
+import Images from '@/components/pages/default/product-details/Images';
+import Description from '@/components/pages/default/product-details/Description';
+import ProductDetails from '@/components/pages/default/product-details/ProductsDetails';
 function ProductDetailsViews() {
   const { id } = useParams();
   const {

@@ -5,9 +5,9 @@ import { useGetBlogByIdQuery } from '@/store/features/blogFeatures';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogDetails, setBlogsDetails } from '@/store/slice/blogSlice';
 import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
-import BlogDetails from '@/components/pages/blog-details/BlogDetails';
-import Comments from '@/components/pages/blog-details/Comments';
-import PostComment from '@/components/pages/blog-details/PostComment';
+import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
+import Comments from '@/components/pages/default/blog-details/Comments';
+import PostComment from '@/components/pages/default/blog-details/PostComment';
 function BlogDetailsViews() {
   const { id } = useParams();
   const dispatch = useDispatch();
