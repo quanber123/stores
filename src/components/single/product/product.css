@@ -14,15 +14,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  /* transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955);
-  -webkit-transition: all 0.3s cubic-bezier(0.455, 0.03, 0.515, 0.955); */
-  z-index: 1000;
+  transition: height 0.2s linear;
+  z-index: 999;
 }
 .quick-view-product.active {
   height: 100%;
-  animation: displayProduct 0.3s ease;
+  /* animation: displayProduct 0.3s ease; */
 }
 .quick-view-product > article {
+  margin: auto;
   height: 90%;
 }
 .quick-view-product > article > div {

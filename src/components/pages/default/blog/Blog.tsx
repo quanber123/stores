@@ -82,21 +82,25 @@ function Blog() {
         delay: 0.5,
         ease: 'elastic',
       });
-      blogRefs.current.forEach((ref, index) => {
-        gsap.from(ref, {
-          x: -200,
-          opacity: 0,
-          duration: 0.5,
-          delay: 0.5 + index * 0.3,
+      blogRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          gsap.from(ref, {
+            x: -200,
+            opacity: 0,
+            duration: 0.5,
+            delay: 0.5 + index * 0.3,
+          });
         });
-      });
-      categoryRefs.current.forEach((ref, index) => {
-        gsap.to(ref, {
-          opacity: 1,
-          duration: 0.5,
-          delay: 0.75 + index * 0.3,
+      categoryRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          gsap.to(ref, {
+            opacity: 1,
+            duration: 0.5,
+            delay: 0.75 + index * 0.3,
+          });
         });
-      });
       gsap.from(blogTitleTagRef.current, {
         x: 100,
         opacity: 0,
@@ -104,13 +108,15 @@ function Blog() {
         delay: categories.length - 2,
         ease: 'elastic',
       });
-      tagRefs.current.forEach((ref, index) => {
-        gsap.to(ref, {
-          opacity: 1,
-          duration: 0.5,
-          delay: categories.length - 2 + index * 0.3,
+      tagRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          gsap.to(ref, {
+            opacity: 1,
+            duration: 0.5,
+            delay: categories.length - 2 + index * 0.3,
+          });
         });
-      });
     });
     return () => {
       ctx.revert();
@@ -132,7 +138,11 @@ function Blog() {
       </section>
       <section className='container flex flex-col-reverse desktop:flex-row gap-[80px]'>
         <div className='desktop:w-2/3 flex flex-col gap-[80px]'>
-          {renderedBlog}
+          {blogs.length ? (
+            renderedBlog
+          ) : (
+            <p className='text-center text-xl font-bold'>No Blogs!</p>
+          )}
         </div>
         <div className='desktop:w-1/3 flex flex-col gap-[20px] tablet:gap-[40px]'>
           <div className='flex flex-col gap-[20px]'>

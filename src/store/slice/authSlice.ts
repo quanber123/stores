@@ -7,6 +7,21 @@ type InitialState = {
     image: string | null;
     isVerified: boolean;
   };
+  settings: {
+    _id: string | null;
+    user: string | null;
+    created_at: string | null;
+    updated_at: string | null;
+    notifications:
+      | Array<{
+          _id: string;
+          type: string;
+          description: string;
+          enabled: boolean;
+          created_at: string;
+        }>
+      | [];
+  };
 };
 const initialState: InitialState = {
   user: {
@@ -15,6 +30,13 @@ const initialState: InitialState = {
     name: null,
     image: null,
     isVerified: false,
+  },
+  settings: {
+    _id: null,
+    user: null,
+    created_at: null,
+    updated_at: null,
+    notifications: [],
   },
 };
 const authSlice = createSlice({
@@ -39,8 +61,17 @@ const authSlice = createSlice({
       state.user.image = null;
       state.user.isVerified = false;
     },
+    setSettings: (state, action) => {
+      state.settings._id = action.payload.settings._id;
+      state.settings.user = action.payload.settings.user;
+      state.settings.notifications = [...action.payload.settings.notification];
+      state.settings.created_at = action.payload.settings.created_at;
+      state.settings.updated_at = action.payload.settings.updated_at;
+    },
   },
 });
 export const authInfo = (state: { auth: InitialState }) => state.auth.user;
-export const { setAuth, removeAuth } = authSlice.actions;
+export const getSettings = (state: { auth: InitialState }) =>
+  state.auth.settings;
+export const { setAuth, removeAuth, setSettings } = authSlice.actions;
 export default authSlice.reducer;

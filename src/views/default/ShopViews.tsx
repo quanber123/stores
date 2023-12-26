@@ -2,7 +2,7 @@ import Shop from '@/components/pages/default/shop/Shop';
 
 function ShopViews() {
   return (
-    <main>
+    <main className='gap-[40px]'>
       <Shop />
     </main>
   );

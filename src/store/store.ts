@@ -9,7 +9,6 @@ import categoryReducer from './slice/categorySlice';
 import tagReducer from './slice/tagSlice';
 import modalReducer from './slice/modalSlice';
 import { productApi } from './features/productFeatures';
-import { authApi } from './features/authFeatures';
 import { tagApi } from './features/tagsFeatures';
 import { emailApi } from './features/emailFeatures';
 import { categoryApi } from './features/categoryFeatures';
@@ -27,7 +26,6 @@ export const store = configureStore({
     category: categoryReducer,
     tags: tagReducer,
     modal: modalReducer,
-    [authApi.reducerPath]: authApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
     [emailApi.reducerPath]: emailApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
@@ -38,7 +36,6 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
-      authApi.middleware,
       userApi.middleware,
       emailApi.middleware,
       productApi.middleware,

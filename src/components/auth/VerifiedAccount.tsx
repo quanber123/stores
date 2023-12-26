@@ -12,7 +12,7 @@ import {
 } from 'react';
 import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { setVisibleAlertModal } from '@/store/slice/modalSlice';
 function VerifiedAccount() {
   const dispatch = useDispatch();
@@ -114,6 +114,9 @@ function VerifiedAccount() {
       ctx.revert();
     };
   }, []);
+  if (user.isVerified) {
+    return <Navigate to='/not-found' replace />;
+  }
   return (
     <main className='bg-lightGray'>
       <form

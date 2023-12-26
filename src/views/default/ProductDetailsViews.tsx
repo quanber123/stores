@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
 import RelatedProducts from '@/components/pages/default/product-details/RelatedProducts';
 import gsap from 'gsap';
@@ -7,8 +7,10 @@ import Loading from '@/components/common/Loading/Loading';
 import Images from '@/components/pages/default/product-details/Images';
 import Description from '@/components/pages/default/product-details/Description';
 import ProductDetails from '@/components/pages/default/product-details/ProductsDetails';
+import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
 function ProductDetailsViews() {
   const { id } = useParams();
+  const location = useLocation();
   const {
     data: dataProduct,
     error: errorProduct,
@@ -60,7 +62,11 @@ function ProductDetailsViews() {
     return <Navigate to={`/not-found/${id}`} />;
   }
   return isSuccessProduct && dataProduct ? (
-    <main className='mt-[40px]'>
+    <main className='gap-[40px]'>
+      <Breadcrumbs
+        breadcrumbs={location.pathname}
+        currentId={dataProduct.product.name}
+      />
       <article className='container flex flex-col laptop:flex-row justify-between gap-[40px]'>
         <Images product={dataProduct.product} refEl={imageRef} />
         <ProductDetails product={dataProduct.product} refEl={productRef} />

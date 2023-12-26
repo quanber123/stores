@@ -8,7 +8,7 @@ type Props = {
 };
 const BlogDetails: React.FC<Props> = ({ blogDetails }) => {
   return (
-    <section className='container mt-16 tablet:mt-32 flex flex-col gap-[20px]'>
+    <section className='container mt-8 target:mt-0 flex flex-col gap-[20px]'>
       <div className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></div>
       <img
         className='w-full desktop:h-[600px] object-fill'

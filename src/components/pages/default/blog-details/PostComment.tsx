@@ -13,9 +13,8 @@ import scrollElement from '@/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 type Props = {
   id: string;
-  reFetchBlogData: () => void;
 };
-const PostComment: React.FC<Props> = ({ id, reFetchBlogData }) => {
+const PostComment: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
@@ -65,9 +64,8 @@ const PostComment: React.FC<Props> = ({ id, reFetchBlogData }) => {
   useEffect(() => {
     if (comment && statusComment === 'fulfilled') {
       setComment('');
-      reFetchBlogData();
     }
-  }, [comment, statusComment, reFetchBlogData]);
+  }, [comment, statusComment]);
   return (
     <section className='container'>
       {user.name && user.image && user.isVerified ? (

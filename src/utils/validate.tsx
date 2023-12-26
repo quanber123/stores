@@ -5,11 +5,16 @@ export function validateEmail(email: string) {
   return emailRegex.test(email);
 }
 
-export function validatePassword(password: string): boolean {
+export function validatePassword(password: string) {
   const regex = /^(?=.*[A-Z]).{6,}$/;
   return regex.test(password);
 }
 
+export function validateImage(file: File) {
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+  const extension = file.name.split('.').pop()?.toLowerCase() || '';
+  return allowedExtensions.includes(extension);
+}
 export function ErrValidate({ message }: { message: string }) {
   return (
     <div className='absolute top-1/2 right-[10px] -translate-y-1/2 font-bold text-sm flex items-center gap-[10px]'>

@@ -61,8 +61,7 @@ main {
   display: flex;
   flex: 1;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 80px;
+  /* gap: 80px; */
   overflow: hidden;
 }
 /* width */
@@ -105,18 +104,24 @@ select {
   color: #000;
   cursor: pointer;
 }
-input[type='number']::-webkit-inner-spin-button,
-input[type='number']::-webkit-outer-spin-button {
+input::-webkit-inner-spin-button,
+input::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-.wrap-input > input {
-  all: unset;
+input {
+  background-color: transparent;
+  padding: 4px 0;
+}
+input:focus {
+  outline: none;
+}
+/* .wrap-input > input {
+  background-color: transparent;
   padding: 4px 0;
 }
 .wrap-input > input:focus {
-  background-color: transparent;
-}
+} */
 
 img {
   object-fit: cover;
@@ -172,7 +177,7 @@ button {
   width: 0;
   height: 2px;
   content: '';
-  background-color: #717fe0;
+  background-color: var(--purple);
   transition: width 0.3s linear;
   -webkit-transition: width 0.3s linear;
   z-index: 10;
@@ -285,7 +290,8 @@ button {
 }
 
 /* loading animation*/
-.loading {
+.loading,
+.loadingV2 {
   position: fixed;
   z-index: 1000;
   top: 50%;
@@ -293,20 +299,30 @@ button {
   transform: translate(-50%, -50%);
   width: 100%;
   height: 100%;
-  background-color: #fff;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-
-.loading > .circle {
+.loading {
+  background-color: var(--white);
+}
+.loadingV2 {
+  background-color: var(--overlay-black);
+}
+.loading > .circle,
+.loadingV2 > .circle {
   position: absolute;
   width: 70px;
   height: 70px;
-  border: 5px solid #717fe0;
   border-radius: 50%;
   animation: infiniteScale 1.2s linear infinite;
   opacity: 0;
+}
+.loading > .circle {
+  border: 5px solid var(--purple);
+}
+.loadingV2 > .circle {
+  border: 5px solid var(--light-gray);
 }
 .circle:first-child {
   animation-name: 1.2;
@@ -425,4 +441,25 @@ button {
   100% {
     opacity: 1;
   }
+}
+.toggle-btn-notify {
+  position: relative;
+  overflow: hidden;
+}
+.toggle-btn-notify::after {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 0;
+  margin: auto;
+  transform: translate(0, -50%);
+  width: 50%;
+  height: 95%;
+  background-color: var(--bg-gray);
+  border-radius: 50%;
+  transition: all 0.3s linear;
+}
+
+.toggle-btn-notify.active::after {
+  transform: translate(100%, -50%);
 }
