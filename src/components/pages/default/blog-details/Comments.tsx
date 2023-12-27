@@ -39,7 +39,7 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
           <img
             className='w-[32px] h-[32px] rounded-full'
             src={c.user.image}
-            alt=''
+            alt={c.user.name}
           />
           <div className='w-full p-4 bg-overlayGray rounded-[26px] flex flex-col gap-[5px]'>
             <div className='text-sm flex justify-between'>

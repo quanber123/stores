@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const blogApi = createApi({
   reducerPath: 'blogApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Blogs', 'BlogDetails'],
+  tagTypes: ['Blogs'],
   endpoints: (builder) => {
     return {
       getBlogs: builder.query({
@@ -35,7 +35,7 @@ export const blogApi = createApi({
       }),
       getBlogById: builder.query({
         query: (id) => `blogs/${id}`,
-        providesTags: (result) => providesList(result, 'BlogDetails'),
+        providesTags: (result) => providesList(result, 'Blogs'),
       }),
       postComment: builder.mutation({
         query: ({ id, userId, text }) => ({
@@ -52,7 +52,7 @@ export const blogApi = createApi({
             text: text,
           },
         }),
-        invalidatesTags: (__, _, id) => [{ type: 'BlogDetails', id }],
+        invalidatesTags: [{ type: 'Blogs', id: 'LIST' }],
       }),
     };
   },

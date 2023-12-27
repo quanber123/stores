@@ -1,6 +1,6 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import { Navigate, useParams } from 'react-router-dom';
+import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useGetBlogByIdQuery } from '@/store/features/blogFeatures';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBlogDetails, setBlogsDetails } from '@/store/slice/blogSlice';
@@ -8,8 +8,10 @@ import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
 import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
 import Comments from '@/components/pages/default/blog-details/Comments';
 import PostComment from '@/components/pages/default/blog-details/PostComment';
+import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
 function BlogDetailsViews() {
   const { id } = useParams();
+  const location = useLocation();
   const dispatch = useDispatch();
   const blogDetails = useSelector(getBlogDetails);
   const blogRef = useRef(null);
@@ -19,7 +21,6 @@ function BlogDetailsViews() {
     isLoading: isLoadingBlog,
     isFetching: isFetchingBlog,
     error: errorBlog,
-    refetch: reFetchBlogData,
   } = useGetBlogByIdQuery(id, {
     skip: !id,
   });
@@ -50,7 +51,6 @@ function BlogDetailsViews() {
       };
     }
   }, [id, blogData]);
-
   if (isLoadingBlog && isFetchingBlog) {
     return <LoadingBlogDetail />;
   }
@@ -58,11 +58,15 @@ function BlogDetailsViews() {
     return <Navigate to={`/not-found/${id}`} />;
   }
   return (
-    <main ref={blogRef} className='relative'>
-      <div className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></div>
-      <BlogDetails blogDetails={blogDetails} />
-      <Comments blogDetails={blogDetails} />
-      <PostComment id={blogDetails._id} reFetchBlogData={reFetchBlogData} />
+    <main ref={blogRef} className='relative gap-[40px]'>
+      <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>
+      <Breadcrumbs
+        breadcrumbs={location.pathname}
+        currentId={blogDetails.title}
+      />
+      <BlogDetails blogDetails={blogData.blog} />
+      <Comments blogDetails={blogData.blog} />
+      <PostComment id={blogData.blog._id} />
     </main>
   );
 }

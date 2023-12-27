@@ -159,7 +159,7 @@ const ViewProductModal = () => {
     >
       <article className='container flex flex-col gap-[10px]'>
         <button
-          className='ml-auto text-xl text-semiBoldGray'
+          className='ml-auto text-xl text-white'
           onClick={() => dispatch(closeQuickViewProduct())}
           aria-label='CloseModal'
         >

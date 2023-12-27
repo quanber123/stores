@@ -10,6 +10,7 @@ import {
   FaGear,
   FaArrowRightFromBracket,
 } from 'react-icons/fa6';
+import { Link } from 'react-router-dom';
 function UserModal() {
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
@@ -41,21 +42,25 @@ function UserModal() {
           </div>
         </div>
         <div className='mx-[26px] my-[16px] flex flex-col gap-[20px] text-darkGray font-bold'>
-          <button className='w-full py-[12px] border-t border-b border-lightGray flex items-center gap-[15px]'>
+          {/* <Link
+            to={''}
+            className='w-full py-[12px] border-t border-b border-lightGray flex items-center gap-[15px]'
+          >
             <FaRegCircleUser className='text-md' />
             <span>Profile</span>
-          </button>
-          <button className='flex items-center gap-[15px]'>
+          </Link> */}
+          <Link to='/settings' className='flex items-center gap-[15px]'>
             <FaGear className='text-md' />
             <span>Settings</span>
-          </button>
-          <button
+          </Link>
+          <Link
+            to={''}
             className='flex items-center gap-[15px]'
             onClick={handleLogout}
           >
             <FaArrowRightFromBracket className='text-md' />
             <span>Logout</span>
-          </button>
+          </Link>
         </div>
       </div>
     </div>

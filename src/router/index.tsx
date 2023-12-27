@@ -1,15 +1,18 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import App from '@/App';
-const HomeViews = lazy(() => import('@/views/HomeViews'));
-const AboutViews = lazy(() => import('@/views/AboutViews'));
-const ShopViews = lazy(() => import('@/views/ShopViews'));
-const ProductDetailsViews = lazy(() => import('@/views/ProductDetailsViews'));
-const BlogViews = lazy(() => import('@/views/BlogViews'));
-const BlogDetailsViews = lazy(() => import('@/views/BlogDetailsViews'));
+const HomeViews = lazy(() => import('@/views/default/HomeViews'));
+const AboutViews = lazy(() => import('@/views/default/AboutViews'));
+const ShopViews = lazy(() => import('@/views/default/ShopViews'));
+const ProductDetailsViews = lazy(
+  () => import('@/views/default/ProductDetailsViews')
+);
+const BlogViews = lazy(() => import('@/views/default/BlogViews'));
+const BlogDetailsViews = lazy(() => import('@/views/default/BlogDetailsViews'));
 const Auth = lazy(() => import('@/components/auth/Auth'));
+const SettingViews = lazy(() => import('@/views/auth/SettingViews'));
 const VerifiedAccount = lazy(() => import('@/components/auth/VerifiedAccount'));
-const NotFoundViews = lazy(() => import('@/views/NotFoundViews'));
+const NotFoundViews = lazy(() => import('@/views/default/NotFoundViews'));
 const routes: RouteObject[] = [
   {
     path: '/',
@@ -50,12 +53,16 @@ const routes: RouteObject[] = [
         ],
       },
       {
-        path: '/verified',
+        path: 'verified',
+        element: <VerifiedAccount />,
+      },
+      {
+        path: '',
         element: <Auth />,
         children: [
           {
-            index: true,
-            element: <VerifiedAccount />,
+            path: 'settings',
+            element: <SettingViews />,
           },
         ],
       },

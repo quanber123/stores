@@ -1,16 +1,16 @@
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { Suspense, lazy, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
+import { setAuth } from './store/slice/authSlice';
 import { setHeader } from './utils/set-header';
 import { setAllBlogs } from './store/slice/blogSlice';
 import { setAllCategories } from './store/slice/categorySlice';
+import { setAllTags } from './store/slice/tagSlice';
 import {
   useGetUserQuery,
   useGetUserSuccessQuery,
-} from './store/features/authFeatures';
-import { setAuth } from './store/slice/authSlice';
+} from './store/features/userFeatures';
 import { useGetTagsQuery } from './store/features/tagsFeatures';
-import { setAllTags } from './store/slice/tagSlice';
 import { useGetCategoriesQuery } from './store/features/categoryFeatures';
 import Loading from './components/common/Loading/Loading';
 import { useGetProductsQuery } from './store/features/productFeatures';
@@ -29,7 +29,6 @@ function App() {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useDispatch();
-  console.log(document.cookie);
   const token = useMemo(() => {
     return window.localStorage.getItem('accessToken');
   }, []);
@@ -62,7 +61,7 @@ function App() {
         navigate('/verified', { replace: true });
       }
     }
-  }, [token, isSuccessUser]);
+  }, [token, isSuccessUser, dataUser]);
   useEffect(() => {
     if (isSuccessSession) {
       dispatch(setAuth(dataUserSession));

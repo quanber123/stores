@@ -1,7 +1,7 @@
 import Blog from '@/components/pages/default/blog/Blog';
 function BlogViews() {
   return (
-    <main>
+    <main className='gap-[80px]'>
       <Blog />
     </main>
   );
