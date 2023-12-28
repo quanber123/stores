@@ -114,7 +114,7 @@ function VerifiedAccount() {
       ctx.revert();
     };
   }, []);
-  if (user.isVerified) {
+  if (user.isVerified || !user.email) {
     return <Navigate to='/not-found' replace />;
   }
   return (

@@ -51,18 +51,34 @@ function LoginModal() {
   const handleLoginUser = () => {
     loginUser(form);
   };
+  const handleKeyDownLogin = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && visibleModal) {
+      dispatch(setVisibleLoginModal());
+    }
+    if (e.key === 'Enter' && visibleModal) {
+      loginUser(form);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDownLogin);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDownLogin);
+    };
+  }, [visibleModal]);
   useEffect(() => {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
       dispatch(closeAllModal());
       dispatch(setAuth(dataLogin));
-      navigate('/verified', { replace: true });
+      dataLogin.user.isVerified
+        ? navigate('/', { replace: true })
+        : navigate('/verified', { replace: true });
     }
     if (errorLogin && 'data' in errorLogin) {
       const errorData = errorLogin.data as { message: string };
       dispatch(
         setVisibleAlertModal({
           status: 'failed',
-          message: `Failed: ${errorData}`,
+          message: `Failed: ${errorData?.message}`,
         })
       );
     }

@@ -53,6 +53,20 @@ function RegisterModal() {
       password: form.password,
     });
   };
+  const handleKeyDownRegister = (e: KeyboardEvent) => {
+    if (e.key === 'Escape' && visibleModal) {
+      dispatch(setVisibleRegisterModal());
+    }
+    if (e.key === 'Enter' && visibleModal) {
+      registerUser(form);
+    }
+  };
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDownRegister);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDownRegister);
+    };
+  }, [visibleModal]);
   useEffect(() => {
     if (
       isSuccessRegister &&
@@ -68,7 +82,7 @@ function RegisterModal() {
       dispatch(
         setVisibleAlertModal({
           status: 'failed',
-          message: `Failed: ${errorData}`,
+          message: `Failed: ${errorData?.message}`,
         })
       );
     }
