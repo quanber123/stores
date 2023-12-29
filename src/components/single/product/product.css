@@ -14,12 +14,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: height 0.2s linear;
   z-index: 999;
 }
 .quick-view-product.active {
   height: 100%;
-  /* animation: displayProduct 0.3s ease; */
+  animation: displayProduct 0.3s ease;
 }
 .quick-view-product > article {
   margin: auto;

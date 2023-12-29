@@ -21,6 +21,7 @@ import {
 import { useGetBannersQuery } from './store/features/bannerFeatures';
 import { setAllBanners } from './store/slice/bannerSlice';
 import { useGetBlogsQuery } from './store/features/blogFeatures';
+import LoginModal from './components/modal/login-modal/LoginModal';
 // import { checkSession } from './utils/validate';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));

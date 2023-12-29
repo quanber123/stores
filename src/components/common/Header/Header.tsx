@@ -37,7 +37,7 @@ function Header() {
     }
   }, [dispatch, visibleAlertModal?.status]);
   return (
-    <header className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'>
+    <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
       {visibleAlertModal?.status ? <AlertModal /> : <></>}
       {visibleProductModal?.statusModal ? <ViewProductModal /> : <></>}

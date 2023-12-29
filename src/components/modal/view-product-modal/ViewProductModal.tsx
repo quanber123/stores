@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent, useMemo } from 'react';
+import { useState, useCallback, ChangeEvent, useMemo, useEffect } from 'react';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -151,6 +151,20 @@ const ViewProductModal = () => {
       })
     );
   };
+  const handleKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && visibleModal) {
+        dispatch(closeQuickViewProduct());
+      }
+    },
+    [visibleModal]
+  );
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
   return (
     <section
       className={`quick-view-product ${

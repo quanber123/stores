@@ -13,11 +13,13 @@
   -webkit-transition: all 0.3s ease-in-out;
   opacity: 0;
   overflow: hidden;
+  z-index: -10;
 }
 .register-form.active {
   width: 100%;
   height: 100%;
   opacity: 1;
+  z-index: 999;
 }
 .register-form > form {
   position: relative;

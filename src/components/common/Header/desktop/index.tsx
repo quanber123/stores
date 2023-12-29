@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
 import Router from './Route';
 import Logo from './Logo';
-import Buttons from './Buttons';
 import NotificationsModal from '@/components/modal/notifications-modal/NotificationsModal';
 import FavoriteModal from '@/components/modal/favorite-modal/FavoriteModal';
 import LoginModal from '@/components/modal/login-modal/LoginModal';
@@ -51,7 +50,7 @@ function DesktopNavBar() {
     };
   }, []);
   return (
-    <nav className='container relative h-[60px] flex justify-start items-center gap-[80px]'>
+    <nav className='container h-[60px] flex justify-start items-center gap-[80px]'>
       <Logo imgRef={imgRef} />
       <Router routeRefs={routeRefs} />
       {user.email ? (
@@ -62,11 +61,10 @@ function DesktopNavBar() {
           <UserModal />
         </div>
       ) : (
-        <>
-          <Buttons />
+        <div className='ml-auto flex items-center gap-[20px]'>
           <LoginModal />
           <RegisterModal />
-        </>
+        </div>
       )}
     </nav>
   );
