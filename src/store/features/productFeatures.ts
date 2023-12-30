@@ -12,28 +12,18 @@ export const productApi = createApi({
           if (!query) {
             return 'products';
           }
+          const queryParams = [
+            query.category && `category=${query.category}`,
+            query.tag && `tag=${query.tag}`,
+            query.price && `price=${query.price}`,
+            query.price
+              ? query.price && `price=${query.price}`
+              : query.date && `date=${query.date}`,
+            query.page && `page=${query.page}`,
+          ];
+          const queryString = queryParams.filter(Boolean).join('&');
 
-          const queryParams = [];
-
-          if (query.category) {
-            queryParams.push(`category=${query.category}`);
-          }
-
-          if (query.tag) {
-            queryParams.push(`tag=${query.tag}`);
-          }
-
-          if (query.arrange) {
-            queryParams.push(`arrange=${query.arrange}`);
-          }
-
-          if (query.page) {
-            queryParams.push(`page=${query.page}`);
-          }
-
-          const queryString = queryParams.join('&&');
-
-          return `products?${queryString}`;
+          return `products${queryString ? `?${queryString}` : ''}`;
         },
         providesTags: (result) => providesList(result, 'Products'),
       }),
