@@ -14,11 +14,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 999;
+  transition: all 0.3s ease-in-out;
+  -webkit-transition: all 0.3s ease-in-out;
+  opacity: 0;
+  z-index: -10;
 }
 .quick-view-product.active {
   height: 100%;
-  animation: displayProduct 0.3s ease;
+  opacity: 1;
+  z-index: 999;
 }
 .quick-view-product > article {
   margin: auto;
@@ -27,16 +31,6 @@
 .quick-view-product > article > div {
   padding: 64px 32px;
   background-color: #fff;
-}
-@keyframes displayProduct {
-  from {
-    height: 0;
-    opacity: 0;
-  }
-  to {
-    height: 100%;
-    opacity: 1;
-  }
 }
 .product-preview > img {
   -webkit-transition: all 0.3s linear;

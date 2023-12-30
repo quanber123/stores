@@ -1,4 +1,4 @@
-import { useState, useCallback, ChangeEvent, useMemo, useEffect } from 'react';
+import { useState, useCallback, ChangeEvent, useMemo, useRef } from 'react';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -17,9 +17,11 @@ import {
   getQuickViewProduct,
 } from '@/store/slice/productSlice';
 import { Product } from '@/interfaces/interfaces';
+import Modal from '@/Modal';
 const ViewProductModal = () => {
   const dispatch = useDispatch();
   const visibleModal = useSelector(getQuickViewProduct);
+  const modalRef = useRef<HTMLElement | null>(null);
   const { _id, name, price, images, details } =
     visibleModal.productModal as Product;
   const [count, setCount] = useState<number>(1);
@@ -151,196 +153,196 @@ const ViewProductModal = () => {
       })
     );
   };
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && visibleModal) {
-        dispatch(closeQuickViewProduct());
-      }
-    },
-    [visibleModal]
-  );
-  useEffect(() => {
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown);
-    };
+  const clickOutsideModal = useCallback((e: React.MouseEvent) => {
+    const dialogDemission = modalRef.current?.getBoundingClientRect();
+    if (
+      e.clientX < dialogDemission!.left ||
+      e.clientX > dialogDemission!.right ||
+      e.clientY < dialogDemission!.top ||
+      e.clientY > dialogDemission!.bottom
+    ) {
+      dispatch(closeQuickViewProduct());
+    }
   }, []);
   return (
-    <section
-      className={`quick-view-product ${
-        visibleModal.statusModal ? 'active' : ''
-      } overflow-y-auto laptop:overflow-hidden`}
-    >
-      <article className='container flex flex-col gap-[10px]'>
-        <button
-          className='ml-auto text-xl text-white'
-          onClick={() => dispatch(closeQuickViewProduct())}
-          aria-label='CloseModal'
-        >
-          <FaXmark />
-        </button>
-        <div className='flex flex-col laptop:flex-row gap-[80px]'>
-          <div className='w-full laptop:w-1/2 flex flex-col mobileLg:flex-row gap-[40px]'>
-            <div className='flex flex-row mobileLg:flex-col justify-between mobileLg:justify-start mobileLg:gap-[40px]'>
-              {wrapImages}
-            </div>
-            <div className='relative max-w-[514px] max-h-[634px] overflow-hidden flex'>
-              {renderList}
-              {images?.length > 1 ? (
-                <>
-                  <button
-                    className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
-                    onClick={handlePrev}
-                    aria-label='Previous'
-                  >
-                    <FaAngleLeft className='text-lg' />
-                  </button>
-                  <button
-                    className='absolute top-1/2 right-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
-                    onClick={handleNext}
-                    aria-label='Next'
-                  >
-                    <FaAngleRight className='text-lg' />
-                  </button>
-                </>
-              ) : (
-                <></>
-              )}
-            </div>
-          </div>
-          <div className='w-full laptop:w-1/2 flex flex-col gap-[20px]'>
-            <h3 className='text-lg font-medium capitalize'>{name}</h3>
-            <div className='text-darkGray flex gap-[20px]'>
-              <p>Category: {details?.category?.name}</p>
-            </div>
-            <p className='text-md font-bold'>${price}</p>
-            <p className='text-darkGray'>{details?.shortDescription}</p>
-            <div className='flex flex-col gap-[20px]'>
-              <div className='flex items-center gap-[40px]'>
-                <label htmlFor='sizes' className='w-1/6 text-darkGray'>
-                  Sizes
-                </label>
-                <select
-                  name='sizeProduct'
-                  id='sizes'
-                  onChange={handleSelectSize}
-                >
-                  <option value=''>Chose an option</option>
-                  {sizes.map((s, index) => (
-                    <option key={index} value={s} className='uppercase'>
-                      Size {s.toUpperCase()}
-                    </option>
-                  ))}
-                </select>
+    <Modal>
+      <section
+        className={`quick-view-product ${
+          visibleModal.statusModal ? 'active' : ''
+        } overflow-y-auto laptop:overflow-hidden`}
+        onClick={clickOutsideModal}
+      >
+        <article ref={modalRef} className='container flex flex-col gap-[10px]'>
+          <button
+            className='ml-auto text-xl text-white'
+            onClick={() => dispatch(closeQuickViewProduct())}
+            aria-label='CloseModal'
+          >
+            <FaXmark />
+          </button>
+          <div className='flex flex-col laptop:flex-row gap-[80px]'>
+            <div className='w-full laptop:w-1/2 flex flex-col mobileLg:flex-row gap-[40px]'>
+              <div className='flex flex-row mobileLg:flex-col justify-between mobileLg:justify-start mobileLg:gap-[40px]'>
+                {wrapImages}
               </div>
-              <div className='flex items-center gap-[40px]'>
-                <label htmlFor='colors' className='w-1/6 text-darkGray'>
-                  Colors
-                </label>
-                <select
-                  name='colorProduct'
-                  id='colors'
-                  onChange={handleSelectColor}
-                >
-                  <option value={''}>
-                    Chose an option{' '}
-                    {filteredColors.length > 0
-                      ? ''
-                      : '(Please chose size first)'}
-                  </option>
-                  {filteredColors.length > 0 ? (
-                    filteredColors.map((c, index) => (
-                      <option key={index} value={c.color}>
-                        {c.color.toUpperCase()}
+              <div className='relative max-w-[514px] max-h-[634px] overflow-hidden flex'>
+                {renderList}
+                {images?.length > 1 ? (
+                  <>
+                    <button
+                      className='absolute top-1/2 left-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
+                      onClick={handlePrev}
+                      aria-label='Previous'
+                    >
+                      <FaAngleLeft className='text-lg' />
+                    </button>
+                    <button
+                      className='absolute top-1/2 right-0 z-20 w-[40px] h-[40px] flex justify-center items-center text-white bg-overlayBlack hover:bg-black'
+                      onClick={handleNext}
+                      aria-label='Next'
+                    >
+                      <FaAngleRight className='text-lg' />
+                    </button>
+                  </>
+                ) : (
+                  <></>
+                )}
+              </div>
+            </div>
+            <div className='w-full laptop:w-1/2 flex flex-col gap-[20px]'>
+              <h3 className='text-lg font-medium capitalize'>{name}</h3>
+              <div className='text-darkGray flex gap-[20px]'>
+                <p>Category: {details?.category?.name}</p>
+              </div>
+              <p className='text-md font-bold'>${price}</p>
+              <p className='text-darkGray'>{details?.shortDescription}</p>
+              <div className='flex flex-col gap-[20px]'>
+                <div className='flex items-center gap-[40px]'>
+                  <label htmlFor='sizes' className='w-1/6 text-darkGray'>
+                    Sizes
+                  </label>
+                  <select
+                    name='sizeProduct'
+                    id='sizes'
+                    onChange={handleSelectSize}
+                  >
+                    <option value=''>Chose an option</option>
+                    {sizes.map((s, index) => (
+                      <option key={index} value={s} className='uppercase'>
+                        Size {s.toUpperCase()}
                       </option>
-                    ))
-                  ) : (
-                    <option disabled>
-                      No colors available for the selected size.
+                    ))}
+                  </select>
+                </div>
+                <div className='flex items-center gap-[40px]'>
+                  <label htmlFor='colors' className='w-1/6 text-darkGray'>
+                    Colors
+                  </label>
+                  <select
+                    name='colorProduct'
+                    id='colors'
+                    onChange={handleSelectColor}
+                  >
+                    <option value={''}>
+                      Chose an option{' '}
+                      {filteredColors.length > 0
+                        ? ''
+                        : '(Please chose size first)'}
                     </option>
-                  )}
-                </select>
+                    {filteredColors.length > 0 ? (
+                      filteredColors.map((c, index) => (
+                        <option key={index} value={c.color}>
+                          {c.color.toUpperCase()}
+                        </option>
+                      ))
+                    ) : (
+                      <option disabled>
+                        No colors available for the selected size.
+                      </option>
+                    )}
+                  </select>
+                </div>
               </div>
-            </div>
-            <div className='flex flex-col mobileLg:flex-row items-center gap-[40px]'>
-              <div className='relative max-w-[135px] flex justify-between'>
-                <button
-                  className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-l-sm'
-                  onClick={handleDecrease}
-                  aria-label='Decrease'
-                >
-                  -
-                </button>
-                <input
-                  className='w-[45px] text-center text-md outline-none border border-lightGray bg-lightGray'
-                  type='number'
-                  min='1'
-                  max={totalQuantity}
-                  value={count}
-                  onChange={handleChangeCount}
-                  aria-label='Number'
-                />
-                <button
-                  className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-r-sm'
-                  onClick={handleIncrease}
-                  aria-label='Increase'
-                >
-                  +
-                </button>
+              <div className='flex flex-col mobileLg:flex-row items-center gap-[40px]'>
+                <div className='relative max-w-[135px] flex justify-between'>
+                  <button
+                    className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-l-sm'
+                    onClick={handleDecrease}
+                    aria-label='Decrease'
+                  >
+                    -
+                  </button>
+                  <input
+                    className='w-[45px] text-center text-md outline-none border border-lightGray bg-lightGray'
+                    type='number'
+                    min='1'
+                    max={totalQuantity}
+                    value={count}
+                    onChange={handleChangeCount}
+                    aria-label='Number'
+                  />
+                  <button
+                    className='w-[45px] text-lg flex justify-center items-center border border-lightGray rounded-r-sm'
+                    onClick={handleIncrease}
+                    aria-label='Increase'
+                  >
+                    +
+                  </button>
+                </div>
+                {getQuantity?.quantity ? (
+                  <p className='flex gap-[5px] text-md font-medium'>
+                    ( <span>{getQuantity.quantity}</span>
+                    <span>available</span>
+                    <span>
+                      {getQuantity.quantity > 1 ? 'products' : 'product'}
+                    </span>
+                    )
+                  </p>
+                ) : (
+                  <></>
+                )}
               </div>
-              {getQuantity?.quantity ? (
-                <p className='flex gap-[5px] text-md font-medium'>
-                  ( <span>{getQuantity.quantity}</span>
-                  <span>available</span>
-                  <span>
-                    {getQuantity.quantity > 1 ? 'products' : 'product'}
-                  </span>
-                  )
-                </p>
-              ) : (
-                <></>
-              )}
-            </div>
-            <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
-              <div>
-                <button
-                  className={`uppercase px-6 py-3 rounded-full flex items-center gap-[10px] text-white ${
-                    selectedSize && selectedColor
-                      ? 'bg-purple hover:bg-black'
-                      : ' bg-semiBoldGray'
-                  }`}
-                  disabled={selectedSize ? false : true}
-                  onClick={handleAddToCart}
-                >
-                  {selectedSize && selectedColor ? (
-                    <>
-                      <span>Add to Cart</span>
-                      <FaCartPlus />
-                    </>
-                  ) : (
-                    <>
-                      <span>Disabled</span>
-                      <FaFaceDizzy />
-                    </>
-                  )}
-                </button>
-              </div>
-              <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>
-                <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
-                  <span>Add to Wishlist</span>
-                  <FaHeart />
-                </button>
-                <span>|</span>
-                <button className='btn-facebook hover:text-purple flex justify-center items-center'>
-                  <span>Share to Facebook</span>
-                  <FaFacebookF />
-                </button>
+              <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
+                <div>
+                  <button
+                    className={`uppercase px-6 py-3 rounded-full flex items-center gap-[10px] text-white ${
+                      selectedSize && selectedColor
+                        ? 'bg-purple hover:bg-black'
+                        : ' bg-semiBoldGray'
+                    }`}
+                    disabled={selectedSize ? false : true}
+                    onClick={handleAddToCart}
+                  >
+                    {selectedSize && selectedColor ? (
+                      <>
+                        <span>Add to Cart</span>
+                        <FaCartPlus />
+                      </>
+                    ) : (
+                      <>
+                        <span>Disabled</span>
+                        <FaFaceDizzy />
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>
+                  <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
+                    <span>Add to Wishlist</span>
+                    <FaHeart />
+                  </button>
+                  <span>|</span>
+                  <button className='btn-facebook hover:text-purple flex justify-center items-center'>
+                    <span>Share to Facebook</span>
+                    <FaFacebookF />
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </article>
-    </section>
+        </article>
+      </section>
+    </Modal>
   );
 };
 

@@ -7,13 +7,13 @@ import {
   getVisibleAlertModal,
   setVisibleAlertModal,
 } from '@/store/slice/modalSlice';
+import './Header.css';
 import ViewProductModal from '@/components/modal/view-product-modal/ViewProductModal';
 import { getQuickViewProduct } from '@/store/slice/productSlice';
-import './Header.css';
 function Header() {
   const dispatch = useDispatch();
   const visibleAlertModal = useSelector(getVisibleAlertModal);
-  const visibleProductModal = useSelector(getQuickViewProduct);
+  const quickViewProduct = useSelector(getQuickViewProduct);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
   useEffect(() => {
     const handleResize = () => {
@@ -40,7 +40,7 @@ function Header() {
     <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
       {visibleAlertModal?.status ? <AlertModal /> : <></>}
-      {visibleProductModal?.statusModal ? <ViewProductModal /> : <></>}
+      {quickViewProduct.productModal._id ? <ViewProductModal /> : <></>}
     </header>
   );
 }

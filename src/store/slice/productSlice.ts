@@ -5,29 +5,13 @@ type InitialState = {
   productsOverview: Product[];
   quickViewProduct: {
     statusModal: boolean;
-    productModal: Product | {};
+    productModal: Product;
   };
   totalPage: number;
   status: string;
   err: string | null;
 };
-const defaultViewProduct: Product = {
-  _id: '',
-  images: [],
-  name: '',
-  code: '',
-  price: 0,
-  type: '',
-  details: {
-    variants: [{ size: '', color: '', quantity: 0, inStock: false }],
-    shortDescription: '',
-    description: '',
-    weight: '',
-    dimensions: '',
-    materials: '',
-    category: { name: '' },
-  },
-};
+const defaultViewProduct = {} as Product;
 const initialState: InitialState = {
   products: [],
   productsOverview: [],
@@ -57,6 +41,7 @@ const productSlice = createSlice({
     },
     closeQuickViewProduct: (state) => {
       state.quickViewProduct.statusModal = false;
+      state.quickViewProduct.productModal = defaultViewProduct;
     },
   },
 });
