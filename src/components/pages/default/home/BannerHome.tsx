@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo } from 'react';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
-import { useSlider } from '@/components/customHooks/useSlider';
+import { useSlider } from '@/hooks/useSlider';
 import { useSelector } from 'react-redux';
 import { getAllBanners } from '@/store/slice/bannerSlice';
 function BannerHome() {
@@ -103,7 +103,7 @@ function BannerHome() {
     };
   }, [indexImage]);
   return (
-    <section
+    <div
       className={` relative w-full h-full min-h-[350px] laptop:aspect-[4/2] flex justify-center overflow-hidden`}
     >
       {renderedBanners}
@@ -125,7 +125,7 @@ function BannerHome() {
       >
         <FaCaretRight className='w-[40px] h-[40px]' />
       </button>
-    </section>
+    </div>
   );
 }
 

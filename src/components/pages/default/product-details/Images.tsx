@@ -1,6 +1,6 @@
 import { LegacyRef, useMemo } from 'react';
 import { Product } from '@/interfaces/interfaces';
-import { useSlider } from '@/components/customHooks/useSlider';
+import { useSlider } from '@/hooks/useSlider';
 import { FaAngleRight, FaAngleLeft } from 'react-icons/fa6';
 type Props = {
   product: Product;

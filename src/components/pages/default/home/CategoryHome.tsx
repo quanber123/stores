@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
-import { useObserver } from '@/components/customHooks/useObserver';
+import { useObserver } from '@/hooks/useObserver';
 import PreviewCategory from '@/components/single/category/PreviewCategory';
 import { getAllCategories } from '@/store/slice/categorySlice';
 function CategoryHome() {
@@ -44,14 +44,14 @@ function CategoryHome() {
     };
   }, [isVisible]);
   return (
-    <section
+    <div
       ref={containerRef}
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
       } container relative w-full h-full flex flex-col laptop:flex-row justify-between gap-[20px]`}
     >
       {renderedCategory}
-    </section>
+    </div>
   );
 }
 

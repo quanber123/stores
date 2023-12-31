@@ -8,7 +8,7 @@ import {
   FaXmark,
   FaFaceDizzy,
 } from 'react-icons/fa6';
-import { useSlider } from '@/components/customHooks/useSlider';
+import { useSlider } from '@/hooks/useSlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '@/store/slice/cartSlice';
 import { setVisibleAlertModal } from '@/store/slice/modalSlice';
