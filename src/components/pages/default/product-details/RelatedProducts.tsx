@@ -1,7 +1,7 @@
 import { useMemo, LegacyRef } from 'react';
 import PreviewProduct from '@/components/single/product/PreviewProduct';
 import { Product } from '@/interfaces/interfaces';
-import { useCarousel } from '@/components/customHooks/useCarousel';
+import { useCarousel } from '@/hooks/useCarousel';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 type Props = {
   products: Array<Product>;

@@ -1,11 +1,11 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
-import { useObserver } from '@/components/customHooks/useObserver';
+import { useObserver } from '@/hooks/useObserver';
 import PreviewBlogHome from '@/components/single/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { getAllBlogs } from '@/store/slice/blogSlice';
-import { useCarousel } from '@/components/customHooks/useCarousel';
+import { useCarousel } from '@/hooks/useCarousel';
 function BlogHome() {
   const blogs = useSelector(getAllBlogs);
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
@@ -59,7 +59,7 @@ function BlogHome() {
     });
   }, [blogs, breakpoints]);
   return (
-    <section
+    <div
       ref={containerRef}
       className={`${
         isVisible ? 'opacity-100' : 'opacity-0'
@@ -99,7 +99,7 @@ function BlogHome() {
           <></>
         )}
       </div>
-    </section>
+    </div>
   );
 }
 export default BlogHome;
