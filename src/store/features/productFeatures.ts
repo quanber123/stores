@@ -15,10 +15,7 @@ export const productApi = createApi({
           const queryParams = [
             query.category && `category=${query.category}`,
             query.tag && `tag=${query.tag}`,
-            query.price && `price=${query.price}`,
-            query.price
-              ? query.price && `price=${query.price}`
-              : query.date && `date=${query.date}`,
+            query.arrange && `arrange=${query.arrange}`,
             query.page && `page=${query.page}`,
           ];
           const queryString = queryParams.filter(Boolean).join('&');

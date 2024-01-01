@@ -122,57 +122,67 @@ function Shop() {
       }),
     [products]
   );
-  const renderedCategories = categories.map((c, index) => {
-    return (
-      <li
-        ref={(el) => (subRouteRefs.current[index + 1] = el)}
-        className={`sub-routes ${queryCategory === c.name ? 'active' : ''}`}
-        key={index + 1}
-        data-name='category'
-        value={c.name}
-        onClick={handleChangeQuery}
-        aria-disabled={isFetchingProduct ? true : false}
-      >
-        {capitalize(c.name)}
-      </li>
-    );
-  });
-  const renderTags = tags.map((t) => {
-    return (
-      <li key={t._id} className='w-1/4'>
-        <button
-          className={`border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl ${
-            queryTag === t.name
-              ? 'border-purple text-purple'
-              : 'border-semiBoldGray text-semiBoldGray'
-          }`}
+  const renderedCategories = useMemo(() => {
+    return categories.map((c, index) => {
+      return (
+        <li
+          ref={(el) => (subRouteRefs.current[index + 1] = el)}
+          className={`sub-routes ${queryCategory === c.name ? 'active' : ''}`}
+          key={index + 1}
+          data-name='category'
+          value={c.name}
           onClick={handleChangeQuery}
-          data-name='tag'
-          value={t.name}
+          aria-disabled={isFetchingProduct ? true : false}
         >
-          {capitalize(t.name)}
-        </button>
-      </li>
-    );
-  });
-  const renderSortBtn = sortButtons.map((s, index) => {
-    return (
-      <li
-        className={`${
-          queryArrange === s.value ? 'text-purple font-bold' : ''
-        } ${
-          queryArrange === '' && s.value === 'default'
-            ? 'text-purple font-bold'
-            : ''
-        }`}
-        key={index}
-      >
-        <button data-name='arrange' value={s.value} onClick={handleChangeQuery}>
-          {s.name}
-        </button>
-      </li>
-    );
-  });
+          {capitalize(c.name)}
+        </li>
+      );
+    });
+  }, [categories, queryCategory]);
+  const renderTags = useMemo(() => {
+    return tags.map((t) => {
+      return (
+        <li key={t._id} className='w-1/4'>
+          <button
+            className={`border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl ${
+              queryTag === t.name
+                ? 'border-purple text-purple'
+                : 'border-semiBoldGray text-semiBoldGray'
+            }`}
+            onClick={handleChangeQuery}
+            data-name='tag'
+            value={t.name}
+          >
+            {capitalize(t.name)}
+          </button>
+        </li>
+      );
+    });
+  }, [tags, queryTag]);
+  const renderSortBtn = useMemo(() => {
+    return sortButtons.map((s, index) => {
+      return (
+        <li
+          className={`${
+            queryArrange === s.value ? 'text-purple font-bold' : ''
+          } ${
+            queryArrange === '' && s.value === 'default'
+              ? 'text-purple font-bold'
+              : ''
+          }`}
+          key={index}
+        >
+          <button
+            data-name='arrange'
+            value={s.value}
+            onClick={handleChangeQuery}
+          >
+            {s.name}
+          </button>
+        </li>
+      );
+    });
+  }, [sortButtons, queryArrange]);
   const renderPagination = () => {
     const pageElements = [];
     for (let index = 1; index <= totalPage; index++) {

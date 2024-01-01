@@ -5,11 +5,7 @@ import {
   getVisibleUserModal,
   setVisibleUserModal,
 } from '@/store/slice/modalSlice';
-import {
-  FaRegCircleUser,
-  FaGear,
-  FaArrowRightFromBracket,
-} from 'react-icons/fa6';
+import { FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 function UserModal() {
   const dispatch = useDispatch();

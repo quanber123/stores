@@ -13,23 +13,14 @@ export const blogApi = createApi({
             return 'blogs';
           }
 
-          const queryParams = [];
+          const queryParams = [
+            query.category && `category=${query.category}`,
+            query.tag && `tag=${query.tag}`,
+            query.page && `page=${query.page}`,
+          ];
+          const queryString = queryParams.join('&');
 
-          if (query.category) {
-            queryParams.push(`category=${query.category}`);
-          }
-
-          if (query.tag) {
-            queryParams.push(`tag=${query.tag}`);
-          }
-
-          if (query.page) {
-            queryParams.push(`page=${query.page}`);
-          }
-
-          const queryString = queryParams.join('&&');
-
-          return `blogs?${queryString}`;
+          return `blogs${queryString ? `?${queryString}` : ''}`;
         },
         providesTags: (result) => providesList(result, 'Blogs'),
       }),

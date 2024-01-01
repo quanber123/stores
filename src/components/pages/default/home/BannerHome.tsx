@@ -26,8 +26,13 @@ function BannerHome() {
             ref={indexImage === index ? imgRef : null}
             className={`img-slider ${indexImage === index ? 'active' : ''}`}
             src={i.image}
-            alt=''
+            alt={i.content}
             key={index}
+            // loading='eager'
+            {...({ fetchpriority: 'highest' } as React.DetailedHTMLProps<
+              React.ImgHTMLAttributes<HTMLImageElement>,
+              HTMLImageElement
+            >)}
           />
           <div
             style={{ display: indexImage === index ? 'flex' : 'none' }}

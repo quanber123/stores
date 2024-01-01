@@ -17,19 +17,6 @@ export const userApi = createApi({
         }),
         providesTags: (result) => providesList(result, 'Users'),
       }),
-      // getUserSuccess: builder.query({
-      //   query: () => ({
-      //     url: 'auth/login/success',
-      //     method: 'GET',
-      //     credentials: 'include',
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-type': 'application/json',
-      //       'Access-Control-Allow-Credentials': 'true',
-      //     },
-      //   }),
-      //   providesTags: (result) => providesList(result, 'Users'),
-      // }),
       verifiedEmail: builder.mutation({
         query: ({ code, email }) => ({
           url: 'auth/verify-email',

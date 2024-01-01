@@ -1,18 +1,20 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import App from '@/App';
-const HomeViews = lazy(() => import('@/views/default/HomeViews'));
-const AboutViews = lazy(() => import('@/views/default/AboutViews'));
-const ShopViews = lazy(() => import('@/views/default/ShopViews'));
+const HomeViews = lazy(() => import('@/views/(default)/HomeViews'));
+const AboutViews = lazy(() => import('@/views/(default)/AboutViews'));
+const ShopViews = lazy(() => import('@/views/(default)/ShopViews'));
 const ProductDetailsViews = lazy(
-  () => import('@/views/default/ProductDetailsViews')
+  () => import('@/views/(default)/ProductDetailsViews')
 );
-const BlogViews = lazy(() => import('@/views/default/BlogViews'));
-const BlogDetailsViews = lazy(() => import('@/views/default/BlogDetailsViews'));
+const BlogViews = lazy(() => import('@/views/(default)/BlogViews'));
+const BlogDetailsViews = lazy(
+  () => import('@/views/(default)/BlogDetailsViews')
+);
 const Auth = lazy(() => import('@/components/auth/Auth'));
-const SettingViews = lazy(() => import('@/views/auth/SettingViews'));
+const SettingViews = lazy(() => import('@/views/(logged-in)/SettingViews'));
 const VerifiedAccount = lazy(() => import('@/components/auth/VerifiedAccount'));
-const NotFoundViews = lazy(() => import('@/views/default/NotFoundViews'));
+const NotFoundViews = lazy(() => import('@/views/(default)/NotFoundViews'));
 const routes: RouteObject[] = [
   {
     path: '/',

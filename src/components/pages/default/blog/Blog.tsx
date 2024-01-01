@@ -1,4 +1,4 @@
-import { useRef, useMemo, useState, useLayoutEffect } from 'react';
+import { useRef, useMemo, useState, useCallback, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import LazyLoadImage from '@/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
@@ -9,6 +9,8 @@ import { getAllTags } from '@/store/slice/tagSlice';
 import { getAllCategories } from '@/store/slice/categorySlice';
 import './blog.css';
 import { getAllBlogs } from '@/store/slice/blogSlice';
+import { useGetBlogsQuery } from '@/store/features/blogFeatures';
+import { useSearchParams } from 'react-router-dom';
 function Blog() {
   const blogs = useSelector(getAllBlogs);
   const categories = useSelector(getAllCategories);
@@ -21,6 +23,24 @@ function Blog() {
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const categoryRefs = useRef<Array<HTMLElement | null>>([]);
   const tagRefs = useRef<Array<HTMLElement | null>>([]);
+  const [searchQuery, setSearchQuery] = useSearchParams();
+  const queryCategory = searchQuery.get('category') ?? '';
+  const queryTag = searchQuery.get('tag') ?? '';
+  const pageCategory = searchQuery.get('page')
+    ? Number(searchQuery.get('page'))
+    : 1;
+  const {
+    data: dataBlogs,
+    isSuccess: isSuccessBlog,
+    isFetching: isFetchingBlog,
+  } = useGetBlogsQuery(
+    {
+      page: pageCategory,
+      category: queryCategory,
+      tag: queryTag,
+    },
+    { skip: searchQuery.size > 0 ? false : true }
+  );
   const renderedBlog = useMemo(() => {
     return blogs.map((b, index) => {
       return (
@@ -32,32 +52,70 @@ function Blog() {
       );
     });
   }, [blogs]);
+  const handleChangeQuery = useCallback(
+    (e: React.MouseEvent<HTMLElement>) => {
+      const name = e.currentTarget.getAttribute('data-name') || '';
+      const value = e.currentTarget.getAttribute('value') || '';
+      setSearchQuery((prevQuery) => {
+        const newQuery = new URLSearchParams(prevQuery);
+
+        if (value.trim() !== '') {
+          newQuery.set(name, value);
+          if (name !== 'page') {
+            newQuery.set('page', '1');
+          }
+          if (value === 'default') {
+            newQuery.set('page', '1');
+            ['category', 'tag'].forEach((param) => newQuery.delete(param));
+          } else {
+            newQuery.set(name, value);
+          }
+        } else {
+          newQuery.delete(name);
+        }
+        return newQuery.toString();
+      });
+    },
+    [searchQuery]
+  );
   const renderedCategory = useMemo(() => {
     return categories.map((c, index) => {
       return (
         <button
           ref={(el) => (categoryRefs.current[index] = el)}
           key={index}
-          className='btn-category-list flex justify-start py-4 opacity-0 capitalize'
+          className={`${
+            queryCategory === c.name ? 'active' : ''
+          } btn-category-list flex justify-start py-4 opacity-0 capitalize`}
+          data-name='category'
+          value={c.name}
+          onClick={handleChangeQuery}
         >
           {c.name}
         </button>
       );
     });
-  }, [categories]);
+  }, [categories, queryCategory]);
   const renderedTags = useMemo(() => {
     return tags.map((b, index) => {
       return (
         <button
           ref={(el) => (tagRefs.current[index] = el)}
           key={index}
-          className='border border-lightGray text-gray hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl opacity-0 capitalize'
+          className={`${
+            queryTag === b.name
+              ? 'border-purple text-purple'
+              : 'border-lightGray text-gray'
+          } border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl opacity-0 capitalize`}
+          data-name='tag'
+          value={b.name}
+          onClick={handleChangeQuery}
         >
           {b.name}
         </button>
       );
     });
-  }, [tags]);
+  }, [tags, queryTag]);
   const handleDropdown = () => {
     setDropdownCategory((prevState) => !prevState);
   };

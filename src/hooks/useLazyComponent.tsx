@@ -6,29 +6,42 @@ const useLazyComponent = (): [
 ] => {
   const [inView, setInView] = useState(false);
   const componentRef = useRef<HTMLElement | null>(null);
-  let handleIntersection: IntersectionObserverCallback = (entries, _) => {
+
+  const handleIntersection: IntersectionObserverCallback = (
+    entries,
+    observer
+  ) => {
     entries.forEach((e) => {
       if (e.isIntersecting) {
         setInView(true);
+        observer.unobserve(e.target);
       }
     });
   };
+
   const configOptions = {
     rootMargin: '0px',
-    threshold: 0.1,
+    threshold: 0.5,
   };
+
   useEffect(() => {
-    let observer: IntersectionObserver = new IntersectionObserver(
-      handleIntersection,
-      configOptions
-    );
+    let observer: IntersectionObserver | null = null;
+
     if (componentRef.current) {
+      observer = new IntersectionObserver(
+        (entries) => handleIntersection(entries, observer!),
+        configOptions
+      );
       observer.observe(componentRef.current);
     }
+
     return () => {
-      observer.disconnect;
+      if (observer) {
+        observer.disconnect();
+      }
     };
-  }, []);
+  }, [inView]);
+
   return [componentRef, inView];
 };
 

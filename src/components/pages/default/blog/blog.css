@@ -24,11 +24,13 @@
   z-index: 10;
   transition: all 0.3s linear;
 }
-.btn-category-list:hover {
+.btn-category-list:hover,
+.btn-category-list.active {
   color: #717fe0;
 }
 
-.btn-category-list:hover::before {
+.btn-category-list:hover::before,
+.btn-category-list.active::before {
   width: 100%;
 }
 .dropdown-category {
