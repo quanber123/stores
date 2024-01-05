@@ -33,7 +33,7 @@ const SettingNotifications = () => {
     if (isSuccessData && !isLoadingSettings) {
       dispatch(setSettings(settingsData));
     }
-  }, [dispatch, settingsData, isLoadingSettings]);
+  }, [settingsData, isLoadingSettings]);
   useEffect(() => {
     if (isSuccessToggle && !isLoadingToggle) {
       dispatch(
@@ -44,14 +44,15 @@ const SettingNotifications = () => {
       );
     }
     if (!isLoadingToggle && errorToggle && 'data' in errorToggle) {
+      const errorData = errorToggle.data as { message: string };
       dispatch(
         setVisibleAlertModal({
           status: 'failed',
-          message: `Failed: ${errorToggle?.data}`,
+          message: `Failed: ${errorData.message}`,
         })
       );
     }
-  }, [dispatch, isSuccessToggle, isLoadingToggle, errorToggle]);
+  }, [dataToggle, isSuccessToggle, isLoadingToggle, errorToggle]);
   const renderedSettings = useMemo(() => {
     return settings.notifications.map((s) => {
       return (

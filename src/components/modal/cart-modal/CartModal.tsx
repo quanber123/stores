@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { getCart, removeFormCart } from '@/store/slice/cartSlice';
 import './CartModal.css';
+import Modal from '@/Modal';
 function CartModal() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

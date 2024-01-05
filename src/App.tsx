@@ -33,19 +33,15 @@ function App() {
   const [searchQuery, setSearchQuery] = useSearchParams();
   const accessToken = searchQuery.get('token') ?? '';
   const token = useMemo(() => {
-    return window.localStorage.getItem('accessToken');
+    return window.localStorage.getItem('coza-store-token');
   }, []);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(
     token || accessToken,
     { skip: token || accessToken ? false : true }
   );
   const { data: dataProducts, isSuccess: isSuccessProducts } =
-    useGetProductsQuery({
-      page: 1,
-    });
-  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery({
-    page: 1,
-  });
+    useGetProductsQuery(null);
+  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery(null);
   const { data: dataBanners, isSuccess: isSuccessBanners } =
     useGetBannersQuery(null);
   const { data: dataCategories, isSuccess: isSuccessCategories } =
@@ -54,6 +50,11 @@ function App() {
   useEffect(() => {
     setHeader(location.pathname);
   }, [location.pathname]);
+  useEffect(() => {
+    if (accessToken) {
+      window.localStorage.setItem('coza-store-token', accessToken);
+    }
+  }, [accessToken]);
   useEffect(() => {
     if (isSuccessUser && dataUser) {
       dispatch(setAuth(dataUser));

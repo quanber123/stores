@@ -30,3 +30,16 @@ export const capitalizeFirstLetter = (str: string) => {
     return f.toUpperCase();
   });
 };
+
+export const formatQueryString = (str: string) => {
+  const newStr = str
+    .split('&')
+    .map((s) => s.split('='))
+    .reduce((obj: any, currArray: any) => {
+      const key = currArray[0];
+      const value = currArray[1];
+      obj[key] = value;
+      return obj;
+    }, {});
+  return newStr;
+};

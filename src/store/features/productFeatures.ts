@@ -9,31 +9,36 @@ export const productApi = createApi({
     return {
       getProducts: builder.query({
         query: (query) => {
-          if (!query) {
-            return 'products';
-          }
+          if (!query)
+            return `products?page=${
+              window.localStorage.getItem('store-current-product-page') || 1
+            }`;
+          return `products?${query.search}`;
+          // if (!query) {
+          //   return 'products';
+          // }
 
-          const queryParams = [];
+          // const queryParams = [];
 
-          if (query.category) {
-            queryParams.push(`category=${query.category}`);
-          }
+          // if (query.category) {
+          //   queryParams.push(`category=${query.category}`);
+          // }
 
-          if (query.tag) {
-            queryParams.push(`tag=${query.tag}`);
-          }
+          // if (query.tag) {
+          //   queryParams.push(`tag=${query.tag}`);
+          // }
 
-          if (query.arrange) {
-            queryParams.push(`arrange=${query.arrange}`);
-          }
+          // if (query.arrange) {
+          //   queryParams.push(`arrange=${query.arrange}`);
+          // }
 
-          if (query.page) {
-            queryParams.push(`page=${query.page}`);
-          }
+          // if (query.page) {
+          //   queryParams.push(`page=${query.page}`);
+          // }
 
-          const queryString = queryParams.join('&&');
+          // const queryString = queryParams.join('&&');
 
-          return `products?${queryString}`;
+          // return `products?${queryString}`;
         },
         providesTags: (result) => providesList(result, 'Products'),
       }),

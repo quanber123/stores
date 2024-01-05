@@ -1,15 +1,20 @@
-import { useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
-import AlertModal from '@/components/modal/alert-modal/AlertModal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getVisibleAlertModal,
   setVisibleAlertModal,
 } from '@/store/slice/modalSlice';
 import './Header.css';
-import ViewProductModal from '@/components/modal/view-product-modal/ViewProductModal';
 import { getQuickViewProduct } from '@/store/slice/productSlice';
+import LoadingV2 from '../Loading/LoadingV2';
+const ViewProductModal = lazy(
+  () => import('@/components/modal/view-product-modal/ViewProductModal')
+);
+const AlertModal = lazy(
+  () => import('@/components/modal/alert-modal/AlertModal')
+);
 function Header() {
   const dispatch = useDispatch();
   const visibleAlertModal = useSelector(getVisibleAlertModal);
@@ -39,8 +44,12 @@ function Header() {
   return (
     <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
-      {visibleAlertModal?.status ? <AlertModal /> : <></>}
-      {quickViewProduct.productModal._id ? <ViewProductModal /> : <></>}
+      <Suspense fallback={<LoadingV2 />}>
+        {visibleAlertModal?.status ? <AlertModal /> : <></>}
+      </Suspense>
+      <Suspense fallback={<LoadingV2 />}>
+        {quickViewProduct.productModal._id ? <ViewProductModal /> : <></>}
+      </Suspense>
     </header>
   );
 }

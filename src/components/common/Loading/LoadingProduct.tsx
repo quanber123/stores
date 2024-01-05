@@ -19,7 +19,11 @@ const LoadingProduct = React.memo(() => {
       </article>
     );
   }
-  return <>{loadingItems}</>;
+  return (
+    <section className='container min-h-[60vh] m-auto flex flex-col gap-[40px]'>
+      <div className='product-list'>{loadingItems}</div>
+    </section>
+  );
 });
 
 export default LoadingProduct;

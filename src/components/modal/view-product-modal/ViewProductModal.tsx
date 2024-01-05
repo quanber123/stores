@@ -30,7 +30,7 @@ const ViewProductModal = () => {
   const { indexImage, handlePrev, handleNext, handleIndex } = useSlider(
     images?.length
   );
-  const renderList = useMemo(
+  const renderListImage = useMemo(
     () =>
       images?.map((image, index) => {
         return (
@@ -46,7 +46,7 @@ const ViewProductModal = () => {
           />
         );
       }),
-    [visibleModal?.productModal]
+    [images, indexImage]
   );
   const wrapImages = useMemo(() => {
     return images?.map((image, index) => {
@@ -67,14 +67,14 @@ const ViewProductModal = () => {
         </div>
       );
     });
-  }, [visibleModal?.productModal]);
+  }, [images, indexImage]);
   const totalQuantity = useMemo(
     () =>
       details?.variants?.reduce(
         (accumulator, currentValue) => accumulator + currentValue.quantity,
         0
       ),
-    [visibleModal?.productModal]
+    [details]
   );
   const sizes = useMemo(() => {
     const arrSizes = details?.variants?.map((v) => (v.inStock ? v.size : ''));
@@ -130,7 +130,7 @@ const ViewProductModal = () => {
       }
     });
   }, [count]);
-  const handleAddToCart = () => {
+  const handleAddToCart = useCallback(() => {
     dispatch(
       addToCart({
         _id: _id,
@@ -152,7 +152,7 @@ const ViewProductModal = () => {
         backgroundColor: 'lightGreen',
       })
     );
-  };
+  }, [dispatch]);
   const clickOutsideModal = useCallback((e: React.MouseEvent) => {
     const dialogDemission = modalRef.current?.getBoundingClientRect();
     if (
@@ -186,7 +186,7 @@ const ViewProductModal = () => {
                 {wrapImages}
               </div>
               <div className='relative max-w-[514px] max-h-[634px] overflow-hidden flex'>
-                {renderList}
+                {renderListImage}
                 {images?.length > 1 ? (
                   <>
                     <button

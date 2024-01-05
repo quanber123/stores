@@ -69,7 +69,7 @@ export const userApi = createApi({
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem(
-              'accessToken'
+              'coza-store-token'
             )}`,
           },
           body: {
@@ -86,7 +86,7 @@ export const userApi = createApi({
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem(
-              'accessToken'
+              'coza-store-token'
             )}`,
           },
           body: value,
@@ -99,7 +99,7 @@ export const userApi = createApi({
           method: 'GET',
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem(
-              'accessToken'
+              'coza-store-token'
             )}`,
           },
         }),
@@ -111,7 +111,7 @@ export const userApi = createApi({
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${window.localStorage.getItem(
-              'accessToken'
+              'coza-store-token'
             )}`,
           },
           body: {

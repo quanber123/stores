@@ -4,7 +4,10 @@ const LoadingBlog = React.memo(() => {
   const loadingItems = [];
   for (let i = 0; i < 8; i++) {
     loadingItems.push(
-      <article className='relative flex flex-col gap-[10px] tablet:gap-[20px]'>
+      <article
+        key={i}
+        className='relative w-full flex flex-col gap-[10px] tablet:gap-[20px]'
+      >
         <div className='w-full overflow-hidden'>
           <div className='skeleton w-full h-[210px] tablet:h-[384px] flex-shrink-0 flex-grow-0'></div>
         </div>
@@ -24,6 +27,8 @@ const LoadingBlog = React.memo(() => {
       </article>
     );
   }
-  return <>{loadingItems}</>;
+  return (
+    <div className='desktop:w-2/3 flex flex-col gap-[80px]'>{loadingItems}</div>
+  );
 });
 export default LoadingBlog;

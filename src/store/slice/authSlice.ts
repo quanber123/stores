@@ -45,7 +45,10 @@ const authSlice = createSlice({
   reducers: {
     setAuth: (state, action) => {
       action.payload.accessToken
-        ? window.localStorage.setItem('accessToken', action.payload.accessToken)
+        ? window.localStorage.setItem(
+            'coza-store-token',
+            action.payload.accessToken
+          )
         : '';
       state.user._id = action.payload.user._id;
       state.user.email = action.payload.user.email;
@@ -54,7 +57,7 @@ const authSlice = createSlice({
       state.user.isVerified = action.payload.user.isVerified;
     },
     removeAuth: (state) => {
-      window.localStorage.removeItem('accessToken');
+      window.localStorage.removeItem('coza-store-token');
       state.user._id = null;
       state.user.email = null;
       state.user.name = null;

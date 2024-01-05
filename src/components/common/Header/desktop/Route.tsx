@@ -45,7 +45,7 @@ function Router({ routeRefs }: PropsRoutes) {
         </li>
       );
     });
-  }, []);
+  }, [routeRefs]);
   return (
     <div>
       <ul className='p-[16px] h-max flex items-center gap-[20px] font-bold'>

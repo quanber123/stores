@@ -36,7 +36,7 @@ function LazyLoadImage(props: LazyLoadImageProps) {
   return inView ? (
     <img {...props} />
   ) : (
-    <div ref={imgRef} className={`skeleton-img`}></div>
+    <div ref={imgRef} className={`skeleton w-[290px] h-[350px]`}></div>
   );
 }
 

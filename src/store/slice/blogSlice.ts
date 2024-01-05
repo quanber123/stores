@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   blogs: Blog[];
   blogDetails: Blog;
-  totalPage: number;
+  totalPageBlog: number;
+  currentPageBlog: number;
   status: string;
   err: string | null;
 };
@@ -39,7 +40,9 @@ const defaultBlogDetails: Blog = {
 const initialState: InitialState = {
   blogs: [],
   blogDetails: defaultBlogDetails,
-  totalPage: 0,
+  totalPageBlog: 0,
+  currentPageBlog:
+    Number(window.localStorage.getItem('store-current-blog-page')) || 1,
   status: 'idle',
   err: null,
 };
@@ -50,7 +53,12 @@ const blogSlice = createSlice({
   reducers: {
     setAllBlogs: (state, action) => {
       state.blogs = action.payload.blogs;
-      state.totalPage = action.payload.totalPage;
+      state.totalPageBlog = action.payload.totalPage;
+      state.currentPageBlog = action.payload.currentPage;
+      window.localStorage.setItem(
+        'store-current-blog-page',
+        action.payload.currentPage
+      );
     },
     setBlogsDetails: (state, action) => {
       state.blogDetails = action.payload.blog;
@@ -62,6 +70,8 @@ export const getAllBlogs = (state: { blogs: InitialState }) =>
   state.blogs.blogs;
 export const getBlogDetails = (state: { blogs: InitialState }) =>
   state.blogs.blogDetails;
-export const getTotalPageBlogs = (state: { blogs: InitialState }) =>
-  state.blogs.totalPage;
+export const getTotalPageBlog = (state: { blogs: InitialState }) =>
+  state.blogs.totalPageBlog;
+export const getCurrentPageBlog = (state: { blogs: InitialState }) =>
+  state.blogs.currentPageBlog;
 export default blogSlice.reducer;

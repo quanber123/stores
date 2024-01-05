@@ -9,27 +9,11 @@ export const blogApi = createApi({
     return {
       getBlogs: builder.query({
         query: (query) => {
-          if (!query) {
-            return 'blogs';
-          }
-
-          const queryParams = [];
-
-          if (query.category) {
-            queryParams.push(`category=${query.category}`);
-          }
-
-          if (query.tag) {
-            queryParams.push(`tag=${query.tag}`);
-          }
-
-          if (query.page) {
-            queryParams.push(`page=${query.page}`);
-          }
-
-          const queryString = queryParams.join('&&');
-
-          return `blogs?${queryString}`;
+          if (!query)
+            return `blogs?page=${
+              window.localStorage.getItem('store-current-blog-page') || 1
+            }`;
+          return `blogs?${query.search}`;
         },
         providesTags: (result) => providesList(result, 'Blogs'),
       }),
@@ -41,12 +25,6 @@ export const blogApi = createApi({
         query: ({ id, userId, text }) => ({
           url: `blogs/${id}/comments`,
           method: 'POST',
-          credentials: 'include',
-          headers: {
-            Accept: 'application/json',
-            'Content-type': 'application/json',
-            'Access-Control-Allow-Credentials': 'true',
-          },
           body: {
             userId: userId,
             text: text,

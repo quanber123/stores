@@ -27,7 +27,7 @@ const Images: React.FC<Props> = ({ product, refEl }) => {
           />
         );
       }),
-    [product]
+    [images, indexImage]
   );
   const wrapImages = useMemo(
     () =>
@@ -45,7 +45,7 @@ const Images: React.FC<Props> = ({ product, refEl }) => {
           />
         );
       }),
-    [product, indexImage, images]
+    [indexImage, images]
   );
   return (
     <section

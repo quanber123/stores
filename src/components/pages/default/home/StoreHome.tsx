@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
-import PreviewProduct from '@/components/single/product/PreviewProduct';
+import PreviewProduct from '@/components/ui/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
 import { getAllProductsOverview } from '@/store/slice/productSlice';
