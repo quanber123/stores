@@ -52,5 +52,4 @@ function BlogViews() {
     </main>
   );
 }
-
 export default BlogViews;

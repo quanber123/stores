@@ -12,6 +12,10 @@ function Logo({ imgRef }: PropsLogo) {
       src={logo}
       alt='logo'
       onClick={() => navigate('/')}
+      {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
+        React.ImgHTMLAttributes<HTMLImageElement>,
+        HTMLImageElement
+      >)}
     />
   );
 }

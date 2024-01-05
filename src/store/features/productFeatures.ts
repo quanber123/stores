@@ -14,31 +14,6 @@ export const productApi = createApi({
               window.localStorage.getItem('store-current-product-page') || 1
             }`;
           return `products?${query.search}`;
-          // if (!query) {
-          //   return 'products';
-          // }
-
-          // const queryParams = [];
-
-          // if (query.category) {
-          //   queryParams.push(`category=${query.category}`);
-          // }
-
-          // if (query.tag) {
-          //   queryParams.push(`tag=${query.tag}`);
-          // }
-
-          // if (query.arrange) {
-          //   queryParams.push(`arrange=${query.arrange}`);
-          // }
-
-          // if (query.page) {
-          //   queryParams.push(`page=${query.page}`);
-          // }
-
-          // const queryString = queryParams.join('&&');
-
-          // return `products?${queryString}`;
         },
         providesTags: (result) => providesList(result, 'Products'),
       }),
