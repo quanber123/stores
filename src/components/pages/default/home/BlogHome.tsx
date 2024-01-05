@@ -1,6 +1,7 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
+import { useObserver } from '@/hooks/useObserver';
 import PreviewBlogHome from '@/components/ui/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import { getAllBlogs } from '@/store/slice/blogSlice';
@@ -11,6 +12,7 @@ function BlogHome() {
     useCarousel(blogs.length);
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
+  const { isVisible, containerRef } = useObserver();
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       blogRefs.current
@@ -58,7 +60,9 @@ function BlogHome() {
   }, [blogs, breakpoints]);
   return (
     <div
-      className={`
+      ref={containerRef}
+      className={`${
+        isVisible ? 'opacity-100' : 'opacity-0'
       } relative w-full h-full flex flex-col justify-center items-center gap-[20px] overflow-hidden`}
     >
       <h2
