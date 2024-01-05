@@ -45,10 +45,10 @@ function Header() {
     <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
       <Suspense fallback={<LoadingV2 />}>
-        {visibleAlertModal?.status ? <AlertModal /> : <></>}
+        {visibleAlertModal?.status ? <AlertModal /> : null}
       </Suspense>
       <Suspense fallback={<LoadingV2 />}>
-        {quickViewProduct.productModal._id ? <ViewProductModal /> : <></>}
+        {quickViewProduct.productModal._id ? <ViewProductModal /> : null}
       </Suspense>
     </header>
   );

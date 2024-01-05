@@ -238,15 +238,13 @@ button {
 /* Style BannerHome*/
 .img-slider {
   position: absolute;
-  width: 0;
-  height: 0;
-  aspect-ratio: 1/1;
+  width: 100vw;
+  height: 50vh;
   opacity: 0;
+  aspect-ratio: 4/3;
   z-index: -100;
 }
 .img-slider.active {
-  width: 100vh;
-  height: 50vh;
   opacity: 1;
 }
 .img-slider-content {

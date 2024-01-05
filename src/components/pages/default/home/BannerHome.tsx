@@ -109,7 +109,7 @@ function BannerHome() {
   }, [indexImage]);
   return (
     <div
-      className={` relative w-full h-full min-h-[350px] laptop:aspect-[4/2] flex justify-center overflow-hidden`}
+      className={`relative w-[100vw] h-[100vh] laptop:aspect-[4/2] flex justify-center overflow-hidden`}
     >
       {renderedBanners}
       <button

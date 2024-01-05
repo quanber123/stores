@@ -1,15 +1,23 @@
-import { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect, Suspense, lazy } from 'react';
 import gsap from 'gsap';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/store/slice/authSlice';
 import Router from './Route';
 import Logo from './Logo';
-import NotificationsModal from '@/components/modal/notifications-modal/NotificationsModal';
-import FavoriteModal from '@/components/modal/favorite-modal/FavoriteModal';
-import LoginModal from '@/components/modal/login-modal/LoginModal';
-import RegisterModal from '@/components/modal/register-modal/RegisterModal';
-import UserModal from '@/components/modal/user-modal/UserModal';
-import CartModal from '@/components/modal/cart-modal/CartModal';
+const CartModal = lazy(() => import('@/components/modal/cart-modal/CartModal'));
+const FavoriteModal = lazy(
+  () => import('@/components/modal/favorite-modal/FavoriteModal')
+);
+const NotificationsModal = lazy(
+  () => import('@/components/modal/notifications-modal/NotificationsModal')
+);
+const UserModal = lazy(() => import('@/components/modal/user-modal/UserModal'));
+const LoginModal = lazy(
+  () => import('@/components/modal/login-modal/LoginModal')
+);
+const RegisterModal = lazy(
+  () => import('@/components/modal/register-modal/RegisterModal')
+);
 function DesktopNavBar() {
   const user = useSelector(authInfo);
   const imgRef = useRef(null);
@@ -54,17 +62,21 @@ function DesktopNavBar() {
       <Logo imgRef={imgRef} />
       <Router routeRefs={routeRefs} />
       {user.email ? (
-        <div className='ml-auto flex items-center gap-[20px]'>
-          <CartModal />
-          <FavoriteModal />
-          <NotificationsModal />
-          <UserModal />
-        </div>
+        <Suspense>
+          <div className='ml-auto flex items-center gap-[20px]'>
+            <CartModal />
+            <FavoriteModal />
+            <NotificationsModal />
+            <UserModal />
+          </div>
+        </Suspense>
       ) : (
-        <div className='ml-auto flex items-center gap-[20px]'>
-          <LoginModal />
-          <RegisterModal />
-        </div>
+        <Suspense>
+          <div className='ml-auto flex items-center gap-[20px]'>
+            <LoginModal />
+            <RegisterModal />
+          </div>
+        </Suspense>
       )}
     </nav>
   );

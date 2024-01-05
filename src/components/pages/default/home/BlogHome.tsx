@@ -1,18 +1,31 @@
-import { useRef, useLayoutEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewBlogHome from '@/components/ui/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import { getAllBlogs } from '@/store/slice/blogSlice';
+import {
+  getAllBlogsOverview,
+  setAllBlogsOverView,
+} from '@/store/slice/blogSlice';
 import { useCarousel } from '@/hooks/useCarousel';
+import { useGetBlogsQuery } from '@/store/features/blogFeatures';
 function BlogHome() {
-  const blogs = useSelector(getAllBlogs);
+  const dispatch = useDispatch();
+  const blogs = useSelector(getAllBlogsOverview);
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
     useCarousel(blogs.length);
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
+  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery({
+    search: 'page=1',
+  });
+  useEffect(() => {
+    if (isSuccessBlogs && dataBlogs) {
+      dispatch(setAllBlogsOverView(dataBlogs));
+    }
+  }, [isSuccessBlogs]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       blogRefs.current
@@ -45,7 +58,7 @@ function BlogHome() {
     return () => {
       ctx.revert();
     };
-  }, []);
+  }, [isVisible]);
   const renderedBlog = useMemo(() => {
     return blogs.map((b, index) => {
       return (

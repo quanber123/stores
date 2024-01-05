@@ -4,6 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   blogs: Blog[];
   blogDetails: Blog;
+  blogOverView: Blog[];
   totalPageBlog: number;
   currentPageBlog: number;
   status: string;
@@ -40,6 +41,7 @@ const defaultBlogDetails: Blog = {
 const initialState: InitialState = {
   blogs: [],
   blogDetails: defaultBlogDetails,
+  blogOverView: [],
   totalPageBlog: 0,
   currentPageBlog:
     Number(window.localStorage.getItem('store-current-blog-page')) || 1,
@@ -60,14 +62,20 @@ const blogSlice = createSlice({
         action.payload.currentPage
       );
     },
+    setAllBlogsOverView: (state, action) => {
+      state.blogOverView = action.payload.blogs;
+    },
     setBlogsDetails: (state, action) => {
       state.blogDetails = action.payload.blog;
     },
   },
 });
-export const { setAllBlogs, setBlogsDetails } = blogSlice.actions;
+export const { setAllBlogs, setAllBlogsOverView, setBlogsDetails } =
+  blogSlice.actions;
 export const getAllBlogs = (state: { blogs: InitialState }) =>
   state.blogs.blogs;
+export const getAllBlogsOverview = (state: { blogs: InitialState }) =>
+  state.blogs.blogOverView;
 export const getBlogDetails = (state: { blogs: InitialState }) =>
   state.blogs.blogDetails;
 export const getTotalPageBlog = (state: { blogs: InitialState }) =>

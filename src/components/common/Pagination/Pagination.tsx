@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 type Props = {
   totalPage: number;

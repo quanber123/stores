@@ -1,12 +1,17 @@
-import { useRef, useLayoutEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewProduct from '@/components/ui/product/PreviewProduct';
 import scrollElement from '@/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
-import { getAllProductsOverview } from '@/store/slice/productSlice';
+import {
+  getAllProductsOverview,
+  setAllProductsOverview,
+} from '@/store/slice/productSlice';
+import { useGetProductsQuery } from '@/store/features/productFeatures';
 function StoreHome() {
+  const dispatch = useDispatch();
   const products = useSelector(getAllProductsOverview);
   const navigate = useNavigate();
   const titleRef = useRef(null);
@@ -14,6 +19,8 @@ function StoreHome() {
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
   const btnRef = useRef(null);
   const { isVisible, containerRef } = useObserver();
+  const { data: dataProducts, isSuccess: isSuccessProducts } =
+    useGetProductsQuery({ search: 'page=1' });
   const renderedProduct = useMemo(() => {
     return products.map((p, index) => (
       <PreviewProduct
@@ -28,6 +35,11 @@ function StoreHome() {
     scrollElement();
     navigate('/shop');
   };
+  useEffect(() => {
+    if (isSuccessProducts && dataProducts) {
+      dispatch(setAllProductsOverview(dataProducts));
+    }
+  }, [isSuccessProducts]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {
