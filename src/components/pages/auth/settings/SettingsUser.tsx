@@ -81,7 +81,8 @@ const SettingsUser = () => {
             Avatar
           </label>
           <p className='text-sm'>
-            Only the following types of photos are accepted: JPG, PNG or GIF.
+            Only the following types of photos are accepted: JPG, PNG, GIF or
+            Webp.
           </p>
         </div>
         <div className='relative mx-auto w-[80px] h-[80px] flex justify-center items-center rounded-full border border-lightGray overflow-hidden'>

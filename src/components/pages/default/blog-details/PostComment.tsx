@@ -11,61 +11,65 @@ import {
 } from '@/store/slice/modalSlice';
 import scrollElement from '@/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+
 type Props = {
   id: string;
 };
+
 const PostComment: React.FC<Props> = ({ id }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
   const [comment, setComment] = useState('');
   const [postComment, { status: statusComment }] = usePostCommentMutation();
-  // change comment
-  const handleChangeComment = useCallback((e: ContentEditableEvent) => {
-    setComment(e.target.value);
-  }, []);
 
-  // post comment
+  const handleChangeComment = useCallback(
+    (e: ContentEditableEvent) => {
+      setComment(e.target.value);
+    },
+    [comment]
+  );
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (comment! == '' && e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
+    if (e.key === 'Enter' && !e.shiftKey) {
       if (comment) {
+        e.preventDefault();
         postComment({ id: id, userId: user._id, text: comment });
       } else {
         dispatch(
           setVisibleAlertModal({
             status: 'failed',
-            message: 'Failed: Can not post emty string',
+            message: 'Failed: Cannot post an empty string',
           })
         );
       }
     }
   };
+
   const handlePostComment = () => {
     if (comment) {
       postComment({ id: id, userId: user._id, text: comment });
-    } else
+    } else {
       dispatch(
         setVisibleAlertModal({
           status: 'failed',
-          message: 'Failed: Can not post emty string',
+          message: 'Failed: Cannot post an empty string',
         })
       );
+    }
   };
-
-  // redirect to verified if account not verified
 
   const redirectToVerified = () => {
     navigate('/verified');
     scrollElement();
   };
 
-  // check polling blog when post comment success
   useEffect(() => {
     if (comment && statusComment === 'fulfilled') {
       setComment('');
     }
   }, [comment, statusComment]);
+
   return (
     <section className='container'>
       {user.name && user.image && user.isVerified ? (
@@ -89,7 +93,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
                 comment ? 'text-darkBlue' : ''
               }`}
               aria-label='Send-comment'
-              disabled={statusComment === 'pending' ? true : false}
+              disabled={statusComment === 'pending'}
               onClick={handlePostComment}
             >
               <FaPaperPlane />
@@ -109,20 +113,20 @@ const PostComment: React.FC<Props> = ({ id }) => {
       {!user.email ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
-            Please
+            Please{' '}
             <span
               className='mx-[4px] text-purple font-bold cursor-pointer'
               onClick={() => dispatch(setVisibleLoginModal())}
             >
               Login
-            </span>
-            or
+            </span>{' '}
+            or{' '}
             <span
               className='mx-[4px] text-purple font-bold cursor-pointer'
               onClick={() => dispatch(setVisibleRegisterModal())}
             >
               Register
-            </span>
+            </span>{' '}
             to comment.
           </p>
         </div>
@@ -132,13 +136,13 @@ const PostComment: React.FC<Props> = ({ id }) => {
       {user.email && !user.isVerified ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
-            Please
+            Please{' '}
             <span
               className='mx-[4px] text-purple font-bold cursor-pointer'
               onClick={redirectToVerified}
             >
-              verified
-            </span>
+              verify
+            </span>{' '}
             your account to comment.
           </p>
         </div>
@@ -148,4 +152,5 @@ const PostComment: React.FC<Props> = ({ id }) => {
     </section>
   );
 };
+
 export default PostComment;

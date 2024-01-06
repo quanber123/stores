@@ -13,7 +13,10 @@ const BlogDetailsViews = lazy(
 );
 const Auth = lazy(() => import('@/components/auth/Auth'));
 const SettingViews = lazy(() => import('@/views/(logged-in)/SettingViews'));
-const VerifiedAccount = lazy(() => import('@/components/auth/VerifiedAccount'));
+const VerifiedAccountViews = lazy(
+  () => import('@/views/(default)/VerifiedAccountViews')
+);
+const CartViews = lazy(() => import('@/views/(logged-in)/CartViews'));
 const NotFoundViews = lazy(() => import('@/views/(default)/NotFoundViews'));
 const routes: RouteObject[] = [
   {
@@ -56,7 +59,7 @@ const routes: RouteObject[] = [
       },
       {
         path: 'verified',
-        element: <VerifiedAccount />,
+        element: <VerifiedAccountViews />,
       },
       {
         path: '',
@@ -65,6 +68,10 @@ const routes: RouteObject[] = [
           {
             path: 'settings',
             element: <SettingViews />,
+          },
+          {
+            path: 'cart',
+            element: <CartViews />,
           },
         ],
       },

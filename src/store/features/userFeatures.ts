@@ -21,6 +21,11 @@ export const userApi = createApi({
         query: ({ code, email }) => ({
           url: 'auth/verify-email',
           method: 'POST',
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              'coza-store-token'
+            )}`,
+          },
           body: {
             code: code,
             email: email,

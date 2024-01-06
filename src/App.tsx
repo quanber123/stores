@@ -25,9 +25,7 @@ function App() {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const accessToken = searchQuery.get('token') ?? '';
-  const token = useMemo(() => {
-    return window.localStorage.getItem('coza-store-token');
-  }, []);
+  const token = window.localStorage.getItem('coza-store-token');
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(
     token || accessToken,
     { skip: token || accessToken ? false : true }

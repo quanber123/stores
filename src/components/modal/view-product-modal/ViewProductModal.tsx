@@ -77,7 +77,7 @@ const ViewProductModal = () => {
     [details]
   );
   const sizes = useMemo(() => {
-    const arrSizes = details?.variants?.map((v) => (v.inStock ? v.size : ''));
+    const arrSizes = details.variants.map((v) => v.size).filter((v) => v);
     return [...new Set(arrSizes)];
   }, [visibleModal?.productModal]);
   const filteredColors = useMemo(
@@ -99,12 +99,18 @@ const ViewProductModal = () => {
       ) ?? null,
     [selectedSize, selectedColor]
   );
+  const isStock = useMemo(() => {
+    const variant = details.variants.find(
+      (v) => v.size === selectedSize && v.color
+    );
+    return variant || null;
+  }, [details.variants, selectedSize]);
   const handleSelectSize = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
       setSelectedColor('');
       setSelectedSize(e.target.value);
     },
-    [selectedSize, selectedColor]
+    [selectedSize]
   );
   const handleSelectColor = useCallback(
     (e: ChangeEvent<HTMLSelectElement>) => {
@@ -289,7 +295,7 @@ const ViewProductModal = () => {
                     +
                   </button>
                 </div>
-                {getQuantity?.quantity ? (
+                {getQuantity?.quantity && isStock?.inStock ? (
                   <p className='flex gap-[5px] text-md font-medium'>
                     ( <span>{getQuantity.quantity}</span>
                     <span>available</span>
@@ -301,19 +307,32 @@ const ViewProductModal = () => {
                 ) : (
                   <></>
                 )}
+                {selectedColor && selectedColor && !isStock?.inStock ? (
+                  <p className='text-md font-medium'>
+                    (This item is out of stock)
+                  </p>
+                ) : (
+                  <></>
+                )}
+              </div>
+              <div>
+                <p className='text-sm text-darkGray font-bold'>
+                  You can only add products when you have selected the size and
+                  color and the item is available
+                </p>
               </div>
               <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
                 <div>
                   <button
                     className={`uppercase px-6 py-3 rounded-full flex items-center gap-[10px] text-white ${
-                      selectedSize && selectedColor
+                      selectedSize && selectedColor && isStock?.inStock
                         ? 'bg-purple hover:bg-black'
                         : ' bg-semiBoldGray'
                     }`}
                     disabled={selectedSize ? false : true}
                     onClick={handleAddToCart}
                   >
-                    {selectedSize && selectedColor ? (
+                    {selectedSize && selectedColor && isStock?.inStock ? (
                       <>
                         <span>Add to Cart</span>
                         <FaCartPlus />

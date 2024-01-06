@@ -38,12 +38,12 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
         <div key={c.created_at} className='flex items-start gap-[20px]'>
           <img
             className='w-[32px] h-[32px] rounded-full'
-            src={c.user.image}
-            alt={c.user.name}
+            src={c.user?.image}
+            alt={c.user?.name}
           />
           <div className='w-full p-4 bg-overlayGray rounded-[26px] flex flex-col gap-[5px]'>
             <div className='text-sm flex justify-between'>
-              <h6 className='text-darkGray font-bold'>{c.user.name}</h6>
+              <h6 className='text-darkGray font-bold'>{c.user?.name}</h6>
               <p className='text-semiBoldGray font-bold'>
                 {formatTime(c.created_at)}
               </p>

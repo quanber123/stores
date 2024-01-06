@@ -11,7 +11,7 @@ export function validatePassword(password: string) {
 }
 
 export function validateImage(file: File) {
-  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+  const allowedExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp'];
   const extension = file.name.split('.').pop()?.toLowerCase() || '';
   return allowedExtensions.includes(extension);
 }

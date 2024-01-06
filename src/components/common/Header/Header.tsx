@@ -40,7 +40,7 @@ function Header() {
         clearTimeout(closeModal);
       };
     }
-  }, [dispatch, visibleAlertModal?.status]);
+  }, [visibleAlertModal?.status]);
   return (
     <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}

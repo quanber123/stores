@@ -8,12 +8,9 @@ const Description: React.FC<Props> = ({ product, refEl }) => {
   const { details } = product;
   const [tab, setTab] = useState(0);
   const tabpanel = ['description', 'additional information', 'reviews (1)'];
-  const sizes = useMemo(
-    () => details.variants.map((v) => (v.inStock ? v.size : '')),
-    [product]
-  );
+  const sizes = useMemo(() => details.variants.map((v) => v.size), [product]);
   const colors = useMemo(() => {
-    const arrColors = details.variants.map((v) => (v.inStock ? v.color : ''));
+    const arrColors = details.variants.map((v) => v.color);
     return [...new Set(arrColors)];
   }, [product]);
   return (
@@ -63,11 +60,11 @@ const Description: React.FC<Props> = ({ product, refEl }) => {
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>Color</span>
-            <span className='w-1/2 capitalize'>{colors.join(',')}</span>
+            <span className='w-1/2 capitalize'>{colors.join(', ')}</span>
           </p>
           <p className='flex justify-center gap-[20px]'>
             <span className='w-1/2 max-w-[145px] text-semiBoldGray'>Size</span>
-            <span className='w-1/2 uppercase'>{sizes.join(',')}</span>
+            <span className='w-1/2 uppercase'>{sizes.join(', ')}</span>
           </p>
         </div>
         <div></div>

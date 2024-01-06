@@ -14,7 +14,7 @@ import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { setVisibleAlertModal } from '@/store/slice/modalSlice';
-function VerifiedAccount() {
+function VerifiedAccountViews() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
@@ -114,8 +114,11 @@ function VerifiedAccount() {
       ctx.revert();
     };
   }, []);
-  if (user.isVerified || !user.email) {
+  if (!user.email) {
     return <Navigate to='/not-found' replace />;
+  }
+  if (user.isVerified) {
+    return <Navigate to='/' replace />;
   }
   return (
     <main className='bg-lightGray'>
@@ -166,4 +169,4 @@ function VerifiedAccount() {
   );
 }
 
-export default VerifiedAccount;
+export default VerifiedAccountViews;
