@@ -1,5 +1,5 @@
 import React from 'react';
-import { capitalizeFirstLetter, formatDate } from '@/utils/format';
+import { capitalizeFirstLetter, formatDate } from '@/services/utils/format';
 import { FaRegClock, FaRegEye, FaQuoteRight } from 'react-icons/fa6';
 
 import { Blog } from '@/interfaces/interfaces';

@@ -1,6 +1,6 @@
-import { authInfo } from '@/store/slice/authSlice';
-import { setVisibleAlertModal } from '@/store/slice/modalSlice';
-import { validateImage } from '@/utils/validate';
+import { authInfo } from '@/services/redux/slice/authSlice';
+import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
+import { validateImage } from '@/services/utils/validate';
 import React, { useCallback, useRef, useState } from 'react';
 import { FaRegUser, FaCameraRetro } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';

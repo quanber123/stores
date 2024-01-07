@@ -7,9 +7,9 @@ import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import {
   getAllBlogsOverview,
   setAllBlogsOverView,
-} from '@/store/slice/blogSlice';
+} from '@/services/redux/slice/blogSlice';
 import { useCarousel } from '@/hooks/useCarousel';
-import { useGetBlogsQuery } from '@/store/features/blogFeatures';
+import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
 function BlogHome() {
   const dispatch = useDispatch();
   const blogs = useSelector(getAllBlogsOverview);

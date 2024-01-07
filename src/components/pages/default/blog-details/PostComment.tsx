@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { usePostCommentMutation } from '@/store/features/blogFeatures';
+import { usePostCommentMutation } from '@/services/redux/features/blogFeatures';
 import { useDispatch, useSelector } from 'react-redux';
-import { authInfo } from '@/store/slice/authSlice';
+import { authInfo } from '@/services/redux/slice/authSlice';
 import { FaPaperPlane } from 'react-icons/fa6';
 import {
   setVisibleAlertModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
-} from '@/store/slice/modalSlice';
-import scrollElement from '@/utils/scroll-elements';
+} from '@/services/redux/slice/modalSlice';
+import scrollElement from '@/services/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 
 type Props = {

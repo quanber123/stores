@@ -1,6 +1,6 @@
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
-import LazyLoadImage from '@/utils/lazyload-image';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import blogImg from '@/assets/images/bg-02.jpg.webp';
 function BlogTitle() {
   const blogTitleRef = useRef(null);

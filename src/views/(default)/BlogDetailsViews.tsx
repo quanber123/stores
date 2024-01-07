@@ -1,9 +1,9 @@
 import { useEffect, useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
-import { useGetBlogByIdQuery } from '@/store/features/blogFeatures';
+import { useGetBlogByIdQuery } from '@/services/redux/features/blogFeatures';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBlogDetails, setBlogsDetails } from '@/store/slice/blogSlice';
+import { getBlogDetails, setBlogsDetails } from '@/services/redux/slice/blogSlice';
 import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
 import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
 import Comments from '@/components/pages/default/blog-details/Comments';

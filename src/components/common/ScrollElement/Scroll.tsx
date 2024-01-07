@@ -1,6 +1,6 @@
 import { FaAnglesUp } from 'react-icons/fa6';
 import { useEffect, useState } from 'react';
-import scrollElement from '@/utils/scroll-elements';
+import scrollElement from '@/services/utils/scroll-elements';
 function Scroll() {
   const [btnFixed, setBtnFixed] = useState(false);
   useEffect(() => {

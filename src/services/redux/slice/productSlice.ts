@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces/interfaces';
+import { Banner, Product } from '@/interfaces/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   products: Product[];
@@ -7,6 +7,7 @@ type InitialState = {
     statusModal: boolean;
     productModal: Product;
   };
+  banners: Banner[];
   totalPageProduct: number | string;
   currentPageProduct?: number;
   status: string;
@@ -20,6 +21,7 @@ const initialState: InitialState = {
     statusModal: false,
     productModal: defaultViewProduct,
   },
+  banners: [],
   totalPageProduct: 0,
   currentPageProduct:
     Number(window.localStorage.getItem('store-current-product-page')) || 1,
@@ -47,6 +49,9 @@ const productSlice = createSlice({
       state.quickViewProduct.statusModal = true;
       state.quickViewProduct.productModal = action.payload;
     },
+    setAllBanners: (state, action) => {
+      state.banners = action.payload;
+    },
     closeQuickViewProduct: (state) => {
       state.quickViewProduct.statusModal = false;
       state.quickViewProduct.productModal = defaultViewProduct;
@@ -57,6 +62,7 @@ export const {
   setAllProducts,
   setAllProductsOverview,
   setQuickViewProduct,
+  setAllBanners,
   closeQuickViewProduct,
 } = productSlice.actions;
 export const getAllProducts = (state: { products: InitialState }) =>
@@ -65,6 +71,8 @@ export const getAllProductsOverview = (state: { products: InitialState }) =>
   state.products.productsOverview;
 export const getQuickViewProduct = (state: { products: InitialState }) =>
   state.products.quickViewProduct;
+export const getAllBanners = (state: { products: InitialState }) =>
+  state.products.banners;
 export const getTotalPageProduct = (state: { products: InitialState }) =>
   state.products.totalPageProduct;
 export const getCurrentPageProduct = (state: { products: InitialState }) =>

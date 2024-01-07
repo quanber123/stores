@@ -1,7 +1,7 @@
 import {
   getVisibleNotificationsModal,
   setVisibleNotificationsModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import { FaBell } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import logoImg from '@/assets/images/logo-04.png-fotor-2023121102555.png';

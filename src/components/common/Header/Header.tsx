@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   getVisibleAlertModal,
   setVisibleAlertModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import './Header.css';
-import { getQuickViewProduct } from '@/store/slice/productSlice';
+import { getQuickViewProduct } from '@/services/redux/slice/productSlice';
 import LoadingV2 from '../Loading/LoadingV2';
 const ViewProductModal = lazy(
   () => import('@/components/modal/view-product-modal/ViewProductModal')

@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewProduct from '@/components/ui/product/PreviewProduct';
-import scrollElement from '@/utils/scroll-elements';
+import scrollElement from '@/services/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
 import {
   getAllProductsOverview,
   setAllProductsOverview,
-} from '@/store/slice/productSlice';
-import { useGetProductsQuery } from '@/store/features/productFeatures';
+} from '@/services/redux/slice/productSlice';
+import { useGetProductsQuery } from '@/services/redux/features/productFeatures';
 function StoreHome() {
   const dispatch = useDispatch();
   const products = useSelector(getAllProductsOverview);

@@ -1,5 +1,5 @@
 import { useRef, useLayoutEffect } from 'react';
-import LazyLoadImage from '@/utils/lazyload-image';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import SingleAbout from './SingleAbout';
 import gsap from 'gsap';
 import bgImg from '@/assets/images/bg-01.jpg.webp';

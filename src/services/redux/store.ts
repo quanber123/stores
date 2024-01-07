@@ -1,7 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slice/authSlice';
 import productReducer from './slice/productSlice';
-import bannerReducer from './slice/bannerSlice';
 import cartReducer from './slice/cartSlice';
 // import favoriteReducer from './slice/favoriteSlice';
 import blogReducer from './slice/blogSlice';
@@ -13,13 +12,11 @@ import { tagApi } from './features/tagsFeatures';
 import { emailApi } from './features/emailFeatures';
 import { categoryApi } from './features/categoryFeatures';
 import { userApi } from './features/userFeatures';
-import { bannerApi } from './features/bannerFeatures';
 import { blogApi } from './features/blogFeatures';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     products: productReducer,
-    banners: bannerReducer,
     blogs: blogReducer,
     cart: cartReducer,
     // favorite: favoriteReducer,
@@ -30,7 +27,6 @@ export const store = configureStore({
     [emailApi.reducerPath]: emailApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
-    [bannerApi.reducerPath]: bannerApi.reducer,
     [tagApi.reducerPath]: tagApi.reducer,
     [categoryApi.reducerPath]: categoryApi.reducer,
   },
@@ -40,7 +36,6 @@ export const store = configureStore({
       emailApi.middleware,
       productApi.middleware,
       blogApi.middleware,
-      bannerApi.middleware,
       tagApi.middleware,
       categoryApi.middleware
     ),

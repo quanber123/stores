@@ -2,10 +2,10 @@ import { useRef, useMemo, useState, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { FaArrowDownWideShort } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
-import { getAllTags } from '@/store/slice/tagSlice';
-import { getAllCategories } from '@/store/slice/categorySlice';
+import { getAllTags } from '@/services/redux/slice/tagSlice';
+import { getAllCategories } from '@/services/redux/slice/categorySlice';
 import useQueryString from '@/hooks/useQueryString';
-import { capitalize } from '@/utils/format';
+import { capitalize } from '@/services/utils/format';
 function BlogFilter() {
   const [queryString, handleChangeQuery] = useQueryString();
   const categories = useSelector(getAllCategories);

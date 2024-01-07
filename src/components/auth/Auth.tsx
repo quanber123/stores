@@ -1,4 +1,4 @@
-import { authInfo } from '@/store/slice/authSlice';
+import { authInfo } from '@/services/redux/slice/authSlice';
 import { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';

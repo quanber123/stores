@@ -1,11 +1,11 @@
 import { FaRegHeart } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
-import scrollElement from '@/utils/scroll-elements';
+import scrollElement from '@/services/utils/scroll-elements';
 import './product.css';
-import LazyLoadImage from '@/utils/lazyload-image';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useDispatch } from 'react-redux';
-import { setQuickViewProduct } from '@/store/slice/productSlice';
+import { setQuickViewProduct } from '@/services/redux/slice/productSlice';
 type Props = {
   product: Product;
   refEl?: (el: HTMLElement) => HTMLElement;

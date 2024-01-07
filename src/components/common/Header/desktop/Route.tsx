@@ -1,8 +1,8 @@
-import { closeAllModal } from '@/store/slice/modalSlice';
-import scrollElement from '@/utils/scroll-elements';
+import { closeAllModal } from '@/services/redux/slice/modalSlice';
+import scrollElement from '@/services/utils/scroll-elements';
 import { useMemo } from 'react';
 import { useDispatch } from 'react-redux';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 type PropsRoutes = {
   routeRefs: any;
 };
@@ -24,6 +24,7 @@ function Router({ routeRefs }: PropsRoutes) {
     dispatch(closeAllModal());
     scrollElement();
   };
+  const location = useLocation();
   const route = useMemo(() => {
     return routes.map((r, index) => {
       return (
@@ -37,6 +38,7 @@ function Router({ routeRefs }: PropsRoutes) {
             className={({ isActive }) =>
               isActive ? 'text-purple w-max' : 'w-max'
             }
+            state={{ prevUrl: location.pathname }}
             onClick={closeModal}
             end
           >

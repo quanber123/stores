@@ -1,4 +1,4 @@
-import providesList from '@/utils/providesList';
+import providesList from '@/services/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const tagApi = createApi({

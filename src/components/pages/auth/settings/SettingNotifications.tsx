@@ -2,13 +2,13 @@ import { useEffect, useMemo } from 'react';
 import { FaRegEnvelope } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
-import { authInfo, getSettings, setSettings } from '@/store/slice/authSlice';
+import { authInfo, getSettings, setSettings } from '@/services/redux/slice/authSlice';
 import {
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
-} from '@/store/features/userFeatures';
-import { capitalize } from '@/utils/format';
-import { setVisibleAlertModal } from '@/store/slice/modalSlice';
+} from '@/services/redux/features/userFeatures';
+import { capitalize } from '@/services/utils/format';
+import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 
 const SettingNotifications = () => {

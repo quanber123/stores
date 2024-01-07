@@ -1,6 +1,6 @@
-import { capitalizeFirstLetter, formatDate } from '@/utils/format';
-import LazyLoadImage from '@/utils/lazyload-image';
-import scrollElement from '@/utils/scroll-elements';
+import { capitalizeFirstLetter, formatDate } from '@/services/utils/format';
+import LazyLoadImage from '@/services/utils/lazyload-image';
+import scrollElement from '@/services/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
 
 type propsBLog = {

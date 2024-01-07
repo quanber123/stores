@@ -1,4 +1,4 @@
-import { capitalize, capitalizeFirstLetter } from '@/utils/format';
+import { capitalize, capitalizeFirstLetter } from '@/services/utils/format';
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 type Props = {

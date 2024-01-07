@@ -8,16 +8,16 @@ import {
   setVisibleAlertModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import {
   ErrValidate,
   SuccessValidate,
   validateEmail,
   validatePassword,
-} from '@/utils/validate';
-import { useRegisterUserMutation } from '@/store/features/userFeatures';
+} from '@/services/utils/validate';
+import { useRegisterUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
-import { setAuth } from '@/store/slice/authSlice';
+import { setAuth } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
 

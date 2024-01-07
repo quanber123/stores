@@ -2,7 +2,10 @@ import { useRef, useMemo, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import PreviewBlog from '@/components/ui/blog/PreviewBlog';
 import { useSelector } from 'react-redux';
-import { getAllBlogs, getTotalPageBlog } from '@/store/slice/blogSlice';
+import {
+  getAllBlogs,
+  getTotalPageBlog,
+} from '@/services/redux/slice/blogSlice';
 import Pagination from '@/components/common/Pagination/Pagination';
 function BlogList() {
   const blogs = useSelector(getAllBlogs);

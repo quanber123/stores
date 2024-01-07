@@ -1,7 +1,7 @@
 import { useRef, useLayoutEffect, Suspense, lazy } from 'react';
 import gsap from 'gsap';
 import { useSelector } from 'react-redux';
-import { authInfo } from '@/store/slice/authSlice';
+import { authInfo } from '@/services/redux/slice/authSlice';
 import Router from './Route';
 import Logo from './Logo';
 const CartModal = lazy(() => import('@/components/modal/cart-modal/CartModal'));

@@ -1,11 +1,16 @@
-import { useRef, useLayoutEffect, useMemo } from 'react';
+import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import { FaCaretLeft, FaCaretRight } from 'react-icons/fa6';
 import gsap from 'gsap';
 import { useNavigate } from 'react-router-dom';
 import { useSlider } from '@/hooks/useSlider';
-import { useSelector } from 'react-redux';
-import { getAllBanners } from '@/store/slice/bannerSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getAllBanners,
+  setAllBanners,
+} from '@/services/redux/slice/productSlice';
+import { useGetBannersQuery } from '@/services/redux/features/productFeatures';
 function BannerHome() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const banners = useSelector(getAllBanners);
   let imgRef = useRef(null);
@@ -15,6 +20,14 @@ function BannerHome() {
   let btnNext = useRef(null);
   let btnPrev = useRef(null);
   const { indexImage, handlePrev, handleNext } = useSlider(banners.length);
+  const { data: dataBanners, isSuccess: isSuccessBanners } =
+    useGetBannersQuery(null);
+
+  useEffect(() => {
+    if (isSuccessBanners && dataBanners) {
+      dispatch(setAllBanners(dataBanners));
+    }
+  }, [isSuccessBanners]);
   const renderedBanners = useMemo(() => {
     return banners?.map((i, index) => {
       return (
@@ -106,7 +119,7 @@ function BannerHome() {
     return () => {
       ctx.revert();
     };
-  }, [indexImage]);
+  }, [indexImage, banners]);
   return (
     <div
       className={`relative w-[100vw] h-[100vh] laptop:aspect-[4/2] flex justify-center overflow-hidden`}

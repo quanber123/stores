@@ -2,12 +2,12 @@ import {
   getVisibleCartModal,
   setVisibleAlertModal,
   setVisibleCartModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import { FaCartShopping, FaXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { getCart, removeFormCart } from '@/store/slice/cartSlice';
+import { getCart, removeFormCart } from '@/services/redux/slice/cartSlice';
 import './CartModal.css';
 function CartModal() {
   const navigate = useNavigate();

@@ -9,7 +9,7 @@ import {
   TwitterShareButton,
   TwitterIcon,
 } from 'react-share';
-import { formatTime } from '@/utils/format';
+import { formatTime } from '@/services/utils/format';
 import { Blog } from '@/interfaces/interfaces';
 type Props = {
   blogDetails: Blog;

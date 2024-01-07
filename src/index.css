@@ -239,12 +239,13 @@ button {
 .img-slider {
   position: absolute;
   width: 100vw;
-  height: 50vh;
+  height: 0;
   opacity: 0;
   aspect-ratio: 4/3;
   z-index: -100;
 }
 .img-slider.active {
+  /* height: 100vh; */
   opacity: 1;
 }
 .img-slider-content {

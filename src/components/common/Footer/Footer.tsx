@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import { getAllCategories } from '@/store/slice/categorySlice';
-import scrollElement from '@/utils/scroll-elements';
+import { getAllCategories } from '@/services/redux/slice/categorySlice';
+import scrollElement from '@/services/utils/scroll-elements';
 import { useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { usePostEmailMutation } from '@/store/features/emailFeatures';
-import { validateEmail } from '@/utils/validate';
+import { usePostEmailMutation } from '@/services/redux/features/emailFeatures';
+import { validateEmail } from '@/services/utils/validate';
 
 function Paragraph({ title }: { title: string }) {
   return <p className='text-md text-white font-bold uppercase'>{title}</p>;

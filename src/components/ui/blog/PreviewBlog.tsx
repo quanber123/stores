@@ -1,9 +1,13 @@
-import LazyLoadImage from '@/utils/lazyload-image';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import { FaArrowRightLong } from 'react-icons/fa6';
 import { Blog } from '@/interfaces/interfaces';
 import { useNavigate } from 'react-router-dom';
-import scrollElement from '@/utils/scroll-elements';
-import { capitalize, capitalizeFirstLetter, formatDate } from '@/utils/format';
+import scrollElement from '@/services/utils/scroll-elements';
+import {
+  capitalize,
+  capitalizeFirstLetter,
+  formatDate,
+} from '@/services/utils/format';
 type Props = {
   blog: Blog;
   refEl?: (el: HTMLElement) => HTMLElement;

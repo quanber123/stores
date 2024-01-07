@@ -1,4 +1,4 @@
-import { getVisibleAlertModal } from '@/store/slice/modalSlice';
+import { getVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import { FaCheck, FaXmark } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import './AlertModal.css';

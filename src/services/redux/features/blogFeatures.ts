@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import providesList from '@/utils/providesList';
+import providesList from '@/services/utils/providesList';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const blogApi = createApi({
   reducerPath: 'blogApi',

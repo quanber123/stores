@@ -1,4 +1,4 @@
-import { formatQueryString } from '@/utils/format';
+import { formatQueryString } from '@/services/utils/format';
 import { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 

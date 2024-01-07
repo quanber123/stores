@@ -3,17 +3,19 @@ import BlogFilter from '@/components/pages/default/blog/BlogFilter';
 import BlogList from '@/components/pages/default/blog/BlogList';
 import BlogNotFound from '@/components/pages/default/blog/BlogNotFound';
 import BlogTitle from '@/components/pages/default/blog/BlogTitle';
-import { useGetBlogsQuery } from '@/store/features/blogFeatures';
+import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
 import {
   getAllBlogs,
   getCurrentPageBlog,
   setAllBlogs,
-} from '@/store/slice/blogSlice';
+} from '@/services/redux/slice/blogSlice';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 function BlogViews() {
   const dispatch = useDispatch();
+  const location = useLocation();
+  console.log(location);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const currentPageBlog = useSelector(getCurrentPageBlog);
   const currentPage = Number(searchQuery.get('page')) || currentPageBlog;

@@ -2,7 +2,7 @@ import {
   // getVisibleFavoriteModal,
   // setVisibleAlertModal,
   setVisibleFavoriteModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import { FaHeart } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';

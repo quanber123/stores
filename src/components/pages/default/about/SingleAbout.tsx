@@ -1,4 +1,4 @@
-import LazyLoadImage from '@/utils/lazyload-image';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 
 type propsAbout = {
   srcImg: string;

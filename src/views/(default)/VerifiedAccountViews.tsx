@@ -1,8 +1,8 @@
 import {
   useResendEmailMutation,
   useVerifiedEmailMutation,
-} from '@/store/features/userFeatures';
-import { authInfo, setAuth } from '@/store/slice/authSlice';
+} from '@/services/redux/features/userFeatures';
+import { authInfo, setAuth } from '@/services/redux/slice/authSlice';
 import {
   useCallback,
   useEffect,
@@ -13,7 +13,7 @@ import {
 import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { setVisibleAlertModal } from '@/store/slice/modalSlice';
+import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 function VerifiedAccountViews() {
   const dispatch = useDispatch();
   const navigate = useNavigate();

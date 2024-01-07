@@ -1,10 +1,10 @@
-import { authInfo, removeAuth } from '@/store/slice/authSlice';
+import { authInfo, removeAuth } from '@/services/redux/slice/authSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import './UserModal.css';
 import {
   getVisibleUserModal,
   setVisibleUserModal,
-} from '@/store/slice/modalSlice';
+} from '@/services/redux/slice/modalSlice';
 import { FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 function UserModal() {

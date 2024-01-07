@@ -1,8 +1,8 @@
 import {
   useUpdateAvatarMutation,
   useUpdateProfileMutation,
-} from '@/store/features/userFeatures';
-import { setVisibleAlertModal } from '@/store/slice/modalSlice';
+} from '@/services/redux/features/userFeatures';
+import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 type Props = {

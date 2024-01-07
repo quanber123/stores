@@ -8,10 +8,14 @@ import {
   setVisibleAlertModal,
   setVisibleLoginModal,
   setVisibleRegisterModal,
-} from '@/store/slice/modalSlice';
-import { ErrValidate, SuccessValidate, validateEmail } from '@/utils/validate';
-import { setAuth } from '@/store/slice/authSlice';
-import { useLoginUserMutation } from '@/store/features/userFeatures';
+} from '@/services/redux/slice/modalSlice';
+import {
+  ErrValidate,
+  SuccessValidate,
+  validateEmail,
+} from '@/services/utils/validate';
+import { setAuth } from '@/services/redux/slice/authSlice';
+import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 import Modal from '@/Modal';

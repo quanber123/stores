@@ -10,12 +10,12 @@ import {
 } from 'react-icons/fa6';
 import { useSlider } from '@/hooks/useSlider';
 import { useDispatch, useSelector } from 'react-redux';
-import { addToCart } from '@/store/slice/cartSlice';
-import { setVisibleAlertModal } from '@/store/slice/modalSlice';
+import { addToCart } from '@/services/redux/slice/cartSlice';
+import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import {
   closeQuickViewProduct,
   getQuickViewProduct,
-} from '@/store/slice/productSlice';
+} from '@/services/redux/slice/productSlice';
 import { Product } from '@/interfaces/interfaces';
 import Modal from '@/Modal';
 const ViewProductModal = () => {

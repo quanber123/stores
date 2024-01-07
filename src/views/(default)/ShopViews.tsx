@@ -4,9 +4,9 @@ import {
   getAllProducts,
   getCurrentPageProduct,
   setAllProducts,
-} from '@/store/slice/productSlice';
+} from '@/services/redux/slice/productSlice';
 import { useSearchParams } from 'react-router-dom';
-import { useGetProductsQuery } from '@/store/features/productFeatures';
+import { useGetProductsQuery } from '@/services/redux/features/productFeatures';
 import LoadingProduct from '@/components/common/Loading/LoadingProduct';
 import ProductFilter from '@/components/pages/default/shop/ProductFilter';
 import ProductList from '@/components/pages/default/shop/ProductList';
