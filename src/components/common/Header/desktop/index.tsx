@@ -4,19 +4,24 @@ import { useSelector } from 'react-redux';
 import { authInfo } from '@/services/redux/slice/authSlice';
 import Router from './Route';
 import Logo from './Logo';
-const CartModal = lazy(() => import('@/components/modal/cart-modal/CartModal'));
+const CartModal = lazy(
+  () => import('@/components/modal/global/hooks/cart-modal/CartModal')
+);
 const FavoriteModal = lazy(
-  () => import('@/components/modal/favorite-modal/FavoriteModal')
+  () => import('@/components/modal/global/hooks/favorite-modal/FavoriteModal')
 );
 const NotificationsModal = lazy(
-  () => import('@/components/modal/notifications-modal/NotificationsModal')
+  () =>
+    import(
+      '@/components/modal/global/hooks/notifications-modal/NotificationsModal'
+    )
 );
 const UserModal = lazy(() => import('@/components/modal/user-modal/UserModal'));
 const LoginModal = lazy(
-  () => import('@/components/modal/login-modal/LoginModal')
+  () => import('@/components/modal/global/hooks/login-modal/LoginModal')
 );
 const RegisterModal = lazy(
-  () => import('@/components/modal/register-modal/RegisterModal')
+  () => import('@/components/modal/global/hooks/register-modal/RegisterModal')
 );
 function DesktopNavBar() {
   const user = useSelector(authInfo);

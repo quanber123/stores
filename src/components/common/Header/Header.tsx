@@ -13,7 +13,7 @@ const ViewProductModal = lazy(
   () => import('@/components/modal/view-product-modal/ViewProductModal')
 );
 const AlertModal = lazy(
-  () => import('@/components/modal/alert-modal/AlertModal')
+  () => import('@/components/modal/global/hooks/alert-modal/AlertModal')
 );
 function Header() {
   const dispatch = useDispatch();
