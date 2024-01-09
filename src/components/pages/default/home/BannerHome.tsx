@@ -77,6 +77,16 @@ function BannerHome() {
     });
   }, [banners, indexImage]);
   useLayoutEffect(() => {
+    if (
+      imgRef.current === null ||
+      contentRef.current === null ||
+      categoryRef.current === null ||
+      btnRef.current === null ||
+      btnPrev.current === null ||
+      btnNext.current === null
+    ) {
+      return;
+    }
     const ctx = gsap.context(() => {
       gsap.to(imgRef.current, {
         width: '100%',

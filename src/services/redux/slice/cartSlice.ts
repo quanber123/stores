@@ -27,13 +27,11 @@ const cartSlice = createSlice({
       if (existedProduct) {
         const newCart = state.cart.map((c) => {
           if (c._id === product._id && c.color && c.size) {
-            return c._id === product._id && c.color && c.size
-              ? {
-                  ...c,
-                  quantity: c.quantity + product.quantity,
-                  totalPrice: c.totalPrice + product.totalPrice,
-                }
-              : { ...c };
+            return {
+              ...c,
+              quantity: c.quantity + product.quantity,
+              totalPrice: c.totalPrice + product.totalPrice,
+            };
           }
           return { ...c };
         });

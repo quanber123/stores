@@ -158,7 +158,7 @@ const ViewProductModal = () => {
         backgroundColor: 'lightGreen',
       })
     );
-  }, [dispatch]);
+  }, [dispatch, selectedColor, selectedSize, count, visibleModal.productModal]);
   const clickOutsideModal = useCallback((e: React.MouseEvent) => {
     const dialogDemission = modalRef.current?.getBoundingClientRect();
     if (
@@ -329,7 +329,7 @@ const ViewProductModal = () => {
                         ? 'bg-purple hover:bg-black'
                         : ' bg-semiBoldGray'
                     }`}
-                    disabled={selectedSize ? false : true}
+                    disabled={selectedSize && isStock?.inStock ? false : true}
                     onClick={handleAddToCart}
                   >
                     {selectedSize && selectedColor && isStock?.inStock ? (

@@ -1,5 +1,3 @@
-import React from 'react';
-
 function CartList() {
   return (
     <div className='w-full border border-lightGray'>
