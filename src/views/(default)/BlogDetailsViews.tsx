@@ -3,12 +3,15 @@ import gsap from 'gsap';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useGetBlogByIdQuery } from '@/services/redux/features/blogFeatures';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBlogDetails, setBlogsDetails } from '@/services/redux/slice/blogSlice';
+import {
+  getBlogDetails,
+  setBlogsDetails,
+} from '@/services/redux/slice/blogSlice';
 import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
 import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
 import Comments from '@/components/pages/default/blog-details/Comments';
 import PostComment from '@/components/pages/default/blog-details/PostComment';
-import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 function BlogDetailsViews() {
   const { id } = useParams();
   const location = useLocation();

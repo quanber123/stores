@@ -1,4 +1,4 @@
-import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 import { useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';

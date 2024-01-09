@@ -1,14 +1,7 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaXmark, FaLightbulb } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  closeAllModal,
-  getVisibleRegisterModal,
-  setVisibleAlertModal,
-  setVisibleLoginModal,
-  setVisibleRegisterModal,
-} from '@/services/redux/slice/modalSlice';
+import { useDispatch } from 'react-redux';
 import {
   ErrValidate,
   SuccessValidate,
@@ -20,11 +13,13 @@ import { useNavigate } from 'react-router-dom';
 import { setAuth } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
+import { GlobalModalContext } from '../../hooks/globalContext';
 
 function RegisterModal() {
+  const { state, setVisibleModal, closeAllModal } =
+    useContext(GlobalModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const visibleModal = useSelector(getVisibleRegisterModal);
   const modalRef = useRef<HTMLFormElement | null>(null);
   const [form, setForm] = useState({
     name: '',
@@ -63,7 +58,7 @@ function RegisterModal() {
       e.clientY < dialogDemission!.top ||
       e.clientY > dialogDemission!.bottom
     ) {
-      dispatch(setVisibleRegisterModal());
+      setVisibleModal('visibleRegisterModal');
     }
   }, []);
   useEffect(() => {
@@ -72,18 +67,18 @@ function RegisterModal() {
       !isLoadingRegister &&
       statusRegister === 'fulfilled'
     ) {
-      dispatch(closeAllModal());
+      closeAllModal();
       dispatch(setAuth(dataRegister));
       navigate('/verified', { replace: true });
     }
     if (errorRegister && 'data' in errorRegister) {
       const errorData = errorRegister.data as { message: string };
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'failed',
           message: `Failed: ${errorData?.message}`,
-        })
-      );
+        },
+      });
     }
   }, [
     dispatch,
@@ -97,13 +92,15 @@ function RegisterModal() {
     <>
       <button
         className='px-5 py-2 font-bold bg-darkGray text-white hover:bg-purple rounded-[28px]'
-        onClick={() => dispatch(setVisibleRegisterModal())}
+        onClick={() => setVisibleModal('visibleRegisterModal')}
       >
         Register
       </button>
       <Modal>
         <section
-          className={`${visibleModal ? 'active' : ''} register-form`}
+          className={`${
+            state.visibleRegisterModal ? 'active' : ''
+          } register-form`}
           onClick={clickOutsideModal}
         >
           <form
@@ -114,7 +111,7 @@ function RegisterModal() {
             <button
               className='absolute top-[20px] right-[20px] w-[40px] h-[40px] flex justify-center items-center text-md bg-lightGray rounded-full'
               aria-label='close-modal'
-              onClick={() => dispatch(setVisibleRegisterModal())}
+              onClick={() => setVisibleModal('visibleRegisterModal')}
             >
               <FaXmark />
             </button>
@@ -279,7 +276,7 @@ function RegisterModal() {
               <p className='text-mediumGray'>Already Have account ?</p>
               <button
                 className='text-mediumGray hover:text-blue font-bold'
-                onClick={() => dispatch(setVisibleLoginModal())}
+                onClick={() => setVisibleModal('visibleLoginModal')}
               >
                 Login
               </button>

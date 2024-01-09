@@ -1,31 +1,32 @@
-import { authInfo, removeAuth } from '@/services/redux/slice/authSlice';
-import { useDispatch, useSelector } from 'react-redux';
+import { removeAuth } from '@/services/redux/slice/authSlice';
+import { useDispatch } from 'react-redux';
 import './UserModal.css';
-import {
-  getVisibleUserModal,
-  setVisibleUserModal,
-} from '@/services/redux/slice/modalSlice';
 import { FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
-function UserModal() {
+import { useContext } from 'react';
+import { GlobalModalContext } from '../../../modal/global/hooks/globalContext';
+import { User } from '@/interfaces/interfaces';
+type Props = {
+  user: User;
+};
+const UserModal: React.FC<Props> = ({ user }) => {
+  const { state, setVisibleModal } = useContext(GlobalModalContext);
   const dispatch = useDispatch();
-  const user = useSelector(authInfo);
-  const visibleModal = useSelector(getVisibleUserModal);
   const handleLogout = () => {
     dispatch(removeAuth());
     window.open('http://localhost:3000/api/auth/logout', '_self');
   };
-  return user.email && user.name && user.image ? (
+  return (
     <div
       className='relative text-semiBoldGray cursor-pointer'
-      onClick={() => dispatch(setVisibleUserModal())}
+      onClick={() => setVisibleModal('visibleUserModal')}
     >
       <img
         className='w-[32px] h-[32px] rounded-full cursor-pointer'
         src={user.image}
         alt={user.email}
       />
-      <div className={`user-modal ${visibleModal ? 'active' : ''}`}>
+      <div className={`user-modal ${state.visibleUserModal ? 'active' : ''}`}>
         <div className='mx-[26px] my-[16px] flex items-center gap-[20px]'>
           <img
             className='w-[42px] h-[42px] rounded-full'
@@ -60,9 +61,7 @@ function UserModal() {
         </div>
       </div>
     </div>
-  ) : (
-    <></>
   );
-}
+};
 
 export default UserModal;

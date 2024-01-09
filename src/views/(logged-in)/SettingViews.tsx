@@ -1,4 +1,4 @@
-import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 import SettingsUser from '@/components/pages/auth/settings/SettingsUser';
 import SettingNotifications from '@/components/pages/auth/settings/SettingNotifications';
 import { useLocation } from 'react-router-dom';

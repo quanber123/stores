@@ -14,6 +14,7 @@ import { useGetUserQuery } from './services/redux/features/userFeatures';
 import { useGetTagsQuery } from './services/redux/features/tagsFeatures';
 import { useGetCategoriesQuery } from './services/redux/features/categoryFeatures';
 import Loading from './components/common/Loading/Loading';
+import { DropdownProvider } from './components/dropdown/hooks/dropdownContext';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
@@ -64,7 +65,9 @@ function App() {
   }, [isSuccessTags]);
   return (
     <Suspense fallback={<Loading />}>
-      <Header />
+      <DropdownProvider>
+        <Header />
+      </DropdownProvider>
       <Outlet />
       <Scroll />
       <Footer />

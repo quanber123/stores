@@ -2,7 +2,7 @@ import { authInfo } from '@/services/redux/slice/authSlice';
 import { Suspense } from 'react';
 import { useSelector } from 'react-redux';
 import { Navigate, Outlet } from 'react-router-dom';
-import Loading from '../common/Loading/Loading';
+import Loading from '../components/common/Loading/Loading';
 function Auth() {
   const user = useSelector(authInfo);
   if (!user.email) {

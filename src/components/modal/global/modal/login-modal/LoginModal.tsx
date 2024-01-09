@@ -1,14 +1,7 @@
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useCallback, useRef, useContext } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  closeAllModal,
-  getVisibleLoginModal,
-  setVisibleAlertModal,
-  setVisibleLoginModal,
-  setVisibleRegisterModal,
-} from '@/services/redux/slice/modalSlice';
+import { useDispatch } from 'react-redux';
 import {
   ErrValidate,
   SuccessValidate,
@@ -19,7 +12,10 @@ import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 import Modal from '@/Modal';
+import { GlobalModalContext } from '../../hooks/globalContext';
 function LoginModal() {
+  const { state, setVisibleModal, closeAllModal } =
+    useContext(GlobalModalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalRef = useRef<HTMLFormElement | null>(null);
@@ -38,7 +34,6 @@ function LoginModal() {
     password: '',
   });
   const [focusInput, setFocusInput] = useState<string | null>(null);
-  const visibleModal = useSelector(getVisibleLoginModal);
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const { name, value } = e.target;
@@ -65,12 +60,12 @@ function LoginModal() {
       e.clientY < dialogDemission!.top ||
       e.clientY > dialogDemission!.bottom
     ) {
-      dispatch(setVisibleLoginModal());
+      setVisibleModal('visibleLoginModal');
     }
   }, []);
   useEffect(() => {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
-      dispatch(closeAllModal());
+      closeAllModal();
       dispatch(setAuth(dataLogin));
       dataLogin.user.isVerified
         ? navigate('/', { replace: true })
@@ -78,17 +73,16 @@ function LoginModal() {
     }
     if (errorLogin && 'data' in errorLogin) {
       const errorData = errorLogin.data as { message: string };
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'failed',
           message: `Failed: ${errorData?.message}`,
-        })
-      );
+        },
+      });
     }
   }, [
     loginUser,
     navigate,
-    dispatch,
     isSuccessLogin,
     isLoadingUser,
     statusLogin,
@@ -98,13 +92,13 @@ function LoginModal() {
     <>
       <button
         className='hidden tablet:block font-bold'
-        onClick={() => dispatch(setVisibleLoginModal())}
+        onClick={() => setVisibleModal('visibleLoginModal')}
       >
         Login
       </button>
       <Modal>
         <section
-          className={`${visibleModal ? 'active' : ''} login-form`}
+          className={`${state.visibleLoginModal ? 'active' : ''} login-form`}
           onClick={clickOutsideModal}
         >
           <form
@@ -115,7 +109,7 @@ function LoginModal() {
             <button
               className='absolute top-[20px] right-[20px] w-[40px] h-[40px] flex justify-center items-center text-md bg-lightGray rounded-full'
               aria-label='close-modal'
-              onClick={() => dispatch(setVisibleLoginModal())}
+              onClick={() => setVisibleModal('visibleLoginModal')}
             >
               <FaXmark />
             </button>
@@ -231,7 +225,7 @@ function LoginModal() {
               <p className='text-mediumGray'>Don't have an account?</p>
               <button
                 className='text-mediumGray hover:text-blue font-bold'
-                onClick={() => dispatch(setVisibleRegisterModal())}
+                onClick={() => setVisibleModal('visibleRegisterModal')}
               >
                 Sign Up
               </button>

@@ -1,27 +1,27 @@
-import {
-  getVisibleNotificationsModal,
-  setVisibleNotificationsModal,
-} from '@/services/redux/slice/modalSlice';
 import { FaBell } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
 import logoImg from '@/assets/images/logo-04.png-fotor-2023121102555.png';
 import './NotificationsModal.css';
+import { useContext } from 'react';
+import { DropdownContext } from '../../hooks/dropdownContext';
 function NotificationsModal() {
-  const dispatch = useDispatch();
-  const visibleModal = useSelector(getVisibleNotificationsModal);
+  const { state, setVisibleDropdown } = useContext(DropdownContext);
   return (
     <>
       <div className='relative text-semiBoldGray'>
         <div>
           <FaBell
             className='text-lg hover:text-purple transition-colors cursor-pointer'
-            onClick={() => dispatch(setVisibleNotificationsModal())}
+            onClick={() => setVisibleDropdown('visibleNotificationsDropdown')}
           />
           <span className='absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] flex justify-center items-center -z-10 bg-purple text-white'>
             10
           </span>
         </div>
-        <div className={`notifications-modal ${visibleModal ? 'active' : ''}`}>
+        <div
+          className={`notifications-modal ${
+            state.visibleNotificationsDropdown ? 'active' : ''
+          }`}
+        >
           <div className='pl-[16px] pr-[32px] flex justify-between items-center'>
             <h3 className='text-md font-bold'>Notifications</h3>
             <button className='text-purple font-bold'>Mark as read</button>

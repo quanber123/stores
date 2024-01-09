@@ -1,27 +1,29 @@
-import { useRef, useLayoutEffect, Suspense, lazy } from 'react';
-import gsap from 'gsap';
+import { useRef, useLayoutEffect, Suspense, lazy, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/services/redux/slice/authSlice';
+import gsap from 'gsap';
 import Router from './Route';
 import Logo from './Logo';
 const CartModal = lazy(
-  () => import('@/components/modal/global/hooks/cart-modal/CartModal')
+  () => import('@/components/dropdown/dropdown/cart-modal/CartModal')
 );
 const FavoriteModal = lazy(
-  () => import('@/components/modal/global/hooks/favorite-modal/FavoriteModal')
+  () => import('@/components/dropdown/dropdown/favorite-modal/FavoriteModal')
 );
 const NotificationsModal = lazy(
   () =>
     import(
-      '@/components/modal/global/hooks/notifications-modal/NotificationsModal'
+      '@/components/dropdown/dropdown/notifications-modal/NotificationsModal'
     )
 );
-const UserModal = lazy(() => import('@/components/modal/user-modal/UserModal'));
+const UserModal = lazy(
+  () => import('@/components/dropdown/dropdown/user-modal/UserModal')
+);
 const LoginModal = lazy(
-  () => import('@/components/modal/global/hooks/login-modal/LoginModal')
+  () => import('@/components/modal/global/modal/login-modal/LoginModal')
 );
 const RegisterModal = lazy(
-  () => import('@/components/modal/global/hooks/register-modal/RegisterModal')
+  () => import('@/components/modal/global/modal/register-modal/RegisterModal')
 );
 function DesktopNavBar() {
   const user = useSelector(authInfo);
@@ -72,7 +74,7 @@ function DesktopNavBar() {
             <CartModal />
             <FavoriteModal />
             <NotificationsModal />
-            <UserModal />
+            <UserModal user={user} />
           </div>
         </Suspense>
       ) : (

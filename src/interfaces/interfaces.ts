@@ -82,3 +82,25 @@ export interface Blog {
     }
   ];
 }
+
+export interface User {
+  _id: string;
+  email: string;
+  name: string;
+  image: string;
+  isVerified: boolean;
+}
+
+export interface Settings {
+  _id: string;
+  user: string;
+  created_at: string;
+  updated_at: string;
+  notifications: Array<{
+    _id: string;
+    type: string;
+    description: string;
+    enabled: boolean;
+    created_at: string;
+  }>;
+}

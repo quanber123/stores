@@ -6,15 +6,13 @@ self.addEventListener('install', (event) => {
       return cache.addAll([
         '/',
         '/index.html',
-        // '/assets/js/main.chunk.js',
-        // '/assets/js/2.chunk.js',
-        // '/assets/js/bundle.js',
+        '/assets/js/main.chunk.js',
+        '/assets/js/2.chunk.js',
+        '/assets/js/bundle.js',
         '/assets/index.js',
         '/assets/images/logo-01.png.webp',
         '/assets/images/logo-02.png.webp',
         '/assets/fonts/Poppins-Black.ttf',
-        // Thêm các thành phần khác mà bạn muốn lưu trữ
-        // Cũng nhớ thêm hình ảnh, font, và các tài nguyên khác
       ]);
     })
   );

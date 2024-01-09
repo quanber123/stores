@@ -1,29 +1,27 @@
-import {
-  getVisibleCartModal,
-  setVisibleAlertModal,
-  setVisibleCartModal,
-} from '@/services/redux/slice/modalSlice';
 import { FaCartShopping, FaXmark } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { getCart, removeFormCart } from '@/services/redux/slice/cartSlice';
+import { DropdownContext } from '../../hooks/dropdownContext';
 import './CartModal.css';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 function CartModal() {
+  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { state, setVisibleDropdown } = useContext(DropdownContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const cart = useSelector(getCart);
-  const visibleModal = useSelector(getVisibleCartModal);
   const [removeItem, setRemoveItem] = useState<string | null>(null);
   const handleCheckCart = () => {
     if (window.innerWidth > 640) {
-      dispatch(setVisibleCartModal());
+      setVisibleDropdown('visibleCartDropdown');
     } else {
       navigate('/cart');
     }
   };
   const redirectCart = () => {
-    dispatch(setVisibleCartModal());
+    setVisibleDropdown('visibleCartDropdown');
     navigate('/cart');
   };
   const handleRemoveCart = (_id: string, price: number) => {
@@ -33,12 +31,12 @@ function CartModal() {
         price: price,
       })
     );
-    dispatch(
-      setVisibleAlertModal({
+    setVisibleModal({
+      visibleAlertModal: {
         status: 'success',
         message: 'Success: Deleted Product!',
-      })
-    );
+      },
+    });
   };
   const renderedCart = cart?.map((c) => {
     return (
@@ -96,7 +94,9 @@ function CartModal() {
           <></>
         )}
       </div>
-      <div className={`cart-modal ${visibleModal ? 'active' : ''}`}>
+      <div
+        className={`cart-modal ${state.visibleCartDropdown ? 'active' : ''}`}
+      >
         <div className='pl-[16px] pr-[32px] flex justify-between items-center'>
           <h3 className='text-md text-semiBoldGray font-bold'>Your Cart</h3>
           <button className='text-purple font-bold' onClick={redirectCart}>

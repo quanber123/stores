@@ -7,7 +7,7 @@ import Loading from '@/components/common/Loading/Loading';
 import Images from '@/components/pages/default/product-details/Images';
 import Description from '@/components/pages/default/product-details/Description';
 import ProductDetails from '@/components/pages/default/product-details/ProductsDetails';
-import Breadcrumbs from '@/components/common/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
 function ProductDetailsViews() {
   const { id } = useParams();
   const location = useLocation();

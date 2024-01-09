@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import App from '@/App';
+import { GlobalModalProvider } from '@/components/modal/global/hooks/globalContext';
 const HomeViews = lazy(() => import('@/views/(default)/HomeViews'));
 const AboutViews = lazy(() => import('@/views/(default)/AboutViews'));
 const ShopViews = lazy(() => import('@/views/(default)/ShopViews'));
@@ -11,7 +12,7 @@ const BlogViews = lazy(() => import('@/views/(default)/BlogViews'));
 const BlogDetailsViews = lazy(
   () => import('@/views/(default)/BlogDetailsViews')
 );
-const Auth = lazy(() => import('@/components/auth/Auth'));
+const Auth = lazy(() => import('@/auth/Auth'));
 const SettingViews = lazy(() => import('@/views/(logged-in)/SettingViews'));
 const VerifiedAccountViews = lazy(
   () => import('@/views/(default)/VerifiedAccountViews')
@@ -21,7 +22,11 @@ const NotFoundViews = lazy(() => import('@/views/(default)/NotFoundViews'));
 const routes: RouteObject[] = [
   {
     path: '/',
-    element: <App />,
+    element: (
+      <GlobalModalProvider>
+        <App />
+      </GlobalModalProvider>
+    ),
     children: [
       {
         index: true,

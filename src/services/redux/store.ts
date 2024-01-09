@@ -6,7 +6,6 @@ import cartReducer from './slice/cartSlice';
 import blogReducer from './slice/blogSlice';
 import categoryReducer from './slice/categorySlice';
 import tagReducer from './slice/tagSlice';
-import modalReducer from './slice/modalSlice';
 import { productApi } from './features/productFeatures';
 import { tagApi } from './features/tagsFeatures';
 import { emailApi } from './features/emailFeatures';
@@ -22,7 +21,6 @@ export const store = configureStore({
     // favorite: favoriteReducer,
     category: categoryReducer,
     tags: tagReducer,
-    modal: modalReducer,
     [userApi.reducerPath]: userApi.reducer,
     [emailApi.reducerPath]: emailApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
