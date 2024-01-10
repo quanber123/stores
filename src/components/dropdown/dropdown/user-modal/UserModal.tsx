@@ -1,16 +1,16 @@
 import { removeAuth } from '@/services/redux/slice/authSlice';
 import { useDispatch } from 'react-redux';
-import './UserModal.css';
 import { FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
-import { GlobalModalContext } from '../../../modal/global/hooks/globalContext';
 import { User } from '@/interfaces/interfaces';
+import { DropdownContext } from '../../hooks/dropdownContext';
+import './UserModal.css';
 type Props = {
   user: User;
 };
 const UserModal: React.FC<Props> = ({ user }) => {
-  const { state, setVisibleModal } = useContext(GlobalModalContext);
+  const { state, setVisibleDropdown } = useContext(DropdownContext);
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(removeAuth());
@@ -19,14 +19,16 @@ const UserModal: React.FC<Props> = ({ user }) => {
   return (
     <div
       className='relative text-semiBoldGray cursor-pointer'
-      onClick={() => setVisibleModal('visibleUserModal')}
+      onClick={() => setVisibleDropdown('visibleUserDropdown')}
     >
       <img
         className='w-[32px] h-[32px] rounded-full cursor-pointer'
         src={user.image}
         alt={user.email}
       />
-      <div className={`user-modal ${state.visibleUserModal ? 'active' : ''}`}>
+      <div
+        className={`user-modal ${state.visibleUserDropdown ? 'active' : ''}`}
+      >
         <div className='mx-[26px] my-[16px] flex items-center gap-[20px]'>
           <img
             className='w-[42px] h-[42px] rounded-full'

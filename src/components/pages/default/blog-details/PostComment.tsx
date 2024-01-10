@@ -1,23 +1,19 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePostCommentMutation } from '@/services/redux/features/blogFeatures';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { authInfo } from '@/services/redux/slice/authSlice';
 import { FaPaperPlane } from 'react-icons/fa6';
-import {
-  setVisibleAlertModal,
-  setVisibleLoginModal,
-  setVisibleRegisterModal,
-} from '@/services/redux/slice/modalSlice';
 import scrollElement from '@/services/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 
 type Props = {
   id: string;
 };
 
 const PostComment: React.FC<Props> = ({ id }) => {
-  const dispatch = useDispatch();
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const navigate = useNavigate();
   const user = useSelector(authInfo);
   const [comment, setComment] = useState('');
@@ -36,12 +32,12 @@ const PostComment: React.FC<Props> = ({ id }) => {
         e.preventDefault();
         postComment({ id: id, userId: user._id, text: comment });
       } else {
-        dispatch(
-          setVisibleAlertModal({
+        setVisibleModal({
+          visibleAlert: {
             status: 'failed',
             message: 'Failed: Cannot post an empty string',
-          })
-        );
+          },
+        });
       }
     }
   };
@@ -50,12 +46,12 @@ const PostComment: React.FC<Props> = ({ id }) => {
     if (comment) {
       postComment({ id: id, userId: user._id, text: comment });
     } else {
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'failed',
           message: 'Failed: Cannot post an empty string',
-        })
-      );
+        },
+      });
     }
   };
 
@@ -116,14 +112,14 @@ const PostComment: React.FC<Props> = ({ id }) => {
             Please{' '}
             <span
               className='mx-[4px] text-purple font-bold cursor-pointer'
-              onClick={() => dispatch(setVisibleLoginModal())}
+              onClick={() => setVisibleModal('visibleLoginModal')}
             >
               Login
             </span>{' '}
             or{' '}
             <span
               className='mx-[4px] text-purple font-bold cursor-pointer'
-              onClick={() => dispatch(setVisibleRegisterModal())}
+              onClick={() => setVisibleModal('visibleRegisterModal')}
             >
               Register
             </span>{' '}

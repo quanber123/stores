@@ -5,6 +5,7 @@ import {
 import { authInfo, setAuth } from '@/services/redux/slice/authSlice';
 import {
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -13,8 +14,9 @@ import {
 import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useNavigate } from 'react-router-dom';
-import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 function VerifiedAccountViews() {
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
@@ -56,12 +58,12 @@ function VerifiedAccountViews() {
       !isLoadingSendMail &&
       statusResend === 'fulfilled'
     ) {
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'success',
           message: 'Success: Code was sent!',
-        })
-      );
+        },
+      });
     }
   }, [
     resendEmail,
@@ -81,12 +83,12 @@ function VerifiedAccountViews() {
     }
     if (errorVerified && 'data' in errorVerified) {
       const errorData = errorVerified.data as { message: string };
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'failed',
           message: `Failed: ${errorData}`,
-        })
-      );
+        },
+      });
     }
   }, [
     verifiedEmail,
