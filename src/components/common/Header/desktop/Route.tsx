@@ -1,7 +1,7 @@
 import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 import scrollElement from '@/services/utils/scroll-elements';
-import { useContext, useMemo } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { useCallback, useContext, useMemo } from 'react';
+import { NavLink } from 'react-router-dom';
 type PropsRoutes = {
   routeRefs: any;
 };
@@ -19,11 +19,12 @@ function Router({ routeRefs }: PropsRoutes) {
     //   link: 'contact',
     // },
   ];
-  const closeModal = () => {
-    closeAllModal();
-    scrollElement();
-  };
-  const location = useLocation();
+  const closeModal = useCallback(() => {
+    () => {
+      closeAllModal();
+      scrollElement();
+    };
+  }, []);
   const route = useMemo(() => {
     return routes.map((r, index) => {
       return (
@@ -37,7 +38,7 @@ function Router({ routeRefs }: PropsRoutes) {
             className={({ isActive }) =>
               isActive ? 'text-purple w-max' : 'w-max'
             }
-            state={{ prevUrl: location.pathname }}
+            // state={{ prevUrl: location.pathname }}
             onClick={closeModal}
             end
           >

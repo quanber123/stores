@@ -42,7 +42,7 @@ function BannerHome() {
             alt={i.content}
             key={index}
             // loading='eager'
-            {...({ fetchpriority: 'highest' } as React.DetailedHTMLProps<
+            {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
               React.ImgHTMLAttributes<HTMLImageElement>,
               HTMLImageElement
             >)}

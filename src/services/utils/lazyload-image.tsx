@@ -34,7 +34,13 @@ function LazyLoadImage(props: LazyLoadImageProps) {
   }, []);
 
   return inView ? (
-    <img {...props} />
+    <img
+      {...props}
+      {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
+        React.ImgHTMLAttributes<HTMLImageElement>,
+        HTMLImageElement
+      >)}
+    />
   ) : (
     <div ref={imgRef} className={`skeleton w-[290px] h-[350px]`}></div>
   );

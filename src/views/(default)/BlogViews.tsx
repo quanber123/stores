@@ -9,13 +9,13 @@ import {
   getCurrentPageBlog,
   setAllBlogs,
 } from '@/services/redux/slice/blogSlice';
+import SetHeader from '@/services/utils/set-header';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 function BlogViews() {
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(location);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const currentPageBlog = useSelector(getCurrentPageBlog);
   const currentPage = Number(searchQuery.get('page')) || currentPageBlog;
@@ -43,15 +43,21 @@ function BlogViews() {
   }, [isSuccessBlog, dataBlogs, searchQuery]);
   const blogs = useSelector(getAllBlogs);
   return (
-    <main className='gap-[80px]'>
-      <BlogTitle />
-      <section className='container flex flex-col-reverse desktop:flex-row gap-[80px]'>
-        {isFetchingBlog ? <LoadingBlog /> : <></>}
-        {blogs.length && !isFetchingBlog ? <BlogList /> : <></>}
-        {!blogs.length && !isFetchingBlog ? <BlogNotFound /> : <></>}
-        <BlogFilter />
-      </section>
-    </main>
+    <>
+      <SetHeader
+        title={location.pathname}
+        description={`Explore our cozastore's latest fashion articles`}
+      />
+      <main className='gap-[80px]'>
+        <BlogTitle />
+        <section className='container flex flex-col-reverse desktop:flex-row gap-[80px]'>
+          {isFetchingBlog ? <LoadingBlog /> : <></>}
+          {blogs.length && !isFetchingBlog ? <BlogList /> : <></>}
+          {!blogs.length && !isFetchingBlog ? <BlogNotFound /> : <></>}
+          <BlogFilter />
+        </section>
+      </main>
+    </>
   );
 }
 export default BlogViews;

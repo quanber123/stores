@@ -1,9 +1,10 @@
-import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
 import { useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import CartList from '@/components/pages/auth/cart/CartList';
 import CartTotals from '@/components/pages/auth/cart/CartTotals';
+import SetHeader from '@/services/utils/set-header';
 
 function CartViews() {
   const location = useLocation();
@@ -28,13 +29,16 @@ function CartViews() {
     }
   }, []);
   return (
-    <main ref={layoutRef} className='gap-[80px]'>
-      <Breadcrumbs breadcrumbs={location.pathname} />
-      <section className='container flex justify-between gap-[40px]'>
-        <CartList />
-        <CartTotals />
-      </section>
-    </main>
+    <>
+      <SetHeader title={location.pathname} />
+      <main ref={layoutRef} className='gap-[80px]'>
+        <Breadcrumbs breadcrumbs={location.pathname} />
+        <section className='container flex justify-between gap-[40px]'>
+          <CartList />
+          <CartTotals />
+        </section>
+      </main>
+    </>
   );
 }
 

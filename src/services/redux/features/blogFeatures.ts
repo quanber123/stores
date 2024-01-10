@@ -25,6 +25,11 @@ export const blogApi = createApi({
         query: ({ id, userId, text }) => ({
           url: `blogs/${id}/comments`,
           method: 'POST',
+          headers: {
+            Authorization: `Bearer ${window.localStorage.getItem(
+              'coza-store-token'
+            )}`,
+          },
           body: {
             userId: userId,
             text: text,

@@ -1,22 +1,16 @@
-import { useEffect, useLayoutEffect, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useGetBlogByIdQuery } from '@/services/redux/features/blogFeatures';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getBlogDetails,
-  setBlogsDetails,
-} from '@/services/redux/slice/blogSlice';
 import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
 import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
 import Comments from '@/components/pages/default/blog-details/Comments';
 import PostComment from '@/components/pages/default/blog-details/PostComment';
-import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
+import SetHeader from '@/services/utils/set-header';
 function BlogDetailsViews() {
   const { id } = useParams();
   const location = useLocation();
-  const dispatch = useDispatch();
-  const blogDetails = useSelector(getBlogDetails);
   const blogRef = useRef(null);
   const {
     data: blogData,
@@ -27,13 +21,6 @@ function BlogDetailsViews() {
   } = useGetBlogByIdQuery(id, {
     skip: !id,
   });
-  //checking blog-details
-  useEffect(() => {
-    if (isSuccessBlog && !isLoadingBlog && !isFetchingBlog) {
-      dispatch(setBlogsDetails(blogData));
-    }
-  }, [dispatch, isSuccessBlog, isLoadingBlog, isFetchingBlog, blogData]);
-
   //animation
   useLayoutEffect(() => {
     if (blogRef.current) {
@@ -60,17 +47,26 @@ function BlogDetailsViews() {
   if (errorBlog && 'data' in errorBlog) {
     return <Navigate to={`/not-found/${id}`} />;
   }
-  return (
-    <main ref={blogRef} className='relative gap-[40px]'>
-      <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>
-      <Breadcrumbs
-        breadcrumbs={location.pathname}
-        currentId={blogDetails.title}
+  return isSuccessBlog && blogData && !isFetchingBlog ? (
+    <>
+      <SetHeader
+        title={blogData.blog.title}
+        description={`Check out ${blogData.blog.title} blog for the latest fashion news.
+`}
       />
-      <BlogDetails blogDetails={blogData.blog} />
-      <Comments blogDetails={blogData.blog} />
-      <PostComment id={blogData.blog._id} />
-    </main>
+      <main ref={blogRef} className='relative gap-[40px]'>
+        <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>
+        <Breadcrumbs
+          breadcrumbs={location.pathname}
+          currentId={blogData.blog.title}
+        />
+        <BlogDetails blogDetails={blogData.blog} />
+        <Comments blogDetails={blogData.blog} />
+        <PostComment id={blogData.blog._id} />
+      </main>
+    </>
+  ) : (
+    <></>
   );
 }
 

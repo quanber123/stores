@@ -7,12 +7,13 @@ import Loading from '@/components/common/Loading/Loading';
 import Images from '@/components/pages/default/product-details/Images';
 import Description from '@/components/pages/default/product-details/Description';
 import ProductDetails from '@/components/pages/default/product-details/ProductsDetails';
-import Breadcrumbs from '@/components/ui/Breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
+import SetHeader from '@/services/utils/set-header';
 function ProductDetailsViews() {
   const { id } = useParams();
   const location = useLocation();
   const {
-    data: dataProduct,
+    data: productData,
     error: errorProduct,
     isSuccess: isSuccessProduct,
     isLoading: isLoadingProduct,
@@ -54,29 +55,35 @@ function ProductDetailsViews() {
     return () => {
       ctx.revert();
     };
-  }, [dataProduct, id]);
+  }, [productData, id]);
   if (isLoadingProduct || isFetchingProduct) {
     return <Loading />;
   }
   if (errorProduct) {
     return <Navigate to={`/not-found/${id}`} />;
   }
-  return isSuccessProduct && dataProduct ? (
-    <main className='gap-[40px]'>
-      <Breadcrumbs
-        breadcrumbs={location.pathname}
-        currentId={dataProduct.product.name}
+  return isSuccessProduct && productData && !isFetchingProduct ? (
+    <>
+      <SetHeader
+        title={productData.product.name}
+        description={`Check out ${productData.product.name} product for more information about fashion products.`}
       />
-      <article className='container flex flex-col laptop:flex-row justify-between gap-[40px]'>
-        <Images product={dataProduct.product} refEl={imageRef} />
-        <ProductDetails product={dataProduct.product} refEl={productRef} />
-      </article>
-      <Description product={dataProduct.product} refEl={descriptionRef} />
-      <RelatedProducts
-        products={dataProduct.relatedProducts}
-        refEl={relatedRef}
-      />
-    </main>
+      <main className='gap-[40px]'>
+        <Breadcrumbs
+          breadcrumbs={location.pathname}
+          currentId={productData.product.name}
+        />
+        <article className='container flex flex-col laptop:flex-row justify-between gap-[40px]'>
+          <Images product={productData.product} refEl={imageRef} />
+          <ProductDetails product={productData.product} refEl={productRef} />
+        </article>
+        <Description product={productData.product} refEl={descriptionRef} />
+        <RelatedProducts
+          products={productData.relatedProducts}
+          refEl={relatedRef}
+        />
+      </main>
+    </>
   ) : (
     <></>
   );

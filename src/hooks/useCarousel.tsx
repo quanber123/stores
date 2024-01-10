@@ -15,7 +15,7 @@ export const useCarousel = (length: number) => {
     );
   }, [length]);
 
-  const handleResize = () => {
+  const handleResize = useCallback(() => {
     let newBreakpoints;
     if (window.innerWidth > 1280) {
       newBreakpoints = 4;
@@ -27,7 +27,7 @@ export const useCarousel = (length: number) => {
       newBreakpoints = 1;
     }
     setBreakPoints(newBreakpoints);
-  };
+  }, [breakpoints]);
 
   useEffect(() => {
     const infinite = setInterval(() => {

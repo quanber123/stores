@@ -14,7 +14,7 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
           className='w-[296px] mobile:w-[332px] desktop:w-[396px] h-[210px] desktop:h-[268px]'
           src={category.image}
           alt={category.name}
-          {...({ fetchpriority: 'highest' } as React.DetailedHTMLProps<
+          {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
             React.ImgHTMLAttributes<HTMLImageElement>,
             HTMLImageElement
           >)}

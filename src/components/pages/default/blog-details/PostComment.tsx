@@ -26,22 +26,6 @@ const PostComment: React.FC<Props> = ({ id }) => {
     [comment]
   );
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      if (comment) {
-        e.preventDefault();
-        postComment({ id: id, userId: user._id, text: comment });
-      } else {
-        setVisibleModal({
-          visibleAlert: {
-            status: 'failed',
-            message: 'Failed: Cannot post an empty string',
-          },
-        });
-      }
-    }
-  };
-
   const handlePostComment = () => {
     if (comment) {
       postComment({ id: id, userId: user._id, text: comment });
@@ -82,7 +66,6 @@ const PostComment: React.FC<Props> = ({ id }) => {
               className='sticky top-0 right-0 py-2 px-4 w-full min-h-[36px] rounded-[24px] bg-overlayGray z-20'
               id='comment'
               onChange={handleChangeComment}
-              onKeyDown={handleKeyDown}
             />
             <button
               className={`absolute bottom-[10px] right-[5%] tablet:right-[2%] z-50 ${

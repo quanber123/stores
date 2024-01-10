@@ -1,7 +1,7 @@
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
-import App from '@/App';
 import { GlobalModalProvider } from '@/components/modal/global/hooks/globalContext';
+import App from '@/App';
 const HomeViews = lazy(() => import('@/views/(default)/HomeViews'));
 const AboutViews = lazy(() => import('@/views/(default)/AboutViews'));
 const ShopViews = lazy(() => import('@/views/(default)/ShopViews'));

@@ -89,150 +89,143 @@ function RegisterModal() {
     errorRegister,
   ]);
   return (
-    <>
-      <button
-        className='px-5 py-2 font-bold bg-darkGray text-white hover:bg-purple rounded-[28px]'
-        onClick={() => setVisibleModal('visibleRegisterModal')}
+    <Modal>
+      <section
+        className={`${
+          state.visibleRegisterModal ? 'active' : ''
+        } register-form`}
+        onClick={clickOutsideModal}
       >
-        Register
-      </button>
-      <Modal>
-        <section
-          className={`${
-            state.visibleRegisterModal ? 'active' : ''
-          } register-form`}
-          onClick={clickOutsideModal}
+        <form
+          ref={modalRef}
+          className='px-[24px] tablet:px-[55px] py-[75px]'
+          onSubmit={(e) => e.preventDefault()}
         >
-          <form
-            ref={modalRef}
-            className='px-[24px] tablet:px-[55px] py-[75px]'
-            onSubmit={(e) => e.preventDefault()}
+          <button
+            className='absolute top-[20px] right-[20px] w-[40px] h-[40px] flex justify-center items-center text-md bg-lightGray rounded-full'
+            aria-label='close-modal'
+            onClick={() => setVisibleModal('visibleRegisterModal')}
           >
-            <button
-              className='absolute top-[20px] right-[20px] w-[40px] h-[40px] flex justify-center items-center text-md bg-lightGray rounded-full'
-              aria-label='close-modal'
-              onClick={() => setVisibleModal('visibleRegisterModal')}
+            <FaXmark />
+          </button>
+          <h1 className='w-full text-darkGray font-bold text-lg tablet:text-xl text-center'>
+            Register
+          </h1>
+          <img
+            className='w-[136px] h-[20px] object-contain'
+            src={logo}
+            alt='logo'
+          />
+          <div
+            className='wrap-input-register mt-[20px]'
+            onClick={() => setFocusInput('name')}
+          >
+            <label
+              className={`text-darkGray ${
+                focusInput === 'name' || form.name ? 'active' : ''
+              }`}
+              htmlFor='name'
             >
-              <FaXmark />
-            </button>
-            <h1 className='w-full text-darkGray font-bold text-lg tablet:text-xl text-center'>
-              Register
-            </h1>
-            <img
-              className='w-[136px] h-[20px] object-contain'
-              src={logo}
-              alt='logo'
+              Name
+            </label>
+            <input
+              type='name'
+              id='name'
+              name='name'
+              value={form.name}
+              onFocus={() => setFocusInput('name')}
+              onBlur={() => setFocusInput(null)}
+              onChange={handleChangeForm}
             />
             <div
-              className='wrap-input-register mt-[20px]'
-              onClick={() => setFocusInput('name')}
+              className={`focus-input-register ${
+                focusInput === 'name' || form.name ? 'active' : ''
+              }`}
+            ></div>
+          </div>
+          <div
+            className='wrap-input-register'
+            onClick={() => setFocusInput('email')}
+          >
+            <label
+              className={`text-mediumGray ${
+                focusInput === 'email' || form.email ? 'active' : ''
+              }`}
+              htmlFor='email-register'
             >
-              <label
-                className={`text-darkGray ${
-                  focusInput === 'name' || form.name ? 'active' : ''
-                }`}
-                htmlFor='name'
-              >
-                Name
-              </label>
-              <input
-                type='name'
-                id='name'
-                name='name'
-                value={form.name}
-                onFocus={() => setFocusInput('name')}
-                onBlur={() => setFocusInput(null)}
-                onChange={handleChangeForm}
-              />
-              <div
-                className={`focus-input-register ${
-                  focusInput === 'name' || form.name ? 'active' : ''
-                }`}
-              ></div>
-            </div>
+              Email
+            </label>
+            <input
+              type='email'
+              id='email-register'
+              name='email'
+              value={form.email}
+              onFocus={() => setFocusInput('email')}
+              onBlur={() => setFocusInput(null)}
+              onChange={handleChangeForm}
+            />
             <div
-              className='wrap-input-register'
-              onClick={() => setFocusInput('email')}
+              className={`focus-input-register ${
+                focusInput === 'email' || form.email ? 'active' : ''
+              }`}
+            ></div>
+            {!validateEmail(form.email) && form.email ? (
+              <ErrValidate message='The email must contain @.' />
+            ) : (
+              <></>
+            )}
+            {validateEmail(form.email) && form.email ? (
+              <SuccessValidate />
+            ) : (
+              <></>
+            )}
+          </div>
+          <div
+            className='wrap-input-register'
+            onClick={() => setFocusInput('password')}
+          >
+            <label
+              className={`text-mediumGray ${
+                focusInput === 'password' || form.password ? 'active' : ''
+              }`}
+              htmlFor='password'
             >
-              <label
-                className={`text-mediumGray ${
-                  focusInput === 'email' || form.email ? 'active' : ''
-                }`}
-                htmlFor='email-register'
-              >
-                Email
-              </label>
-              <input
-                type='email'
-                id='email-register'
-                name='email'
-                value={form.email}
-                onFocus={() => setFocusInput('email')}
-                onBlur={() => setFocusInput(null)}
-                onChange={handleChangeForm}
-              />
-              <div
-                className={`focus-input-register ${
-                  focusInput === 'email' || form.email ? 'active' : ''
-                }`}
-              ></div>
-              {!validateEmail(form.email) && form.email ? (
-                <ErrValidate message='The email must contain @.' />
-              ) : (
-                <></>
-              )}
-              {validateEmail(form.email) && form.email ? (
-                <SuccessValidate />
-              ) : (
-                <></>
-              )}
-            </div>
+              Password
+            </label>
+            <input
+              id='password-register'
+              name='password'
+              type='password'
+              value={form.password}
+              onFocus={() => setFocusInput('password')}
+              onBlur={() => setFocusInput(null)}
+              onChange={handleChangeForm}
+            />
             <div
-              className='wrap-input-register'
-              onClick={() => setFocusInput('password')}
-            >
-              <label
-                className={`text-mediumGray ${
-                  focusInput === 'password' || form.password ? 'active' : ''
-                }`}
-                htmlFor='password'
-              >
-                Password
-              </label>
-              <input
-                id='password-register'
-                name='password'
-                type='password'
-                value={form.password}
-                onFocus={() => setFocusInput('password')}
-                onBlur={() => setFocusInput(null)}
-                onChange={handleChangeForm}
-              />
-              <div
-                className={`focus-input-register ${
-                  focusInput === 'password' || form.password ? 'active' : ''
-                }`}
-              ></div>
-              <div className='absolute -bottom-[120%] flex gap-[5px]'>
-                <FaLightbulb className='text-[20px]' />
-                <span>:</span>
-                <p className='text-sm font-semiBold text-semiBoldGray'>
-                  The password must be longer than 6 characters and contain at
-                  least 1 uppercase letter.
-                </p>
-              </div>
-              {!validatePassword(form.password) && form.password ? (
-                <ErrValidate message='Password is not valid!' />
-              ) : (
-                <></>
-              )}
-              {validatePassword(form.password) && form.password ? (
-                <SuccessValidate />
-              ) : (
-                <></>
-              )}
+              className={`focus-input-register ${
+                focusInput === 'password' || form.password ? 'active' : ''
+              }`}
+            ></div>
+            <div className='absolute -bottom-[120%] flex gap-[5px]'>
+              <FaLightbulb className='text-[20px]' />
+              <span>:</span>
+              <p className='text-sm font-semiBold text-semiBoldGray'>
+                The password must be longer than 6 characters and contain at
+                least 1 uppercase letter.
+              </p>
             </div>
-            {/* <div className='w-full h-[48px] my-8 relative'>
+            {!validatePassword(form.password) && form.password ? (
+              <ErrValidate message='Password is not valid!' />
+            ) : (
+              <></>
+            )}
+            {validatePassword(form.password) && form.password ? (
+              <SuccessValidate />
+            ) : (
+              <></>
+            )}
+          </div>
+          {/* <div className='w-full h-[48px] my-8 relative'>
           <input
             className='w-full h-full px-[16px] border border-gray rounded-[23px]'
             type='text'
@@ -248,43 +241,40 @@ function RegisterModal() {
             Send Code
           </button>
         </div> */}
-            <div className='mt-8 w-full register-form-btn'>
-              <button
-                style={{
-                  filter: `${
-                    !validateEmail(form.email) ||
-                    !validatePassword(form.password)
-                      ? 'grayscale(80%)'
-                      : 'none'
-                  }`,
-                  cursor: `${
-                    !validateEmail(form.email) ||
-                    !validatePassword(form.password)
-                      ? 'no-drop'
-                      : 'pointer'
-                  }`,
-                }}
-                disabled={
+          <div className='mt-8 w-full register-form-btn'>
+            <button
+              style={{
+                filter: `${
                   !validateEmail(form.email) || !validatePassword(form.password)
-                }
-                onClick={handleVerifiedEmail}
-              >
-                Register
-              </button>
-            </div>
-            <div className='flex justify-center items-center gap-[10px]'>
-              <p className='text-mediumGray'>Already Have account ?</p>
-              <button
-                className='text-mediumGray hover:text-blue font-bold'
-                onClick={() => setVisibleModal('visibleLoginModal')}
-              >
-                Login
-              </button>
-            </div>
-          </form>
-        </section>
-      </Modal>
-    </>
+                    ? 'grayscale(80%)'
+                    : 'none'
+                }`,
+                cursor: `${
+                  !validateEmail(form.email) || !validatePassword(form.password)
+                    ? 'no-drop'
+                    : 'pointer'
+                }`,
+              }}
+              disabled={
+                !validateEmail(form.email) || !validatePassword(form.password)
+              }
+              onClick={handleVerifiedEmail}
+            >
+              Register
+            </button>
+          </div>
+          <div className='flex justify-center items-center gap-[10px]'>
+            <p className='text-mediumGray'>Already Have account ?</p>
+            <button
+              className='text-mediumGray hover:text-blue font-bold'
+              onClick={() => setVisibleModal('visibleLoginModal')}
+            >
+              Login
+            </button>
+          </div>
+        </form>
+      </section>
+    </Modal>
   );
 }
 

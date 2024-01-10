@@ -1,5 +1,6 @@
 import LoadingComponents from '@/components/common/Loading/LoadingComponents';
 import LazyComponent from '@/hooks/useLazyComponent';
+import SetHeader from '@/services/utils/set-header';
 import { Suspense, lazy } from 'react';
 const BannerHome = lazy(
   () => import('@/components/pages/default/home/BannerHome')
@@ -13,28 +14,34 @@ const StoreHome = lazy(
 const BlogHome = lazy(() => import('@/components/pages/default/home/BlogHome'));
 function HomeViews() {
   return (
-    <main className='pb-[84px] gap-[80px]'>
-      <LazyComponent>
-        <Suspense fallback={<LoadingComponents />}>
-          <BannerHome />
-        </Suspense>
-      </LazyComponent>
-      <LazyComponent>
-        <Suspense fallback={<LoadingComponents />}>
-          <CategoryHome />
-        </Suspense>
-      </LazyComponent>
-      <LazyComponent>
-        <Suspense fallback={<LoadingComponents />}>
-          <StoreHome />
-        </Suspense>
-      </LazyComponent>
-      <LazyComponent>
-        <Suspense fallback={<LoadingComponents />}>
-          <BlogHome />
-        </Suspense>
-      </LazyComponent>
-    </main>
+    <>
+      <SetHeader
+        title=''
+        description='Welcome to cozastore fashion store where we provide you with the most beautiful, luxurious and fashionable products of all time.'
+      />
+      <main className='pb-[84px] gap-[80px]'>
+        <LazyComponent>
+          <Suspense fallback={<LoadingComponents />}>
+            <BannerHome />
+          </Suspense>
+        </LazyComponent>
+        <LazyComponent>
+          <Suspense fallback={<LoadingComponents />}>
+            <CategoryHome />
+          </Suspense>
+        </LazyComponent>
+        <LazyComponent>
+          <Suspense fallback={<LoadingComponents />}>
+            <StoreHome />
+          </Suspense>
+        </LazyComponent>
+        <LazyComponent>
+          <Suspense fallback={<LoadingComponents />}>
+            <BlogHome />
+          </Suspense>
+        </LazyComponent>
+      </main>
+    </>
   );
 }
 

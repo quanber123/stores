@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 const useLazyComponent = (): [
   React.MutableRefObject<HTMLElement | null>,
@@ -7,22 +7,24 @@ const useLazyComponent = (): [
   const [inView, setInView] = useState(false);
   const componentRef = useRef<HTMLElement | null>(null);
 
-  const handleIntersection: IntersectionObserverCallback = (
-    entries,
-    observer
-  ) => {
-    entries.forEach((e) => {
-      if (e.isIntersecting) {
-        setInView(true);
-        observer.unobserve(e.target);
-      }
-    });
-  };
+  const handleIntersection: IntersectionObserverCallback = useCallback(
+    (entries, observer) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          setInView(true);
+          observer.unobserve(e.target);
+        }
+      });
+    },
+    []
+  );
 
-  const configOptions = {
-    rootMargin: '0px',
-    threshold: 0.5,
-  };
+  const configOptions = useMemo(() => {
+    return {
+      rootMargin: '0px',
+      threshold: 0.5,
+    };
+  }, []);
 
   useEffect(() => {
     let observer: IntersectionObserver | null = null;
