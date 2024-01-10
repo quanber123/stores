@@ -1,13 +1,13 @@
 import { authInfo } from '@/services/redux/slice/authSlice';
-import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import { validateImage } from '@/services/utils/validate';
-import React, { useCallback, useRef, useState } from 'react';
+import React, { useCallback, useContext, useRef, useState } from 'react';
 import { FaRegUser, FaCameraRetro } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import EditButtonUser from './EditButtonUser';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 
 const SettingsUser = () => {
-  const dispatch = useDispatch();
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const user = useSelector(authInfo);
   const fileRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -43,12 +43,13 @@ const SettingsUser = () => {
         render.readAsDataURL(file);
       }
       if (file && !validateImage(file)) {
-        dispatch(
-          setVisibleAlertModal({
+        setVisibleModal({
+          visibleAlertModal: {
             status: 'failed',
-            message: 'Failed: Types of photos are accepted: JPG, PNG or GIF.',
-          })
-        );
+            message:
+              'Failed: Types of photos are accepted: JPG, PNG, GIF or Webp.',
+          },
+        });
       }
     },
     [selectedFile, previewImg]

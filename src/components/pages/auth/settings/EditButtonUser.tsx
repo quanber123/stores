@@ -1,17 +1,16 @@
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 import {
   useUpdateAvatarMutation,
   useUpdateProfileMutation,
 } from '@/services/redux/features/userFeatures';
-import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
-import React, { useCallback, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 type Props = {
   id: string | null;
   name: string | null;
   value?: string | File | null;
 };
 const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
-  const dispatch = useDispatch();
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const [editBtn, setEditBtn] = useState(false);
   const [
     updateProfile,
@@ -45,37 +44,25 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
   }, [id, name, value]);
   useEffect(() => {
     if (isSuccessProfile && !isLoadingProfile) {
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'success',
           message: `Success: ${messageProfile?.message}`,
-        })
-      );
+        },
+      });
       setEditBtn(false);
     }
-  }, [
-    dispatch,
-    updateProfile,
-    messageProfile,
-    isSuccessProfile,
-    isLoadingProfile,
-  ]);
+  }, [updateProfile, messageProfile, isSuccessProfile, isLoadingProfile]);
   useEffect(() => {
     if (isSuccessAvatar && !isLoadingAvatar) {
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'success',
           message: `Success: ${messageAvatar?.message}`,
-        })
-      );
+        },
+      });
     }
-  }, [
-    dispatch,
-    updatedAvatar,
-    messageAvatar,
-    isSuccessAvatar,
-    isLoadingAvatar,
-  ]);
+  }, [updatedAvatar, messageAvatar, isSuccessAvatar, isLoadingAvatar]);
   return (
     <div className='w-[260px] mx-auto tablet:mx-0 flex items-center gap-[20px]'>
       <button

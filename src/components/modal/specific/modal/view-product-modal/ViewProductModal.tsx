@@ -1,4 +1,11 @@
-import { useState, useCallback, ChangeEvent, useMemo, useRef } from 'react';
+import {
+  useState,
+  useCallback,
+  ChangeEvent,
+  useMemo,
+  useRef,
+  useContext,
+} from 'react';
 import {
   FaAngleRight,
   FaAngleLeft,
@@ -11,14 +18,15 @@ import {
 import { useSlider } from '@/hooks/useSlider';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '@/services/redux/slice/cartSlice';
-import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import {
   closeQuickViewProduct,
   getQuickViewProduct,
 } from '@/services/redux/slice/productSlice';
 import { Product } from '@/interfaces/interfaces';
 import Modal from '@/Modal';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 const ViewProductModal = () => {
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const dispatch = useDispatch();
   const visibleModal = useSelector(getQuickViewProduct);
   const modalRef = useRef<HTMLElement | null>(null);
@@ -150,14 +158,12 @@ const ViewProductModal = () => {
       })
     );
     dispatch(closeQuickViewProduct());
-    dispatch(
-      setVisibleAlertModal({
+    setVisibleModal({
+      visibleAlertModal: {
         status: 'success',
         message: 'Success: Added Product!',
-        color: 'green',
-        backgroundColor: 'lightGreen',
-      })
-    );
+      },
+    });
   }, [dispatch, selectedColor, selectedSize, count, visibleModal.productModal]);
   const clickOutsideModal = useCallback((e: React.MouseEvent) => {
     const dialogDemission = modalRef.current?.getBoundingClientRect();

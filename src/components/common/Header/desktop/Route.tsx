@@ -1,13 +1,12 @@
-import { closeAllModal } from '@/services/redux/slice/modalSlice';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 import scrollElement from '@/services/utils/scroll-elements';
-import { useMemo } from 'react';
-import { useDispatch } from 'react-redux';
+import { useContext, useMemo } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 type PropsRoutes = {
   routeRefs: any;
 };
 function Router({ routeRefs }: PropsRoutes) {
-  const dispatch = useDispatch();
+  const { closeAllModal } = useContext(GlobalModalContext);
   const routes = [
     {
       link: 'about',
@@ -21,7 +20,7 @@ function Router({ routeRefs }: PropsRoutes) {
     // },
   ];
   const closeModal = () => {
-    dispatch(closeAllModal());
+    closeAllModal();
     scrollElement();
   };
   const location = useLocation();

@@ -1,17 +1,22 @@
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { FaRegEnvelope } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
-import { authInfo, getSettings, setSettings } from '@/services/redux/slice/authSlice';
+import {
+  authInfo,
+  getSettings,
+  setSettings,
+} from '@/services/redux/slice/authSlice';
 import {
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
 } from '@/services/redux/features/userFeatures';
 import { capitalize } from '@/services/utils/format';
-import { setVisibleAlertModal } from '@/services/redux/slice/modalSlice';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
+import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 
 const SettingNotifications = () => {
+  const { setVisibleModal } = useContext(GlobalModalContext);
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
   const settings = useSelector(getSettings);
@@ -36,21 +41,21 @@ const SettingNotifications = () => {
   }, [settingsData, isLoadingSettings]);
   useEffect(() => {
     if (isSuccessToggle && !isLoadingToggle) {
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'success',
           message: `Success: ${dataToggle?.message}`,
-        })
-      );
+        },
+      });
     }
     if (!isLoadingToggle && errorToggle && 'data' in errorToggle) {
       const errorData = errorToggle.data as { message: string };
-      dispatch(
-        setVisibleAlertModal({
+      setVisibleModal({
+        visibleAlertModal: {
           status: 'failed',
           message: `Failed: ${errorData.message}`,
-        })
-      );
+        },
+      });
     }
   }, [dataToggle, isSuccessToggle, isLoadingToggle, errorToggle]);
   const renderedSettings = useMemo(() => {
