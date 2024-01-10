@@ -29,7 +29,7 @@ const SetHeader: React.FC<Props> = ({ title, description }) => {
       )}
       {description && (
         <Helmet>
-          <meta property='description' content={description} />
+          <meta name='description' content={description} />
         </Helmet>
       )}
       {tags && (
