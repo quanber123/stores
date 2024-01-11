@@ -12,10 +12,9 @@ import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 import Modal from '@/Modal';
-import { GlobalModalContext } from '../../hooks/globalContext';
+import { ModalContext } from '../../hooks/modalContext';
 function LoginModal() {
-  const { state, setVisibleModal, closeAllModal } =
-    useContext(GlobalModalContext);
+  const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const modalRef = useRef<HTMLFormElement | null>(null);

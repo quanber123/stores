@@ -33,16 +33,3 @@ export function SuccessValidate() {
     </div>
   );
 }
-
-export const checkSession = () => {
-  const storedSession = document.cookie
-    .split('; ')
-    .find((row) => row.startsWith('store-session='));
-
-  if (storedSession) {
-    const sessionId = storedSession.split('=')[1];
-    return sessionId;
-  }
-
-  return null;
-};

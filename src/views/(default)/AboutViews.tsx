@@ -6,7 +6,7 @@ function AboutViews() {
   const location = useLocation();
   return (
     <>
-      <SetHeader title={location.pathname} />
+      <SetHeader title={location.pathname} isBlockIndex={false} />
       <main className='gap-[40px]'>
         <About />
       </main>

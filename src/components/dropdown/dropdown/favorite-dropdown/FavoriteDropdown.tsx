@@ -2,10 +2,10 @@ import { FaHeart } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 // import { useState } from 'react';
 // import { getFavorite, removeFormFavorite } from '@/store/slice/favoriteSlice';
-function FavoriteModal() {
+function FavoriteDropdown() {
   const navigate = useNavigate();
   // const favorite = useSelector(getFavorite);
-  // const visibleModal = useSelector(getVisibleFavoriteModal);
+  // const visibleModal = useSelector(getVisibleFavoriteDropdown);
   // const [removeItem, setRemoveItem] = useState<string | null>(null);
   const handleCheckFavorite = () => {
     if (window.innerWidth > 640) {
@@ -14,7 +14,7 @@ function FavoriteModal() {
     }
   };
   // const redirectFavorite = () => {
-  //   dispatch(setVisibleFavoriteModal());
+  //   dispatch(setVisibleFavoriteDropdown());
   //   navigate('/favorite');
   // };
   // const handleRemoveFavorite = (_id: string, price: number) => {
@@ -117,4 +117,4 @@ function FavoriteModal() {
   );
 }
 
-export default FavoriteModal;
+export default FavoriteDropdown;

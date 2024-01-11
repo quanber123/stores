@@ -13,11 +13,10 @@ import { useNavigate } from 'react-router-dom';
 import { setAuth } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
-import { GlobalModalContext } from '../../hooks/globalContext';
+import { ModalContext } from '../../hooks/modalContext';
 
 function RegisterModal() {
-  const { state, setVisibleModal, closeAllModal } =
-    useContext(GlobalModalContext);
+  const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const modalRef = useRef<HTMLFormElement | null>(null);

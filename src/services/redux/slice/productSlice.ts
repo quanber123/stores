@@ -3,10 +3,6 @@ import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   products: Product[];
   productsOverview: Product[];
-  quickViewProduct: {
-    statusModal: boolean;
-    productModal: Product;
-  };
   banners: Banner[];
   totalPageProduct: number | string;
   currentPageProduct?: number;
@@ -17,14 +13,9 @@ const defaultViewProduct = {} as Product;
 const initialState: InitialState = {
   products: [],
   productsOverview: [],
-  quickViewProduct: {
-    statusModal: false,
-    productModal: defaultViewProduct,
-  },
   banners: [],
   totalPageProduct: 0,
-  currentPageProduct:
-    Number(window.localStorage.getItem('store-current-product-page')) || 1,
+  currentPageProduct: 1,
   status: 'idle',
   err: null,
 };
@@ -37,40 +28,21 @@ const productSlice = createSlice({
       state.products = action.payload.products;
       state.totalPageProduct = action.payload.totalPage;
       state.currentPageProduct = action.payload.currentPage;
-      window.localStorage.setItem(
-        'store-current-product-page',
-        action.payload.currentPage
-      );
     },
     setAllProductsOverview: (state, action) => {
       state.productsOverview = action.payload.products;
     },
-    setQuickViewProduct: (state, action) => {
-      state.quickViewProduct.statusModal = true;
-      state.quickViewProduct.productModal = action.payload;
-    },
     setAllBanners: (state, action) => {
       state.banners = action.payload;
     },
-    closeQuickViewProduct: (state) => {
-      state.quickViewProduct.statusModal = false;
-      state.quickViewProduct.productModal = defaultViewProduct;
-    },
   },
 });
-export const {
-  setAllProducts,
-  setAllProductsOverview,
-  setQuickViewProduct,
-  setAllBanners,
-  closeQuickViewProduct,
-} = productSlice.actions;
+export const { setAllProducts, setAllProductsOverview, setAllBanners } =
+  productSlice.actions;
 export const getAllProducts = (state: { products: InitialState }) =>
   state.products.products;
 export const getAllProductsOverview = (state: { products: InitialState }) =>
   state.products.productsOverview;
-export const getQuickViewProduct = (state: { products: InitialState }) =>
-  state.products.quickViewProduct;
 export const getAllBanners = (state: { products: InitialState }) =>
   state.products.banners;
 export const getTotalPageProduct = (state: { products: InitialState }) =>

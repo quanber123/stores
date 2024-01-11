@@ -67,6 +67,7 @@ function ProductDetailsViews() {
       <SetHeader
         title={productData.product.name}
         description={`Check out ${productData.product.name} product for more information about fashion products.`}
+        isBlockIndex={false}
       />
       <main className='gap-[40px]'>
         <Breadcrumbs

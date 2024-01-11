@@ -1,23 +1,17 @@
 import { Suspense, lazy, useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { getQuickViewProduct } from '@/services/redux/slice/productSlice';
 import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import './Header.css';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
-const ViewProductModal = lazy(
-  () =>
-    import(
-      '@/components/modal/specific/modal/view-product-modal/ViewProductModal'
-    )
+import { ModalContext } from '@/components/modal/hooks/modalContext';
+const ProductModal = lazy(
+  () => import('@/components/modal/modal/product-modal/ProductModal')
 );
 const AlertModal = lazy(
-  () => import('@/components/modal/global/modal/alert-modal/AlertModal')
+  () => import('@/components/modal/modal/alert-modal/AlertModal')
 );
 function Header() {
-  const { state, setVisibleModal } = useContext(GlobalModalContext);
-  const quickViewProduct = useSelector(getQuickViewProduct);
+  const { state, setVisibleModal } = useContext(ModalContext);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
   useEffect(() => {
     const handleResize = () => {
@@ -47,7 +41,7 @@ function Header() {
         {state.visibleAlertModal?.status ? <AlertModal /> : null}
       </Suspense>
       <Suspense fallback={<LoadingV2 />}>
-        {quickViewProduct.productModal._id ? <ViewProductModal /> : null}
+        {state.visibleProductModal?._id ? <ProductModal /> : null}
       </Suspense>
     </header>
   );

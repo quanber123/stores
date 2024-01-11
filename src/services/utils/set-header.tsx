@@ -6,8 +6,9 @@ import { getAllTags } from '../redux/slice/tagSlice';
 type Props = {
   title: string;
   description?: string;
+  isBlockIndex: boolean;
 };
-const SetHeader: React.FC<Props> = ({ title, description }) => {
+const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
   const newTitle = title.split('/')[1]
     ? capitalize(title.split('/')[1])
     : capitalize(title);
@@ -35,6 +36,15 @@ const SetHeader: React.FC<Props> = ({ title, description }) => {
       {tags && (
         <Helmet>
           <meta name='keywords' content={setHeaderKeywords} />
+        </Helmet>
+      )}
+      {isBlockIndex ? (
+        <Helmet>
+          <meta name='robots' content='noindex, nofollow' />
+        </Helmet>
+      ) : (
+        <Helmet>
+          <meta name='robots' content='index, follow' />
         </Helmet>
       )}
     </>

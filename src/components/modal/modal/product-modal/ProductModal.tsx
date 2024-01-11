@@ -16,22 +16,17 @@ import {
   FaFaceDizzy,
 } from 'react-icons/fa6';
 import { useSlider } from '@/hooks/useSlider';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { addToCart } from '@/services/redux/slice/cartSlice';
-import {
-  closeQuickViewProduct,
-  getQuickViewProduct,
-} from '@/services/redux/slice/productSlice';
 import { Product } from '@/interfaces/interfaces';
 import Modal from '@/Modal';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
-const ViewProductModal = () => {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+import { ModalContext } from '../../hooks/modalContext';
+const ProductModal = () => {
+  const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const dispatch = useDispatch();
-  const visibleModal = useSelector(getQuickViewProduct);
   const modalRef = useRef<HTMLElement | null>(null);
   const { _id, name, price, images, details } =
-    visibleModal.productModal as Product;
+    state.visibleProductModal as Product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
@@ -87,7 +82,7 @@ const ViewProductModal = () => {
   const sizes = useMemo(() => {
     const arrSizes = details.variants.map((v) => v.size).filter((v) => v);
     return [...new Set(arrSizes)];
-  }, [visibleModal?.productModal]);
+  }, [state.visibleProductModal]);
   const filteredColors = useMemo(
     () =>
       details?.variants
@@ -157,14 +152,15 @@ const ViewProductModal = () => {
         totalPrice: count * price,
       })
     );
-    dispatch(closeQuickViewProduct());
+    closeAllModal();
+
     setVisibleModal({
       visibleAlertModal: {
         status: 'success',
         message: 'Success: Added Product!',
       },
     });
-  }, [dispatch, selectedColor, selectedSize, count, visibleModal.productModal]);
+  }, [selectedColor, selectedSize, count, state.visibleProductModal]);
   const clickOutsideModal = useCallback((e: React.MouseEvent) => {
     const dialogDemission = modalRef.current?.getBoundingClientRect();
     if (
@@ -173,21 +169,21 @@ const ViewProductModal = () => {
       e.clientY < dialogDemission!.top ||
       e.clientY > dialogDemission!.bottom
     ) {
-      dispatch(closeQuickViewProduct());
+      closeAllModal();
     }
   }, []);
   return (
     <Modal>
       <section
         className={`quick-view-product ${
-          visibleModal.statusModal ? 'active' : ''
+          state.visibleProductModal?._id ? 'active' : ''
         } overflow-y-auto laptop:overflow-hidden`}
         onClick={clickOutsideModal}
       >
         <article ref={modalRef} className='container flex flex-col gap-[10px]'>
           <button
             className='ml-auto text-xl text-white'
-            onClick={() => dispatch(closeQuickViewProduct())}
+            onClick={closeAllModal}
             aria-label='CloseModal'
           >
             <FaXmark />
@@ -371,4 +367,4 @@ const ViewProductModal = () => {
   );
 };
 
-export default ViewProductModal;
+export default ProductModal;

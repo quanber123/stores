@@ -47,6 +47,7 @@ function BlogViews() {
       <SetHeader
         title={location.pathname}
         description={`Explore our cozastore's latest fashion articles`}
+        isBlockIndex={false}
       />
       <main className='gap-[80px]'>
         <BlogTitle />

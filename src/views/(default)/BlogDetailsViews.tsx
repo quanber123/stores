@@ -53,6 +53,7 @@ function BlogDetailsViews() {
         title={blogData.blog.title}
         description={`Check out ${blogData.blog.title} blog for the latest fashion news.
 `}
+        isBlockIndex={false}
       />
       <main ref={blogRef} className='relative gap-[40px]'>
         <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>

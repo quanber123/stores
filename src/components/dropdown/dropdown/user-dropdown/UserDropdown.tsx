@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { User } from '@/interfaces/interfaces';
 import { DropdownContext } from '../../hooks/dropdownContext';
-import './UserModal.css';
+import './UserDropdown.css';
 type Props = {
   user: User;
 };
-const UserModal: React.FC<Props> = ({ user }) => {
+const UserDropdown: React.FC<Props> = ({ user }) => {
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -66,4 +66,4 @@ const UserModal: React.FC<Props> = ({ user }) => {
   );
 };
 
-export default UserModal;
+export default UserDropdown;

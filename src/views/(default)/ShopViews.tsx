@@ -50,6 +50,7 @@ function ShopViews() {
       <SetHeader
         title={location.pathname}
         description={`Explore cozastore's fashion products`}
+        isBlockIndex={false}
       />
       <main className='gap-[40px]'>
         <ProductFilter />

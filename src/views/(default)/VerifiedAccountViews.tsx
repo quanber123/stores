@@ -126,7 +126,7 @@ function VerifiedAccountViews() {
   }
   return (
     <>
-      <SetHeader title={location.pathname} />
+      <SetHeader title={location.pathname} isBlockIndex={true} />
       <main className='bg-lightGray'>
         <form
           ref={formRef}

@@ -1,9 +1,9 @@
 import { FaBell } from 'react-icons/fa6';
 import logoImg from '@/assets/images/logo-04.png-fotor-2023121102555.png';
-import './NotificationsModal.css';
+import './NotificationsDropdown.css';
 import { useContext } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
-function NotificationsModal() {
+function NotificationsDropdown() {
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   return (
     <>
@@ -234,4 +234,4 @@ function NotificationsModal() {
   );
 }
 
-export default NotificationsModal;
+export default NotificationsDropdown;

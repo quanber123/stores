@@ -1,3 +1,4 @@
+import { Product } from '@/interfaces/interfaces';
 import { createContext, useCallback, useReducer } from 'react';
 type AlertModalState = {
   status: string;
@@ -7,6 +8,7 @@ type InitialState = {
   visibleLoginModal: boolean;
   visibleRegisterModal: boolean;
   visibleAlertModal?: AlertModalState;
+  visibleProductModal?: Product;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';
@@ -16,6 +18,7 @@ const reducer = (state: InitialState, action: any) => {
     visibleLoginModal: false,
     visibleRegisterModal: false,
     visibleAlertModal: {} as AlertModalState,
+    visibleProductModal: {} as Product,
   };
   switch (action.type) {
     case SET_VISIBLE_MODAL:
@@ -33,20 +36,19 @@ const reducer = (state: InitialState, action: any) => {
   }
 };
 const initialState: InitialState = {
-  visibleAlertModal: {} as AlertModalState,
   visibleLoginModal: false,
   visibleRegisterModal: false,
+  visibleAlertModal: {} as AlertModalState,
+  visibleProductModal: {} as Product,
 };
-export type InitialGlobalModalContext = {
+export type InitialModalContext = {
   state: InitialState;
   setVisibleModal: (modal: any) => void;
   closeAllModal: () => void;
 };
-export const GlobalModalContext = createContext(
-  {} as InitialGlobalModalContext
-);
+export const ModalContext = createContext({} as InitialModalContext);
 
-export const GlobalModalProvider = ({ children }: { children: any }) => {
+export const ModalProvider = ({ children }: { children: any }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const setVisibleModal = useCallback((modal: any) => {
     dispatch({ type: SET_VISIBLE_MODAL, payload: { modal } });
@@ -61,8 +63,8 @@ export const GlobalModalProvider = ({ children }: { children: any }) => {
   };
 
   return (
-    <GlobalModalContext.Provider value={contextValue}>
+    <ModalContext.Provider value={contextValue}>
       {children}
-    </GlobalModalContext.Provider>
+    </ModalContext.Provider>
   );
 };

@@ -4,10 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { useContext, useState } from 'react';
 import { getCart, removeFormCart } from '@/services/redux/slice/cartSlice';
 import { DropdownContext } from '../../hooks/dropdownContext';
-import './CartModal.css';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
-function CartModal() {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+import './CartDropdown.css';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
+function CartDropdown() {
+  const { setVisibleModal } = useContext(ModalContext);
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -117,4 +117,4 @@ function CartModal() {
   );
 }
 
-export default CartModal;
+export default CartDropdown;

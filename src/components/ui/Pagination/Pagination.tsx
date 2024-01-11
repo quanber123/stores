@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
+import scrollElement from '@/services/utils/scroll-elements';
 type Props = {
   totalPage: number;
 };
@@ -15,6 +16,7 @@ const Pagination: React.FC<Props> = ({ totalPage }) => {
         newQuery.set('page', newPage.toString());
         return newQuery.toString();
       });
+      scrollElement();
     },
     [currPage, totalPage]
   );

@@ -1,4 +1,4 @@
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 import scrollElement from '@/services/utils/scroll-elements';
 import { useCallback, useContext, useMemo } from 'react';
 import { NavLink } from 'react-router-dom';
@@ -6,15 +6,15 @@ type PropsRoutes = {
   routeRefs: any;
 };
 function Router({ routeRefs }: PropsRoutes) {
-  const { closeAllModal } = useContext(GlobalModalContext);
+  const { closeAllModal } = useContext(ModalContext);
   const routes = [
     {
       link: 'about',
     },
     {
-      link: 'shop',
+      link: 'shop?page=1',
     },
-    { link: 'blogs' },
+    { link: 'blogs?page=1' },
     // {
     //   link: 'contact',
     // },
@@ -42,7 +42,7 @@ function Router({ routeRefs }: PropsRoutes) {
             onClick={closeModal}
             end
           >
-            {r.link}
+            {r.link.split('?')[0]}
           </NavLink>
         </li>
       );

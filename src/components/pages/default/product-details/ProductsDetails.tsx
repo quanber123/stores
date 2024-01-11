@@ -7,11 +7,13 @@ import React, {
 } from 'react';
 import { FaCartPlus, FaHeart, FaFacebookF, FaFaceDizzy } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
+import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
 const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
+  const [createCart] = useCreateCartMutation();
   const { name, price, details } = product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -91,6 +93,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
       }
     });
   }, [count]);
+  const handleAddToCart = async () => {};
   return (
     <section
       className='w-full laptop:w-1/2 flex flex-col gap-[20px]'
@@ -191,6 +194,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
                 : ' bg-semiBoldGray'
             }`}
             disabled={selectedSize ? false : true}
+            onClick={handleAddToCart}
           >
             {selectedSize && selectedColor && isStock?.inStock ? (
               <>

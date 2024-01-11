@@ -20,6 +20,16 @@ export interface Product {
   name: string;
   code: string;
   price: number;
+  sale: {
+    active: boolean;
+    name: string;
+    rate: number;
+    startDate: string;
+    endDate: string;
+    tag: string;
+  };
+  salePrice?: number;
+  finalPrice?: number;
   type: string;
   details: {
     variants: [

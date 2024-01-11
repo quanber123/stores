@@ -18,7 +18,7 @@ function Footer() {
   const [focusInput, setFocusInput] = useState(false);
   const [email, setEmail] = useState('');
   const handleLinkClick = (name: string) => {
-    navigate(`/shop?category=${name}`);
+    navigate(`/shop?page=1&category=${name}`);
     scrollElement();
   };
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {

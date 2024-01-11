@@ -59,7 +59,7 @@ function NotFoundViews() {
   }, []);
   return (
     <>
-      <SetHeader title={location.pathname} />
+      <SetHeader title={location.pathname} isBlockIndex={true} />
       <main className='min-h-[50vh]'>
         <div className='relative container h-full flex flex-col justify-center items-center gap-[20px]'>
           <h2

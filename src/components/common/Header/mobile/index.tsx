@@ -3,7 +3,7 @@ import Bars from './Bars';
 import Logo from './Logo';
 import { useSelector } from 'react-redux';
 import { authInfo } from '@/services/redux/slice/authSlice';
-import NotificationsModal from '@/components/dropdown/dropdown/notifications-modal/NotificationsModal';
+import NotificationsModal from '@/components/dropdown/dropdown/notifications-dropdown/NotificationsDropdown';
 function MobileNavBar() {
   const user = useSelector(authInfo);
   return (

@@ -18,6 +18,7 @@ function HomeViews() {
       <SetHeader
         title=''
         description='Welcome to cozastore fashion store where we provide you with the most beautiful, luxurious and fashionable products of all time.'
+        isBlockIndex={false}
       />
       <main className='pb-[84px] gap-[80px]'>
         <LazyComponent>

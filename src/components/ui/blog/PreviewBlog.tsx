@@ -8,6 +8,7 @@ import {
   capitalizeFirstLetter,
   formatDate,
 } from '@/services/utils/format';
+import { useMemo } from 'react';
 type Props = {
   blog: Blog;
   refEl?: (el: HTMLElement) => HTMLElement;
@@ -18,6 +19,12 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
     scrollElement();
     navigate(`/blogs/${id}`, { replace: true });
   };
+  const tags = useMemo(() => {
+    return blog.tags
+      .slice(0, 3)
+      .map((t) => capitalize(t.name))
+      .join(' , ');
+  }, [blog.tags]);
   return (
     <article
       ref={refEl}
@@ -57,7 +64,7 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
             </p>
             <span className='hidden tablet:block'>|</span>
             <p className='font-bold'>
-              {blog.tags.map((t) => capitalize(t.name)).join(' , ')}
+              {blog.tags.length > 3 ? `${tags} ...` : tags}
             </p>
             <span className='hidden tablet:block'>|</span>
             <p>

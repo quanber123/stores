@@ -29,7 +29,7 @@ function SettingViews() {
   }, []);
   return (
     <>
-      <SetHeader title={location.pathname} />
+      <SetHeader title={location.pathname} isBlockIndex={true} />
       <main ref={layoutRef} className='gap-[80px]'>
         <Breadcrumbs breadcrumbs={location.pathname} />
         <SettingsUser />

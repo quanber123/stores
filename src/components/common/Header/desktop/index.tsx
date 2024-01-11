@@ -4,30 +4,31 @@ import { authInfo } from '@/services/redux/slice/authSlice';
 import gsap from 'gsap';
 import Router from './Route';
 import Logo from './Logo';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 const CartModal = lazy(
-  () => import('@/components/dropdown/dropdown/cart-modal/CartModal')
+  () => import('@/components/dropdown/dropdown/cart-dropdown/CartDropdown')
 );
-const FavoriteModal = lazy(
-  () => import('@/components/dropdown/dropdown/favorite-modal/FavoriteModal')
+const FavoriteDropdown = lazy(
+  () =>
+    import('@/components/dropdown/dropdown/favorite-dropdown/FavoriteDropdown')
 );
 const NotificationsModal = lazy(
   () =>
     import(
-      '@/components/dropdown/dropdown/notifications-modal/NotificationsModal'
+      '@/components/dropdown/dropdown/notifications-dropdown/NotificationsDropdown'
     )
 );
 const UserModal = lazy(
-  () => import('@/components/dropdown/dropdown/user-modal/UserModal')
+  () => import('@/components/dropdown/dropdown/user-dropdown/UserDropdown')
 );
 const LoginModal = lazy(
-  () => import('@/components/modal/global/modal/login-modal/LoginModal')
+  () => import('@/components/modal/modal/login-modal/LoginModal')
 );
 const RegisterModal = lazy(
-  () => import('@/components/modal/global/modal/register-modal/RegisterModal')
+  () => import('@/components/modal/modal/register-modal/RegisterModal')
 );
 function DesktopNavBar() {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   const user = useSelector(authInfo);
   const imgRef = useRef(null);
   const routeRefs = useRef<Array<HTMLElement | null>>([]);
@@ -74,7 +75,7 @@ function DesktopNavBar() {
         <Suspense>
           <div className='ml-auto flex items-center gap-[20px]'>
             <CartModal />
-            <FavoriteModal />
+            <FavoriteDropdown />
             <NotificationsModal />
             <UserModal user={user} />
           </div>
