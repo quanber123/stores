@@ -1,6 +1,8 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import providesList from '@/services/utils/providesList';
 const end_point = import.meta.env.VITE_BACKEND_URL;
+const token = window.localStorage.getItem('coza-store-token');
+
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
@@ -23,7 +25,7 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'Banners'),
       }),
       getAllCarts: builder.query({
-        query: (token) => ({
+        query: () => ({
           url: 'carts',
           method: 'GET',
           headers: {
@@ -33,18 +35,20 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'Carts'),
       }),
       createCart: builder.mutation({
-        query: ({ token, cart }) => ({
+        query: (cart) => ({
           url: 'carts',
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: cart,
+          body: {
+            cart: cart,
+          },
         }),
         invalidatesTags: ['Carts'],
       }),
       updateCart: builder.mutation({
-        query: ({ token, id, product }) => ({
+        query: ({ id, product }) => ({
           url: `carts/${id}`,
           method: 'PUT',
           headers: {
@@ -55,7 +59,7 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       deleteCartById: builder.mutation({
-        query: ({ token, id }) => ({
+        query: (id) => ({
           url: `carts/${id}`,
           method: 'DELETE',
           headers: {
@@ -65,7 +69,7 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       deleteManyCarts: builder.mutation({
-        query: ({ token, products }) => ({
+        query: (products) => ({
           url: 'carts',
           method: 'DELETE',
           headers: {

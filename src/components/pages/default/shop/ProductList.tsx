@@ -6,7 +6,7 @@ import {
   getAllProducts,
   getTotalPageProduct,
 } from '@/services/redux/slice/productSlice';
-import Pagination from '@/components/ui/Pagination/Pagination';
+import Pagination from '@/components/ui/pagination/Pagination';
 const ProductList = () => {
   const products = useSelector(getAllProducts);
   const total = useSelector(getTotalPageProduct);

@@ -4,17 +4,25 @@ import React, {
   ChangeEvent,
   LegacyRef,
   useMemo,
+  useEffect,
+  useContext,
 } from 'react';
 import { FaCartPlus, FaHeart, FaFacebookF, FaFaceDizzy } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
 import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
+import LoadingV2 from '@/components/common/Loading/LoadingV2';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
 const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
-  const [createCart] = useCreateCartMutation();
-  const { name, price, details } = product;
+  const [
+    createCart,
+    { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
+  ] = useCreateCartMutation();
+  const { setVisibleModal, closeAllModal } = useContext(ModalContext);
+  const { _id, name, price, salePrice, finalPrice, images, details } = product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
@@ -93,7 +101,36 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
       }
     });
   }, [count]);
-  const handleAddToCart = async () => {};
+  const handleAddToCart = useCallback(() => {
+    const cart = {
+      id: _id,
+      name: name,
+      image: images[0],
+      size: selectedSize,
+      color: selectedColor,
+      price: price,
+      amountSalePrice: price - salePrice,
+      salePrice: salePrice,
+      finalPrice: finalPrice,
+      quantity: count,
+      totalPrice: finalPrice * count,
+    };
+    createCart(cart);
+  }, [selectedColor, selectedSize, count]);
+  if (isLoadingCreate) {
+    <LoadingV2 />;
+  }
+  useEffect(() => {
+    if (isSuccessCreate) {
+      closeAllModal();
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'success',
+          message: 'Success: Added Product!',
+        },
+      });
+    }
+  }, [isSuccessCreate]);
   return (
     <section
       className='w-full laptop:w-1/2 flex flex-col gap-[20px]'

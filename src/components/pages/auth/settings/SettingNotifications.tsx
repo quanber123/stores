@@ -13,10 +13,10 @@ import {
 } from '@/services/redux/features/userFeatures';
 import { capitalize } from '@/services/utils/format';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 
 const SettingNotifications = () => {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
   const settings = useSelector(getSettings);

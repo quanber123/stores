@@ -4,10 +4,10 @@ import React, { useCallback, useContext, useRef, useState } from 'react';
 import { FaRegUser, FaCameraRetro } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
 import EditButtonUser from './EditButtonUser';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 
 const SettingsUser = () => {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   const user = useSelector(authInfo);
   const fileRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

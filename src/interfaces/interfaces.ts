@@ -28,8 +28,8 @@ export interface Product {
     endDate: string;
     tag: string;
   };
-  salePrice?: number;
-  finalPrice?: number;
+  salePrice: number;
+  finalPrice: number;
   type: string;
   details: {
     variants: [
@@ -56,6 +56,23 @@ export interface Product {
       vote: number;
     }
   ];
+}
+export interface Cart {
+  _id: string;
+  userId: string;
+  product: {
+    id: string;
+    name: string;
+    image: string;
+    color: string;
+    size: string;
+    price: number;
+    amountSalePrice: number;
+    salePrice: number;
+    finalPrice: number;
+    quantity: number;
+    totalPrice: number;
+  };
 }
 export interface Blog {
   _id: string;

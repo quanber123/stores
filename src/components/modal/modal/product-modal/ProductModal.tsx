@@ -5,6 +5,7 @@ import {
   useMemo,
   useRef,
   useContext,
+  useEffect,
 } from 'react';
 import {
   FaAngleRight,
@@ -16,16 +17,19 @@ import {
   FaFaceDizzy,
 } from 'react-icons/fa6';
 import { useSlider } from '@/hooks/useSlider';
-import { useDispatch } from 'react-redux';
-import { addToCart } from '@/services/redux/slice/cartSlice';
 import { Product } from '@/interfaces/interfaces';
 import Modal from '@/Modal';
 import { ModalContext } from '../../hooks/modalContext';
+import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
+import LoadingV2 from '@/components/common/Loading/LoadingV2';
 const ProductModal = () => {
+  const [
+    createCart,
+    { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
+  ] = useCreateCartMutation();
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
-  const dispatch = useDispatch();
   const modalRef = useRef<HTMLElement | null>(null);
-  const { _id, name, price, images, details } =
+  const { _id, name, price, salePrice, finalPrice, images, details } =
     state.visibleProductModal as Product;
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
@@ -139,28 +143,6 @@ const ProductModal = () => {
       }
     });
   }, [count]);
-  const handleAddToCart = useCallback(() => {
-    dispatch(
-      addToCart({
-        _id: _id,
-        name: name,
-        image: images[0],
-        size: selectedSize,
-        color: selectedColor,
-        quantity: count,
-        price: price,
-        totalPrice: count * price,
-      })
-    );
-    closeAllModal();
-
-    setVisibleModal({
-      visibleAlertModal: {
-        status: 'success',
-        message: 'Success: Added Product!',
-      },
-    });
-  }, [selectedColor, selectedSize, count, state.visibleProductModal]);
   const clickOutsideModal = useCallback((e: React.MouseEvent) => {
     const dialogDemission = modalRef.current?.getBoundingClientRect();
     if (
@@ -172,6 +154,37 @@ const ProductModal = () => {
       closeAllModal();
     }
   }, []);
+  const handleAddToCart = useCallback(() => {
+    const cart = {
+      id: _id,
+      name: name,
+      image: images[0],
+      size: selectedSize,
+      color: selectedColor,
+      price: price,
+      amountSalePrice: salePrice > 0 ? price - salePrice : 0,
+      salePrice: salePrice,
+      finalPrice: finalPrice,
+      quantity: count,
+      totalPrice: finalPrice * count,
+    };
+    console.log(cart);
+    createCart(cart);
+  }, [selectedColor, selectedSize, count]);
+  if (isLoadingCreate) {
+    <LoadingV2 />;
+  }
+  useEffect(() => {
+    if (isSuccessCreate) {
+      closeAllModal();
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'success',
+          message: 'Success: Added Product!',
+        },
+      });
+    }
+  }, [isSuccessCreate]);
   return (
     <Modal>
       <section

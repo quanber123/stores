@@ -6,7 +6,7 @@ import {
   getAllBlogs,
   getTotalPageBlog,
 } from '@/services/redux/slice/blogSlice';
-import Pagination from '@/components/ui/Pagination/Pagination';
+import Pagination from '@/components/ui/pagination/Pagination';
 function BlogList() {
   const blogs = useSelector(getAllBlogs);
   const total = useSelector(getTotalPageBlog);
