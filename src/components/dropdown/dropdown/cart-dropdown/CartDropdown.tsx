@@ -5,6 +5,8 @@ import { useContext } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
 import { getAllCarts } from '@/services/redux/slice/productSlice';
 import { capitalizeFirstLetter } from '@/services/utils/format';
+import cartImg from '@/assets/images/cart.png';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import './CartDropdown.css';
 function CartDropdown() {
   const { state, setVisibleDropdown } = useContext(DropdownContext);
@@ -64,19 +66,26 @@ function CartDropdown() {
           {cart.cart.length ? (
             renderedCart
           ) : (
-            <p className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-purple font-bold text-xl text-center'>
-              No Product In Your Cart
-            </p>
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px]'>
+              <LazyLoadImage
+                className='w-[100px] h-[100px] rounded-[2px]'
+                src={cartImg}
+                alt='cart-img'
+              />
+              <p className='font-bold'>No products yet.</p>
+            </div>
           )}
         </div>
-        <div className='pr-[16px] my-4 flex justify-end'>
-          <button
-            className='h-[42px] px-4 bg-purple hover:bg-black text-white rounded-[4px]'
-            onClick={redirectCart}
-          >
-            View your cart
-          </button>
-        </div>
+        {cart.cart.length > 0 && (
+          <div className='pr-[16px] my-4 flex justify-end'>
+            <button
+              className='h-[42px] px-4 bg-purple hover:bg-darkGray text-white rounded-[4px]'
+              onClick={redirectCart}
+            >
+              View your cart
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

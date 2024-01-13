@@ -1,3 +1,4 @@
+import { DropdownContext } from '@/components/dropdown/hooks/dropdownContext';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import scrollElement from '@/services/utils/scroll-elements';
 import { useCallback, useContext, useMemo } from 'react';
@@ -7,6 +8,7 @@ type PropsRoutes = {
 };
 function Router({ routeRefs }: PropsRoutes) {
   const { closeAllModal } = useContext(ModalContext);
+  const { closeDropdown } = useContext(DropdownContext);
   const routes = [
     {
       link: 'about',
@@ -19,11 +21,10 @@ function Router({ routeRefs }: PropsRoutes) {
     //   link: 'contact',
     // },
   ];
-  const closeModal = useCallback(() => {
-    () => {
-      closeAllModal();
-      scrollElement();
-    };
+  const redirect = useCallback(() => {
+    closeAllModal();
+    closeDropdown();
+    scrollElement();
   }, []);
   const route = useMemo(() => {
     return routes.map((r, index) => {
@@ -38,8 +39,8 @@ function Router({ routeRefs }: PropsRoutes) {
             className={({ isActive }) =>
               isActive ? 'text-purple w-max' : 'w-max'
             }
+            onClick={redirect}
             // state={{ prevUrl: location.pathname }}
-            onClick={closeModal}
             end
           >
             {r.link.split('?')[0]}
@@ -47,7 +48,7 @@ function Router({ routeRefs }: PropsRoutes) {
         </li>
       );
     });
-  }, [routeRefs]);
+  }, [routeRefs, routes]);
   return (
     <div>
       <ul className='p-[16px] h-max flex items-center gap-[20px] font-bold'>

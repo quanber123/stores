@@ -107,21 +107,23 @@ function VerifiedAccountViews() {
     errorVerified,
   ]);
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        formRef.current,
-        {
-          scale: 0,
-        },
-        {
-          scale: 1,
-          duration: 1,
-        }
-      );
-    });
-    return () => {
-      ctx.revert();
-    };
+    if (formRef.current) {
+      const ctx = gsap.context(() => {
+        gsap.fromTo(
+          formRef.current,
+          {
+            scale: 0,
+          },
+          {
+            scale: 1,
+            duration: 1,
+          }
+        );
+      });
+      return () => {
+        ctx.revert();
+      };
+    }
   }, []);
   if (!user.email) {
     return <Navigate to='/not-found' replace />;

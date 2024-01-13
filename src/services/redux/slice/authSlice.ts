@@ -23,6 +23,7 @@ const authSlice = createSlice({
     },
     setToken: (state, action) => {
       state.accessToken = action.payload;
+      window.localStorage.setItem('coza-store-token', action.payload);
     },
     setSettings: (state, action) => {
       state.settings._id = action.payload.settings._id;

@@ -36,18 +36,18 @@ function BlogFilter() {
     const type = 'tag';
     return tags.map((t, index) => {
       return (
-        <li key={t._id} ref={(el) => (tagRefs.current[index] = el)}>
-          <button
-            className={`border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl ${
-              queryString[type]?.replace(/\+/g, ' ') == t.name
-                ? 'border-purple text-purple'
-                : 'border-semiBoldGray text-semiBoldGray'
-            }`}
-            onClick={() => handleChangeQuery(type, t.name)}
-          >
-            {capitalize(t.name)}
-          </button>
-        </li>
+        <button
+          key={t._id}
+          ref={(el) => (tagRefs.current[index] = el)}
+          className={`border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl ${
+            queryString[type]?.replace(/\+/g, ' ') == t.name
+              ? 'border-purple text-purple'
+              : 'border-semiBoldGray text-semiBoldGray'
+          }`}
+          onClick={() => handleChangeQuery(type, t.name)}
+        >
+          {capitalize(t.name)}
+        </button>
       );
     });
   }, [tags, queryString]);
@@ -63,15 +63,6 @@ function BlogFilter() {
         delay: 0.5,
         ease: 'elastic',
       });
-      categoryRefs.current
-        .filter((ref) => ref)
-        .forEach((ref, index) => {
-          gsap.to(ref, {
-            opacity: 1,
-            duration: 0.5,
-            delay: 0.75 + index * 0.3,
-          });
-        });
       gsap.from(blogTitleTagRef.current, {
         x: 100,
         opacity: 0,
@@ -79,14 +70,35 @@ function BlogFilter() {
         delay: categories.length - 2,
         ease: 'elastic',
       });
+      categoryRefs.current
+        .filter((ref) => ref)
+        .forEach((ref, index) => {
+          gsap.fromTo(
+            ref,
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+              duration: 0.5,
+              delay: 0.75 + index * 0.3,
+            }
+          );
+        });
       tagRefs.current
         .filter((ref) => ref)
         .forEach((ref, index) => {
-          gsap.to(ref, {
-            opacity: 1,
-            duration: 0.5,
-            delay: categories.length - 2 + index * 0.3,
-          });
+          gsap.fromTo(
+            ref,
+            {
+              opacity: 0,
+            },
+            {
+              opacity: 1,
+              duration: 0.5,
+              delay: 0.75 + index * 0.3,
+            }
+          );
         });
     });
     return () => {

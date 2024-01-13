@@ -10,7 +10,7 @@ import {
 } from '@/services/utils/validate';
 import { useRegisterUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
-import { setAuth } from '@/services/redux/slice/authSlice';
+import { setAuth, setToken } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
 import { ModalContext } from '../../hooks/modalContext';
@@ -68,6 +68,7 @@ function RegisterModal() {
     ) {
       closeAllModal();
       dispatch(setAuth(dataRegister));
+      dispatch(setToken(dataRegister.accessToken));
       navigate('/verified', { replace: true });
     }
     if (errorRegister && 'data' in errorRegister) {
@@ -208,7 +209,7 @@ function RegisterModal() {
             <div className='absolute -bottom-[120%] flex gap-[5px]'>
               <FaLightbulb className='text-[20px]' />
               <span>:</span>
-              <p className='text-sm font-semiBold text-semiBoldGray'>
+              <p className='text-[12px] font-semiBold text-semiBoldGray'>
                 The password must be longer than 6 characters and contain at
                 least 1 uppercase letter.
               </p>

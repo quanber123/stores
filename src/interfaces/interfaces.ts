@@ -48,6 +48,12 @@ export interface Product {
     category: {
       name: string;
     };
+    tags: [
+      {
+        _id: string;
+        name: string;
+      }
+    ];
   };
   reviews?: [
     {

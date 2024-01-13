@@ -11,8 +11,6 @@ import {
   FaAngleRight,
   FaAngleLeft,
   FaCartPlus,
-  FaHeart,
-  FaFacebookF,
   FaXmark,
   FaFaceDizzy,
 } from 'react-icons/fa6';
@@ -158,21 +156,29 @@ const ProductModal = () => {
     }
   }, []);
   const handleAddToCart = useCallback(() => {
-    const cart = {
-      id: _id,
-      name: name,
-      image: images[0],
-      size: selectedSize,
-      color: selectedColor,
-      price: price,
-      amountSalePrice: salePrice > 0 ? price - salePrice : 0,
-      salePrice: salePrice,
-      finalPrice: finalPrice,
-      quantity: count,
-      totalPrice: finalPrice * count,
-    };
-    console.log(cart);
-    createCart({ token, cart });
+    if (token) {
+      const cart = {
+        id: _id,
+        name: name,
+        image: images[0],
+        size: selectedSize,
+        color: selectedColor,
+        price: price,
+        amountSalePrice: salePrice > 0 ? price - salePrice : 0,
+        salePrice: salePrice,
+        finalPrice: finalPrice,
+        quantity: count,
+        totalPrice: finalPrice * count,
+      };
+      createCart({ token, cart });
+    } else {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: 'Failed: You need to be logged in!',
+        },
+      });
+    }
   }, [selectedColor, selectedSize, count]);
   if (isLoadingCreate) {
     <LoadingV2 />;
@@ -347,7 +353,11 @@ const ProductModal = () => {
                         ? 'bg-purple hover:bg-black'
                         : ' bg-semiBoldGray'
                     }`}
-                    disabled={selectedSize && isStock?.inStock ? false : true}
+                    disabled={
+                      !selectedSize || !isStock?.inStock || isLoadingCreate
+                        ? true
+                        : false
+                    }
                     onClick={handleAddToCart}
                   >
                     {selectedSize && selectedColor && isStock?.inStock ? (
@@ -361,17 +371,6 @@ const ProductModal = () => {
                         <FaFaceDizzy />
                       </>
                     )}
-                  </button>
-                </div>
-                <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>
-                  <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
-                    <span>Add to Wishlist</span>
-                    <FaHeart />
-                  </button>
-                  <span>|</span>
-                  <button className='btn-facebook hover:text-purple flex justify-center items-center'>
-                    <span>Share to Facebook</span>
-                    <FaFacebookF />
                   </button>
                 </div>
               </div>

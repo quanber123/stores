@@ -15,7 +15,7 @@ const initialState: InitialState = {
   visibleUserDropdown: false,
 };
 const reducer = (state: InitialState, action: any) => {
-  const currentDropdown = action.payload.dropdown;
+  const currentDropdown = action.payload?.dropdown;
   const resetDropdown: InitialState = {
     visibleCartDropdown: false,
     visibleFavoriteDropdown: false,
@@ -29,9 +29,9 @@ const reducer = (state: InitialState, action: any) => {
         ...resetDropdown,
         [currentDropdown]: !state[currentDropdown as keyof InitialState],
       };
-    case CLOSE_DROPDOWN: {
+    case CLOSE_DROPDOWN:
       return { ...resetDropdown };
-    }
+
     default:
       return state;
   }

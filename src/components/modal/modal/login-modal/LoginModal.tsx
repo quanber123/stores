@@ -7,7 +7,7 @@ import {
   SuccessValidate,
   validateEmail,
 } from '@/services/utils/validate';
-import { setAuth } from '@/services/redux/slice/authSlice';
+import { setAuth, setToken } from '@/services/redux/slice/authSlice';
 import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
@@ -66,6 +66,8 @@ function LoginModal() {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
       closeAllModal();
       dispatch(setAuth(dataLogin));
+      dispatch(setToken(dataLogin.accessToken));
+      console.log(dataLogin);
       dataLogin.user.isVerified
         ? navigate('/', { replace: true })
         : navigate('/verified', { replace: true });

@@ -19,6 +19,9 @@ const useQueryString = () => {
         } else {
           newQuery.set(name, value);
         }
+        if (name === 'category') {
+          newQuery.set('page', '1');
+        }
         if (name === 'search' && value === '') {
           newQuery.delete('search');
         }

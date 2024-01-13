@@ -14,11 +14,15 @@ import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useSelector } from 'react-redux';
 import { accessToken } from '@/services/redux/slice/authSlice';
+import { FacebookShareButton } from 'react-share';
+import { useLocation } from 'react-router-dom';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
 const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
+  const location = useLocation();
+  const client_url = import.meta.env.VITE_CLIENT_URL;
   const token = useSelector(accessToken);
   const [
     createCart,
@@ -29,7 +33,16 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   const [count, setCount] = useState<number>(1);
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [selectedColor, setSelectedColor] = useState<string>('');
-
+  const renderedTags = useMemo(() => {
+    if (!details?.tags?.length) {
+      return '';
+    }
+    const hashtags = details?.tags?.map((t) => {
+      return `#${t.name}`;
+    });
+    return hashtags.join(' ');
+  }, [details]);
+  console.log(renderedTags);
   //cache total quantity of product
   const totalQuantity = useMemo(
     () =>
@@ -105,20 +118,29 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
     });
   }, [count]);
   const handleAddToCart = useCallback(() => {
-    const cart = {
-      id: _id,
-      name: name,
-      image: images[0],
-      size: selectedSize,
-      color: selectedColor,
-      price: price,
-      amountSalePrice: price - salePrice,
-      salePrice: salePrice,
-      finalPrice: finalPrice,
-      quantity: count,
-      totalPrice: finalPrice * count,
-    };
-    createCart({ token, cart });
+    if (token) {
+      const cart = {
+        id: _id,
+        name: name,
+        image: images[0],
+        size: selectedSize,
+        color: selectedColor,
+        price: price,
+        amountSalePrice: salePrice > 0 ? price - salePrice : 0,
+        salePrice: salePrice,
+        finalPrice: finalPrice,
+        quantity: count,
+        totalPrice: finalPrice * count,
+      };
+      createCart({ token, cart });
+    } else {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: 'Failed: You need to be logged in!',
+        },
+      });
+    }
   }, [selectedColor, selectedSize, count]);
   if (isLoadingCreate) {
     <LoadingV2 />;
@@ -233,7 +255,11 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
                 ? 'bg-purple hover:bg-black'
                 : ' bg-semiBoldGray'
             }`}
-            disabled={selectedSize ? false : true}
+            disabled={
+              !selectedSize || !isStock?.inStock || isLoadingCreate
+                ? true
+                : false
+            }
             onClick={handleAddToCart}
           >
             {selectedSize && selectedColor && isStock?.inStock ? (
@@ -255,10 +281,15 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
             <FaHeart />
           </button>
           <span>|</span>
-          <button className='btn-facebook hover:text-purple flex justify-center items-center'>
-            <span>Share to Facebook</span>
-            <FaFacebookF />
-          </button>
+          <FacebookShareButton
+            url={`${client_url}${location.pathname}`}
+            hashtag={renderedTags}
+          >
+            <button className='btn-facebook hover:text-purple flex justify-center items-center'>
+              <span>Share to Facebook</span>
+              <FaFacebookF />
+            </button>
+          </FacebookShareButton>
         </div>
       </div>
     </section>

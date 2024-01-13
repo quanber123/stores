@@ -73,7 +73,10 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
                 : `${blog.totalComments} Comment`}
             </p>
           </div>
-          <button className='my-4 laptop:my-0 text-sm tablet:text-base text-semiBoldGray hover:text-purple font-bold flex items-center gap-[10px] uppercase'>
+          <button
+            className='my-4 laptop:my-0 text-sm tablet:text-base text-semiBoldGray hover:text-purple font-bold flex items-center gap-[10px] uppercase'
+            onClick={() => handleLinkClick(blog._id)}
+          >
             <span>continue reading</span>
             <FaArrowRightLong />
           </button>
