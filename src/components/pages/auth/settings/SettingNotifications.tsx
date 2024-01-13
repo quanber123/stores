@@ -3,6 +3,7 @@ import { FaRegEnvelope } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
 import {
+  accessToken,
   authInfo,
   getSettings,
   setSettings,
@@ -19,12 +20,16 @@ const SettingNotifications = () => {
   const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
+  const token = useSelector(accessToken);
   const settings = useSelector(getSettings);
   const {
     data: settingsData,
     isSuccess: isSuccessData,
     isLoading: isLoadingSettings,
-  } = useGetSettingsQuery(user._id, { skip: !user._id ? true : false });
+  } = useGetSettingsQuery(
+    { token: token, id: user._id },
+    { skip: !user._id ? true : false }
+  );
   const [
     toggleNotify,
     {
@@ -59,7 +64,7 @@ const SettingNotifications = () => {
     }
   }, [dataToggle, isSuccessToggle, isLoadingToggle, errorToggle]);
   const renderedSettings = useMemo(() => {
-    return settings.notifications.map((s) => {
+    return settings.notifications?.map((s) => {
       return (
         <div
           className='flex flex-col tablet:flex-row justify-between items-center gap-[10px]'
@@ -72,6 +77,7 @@ const SettingNotifications = () => {
             isActive={s.enabled}
             toggleNotify={() =>
               toggleNotify({
+                token: token,
                 id: user._id,
                 enabled: s.enabled,
                 idNotify: s._id,

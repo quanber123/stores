@@ -18,13 +18,11 @@ export const userApi = createApi({
         providesTags: (result) => providesList(result, 'Users'),
       }),
       verifiedEmail: builder.mutation({
-        query: ({ code, email }) => ({
+        query: ({ token, code, email }) => ({
           url: 'auth/verify-email',
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${window.localStorage.getItem(
-              'coza-store-token'
-            )}`,
+            Authorization: `Bearer ${token}`,
           },
           body: {
             code: code,
@@ -56,13 +54,11 @@ export const userApi = createApi({
         }),
       }),
       updateProfile: builder.mutation({
-        query: ({ id, name, value }) => ({
+        query: ({ token, id, name, value }) => ({
           url: `users/profile`,
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${window.localStorage.getItem(
-              'coza-store-token'
-            )}`,
+            Authorization: `Bearer ${token}`,
           },
           body: {
             id: id,
@@ -73,38 +69,32 @@ export const userApi = createApi({
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),
       updateAvatar: builder.mutation({
-        query: (value) => ({
+        query: ({ token, value }) => ({
           url: `users/avatar`,
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${window.localStorage.getItem(
-              'coza-store-token'
-            )}`,
+            Authorization: `Bearer ${token}`,
           },
           body: value,
         }),
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),
       getSettings: builder.query({
-        query: (id) => ({
+        query: ({ token, id }) => ({
           url: `settings/${id}`,
           method: 'GET',
           headers: {
-            Authorization: `Bearer ${window.localStorage.getItem(
-              'coza-store-token'
-            )}`,
+            Authorization: `Bearer ${token}`,
           },
         }),
         providesTags: (result) => providesList(result, 'Settings'),
       }),
       updatedSettings: builder.mutation({
-        query: ({ id, enabled, idNotify }) => ({
+        query: ({ token, id, enabled, idNotify }) => ({
           url: 'settings',
           method: 'PUT',
           headers: {
-            Authorization: `Bearer ${window.localStorage.getItem(
-              'coza-store-token'
-            )}`,
+            Authorization: `Bearer ${token}`,
           },
           body: {
             id: id,

@@ -1,16 +1,19 @@
 import { authInfo } from '@/services/redux/slice/authSlice';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { Navigate, Outlet } from 'react-router-dom';
+import { Outlet, useNavigate } from 'react-router-dom';
 import Loading from '../components/common/Loading/Loading';
 function Auth() {
   const user = useSelector(authInfo);
-  if (!user.email) {
-    return <Navigate to='/not-found' replace />;
-  }
-  if (!user.isVerified) {
-    return <Navigate to='/verified' replace />;
-  }
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user.email) {
+      navigate('/not-found', { replace: true });
+    }
+    if (!user.isVerified) {
+      navigate('/verified', { replace: true });
+    }
+  }, []);
   return (
     <Suspense fallback={<Loading />}>
       <Outlet />

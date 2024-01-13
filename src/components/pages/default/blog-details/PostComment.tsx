@@ -6,14 +6,14 @@ import { authInfo } from '@/services/redux/slice/authSlice';
 import { FaPaperPlane } from 'react-icons/fa6';
 import scrollElement from '@/services/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 
 type Props = {
   id: string;
 };
 
 const PostComment: React.FC<Props> = ({ id }) => {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const user = useSelector(authInfo);
   const [comment, setComment] = useState('');

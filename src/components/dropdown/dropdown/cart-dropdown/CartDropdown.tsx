@@ -1,24 +1,15 @@
 import { FaCartShopping } from 'react-icons/fa6';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
-import './CartDropdown.css';
-import { useGetAllCartsQuery } from '@/services/redux/features/productFeatures';
-import { getAllCarts, setAllCarts } from '@/services/redux/slice/productSlice';
+import { getAllCarts } from '@/services/redux/slice/productSlice';
 import { capitalizeFirstLetter } from '@/services/utils/format';
+import './CartDropdown.css';
 function CartDropdown() {
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const cart = useSelector(getAllCarts);
-  const { data: cartsData, isSuccess: isSuccessCart } =
-    useGetAllCartsQuery(null);
-  useEffect(() => {
-    if (isSuccessCart) {
-      dispatch(setAllCarts(cartsData));
-    }
-  });
   const handleCheckCart = () => {
     if (window.innerWidth > 640) {
       setVisibleDropdown('visibleCartDropdown');

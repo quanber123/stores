@@ -4,6 +4,7 @@ import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import './Header.css';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import ConfirmModal from '@/components/modal/modal/confirm-modal/ConfirmModal';
 const ProductModal = lazy(
   () => import('@/components/modal/modal/product-modal/ProductModal')
 );
@@ -38,10 +39,13 @@ function Header() {
     <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
       <Suspense fallback={<LoadingV2 />}>
-        {state.visibleAlertModal?.status ? <AlertModal /> : null}
+        {state.visibleAlertModal?.status && <AlertModal />}
       </Suspense>
       <Suspense fallback={<LoadingV2 />}>
-        {state.visibleProductModal?._id ? <ProductModal /> : null}
+        {state.visibleProductModal?._id && <ProductModal />}
+      </Suspense>
+      <Suspense fallback={<LoadingV2 />}>
+        {state.visibleConfirmModal?.message && <ConfirmModal />}
       </Suspense>
     </header>
   );

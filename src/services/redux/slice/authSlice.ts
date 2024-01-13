@@ -1,10 +1,12 @@
 import { Settings, User } from '@/interfaces/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
+  accessToken: string;
   user: User;
   settings: Settings;
 };
 const initialState: InitialState = {
+  accessToken: window.localStorage.getItem('coza-store-token') || '',
   user: {} as User,
   settings: {} as Settings,
 };
@@ -13,17 +15,14 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setAuth: (state, action) => {
-      action.payload.accessToken
-        ? window.localStorage.setItem(
-            'coza-store-token',
-            action.payload.accessToken
-          )
-        : '';
       state.user._id = action.payload.user._id;
       state.user.email = action.payload.user.email;
       state.user.name = action.payload.user.name;
       state.user.image = action.payload.user.image;
       state.user.isVerified = action.payload.user.isVerified;
+    },
+    setToken: (state, action) => {
+      state.accessToken = action.payload;
     },
     setSettings: (state, action) => {
       state.settings._id = action.payload.settings._id;
@@ -39,8 +38,10 @@ const authSlice = createSlice({
     },
   },
 });
+export const accessToken = (state: { auth: InitialState }) =>
+  state.auth.accessToken;
 export const authInfo = (state: { auth: InitialState }) => state.auth.user;
 export const getSettings = (state: { auth: InitialState }) =>
   state.auth.settings;
-export const { setAuth, setSettings, removeAuth } = authSlice.actions;
+export const { setAuth, setToken, setSettings, removeAuth } = authSlice.actions;
 export default authSlice.reducer;

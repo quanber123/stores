@@ -1,16 +1,19 @@
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 import {
   useUpdateAvatarMutation,
   useUpdateProfileMutation,
 } from '@/services/redux/features/userFeatures';
+import { accessToken } from '@/services/redux/slice/authSlice';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 type Props = {
   id: string | null;
   name: string | null;
   value?: string | File | null;
 };
 const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const token = useSelector(accessToken);
+  const { setVisibleModal } = useContext(ModalContext);
   const [editBtn, setEditBtn] = useState(false);
   const [
     updateProfile,
@@ -36,10 +39,10 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
       const imageData = new FormData();
       imageData.append('id', id);
       imageData.append('image', value);
-      updatedAvatar(imageData);
+      updatedAvatar({ token, imageData });
     }
     if (name !== 'image') {
-      updateProfile({ id, name, value });
+      updateProfile({ token, id, name, value });
     }
   }, [id, name, value]);
   useEffect(() => {

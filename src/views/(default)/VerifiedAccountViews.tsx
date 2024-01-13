@@ -2,7 +2,11 @@ import {
   useResendEmailMutation,
   useVerifiedEmailMutation,
 } from '@/services/redux/features/userFeatures';
-import { authInfo, setAuth } from '@/services/redux/slice/authSlice';
+import {
+  accessToken,
+  authInfo,
+  setAuth,
+} from '@/services/redux/slice/authSlice';
 import {
   useCallback,
   useContext,
@@ -14,14 +18,15 @@ import {
 import gsap from 'gsap';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { GlobalModalContext } from '@/components/modal/global/hooks/globalContext';
 import SetHeader from '@/services/utils/set-header';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
 function VerifiedAccountViews() {
   const location = useLocation();
-  const { setVisibleModal } = useContext(GlobalModalContext);
+  const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
+  const token = useSelector(accessToken);
   const [code, setCode] = useState('');
   const formRef = useRef(null);
   const [
@@ -49,7 +54,7 @@ function VerifiedAccountViews() {
     [code]
   );
   const handleVerified = () => {
-    verifiedEmail({ email: user.email, code: code });
+    verifiedEmail({ token: token, email: user.email, code: code });
   };
   const handleResendEmail = () => {
     resendEmail(user.email);

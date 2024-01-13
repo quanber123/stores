@@ -31,12 +31,12 @@ function CartViews() {
   return (
     <>
       <SetHeader title={location.pathname} isBlockIndex={true} />
-      <main ref={layoutRef} className='gap-[80px]'>
+      <main ref={layoutRef} className='gap-[20px]'>
         <Breadcrumbs breadcrumbs={location.pathname} />
         <section className='container flex justify-between gap-[40px]'>
           <CartList />
-          <CartTotals />
         </section>
+        {/* <CartTotals /> */}
       </main>
     </>
   );

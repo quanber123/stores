@@ -22,7 +22,10 @@ import Modal from '@/Modal';
 import { ModalContext } from '../../hooks/modalContext';
 import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
+import { useSelector } from 'react-redux';
+import { accessToken } from '@/services/redux/slice/authSlice';
 const ProductModal = () => {
+  const token = useSelector(accessToken);
   const [
     createCart,
     { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
@@ -169,7 +172,7 @@ const ProductModal = () => {
       totalPrice: finalPrice * count,
     };
     console.log(cart);
-    createCart(cart);
+    createCart({ token, cart });
   }, [selectedColor, selectedSize, count]);
   if (isLoadingCreate) {
     <LoadingV2 />;

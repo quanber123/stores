@@ -29,7 +29,7 @@
   --dark-blue: #0866ff;
   --white: #fff;
   --overlay-gray: rgba(225, 224, 224, 0.5);
-  --overlay-black: rgba(0, 0, 0, 0.6);
+  --overlay-black: rgba(0, 0, 0, 0.2);
   --overlay-purple: rgba(113, 127, 224, 0.8);
 }
 html {
