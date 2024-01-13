@@ -16,12 +16,15 @@ import {
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useDebounce } from '@/hooks/useDebounce';
 import { accessToken } from '@/services/redux/slice/authSlice';
+import { Cart } from '@/interfaces/interfaces';
 function CartList() {
   const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const token = useSelector(accessToken);
   const cart = useSelector(getAllCarts);
   const [quantity, setQuantity] = useState<number[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<string[]>([]);
+  const [isSelectedAll, setIsSelectedAll] = useState(false);
   useEffect(() => {
     setQuantity(cart.cart.map((c) => c.product.quantity));
   }, [cart.cart]);
@@ -84,6 +87,33 @@ function CartList() {
     },
     [deleteCartById]
   );
+  const handleSelectedProduct = useCallback(
+    (id: string) => {
+      setSelectedProduct((prevSelectedProducts) => {
+        const isSelected = prevSelectedProducts.includes(id);
+        let newSelectedProducts;
+
+        if (isSelected) {
+          newSelectedProducts = prevSelectedProducts.filter(
+            (productId) => productId !== id
+          );
+        } else {
+          newSelectedProducts = [...prevSelectedProducts, id];
+        }
+        setIsSelectedAll(newSelectedProducts.length === cart.cart.length);
+        return newSelectedProducts;
+      });
+    },
+    [cart]
+  );
+  const handleSelectAll = useCallback(() => {
+    if (isSelectedAll) {
+      setSelectedProduct([]);
+    } else {
+      setSelectedProduct(cart.cart.map((c) => c._id));
+    }
+    setIsSelectedAll((prevState) => !prevState);
+  }, [isSelectedAll, selectedProduct]);
   const renderedCart = useMemo(() => {
     return cart.cart.map((c, index) => {
       return (
@@ -95,6 +125,9 @@ function CartList() {
             <input
               className='w-[18px] h-[18px] cursor-pointer'
               type='checkbox'
+              value={c._id}
+              checked={selectedProduct.includes(c._id)}
+              onChange={() => handleSelectedProduct(c._id)}
               aria-label={`checkbox-${c.product.name}`}
             />
           </div>
@@ -158,7 +191,7 @@ function CartList() {
         </div>
       );
     });
-  }, [cart, quantity]);
+  }, [cart, quantity, selectedProduct]);
   return (
     <div className='w-full py-8 border border-lightGray flex flex-col gap-[30px]'>
       <div className='p-2 flex justify-between gap-[20px] text-sm font-bold'>
@@ -166,6 +199,8 @@ function CartList() {
           <input
             className='w-[18px] h-[18px] cursor-pointer'
             type='checkbox'
+            checked={isSelectedAll}
+            onChange={handleSelectAll}
             aria-label={`select-all`}
           />
         </div>

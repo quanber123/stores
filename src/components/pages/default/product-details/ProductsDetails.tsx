@@ -12,11 +12,14 @@ import { Product } from '@/interfaces/interfaces';
 import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useSelector } from 'react-redux';
+import { accessToken } from '@/services/redux/slice/authSlice';
 type Props = {
   product: Product;
   refEl: LegacyRef<HTMLElement>;
 };
 const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
+  const token = useSelector(accessToken);
   const [
     createCart,
     { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
@@ -115,7 +118,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
       quantity: count,
       totalPrice: finalPrice * count,
     };
-    createCart(cart);
+    createCart({ token, cart });
   }, [selectedColor, selectedSize, count]);
   if (isLoadingCreate) {
     <LoadingV2 />;
