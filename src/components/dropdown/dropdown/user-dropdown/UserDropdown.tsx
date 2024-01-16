@@ -1,6 +1,6 @@
 import { removeAuth } from '@/services/redux/slice/authSlice';
 import { useDispatch } from 'react-redux';
-import { FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
+import { FaClipboard, FaGear, FaArrowRightFromBracket } from 'react-icons/fa6';
 import { Link } from 'react-router-dom';
 import { useContext } from 'react';
 import { User } from '@/interfaces/interfaces';
@@ -41,13 +41,10 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
           </div>
         </div>
         <div className='mx-[26px] my-[16px] flex flex-col gap-[20px] text-darkGray font-bold'>
-          {/* <Link
-            to={''}
-            className='w-full py-[12px] border-t border-b border-lightGray flex items-center gap-[15px]'
-          >
-            <FaRegCircleUser className='text-md' />
-            <span>Profile</span>
-          </Link> */}
+          <Link to={''} className='flex items-center gap-[15px]'>
+            <FaClipboard className='text-md' />
+            <span>My Purchase</span>
+          </Link>
           <Link to='/settings' className='flex items-center gap-[15px]'>
             <FaGear className='text-md' />
             <span>Settings</span>

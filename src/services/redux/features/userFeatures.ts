@@ -69,13 +69,13 @@ export const userApi = createApi({
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),
       updateAvatar: builder.mutation({
-        query: ({ token, value }) => ({
-          url: `users/avatar`,
+        query: ({ token, id, file }) => ({
+          url: `users/${id}/avatar`,
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
           },
-          body: value,
+          body: file,
         }),
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),

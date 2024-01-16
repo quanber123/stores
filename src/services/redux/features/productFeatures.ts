@@ -81,6 +81,41 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Carts'],
       }),
+      createTransferPayment: builder.mutation({
+        query: ({ token, totalPrice, products }) => ({
+          url: 'create-payment-link',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            totalPrice: totalPrice,
+            products: products,
+          },
+        }),
+        invalidatesTags: ['Carts'],
+      }),
+      getOrderById: builder.query({
+        query: ({ token, id }) => ({
+          url: `orders/${id}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+      }),
+      updateOrder: builder.mutation({
+        query: ({ token, id, status }) => ({
+          url: `orders/${id}`,
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            status: status,
+          },
+        }),
+      }),
     };
   },
 });
@@ -94,4 +129,7 @@ export const {
   useUpdateCartMutation,
   useDeleteCartByIdMutation,
   useDeleteManyCartsMutation,
+  useCreateTransferPaymentMutation,
+  useGetOrderByIdQuery,
+  useUpdateOrderMutation,
 } = productApi;

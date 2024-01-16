@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo } from 'react';
-import { FaRegEnvelope } from 'react-icons/fa6';
+import { FaRegBell } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -94,7 +94,7 @@ const SettingNotifications = () => {
   return (
     <section className='container flex flex-col gap-[40px]'>
       <div className='text-[20px] font-bold pb-4 border-b-2 border-lightGray flex items-center gap-[20px]'>
-        <FaRegEnvelope />
+        <FaRegBell />
         <h2>Notifications</h2>
       </div>
       <div className='flex flex-col gap-[20px]'>{renderedSettings}</div>

@@ -367,7 +367,7 @@ const ProductModal = () => {
                       </>
                     ) : (
                       <>
-                        <span>Disabled</span>
+                        <span>Add to Cart</span>
                         <FaFaceDizzy />
                       </>
                     )}

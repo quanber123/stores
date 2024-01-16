@@ -22,12 +22,14 @@ export const formatTime = (date: string | null) => {
   return result;
 };
 export const capitalize = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  const newStr = str ? str.charAt(0).toUpperCase() + str.slice(1) : '';
+  return newStr.length > 25 ? `${newStr} ...` : newStr;
 };
 
 export const capitalizeFirstLetter = (str: string) => {
   return str?.replace(/\b\w/g, function (f) {
-    return f.toUpperCase();
+    const newStr = f.toUpperCase();
+    return newStr.length > 25 ? `${newStr} ...` : newStr;
   });
 };
 

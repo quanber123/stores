@@ -37,7 +37,9 @@ function BannerHome() {
         >
           <img
             ref={indexImage === index ? imgRef : null}
-            className={`img-slider ${indexImage === index ? 'active' : ''}`}
+            className={`absolute w-[100vw] aspect-[4/3] ${
+              indexImage === index ? 'opacity-100' : 'opacity-0 '
+            }`}
             src={i.image}
             alt={i.content}
             key={index}
@@ -49,7 +51,7 @@ function BannerHome() {
           />
           <div
             style={{ display: indexImage === index ? 'flex' : 'none' }}
-            className='img-slider-content container flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
+            className='container absolute z-20 flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
           >
             <h3
               ref={indexImage === index ? contentRef : null}

@@ -60,18 +60,6 @@ main {
   /* gap: 80px; */
   overflow: hidden;
 }
-/* dialog */
-/* dialog {
-  animation: fade-out 0.3s ease-in-out;
-}
-
-dialog[open] {
-  animation: fade-in 0.3s ease-in-out;
-}
-
-dialog[open]::backdrop {
-  animation: backdrop-fade-in 0.3s ease-in-out forwards;
-} */
 
 @keyframes fade-in {
   0% {
@@ -162,12 +150,6 @@ input {
 input:focus {
   outline: none;
 }
-/* .wrap-input > input {
-  background-color: transparent;
-  padding: 4px 0;
-}
-.wrap-input > input:focus {
-} */
 
 img {
   object-fit: cover;
@@ -180,14 +162,13 @@ img {
   display: -webkit-box;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  text-overflow: ellipsis; /* Hiển thị dấu ba chấm (...) khi dòng bị cắt */
-  /* Các thuộc tính khác như kích thước, màu sắc, vv. */
+  text-overflow: ellipsis;
 }
 .line-camp-text {
-  -webkit-line-clamp: 2; /* Số dòng tối đa */
+  -webkit-line-clamp: 2;
 }
 .line-camp-paragraph {
-  -webkit-line-clamp: 2; /* Số dòng tối đa */
+  -webkit-line-clamp: 2;
 }
 header {
   position: fixed;
@@ -230,25 +211,6 @@ button {
 }
 .focus-input.active::before {
   width: 100%;
-}
-/* Style BannerHome*/
-.img-slider {
-  position: absolute;
-  width: 100vw;
-  height: 0;
-  opacity: 0;
-  aspect-ratio: 4/3;
-  z-index: -100;
-}
-.img-slider.active {
-  /* height: 100vh; */
-  opacity: 1;
-}
-.img-slider-content {
-  position: absolute;
-  flex-shrink: 0;
-  flex-grow: 0;
-  z-index: 20;
 }
 
 /* Style CategoryHome*/
@@ -503,13 +465,11 @@ button {
 .sub-routes {
   position: relative;
   cursor: pointer;
-  color: #666666;
+  color: var(--medium-gray);
   border: none;
-  /* transition: all 0.3s linear;
-  -webkit-transition: all 0.3s linear; */
 }
 .sub-routes:hover {
-  color: #333333;
+  color: var(--bold-gray);
 }
 .sub-routes::after {
   position: absolute;
@@ -519,7 +479,7 @@ button {
   transform: translateX(-50%);
   width: 0;
   height: 1px;
-  background-color: #333333;
+  background-color: var(--bold-gray);
   opacity: 0;
   transition: all 0.3s linear;
   -webkit-transition: all 0.3s linear;
@@ -546,7 +506,7 @@ button {
 }
 .btn-filter:hover,
 .btn-search:hover {
-  background-color: #717fe0 !important;
+  background-color: var(--purple) !important;
   color: var(--white);
 }
 .btn-filter.active,
@@ -564,7 +524,7 @@ button {
   height: 0;
   border-left: 12px solid transparent;
   border-right: 12px solid transparent;
-  border-top: 12px solid #e1e0e0;
+  border-top: 12px solid var(--light-gray);
   transition: all 0.3s linear;
   z-index: 1;
 }

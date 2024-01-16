@@ -2,6 +2,7 @@ import LoadingComponents from '@/components/common/Loading/LoadingComponents';
 import LazyComponent from '@/hooks/useLazyComponent';
 import SetHeader from '@/services/utils/set-header';
 import { Suspense, lazy } from 'react';
+import { useLocation } from 'react-router-dom';
 const BannerHome = lazy(
   () => import('@/components/pages/default/home/BannerHome')
 );
@@ -13,10 +14,11 @@ const StoreHome = lazy(
 );
 const BlogHome = lazy(() => import('@/components/pages/default/home/BlogHome'));
 function HomeViews() {
+  const location = useLocation();
   return (
     <>
       <SetHeader
-        title=''
+        title={location.pathname}
         description='Welcome to cozastore fashion store where we provide you with the most beautiful, luxurious and fashionable products of all time.'
         isBlockIndex={false}
       />

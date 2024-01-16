@@ -29,6 +29,7 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
       data: messageAvatar,
       isSuccess: isSuccessAvatar,
       isLoading: isLoadingAvatar,
+      isError: isErrorAvatar,
     },
   ] = useUpdateAvatarMutation();
   const handleEdit = useCallback(() => {
@@ -39,7 +40,7 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
       const imageData = new FormData();
       imageData.append('id', id);
       imageData.append('image', value);
-      updatedAvatar({ token, imageData });
+      updatedAvatar({ token, id: id, file: imageData });
     }
     if (name !== 'image') {
       updateProfile({ token, id, name, value });
@@ -65,7 +66,21 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
         },
       });
     }
-  }, [updatedAvatar, messageAvatar, isSuccessAvatar, isLoadingAvatar]);
+    if (isErrorAvatar) {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: `Failed: Failed to upload img!`,
+        },
+      });
+    }
+  }, [
+    updatedAvatar,
+    messageAvatar,
+    isSuccessAvatar,
+    isLoadingAvatar,
+    isErrorAvatar,
+  ]);
   return (
     <div className='w-[260px] mx-auto tablet:mx-0 flex items-center gap-[20px]'>
       <button

@@ -19,13 +19,15 @@ import { useDebounce } from '@/hooks/useDebounce';
 import { accessToken } from '@/services/redux/slice/authSlice';
 import cartImg from '@/assets/images/cart.png';
 import LazyLoadImage from '@/services/utils/lazyload-image';
+import scrollElement from '@/services/utils/scroll-elements';
+import { Cart } from '@/interfaces/interfaces';
 function CartList() {
   const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const token = useSelector(accessToken);
   const cart = useSelector(getAllCarts);
   const [quantity, setQuantity] = useState<number[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<string[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Cart[]>([]);
   const [isSelectedAll, setIsSelectedAll] = useState(false);
   useEffect(() => {
     setQuantity(cart.cart.map((c) => c.product.quantity));
@@ -102,17 +104,17 @@ function CartList() {
     });
   }, [deleteManyCart, selectedProduct]);
   const handleSelectedProduct = useCallback(
-    (id: string) => {
+    (product: Cart) => {
       setSelectedProduct((prevSelectedProducts) => {
-        const isSelected = prevSelectedProducts.includes(id);
+        const isSelected = prevSelectedProducts.includes(product);
         let newSelectedProducts;
 
         if (isSelected) {
           newSelectedProducts = prevSelectedProducts.filter(
-            (productId) => productId !== id
+            (product) => product.product.id !== product.product.id
           );
         } else {
-          newSelectedProducts = [...prevSelectedProducts, id];
+          newSelectedProducts = [...prevSelectedProducts, product];
         }
         setIsSelectedAll(newSelectedProducts.length === cart.cart.length);
         return newSelectedProducts;
@@ -124,19 +126,32 @@ function CartList() {
     if (isSelectedAll) {
       setSelectedProduct([]);
     } else {
-      setSelectedProduct(cart.cart.map((c) => c._id));
+      setSelectedProduct(cart.cart.map((c) => c));
     }
     setIsSelectedAll((prevState) => !prevState);
   }, [isSelectedAll, selectedProduct]);
   const totalQuantity = useMemo(() => {
     return cart.cart
-      .filter((c) => selectedProduct.includes(c._id))
+      .filter((c) => selectedProduct.includes(c))
       .reduce(
         (accumulator, currentValue) =>
           accumulator + currentValue.product.totalPrice,
         0
       );
   }, [selectedProduct]);
+  const handleCheckout = () => {
+    if (selectedProduct.length) {
+      scrollElement();
+      navigate(`/checkout/?state=${btoa(JSON.stringify(selectedProduct))}`);
+    } else {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: 'You have not selected any products to buy!',
+        },
+      });
+    }
+  };
   const renderedCart = useMemo(() => {
     return cart.cart.map((c, index) => {
       return (
@@ -149,8 +164,8 @@ function CartList() {
               className='w-[18px] h-[18px] cursor-pointer'
               type='checkbox'
               value={c._id}
-              checked={selectedProduct.includes(c._id)}
-              onChange={() => handleSelectedProduct(c._id)}
+              checked={selectedProduct.includes(c)}
+              onChange={() => handleSelectedProduct(c)}
               aria-label={`checkbox-${c.product.name}`}
             />
           </div>
@@ -267,7 +282,10 @@ function CartList() {
                 Total Payment Product {`(${selectedProduct.length})`} :{' '}
                 <span className='font-bold text-red'>${totalQuantity}</span>
               </p>
-              <button className='px-[36px] py-[12px] rounded-[2px] bg-purple hover:bg-darkGray text-white font-bold'>
+              <button
+                className='px-[36px] py-[12px] rounded-[2px] bg-purple hover:bg-darkGray text-white font-bold'
+                onClick={handleCheckout}
+              >
                 Purchase
               </button>
             </div>

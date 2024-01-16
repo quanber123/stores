@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { getAllCategories } from '@/services/redux/slice/categorySlice';
 import scrollElement from '@/services/utils/scroll-elements';
 import { useMemo } from 'react';
@@ -24,16 +24,19 @@ function Footer() {
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handlePostEmail = async () => {
-    try {
-      if (validateEmail(email)) {
-        await postEmail(email);
-      }
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setEmail('');
-    }
+  const handlePostEmail = (e: React.FormEvent<EventTarget>) => {
+    e.preventDefault();
+    const form = new FormData(e.target as HTMLFormElement);
+    console.log(form);
+    // try {
+    //   if (validateEmail(email)) {
+    //     await postEmail(email);
+    //   }
+    // } catch (err) {
+    //   console.error(err);
+    // } finally {
+    //   setEmail('');
+    // }
   };
   const renderedCategories = useMemo(
     () =>
@@ -85,7 +88,10 @@ function Footer() {
         </div>
         <div className='flex flex-col gap-[20px]'>
           <Paragraph title='Newsletter' />
-          <div className='flex flex-col gap-[20px] text-lightGray text-sm'>
+          <form
+            onSubmit={handlePostEmail}
+            className='flex flex-col gap-[20px] text-lightGray text-sm'
+          >
             <div className='wrap-input'>
               <input
                 type='email'
@@ -110,13 +116,13 @@ function Footer() {
               <></>
             )}
             <button
+              type='submit'
               className='w-[180px] h-[46px] rounded-[26px] text-sm font-bold bg-white text-semiBoldGray hover:bg-purple hover:text-white uppercase'
-              onClick={handlePostEmail}
               disabled={isLoading ? true : false}
             >
               {isLoading ? '...Loading' : 'Subscribe'}
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </footer>

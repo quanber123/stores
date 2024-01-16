@@ -269,7 +269,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
               </>
             ) : (
               <>
-                <span>Disabled</span>
+                <span>Add to Cart</span>
                 <FaFaceDizzy />
               </>
             )}

@@ -10,15 +10,14 @@ type Props = {
 };
 const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
   const newTitle = useMemo(() => {
-    const memoziedTitle = title.split('/')[1]
-      ? capitalize(title.split('/')[1])
-      : capitalize(title);
-    return memoziedTitle;
+    return capitalize(title.split('/')[1]);
   }, [title]);
+
   const tags = useSelector(getAllTags);
   const setHeaderKeywords = useMemo(() => {
     return tags.map((t) => t.name).join(',');
   }, [tags]);
+  console.log(newTitle);
   return (
     <>
       {title && (
