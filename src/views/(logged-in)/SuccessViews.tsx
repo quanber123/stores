@@ -1,15 +1,36 @@
 import LazyLoadImage from '@/services/utils/lazyload-image';
-import React from 'react';
+import { useEffect } from 'react';
 import successImg from '@/assets/images/successful.png';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
+import {
+  useGetOrderByIdQuery,
+  useUpdateOrderMutation,
+} from '@/services/redux/features/productFeatures';
+import { useSelector } from 'react-redux';
+import { accessToken } from '@/services/redux/slice/authSlice';
 function SuccessViews() {
   const navigate = useNavigate();
+  const token = useSelector(accessToken);
   const layoutRef = useRef(null);
-
+  const [searchQuery] = useSearchParams();
+  const code = searchQuery.get('orderCode');
+  const paymentMethod = searchQuery.get('paymentMethod');
+  const { data: dataOrder, isSuccess: isSuccessOrder } = useGetOrderByIdQuery(
+    {
+      token,
+      id: code,
+      paymentMethod: paymentMethod,
+    },
+    { skip: !code && !paymentMethod }
+  );
+  const [updateOrder] = useUpdateOrderMutation();
   useLayoutEffect(() => {
+    if (!code) {
+      navigate('/not-found', { replace: true });
+    }
     if (layoutRef.current) {
       const ctx = gsap.context(() => {
         gsap.fromTo(
@@ -29,7 +50,12 @@ function SuccessViews() {
         ctx.revert();
       };
     }
-  }, []);
+  }, [navigate]);
+  useEffect(() => {
+    if (isSuccessOrder && dataOrder.data.status === 'PAID') {
+      updateOrder({ token: token, id: code, status: 'DELIVERING' });
+    }
+  }, [isSuccessOrder, dataOrder, updateOrder]);
   return (
     <main className='bg-lightGray justify-center items-center text-darkGray'>
       <div
@@ -43,10 +69,23 @@ function SuccessViews() {
             alt='success-img'
           />
         </div>
-        <h1 className='text-xl font-bold'>Payment success!</h1>
-        <p>
-          Thank you very much for choosing us. Your support means a lot to us.
-        </p>
+        {paymentMethod === 'transfer' && (
+          <h1 className='text-xl font-bold'>Payment success!</h1>
+        )}
+        {paymentMethod === 'transfer' && (
+          <p>
+            Thank you very much for choosing us. Your support means a lot to us.
+          </p>
+        )}
+        {paymentMethod === 'cash' && (
+          <h1 className='text-xl font-bold'>Order success!</h1>
+        )}
+        {paymentMethod === 'cash' && (
+          <p>
+            Thank you for ordering from us. We will deliver the goods as soon as
+            possible.
+          </p>
+        )}
         <button
           className='bg-darkGray hover:bg-purple text-white px-8 py-3 text-md rounded-[4px]'
           onClick={() => navigate('/', { replace: true })}

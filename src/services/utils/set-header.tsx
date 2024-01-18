@@ -17,7 +17,6 @@ const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
   const setHeaderKeywords = useMemo(() => {
     return tags.map((t) => t.name).join(',');
   }, [tags]);
-  console.log(newTitle);
   return (
     <>
       {title && (

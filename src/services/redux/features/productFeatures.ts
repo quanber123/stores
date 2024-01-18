@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Products', 'Banners', 'Carts'],
+  tagTypes: ['Products', 'Banners', 'Carts', 'Orders'],
   endpoints: (builder) => {
     return {
       getProducts: builder.query({
@@ -81,9 +81,9 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Carts'],
       }),
-      createTransferPayment: builder.mutation({
-        query: ({ token, totalPrice, products }) => ({
-          url: 'create-payment-link',
+      createPayment: builder.mutation({
+        query: ({ token, type, totalPrice, products }) => ({
+          url: `create-payment-${type}`,
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -95,9 +95,19 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Carts'],
       }),
+      getAllOrders: builder.query({
+        query: ({ token, query }) => ({
+          url: `orders?${query}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        providesTags: (result) => providesList(result, 'Orders'),
+      }),
       getOrderById: builder.query({
-        query: ({ token, id }) => ({
-          url: `orders/${id}`,
+        query: ({ token, id, paymentMethod }) => ({
+          url: `orders/${id}&${paymentMethod}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -105,8 +115,8 @@ export const productApi = createApi({
         }),
       }),
       updateOrder: builder.mutation({
-        query: ({ token, id, status }) => ({
-          url: `orders/${id}`,
+        query: ({ token, orderId, status }) => ({
+          url: `orders/${orderId}`,
           method: 'PUT',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -115,6 +125,7 @@ export const productApi = createApi({
             status: status,
           },
         }),
+        invalidatesTags: ['Orders'],
       }),
     };
   },
@@ -129,7 +140,8 @@ export const {
   useUpdateCartMutation,
   useDeleteCartByIdMutation,
   useDeleteManyCartsMutation,
-  useCreateTransferPaymentMutation,
+  useCreatePaymentMutation,
+  useGetAllOrdersQuery,
   useGetOrderByIdQuery,
   useUpdateOrderMutation,
 } = productApi;

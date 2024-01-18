@@ -2,19 +2,29 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Cart } from '@/interfaces/interfaces';
 import { capitalizeFirstLetter } from '@/services/utils/format';
 import LazyLoadImage from '@/services/utils/lazyload-image';
-import { useCreateTransferPaymentMutation } from '@/services/redux/features/productFeatures';
+import { useCreatePaymentMutation } from '@/services/redux/features/productFeatures';
 import { useSelector } from 'react-redux';
 import { accessToken } from '@/services/redux/slice/authSlice';
-import { useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import LoadingV2 from '@/components/common/Loading/LoadingV2';
 type Props = {
   orders: Cart[];
 };
 const CheckoutList: React.FC<Props> = ({ orders }) => {
   const token = useSelector(accessToken);
-  const [paymentMethod, setPaymentMethod] = useState('delivery');
+  const navigate = useNavigate();
+  const [paymentMethod, setPaymentMethod] = useState(
+    window.localStorage.getItem('cozastore-payment') || 'cash'
+  );
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const [createTransfer, { data: dataTransfer, isSuccess: isSuccessTransfer }] =
-    useCreateTransferPaymentMutation();
+  const [
+    createPayment,
+    {
+      data: dataPayment,
+      isSuccess: isSuccessPayment,
+      isLoading: isLoadingPayment,
+    },
+  ] = useCreatePaymentMutation();
   const renderedOrders = useMemo(() => {
     return orders.map((o) => {
       return (
@@ -49,27 +59,38 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   const handlePaymentMethod = useCallback(
     (payment: string) => {
       setPaymentMethod(payment);
+      window.localStorage.setItem('cozastore-payment', payment);
     },
     [orders]
   );
 
   const handlePayment = useCallback(() => {
-    createTransfer({
-      token,
+    createPayment({
+      token: token,
       totalPrice: totalPrice,
       products: orders,
+      type: paymentMethod,
     });
-  }, []);
+  }, [paymentMethod]);
   useEffect(() => {
-    if (isSuccessTransfer) {
-      window.open(dataTransfer.checkoutUrl, '_self');
+    isSuccessPayment &&
       setSearchQuery((prevQuery) => {
         const newQuery = new URLSearchParams(prevQuery);
         newQuery.delete('state');
         return newQuery;
       });
+    if (isSuccessPayment && paymentMethod === 'transfer') {
+      window.open(dataPayment.checkoutUrl, '_self');
     }
-  }, [isSuccessTransfer, searchQuery]);
+    if (isSuccessPayment && paymentMethod === 'cash') {
+      navigate(
+        `/success?paymentMethod=cash&status=${dataPayment.paymentInfo.status}&orderCode=${dataPayment.paymentInfo.orderCode}`
+      );
+    }
+  }, [isSuccessPayment, searchQuery]);
+  if (isLoadingPayment) {
+    return <LoadingV2 />;
+  }
   return (
     <>
       <section className='container bg-white py-8 rounded-[2px] flex flex-col gap-[20px] text-darkGray'>
@@ -108,9 +129,9 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
             </button>
             <button
               className={`border border-lightGray px-4 py-2 ${
-                paymentMethod === 'delivery' ? 'bg-purple text-white' : ''
+                paymentMethod === 'cash' ? 'bg-purple text-white' : ''
               }`}
-              onClick={() => handlePaymentMethod('delivery')}
+              onClick={() => handlePaymentMethod('cash')}
             >
               Payment on delivery
             </button>

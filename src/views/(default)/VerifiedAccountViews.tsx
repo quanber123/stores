@@ -32,7 +32,7 @@ function VerifiedAccountViews() {
   const [
     verifiedEmail,
     {
-      data: DataVerified,
+      data: dataVerified,
       isSuccess: isSuccessVerified,
       isLoading: isLoadingVerified,
       status: statusVerified,
@@ -85,7 +85,7 @@ function VerifiedAccountViews() {
       !isLoadingVerified &&
       statusVerified === 'fulfilled'
     ) {
-      dispatch(setAuth(DataVerified));
+      dispatch(setAuth(dataVerified));
       navigate('/', { replace: true });
     }
     if (errorVerified && 'data' in errorVerified) {

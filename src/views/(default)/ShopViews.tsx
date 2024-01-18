@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getAllProducts,
@@ -16,6 +16,7 @@ import SetHeader from '@/services/utils/set-header';
 function ShopViews() {
   const location = useLocation();
   const dispatch = useDispatch();
+  const products = useSelector(getAllProducts);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const currentPageProduct = useSelector(getCurrentPageProduct);
   const currentPage = Number(searchQuery.get('page')) || currentPageProduct;
@@ -30,7 +31,7 @@ function ShopViews() {
     { skip: !searchQuery.size }
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setSearchQuery((prevQuery) => {
       const newQuery = new URLSearchParams(prevQuery);
       newQuery.set('page', currentPage?.toString() as string);
@@ -43,8 +44,6 @@ function ShopViews() {
       dispatch(setAllProducts(dataProducts));
     }
   }, [isSuccessProduct, dataProducts, searchQuery]);
-
-  const products = useSelector(getAllProducts);
   return (
     <>
       <SetHeader
@@ -54,13 +53,9 @@ function ShopViews() {
       />
       <main className='gap-[40px]'>
         <ProductFilter />
-        {isFetchingProduct ? <LoadingProduct /> : null}
-        {products && products.length && !isFetchingProduct ? (
-          <ProductList />
-        ) : null}
-        {!products || (products.length === 0 && !isFetchingProduct) ? (
-          <ProductNotFound />
-        ) : null}
+        {isFetchingProduct && <LoadingProduct />}
+        {products?.length && !isFetchingProduct && <ProductList />}
+        {products?.length === 0 && !isFetchingProduct && <ProductNotFound />}
       </main>
     </>
   );

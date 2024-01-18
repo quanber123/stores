@@ -80,6 +80,42 @@ export interface Cart {
     totalPrice: number;
   };
 }
+export interface Order {
+  _id: string;
+  created_at: string;
+  updated_at: string;
+  paymentMethod: string;
+  user: string;
+  paymentInfo: {
+    products: [
+      {
+        _id: string;
+        id: string;
+        image: string;
+        name: string;
+        color: string;
+        size: string;
+        price: number;
+        amountSalePrice: number;
+        quantity: number;
+        salePrice: number;
+        finalPrice: number;
+        totalPrice: number;
+      }
+    ];
+    qrCode: string | null;
+    status: string;
+    accountName: string | null;
+    accountNumber: string | null;
+    amount: number;
+    bin: string | number | null;
+    checkoutUrl: string;
+    currency: string;
+    description: string;
+    orderCode: number;
+    paymentLinkId: string;
+  };
+}
 export interface Blog {
   _id: string;
   author: string;

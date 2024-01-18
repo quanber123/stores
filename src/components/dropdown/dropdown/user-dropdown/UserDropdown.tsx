@@ -41,7 +41,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
           </div>
         </div>
         <div className='mx-[26px] my-[16px] flex flex-col gap-[20px] text-darkGray font-bold'>
-          <Link to={''} className='flex items-center gap-[15px]'>
+          <Link to='/purchase?page=1' className='flex items-center gap-[15px]'>
             <FaClipboard className='text-md' />
             <span>My Purchase</span>
           </Link>
