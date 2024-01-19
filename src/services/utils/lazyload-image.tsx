@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 type LazyLoadImageProps = {
   src: string;
   alt: string;
@@ -8,19 +8,22 @@ type LazyLoadImageProps = {
 
 function LazyLoadImage(props: LazyLoadImageProps) {
   const [inView, setInView] = useState(false);
-  const imgRef = useRef(null);
-  let handleIntersection: IntersectionObserverCallback = (entries, _) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        setInView(true);
-      }
-    });
-  };
-  const configOptions = {
-    rootMargin: '0px',
-    threshold: 0.1,
-  };
+  const imgRef = useRef<HTMLImageElement | null>(null);
+  let handleIntersection: IntersectionObserverCallback = useCallback(
+    (entries, _) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setInView(true);
+        }
+      });
+    },
+    [props]
+  );
   useEffect(() => {
+    const configOptions = {
+      rootMargin: '0px',
+      threshold: 0.2,
+    };
     let observer: IntersectionObserver = new IntersectionObserver(
       handleIntersection,
       configOptions
