@@ -26,7 +26,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
     [comment]
   );
 
-  const handlePostComment = () => {
+  const handlePostComment = useCallback(() => {
     if (comment) {
       postComment({ id: id, userId: user._id, text: comment });
     } else {
@@ -37,7 +37,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
         },
       });
     }
-  };
+  }, [comment]);
 
   const redirectToVerified = () => {
     navigate('/verified');

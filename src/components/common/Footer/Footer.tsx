@@ -24,19 +24,17 @@ function Footer() {
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handlePostEmail = (e: React.FormEvent<EventTarget>) => {
+  const handlePostEmail = async (e: React.FormEvent<EventTarget>) => {
     e.preventDefault();
-    const form = new FormData(e.target as HTMLFormElement);
-    console.log(form);
-    // try {
-    //   if (validateEmail(email)) {
-    //     await postEmail(email);
-    //   }
-    // } catch (err) {
-    //   console.error(err);
-    // } finally {
-    //   setEmail('');
-    // }
+    try {
+      if (validateEmail(email)) {
+        await postEmail(email);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setEmail('');
+    }
   };
   const renderedCategories = useMemo(
     () =>

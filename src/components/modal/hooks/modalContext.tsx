@@ -14,6 +14,7 @@ type InitialState = {
   visibleAlertModal?: AlertModalState;
   visibleProductModal?: Product;
   visibleConfirmModal: ConfirmModalState;
+  visibleAddressModal: boolean;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';
@@ -25,6 +26,7 @@ const reducer = (state: InitialState, action: any) => {
     visibleAlertModal: {} as AlertModalState,
     visibleProductModal: {} as Product,
     visibleConfirmModal: {} as ConfirmModalState,
+    visibleAddressModal: false,
   };
   switch (action.type) {
     case SET_VISIBLE_MODAL:
@@ -47,6 +49,7 @@ const initialState: InitialState = {
   visibleAlertModal: {} as AlertModalState,
   visibleProductModal: {} as Product,
   visibleConfirmModal: {} as ConfirmModalState,
+  visibleAddressModal: false,
 };
 export type InitialModalContext = {
   state: InitialState;

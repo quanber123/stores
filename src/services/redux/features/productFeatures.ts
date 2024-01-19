@@ -106,8 +106,8 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'Orders'),
       }),
       getOrderById: builder.query({
-        query: ({ token, id, paymentMethod }) => ({
-          url: `orders/${id}&${paymentMethod}`,
+        query: ({ token, id }) => ({
+          url: `orders/${id}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,

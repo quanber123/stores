@@ -27,6 +27,7 @@ function PurchaseViews() {
     <>
       <SetHeader title={location.pathname} isBlockIndex={false} />
       <main className='bg-lightGray gap-[20px]'>
+        {' '}
         <OrdersFilter />
         {isFetchingOrders && <LoadingV2 />}
         {!dataOrders?.orders?.length && !isFetchingOrders && (

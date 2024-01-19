@@ -18,18 +18,17 @@ function CancelViews() {
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
   const code = searchQuery.get('orderCode');
-  const paymentMethod = searchQuery.get('status');
+  const status = searchQuery.get('status');
   const { data: dataOrder, isSuccess: isSuccessOrder } = useGetOrderByIdQuery(
     {
-      token,
+      token: token,
       id: code,
-      paymentMethod: paymentMethod,
     },
     { skip: !code }
   );
   const [updateOrder] = useUpdateOrderMutation();
   useLayoutEffect(() => {
-    if (!code && !paymentMethod) {
+    if (!code && !status) {
       navigate('/not-found', { replace: true });
     }
     if (layoutRef.current) {
@@ -53,11 +52,14 @@ function CancelViews() {
     }
   }, [navigate]);
   useEffect(() => {
-    if (isSuccessOrder) {
-      dataOrder?.data?.status === 'CANCELLED' &&
-        updateOrder({ token: token, id: code, status: dataOrder.data.status });
+    if (isSuccessOrder && dataOrder.status === 'CANCELLED') {
+      updateOrder({
+        token: token,
+        orderId: code,
+        status: dataOrder.status,
+      });
     }
-  }, [isSuccessOrder, updateOrder]);
+  }, [isSuccessOrder, dataOrder]);
   return (
     <>
       <SetHeader title={location.pathname} isBlockIndex={false} />

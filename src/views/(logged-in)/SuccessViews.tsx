@@ -53,9 +53,9 @@ function SuccessViews() {
   }, [navigate]);
   useEffect(() => {
     if (isSuccessOrder && dataOrder.data.status === 'PAID') {
-      updateOrder({ token: token, id: code, status: 'DELIVERING' });
+      updateOrder({ token: token, orderId: code, status: 'DELIVERING' });
     }
-  }, [isSuccessOrder, dataOrder, updateOrder]);
+  }, [isSuccessOrder, dataOrder]);
   return (
     <main className='bg-lightGray justify-center items-center text-darkGray'>
       <div

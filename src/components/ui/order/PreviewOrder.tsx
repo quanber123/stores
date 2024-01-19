@@ -49,7 +49,12 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
         return (
           <div
             key={p._id}
-            className={`${order.paymentInfo.status === 'PAID' ? 'my-4' : ''}`}
+            className={`${
+              order.paymentInfo.status === 'PAID' ||
+              order.paymentInfo.status === 'CANCELLED'
+                ? 'my-4'
+                : ''
+            }`}
           >
             <div className='container relative bg-white border-lightGray border-b py-4 flex items-center gap-[20px]'>
               <p className='absolute right-[1%] top-[10%] text-md text-red font-semiBold'>
@@ -130,7 +135,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
     [order]
   );
   return (
-    <div className='flex flex-col my-4'>
+    <div className='flex flex-col'>
       {renderedProducts}
       {order.paymentInfo.status === 'PENDING' && (
         <div className='container bg-white py-4 flex flex-col items-end gap-[20px]'>

@@ -37,7 +37,7 @@ function BannerHome() {
         >
           <img
             ref={indexImage === index ? imgRef : null}
-            className={`absolute w-[100vw] aspect-[4/3] ${
+            className={`absolute w-[100vw] h-[100vh] aspect-[4/3] ${
               indexImage === index ? 'opacity-100' : 'opacity-0 '
             }`}
             src={i.image}

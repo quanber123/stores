@@ -1,22 +1,37 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { Cart } from '@/interfaces/interfaces';
 import { capitalizeFirstLetter } from '@/services/utils/format';
-import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useCreatePaymentMutation } from '@/services/redux/features/productFeatures';
 import { useSelector } from 'react-redux';
 import { accessToken } from '@/services/redux/slice/authSlice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { FaLocationDot } from 'react-icons/fa6';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
+import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useGetDefaultAddressQuery } from '@/services/redux/features/userFeatures';
 type Props = {
   orders: Cart[];
 };
 const CheckoutList: React.FC<Props> = ({ orders }) => {
+  const { setVisibleModal } = useContext(ModalContext);
   const token = useSelector(accessToken);
   const navigate = useNavigate();
   const [paymentMethod, setPaymentMethod] = useState(
     window.localStorage.getItem('cozastore-payment') || 'cash'
   );
   const [searchQuery, setSearchQuery] = useSearchParams();
+  const {
+    data: dataAddress,
+    isSuccess: isSuccessAddress,
+    isLoading: isLoadingAddress,
+  } = useGetDefaultAddressQuery({ token: token });
   const [
     createPayment,
     {
@@ -93,6 +108,43 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   }
   return (
     <>
+      <section className='container bg-white my-[20px] py-8 flex flex-col gap-[20px] text-darkGray'>
+        <div className='text-lg flex items-center gap-[20px] font-semiBold text-purple'>
+          <FaLocationDot />
+          <h2>Delivery address</h2>
+        </div>
+        {isSuccessAddress && dataAddress && !isLoadingAddress && (
+          <div className='flex items-center gap-[20px]'>
+            <p className='font-bold'>
+              {dataAddress.name} {dataAddress.phone}
+            </p>
+            <p>
+              {dataAddress.address}, {dataAddress.district}, {dataAddress.city},{' '}
+              {dataAddress.state}
+            </p>
+            {dataAddress.isDefault && (
+              <div className='px-2 text-[12px] border border-purple text-purple'>
+                Default
+              </div>
+            )}
+            <button
+              className='text-purple text-sm'
+              onClick={() => setVisibleModal('visibleAddressModal')}
+            >
+              Change
+            </button>
+          </div>
+        )}
+        {isSuccessAddress && dataAddress === null && !isLoadingAddress && (
+          <button
+            className='flex items-center gap-[5px] border border-purple w-max px-4'
+            onClick={() => setVisibleModal('visibleAddressModal')}
+          >
+            <span className='text-lg'>+</span>
+            <span className='text-sm text-purple'>Add New Address</span>
+          </button>
+        )}
+      </section>
       <section className='container bg-white py-8 rounded-[2px] flex flex-col gap-[20px] text-darkGray'>
         <div className='flex items-center justify-between gap-[20px]'>
           <h3 className='flex-1 text-md font-bold'>Products</h3>

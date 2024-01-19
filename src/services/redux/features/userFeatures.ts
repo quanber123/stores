@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Users', 'Settings'],
+  tagTypes: ['Users', 'Settings', 'Address', 'DefaultAddress'],
   endpoints: (builder) => {
     return {
       getUser: builder.query({
@@ -104,13 +104,64 @@ export const userApi = createApi({
         }),
         invalidatesTags: [{ type: 'Settings', id: 'LIST' }],
       }),
+      getAddress: builder.query({
+        query: ({ token }) => ({
+          url: 'users/address',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        providesTags: (result) => providesList(result, 'Address'),
+      }),
+      getDefaultAddress: builder.query({
+        query: ({ token }) => ({
+          url: 'users/address/default',
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        providesTags: (result) => providesList(result, 'DefaultAddress'),
+      }),
+      createAddress: builder.mutation({
+        query: ({ token, body }) => ({
+          url: 'users/address',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: body,
+        }),
+        invalidatesTags: ['Address', 'DefaultAddress'],
+      }),
+      updateAddress: builder.mutation({
+        query: ({ token, id, body }) => ({
+          url: `users/address/${id}`,
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: body,
+        }),
+        invalidatesTags: ['Address', 'DefaultAddress'],
+      }),
+      deleteAddress: builder.mutation({
+        query: ({ token, id }) => ({
+          url: `users/address/${id}`,
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        invalidatesTags: ['Address', 'DefaultAddress'],
+      }),
     };
   },
 });
 
 export const {
   useGetUserQuery,
-  // useGetUserSuccessQuery,
   useVerifiedEmailMutation,
   useResendEmailMutation,
   useRegisterUserMutation,
@@ -119,4 +170,9 @@ export const {
   useUpdateAvatarMutation,
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
+  useGetAddressQuery,
+  useGetDefaultAddressQuery,
+  useCreateAddressMutation,
+  useUpdateAddressMutation,
+  useDeleteAddressMutation,
 } = userApi;
