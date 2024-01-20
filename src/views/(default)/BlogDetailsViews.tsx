@@ -3,10 +3,10 @@ import gsap from 'gsap';
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useGetBlogByIdQuery } from '@/services/redux/features/blogFeatures';
 import LoadingBlogDetail from '@/components/common/Loading/LoadingBlogDetail';
-import BlogDetails from '@/components/pages/default/blog-details/BlogDetails';
-import Comments from '@/components/pages/default/blog-details/Comments';
-import PostComment from '@/components/pages/default/blog-details/PostComment';
-import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
+import BlogDetails from '@/components/pages/(default)/blog-details/BlogDetails';
+import Comments from '@/components/pages/(default)/blog-details/Comments';
+import PostComment from '@/components/pages/(default)/blog-details/PostComment';
+import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
 import SetHeader from '@/services/utils/set-header';
 function BlogDetailsViews() {
   const { id } = useParams();

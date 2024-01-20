@@ -2,10 +2,10 @@ import { FaRegHeart } from 'react-icons/fa6';
 import { useNavigate } from 'react-router-dom';
 import { Product } from '@/interfaces/interfaces';
 import scrollElement from '@/services/utils/scroll-elements';
-import './product.css';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useContext } from 'react';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import './product.css';
 type Props = {
   product: Product;
   refEl?: (el: HTMLElement) => HTMLElement;

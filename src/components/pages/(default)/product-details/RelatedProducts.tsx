@@ -1,5 +1,5 @@
 import { useMemo, LegacyRef } from 'react';
-import PreviewProduct from '@/components/ui/product/PreviewProduct';
+import PreviewProduct from '@/components/(ui)/product/PreviewProduct';
 import { Product } from '@/interfaces/interfaces';
 import { useCarousel } from '@/hooks/useCarousel';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';

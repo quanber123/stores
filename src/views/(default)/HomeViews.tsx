@@ -4,15 +4,17 @@ import SetHeader from '@/services/utils/set-header';
 import { Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
 const BannerHome = lazy(
-  () => import('@/components/pages/default/home/BannerHome')
+  () => import('@/components/pages/(default)/home/BannerHome')
 );
 const CategoryHome = lazy(
-  () => import('@/components/pages/default/home/CategoryHome')
+  () => import('@/components/pages/(default)/home/CategoryHome')
 );
 const StoreHome = lazy(
-  () => import('@/components/pages/default/home/StoreHome')
+  () => import('@/components/pages/(default)/home/StoreHome')
 );
-const BlogHome = lazy(() => import('@/components/pages/default/home/BlogHome'));
+const BlogHome = lazy(
+  () => import('@/components/pages/(default)/home/BlogHome')
+);
 function HomeViews() {
   const location = useLocation();
   return (

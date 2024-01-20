@@ -11,6 +11,15 @@ const ProductModal = lazy(
 const AlertModal = lazy(
   () => import('@/components/modal/modal/alert-modal/AlertModal')
 );
+const AddressModal = lazy(
+  () => import('@/components/modal/modal/address-modal/AddressModal')
+);
+const AddAddressModal = lazy(
+  () => import('@/components/modal/modal/address-modal/AddAddress')
+);
+const UpdateAddressModal = lazy(
+  () => import('@/components/modal/modal/address-modal/UpdateAddress')
+);
 function Header() {
   const { state, setVisibleModal } = useContext(ModalContext);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
@@ -46,6 +55,11 @@ function Header() {
       </Suspense>
       <Suspense fallback={<LoadingV2 />}>
         {state.visibleConfirmModal?.message && <ConfirmModal />}
+      </Suspense>
+      <Suspense fallback={<LoadingV2 />}>
+        {state.visibleAddressModal && <AddressModal />}
+        {state.visibleAddAddressModal && <AddAddressModal />}
+        {state.visibleUpdateAddressModal && <UpdateAddressModal />}
       </Suspense>
     </header>
   );

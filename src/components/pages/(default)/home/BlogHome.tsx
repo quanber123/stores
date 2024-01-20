@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
-import PreviewBlogHome from '@/components/ui/blog/PreviewBlogHome';
+import PreviewBlogHome from '@/components/(ui)/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
 import {
   getAllBlogsOverview,

@@ -15,19 +15,14 @@ type InitialState = {
   visibleProductModal?: Product;
   visibleConfirmModal: ConfirmModalState;
   visibleAddressModal: boolean;
+  visibleAddAddressModal: boolean;
+  visibleUpdateAddressModal: boolean;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';
 const reducer = (state: InitialState, action: any) => {
   const currentModal = action.payload?.modal;
-  const resetState: InitialState = {
-    visibleLoginModal: false,
-    visibleRegisterModal: false,
-    visibleAlertModal: {} as AlertModalState,
-    visibleProductModal: {} as Product,
-    visibleConfirmModal: {} as ConfirmModalState,
-    visibleAddressModal: false,
-  };
+  const resetState = {} as InitialState;
   switch (action.type) {
     case SET_VISIBLE_MODAL:
       if (typeof action.payload?.modal === 'object') return currentModal;
@@ -43,14 +38,7 @@ const reducer = (state: InitialState, action: any) => {
       return state;
   }
 };
-const initialState: InitialState = {
-  visibleLoginModal: false,
-  visibleRegisterModal: false,
-  visibleAlertModal: {} as AlertModalState,
-  visibleProductModal: {} as Product,
-  visibleConfirmModal: {} as ConfirmModalState,
-  visibleAddressModal: false,
-};
+const initialState = {} as InitialState;
 export type InitialModalContext = {
   state: InitialState;
   setVisibleModal: (modal: any) => void;

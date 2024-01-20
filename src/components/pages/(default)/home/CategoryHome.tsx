@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
-import PreviewCategory from '@/components/ui/category/PreviewCategory';
+import PreviewCategory from '@/components/(ui)/category/PreviewCategory';
 import { getAllCategories } from '@/services/redux/slice/categorySlice';
 function CategoryHome() {
   const categories = useSelector(getAllCategories);

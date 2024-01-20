@@ -2,7 +2,7 @@ import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
-import PreviewProduct from '@/components/ui/product/PreviewProduct';
+import PreviewProduct from '@/components/(ui)/product/PreviewProduct';
 import scrollElement from '@/services/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
 import {

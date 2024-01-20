@@ -40,6 +40,13 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
       isLoading: isLoadingPayment,
     },
   ] = useCreatePaymentMutation();
+  const addressUser = useMemo(
+    () =>
+      dataAddress
+        ? `${dataAddress.address}, ${dataAddress.district}, ${dataAddress.city},${dataAddress.state}`
+        : '',
+    [dataAddress]
+  );
   const renderedOrders = useMemo(() => {
     return orders.map((o) => {
       return (
@@ -80,13 +87,22 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   );
 
   const handlePayment = useCallback(() => {
-    createPayment({
-      token: token,
-      totalPrice: totalPrice,
-      products: orders,
-      type: paymentMethod,
-    });
-  }, [paymentMethod]);
+    if (dataAddress) {
+      createPayment({
+        token: token,
+        totalPrice: totalPrice,
+        products: orders,
+        type: paymentMethod,
+      });
+    } else {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: 'You forgot add your address!',
+        },
+      });
+    }
+  }, [paymentMethod, dataAddress]);
   useEffect(() => {
     isSuccessPayment &&
       setSearchQuery((prevQuery) => {
@@ -116,12 +132,9 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         {isSuccessAddress && dataAddress && !isLoadingAddress && (
           <div className='flex items-center gap-[20px]'>
             <p className='font-bold'>
-              {dataAddress.name} {dataAddress.phone}
+              {dataAddress.name} | {dataAddress.phone}
             </p>
-            <p>
-              {dataAddress.address}, {dataAddress.district}, {dataAddress.city},{' '}
-              {dataAddress.state}
-            </p>
+            <p>{addressUser}</p>
             {dataAddress.isDefault && (
               <div className='px-2 text-[12px] border border-purple text-purple'>
                 Default

@@ -1,13 +1,13 @@
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
-import NotFoundPurchase from '@/components/pages/auth/purchase/NotFoundPurchase';
-import OrdersFilter from '@/components/pages/auth/purchase/OrdersFilter';
-import OrdersList from '@/components/pages/auth/purchase/OrdersList';
 import { useGetAllOrdersQuery } from '@/services/redux/features/productFeatures';
 import { accessToken } from '@/services/redux/slice/authSlice';
-import SetHeader from '@/services/utils/set-header';
 import { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import SetHeader from '@/services/utils/set-header';
+import NotFoundPurchase from '@/components/pages/(logged-in)/purchase/NotFoundPurchase';
+import OrdersFilter from '@/components/pages/(logged-in)/purchase/OrdersFilter';
+import OrdersList from '@/components/pages/(logged-in)/purchase/OrdersList';
 
 function PurchaseViews() {
   const location = useLocation();

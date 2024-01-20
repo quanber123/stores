@@ -1,9 +1,59 @@
 import Modal from '@/Modal';
-import { useContext } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { ModalContext } from '../../hooks/modalContext';
-import { FaRegCircleDot } from 'react-icons/fa6';
+import { FaRegCircleDot, FaRegCircle } from 'react-icons/fa6';
+import { useGetAddressUserQuery } from '@/services/redux/features/userFeatures';
+import { useSelector } from 'react-redux';
+import { accessToken } from '@/services/redux/slice/authSlice';
 const AddressModal = () => {
+  const token = useSelector(accessToken);
   const { state, setVisibleModal } = useContext(ModalContext);
+  const { data: dataAddress, isSuccess: isSuccessAddress } =
+    useGetAddressUserQuery(token, { skip: !token });
+  const [currAddress, setCurrAddress] = useState(null);
+  useEffect(() => {
+    if (isSuccessAddress && dataAddress) {
+      setCurrAddress(dataAddress[0]._id);
+    }
+  }, [isSuccessAddress, dataAddress]);
+  const renderedAddress = useMemo(
+    () =>
+      isSuccessAddress
+        ? dataAddress.map((a: any) => (
+            <div
+              key={a._id}
+              className='flex items-start gap-[10px] cursor-pointer'
+              onClick={() => setCurrAddress(a._id)}
+            >
+              {currAddress === a._id ? (
+                <FaRegCircleDot className='mt-2 text-purple' />
+              ) : (
+                <FaRegCircle className='mt-2 text-gray' />
+              )}
+              <div className='flex flex-col gap-[10px]'>
+                <p>
+                  {a.name} |{' '}
+                  <span className='text-sm text-gray'>{a.phone}</span>
+                </p>
+                <div className='text-sm text-gray'>
+                  <p>{a.address}</p>
+                  <p>
+                    {a.district}, {a.city}, {a.state}
+                  </p>
+                </div>
+                {a.isDefault && (
+                  <div className='w-max px-2 border border-purple'>
+                    <p className='text-sm text-purple'>Default</p>
+                  </div>
+                )}
+              </div>
+              <button className='ml-auto text-purple'>Edit</button>
+            </div>
+          ))
+        : null,
+    [dataAddress, isSuccessAddress, currAddress]
+  );
+  console.log(dataAddress);
   return (
     <Modal>
       <section
@@ -17,59 +67,12 @@ const AddressModal = () => {
           </div>
           <div className='p-6 flex-1 border-t border-b border-lightGray flex flex-col gap-[40px]'>
             <div className='flex flex-col gap-[20px] max-h-[650px] overflow-y-auto'>
-              <div className='flex items-start gap-[10px]'>
-                <FaRegCircleDot className='mt-2 text-purple' />
-                <div className='flex flex-col gap-[10px]'>
-                  <p>
-                    Trần Mạnh Quân |{' '}
-                    <span className='text-sm text-gray'>(+84) 334115449</span>
-                  </p>
-                  <div className='text-sm text-gray'>
-                    <p>129/60 Đường Bát Khối</p>
-                    <p>Phường Long Biên, Quận Long Biên, Hà Nội</p>
-                  </div>
-                  <div className='w-max px-2 border border-purple'>
-                    <p className='text-sm text-purple'>Default</p>
-                  </div>
-                </div>
-                <button className='ml-auto text-purple'>Edit</button>
-              </div>
-              <div className='flex items-start gap-[10px]'>
-                <FaRegCircleDot className='mt-2 text-purple' />
-                <div className='flex flex-col gap-[10px]'>
-                  <p>
-                    Trần Mạnh Quân |{' '}
-                    <span className='text-sm text-gray'>(+84) 334115449</span>
-                  </p>
-                  <div className='text-sm text-gray'>
-                    <p>129/60 Đường Bát Khối</p>
-                    <p>Phường Long Biên, Quận Long Biên, Hà Nội</p>
-                  </div>
-                  <div className='w-max px-2 border border-purple'>
-                    <p className='text-sm text-purple'>Default</p>
-                  </div>
-                </div>
-                <button className='ml-auto text-purple'>Edit</button>
-              </div>
-              <div className='flex items-start gap-[10px]'>
-                <FaRegCircleDot className='mt-2 text-purple' />
-                <div className='flex flex-col gap-[10px]'>
-                  <p>
-                    Trần Mạnh Quân |{' '}
-                    <span className='text-sm text-gray'>(+84) 334115449</span>
-                  </p>
-                  <div className='text-sm text-gray'>
-                    <p>129/60 Đường Bát Khối</p>
-                    <p>Phường Long Biên, Quận Long Biên, Hà Nội</p>
-                  </div>
-                  <div className='w-max px-2 border border-purple'>
-                    <p className='text-sm text-purple'>Default</p>
-                  </div>
-                </div>
-                <button className='ml-auto text-purple'>Edit</button>
-              </div>
+              {renderedAddress}
             </div>
-            <button className='flex items-center gap-[5px] border border-purple w-max px-4'>
+            <button
+              className='flex items-center gap-[5px] border border-purple w-max px-4'
+              onClick={() => setVisibleModal('visibleAddAddressModal')}
+            >
               <span className='text-lg'>+</span>
               <span className='text-sm text-purple'>Add New Address</span>
             </button>

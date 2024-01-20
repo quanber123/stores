@@ -8,9 +8,9 @@ import {
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery } from '@/services/redux/features/productFeatures';
 import LoadingProduct from '@/components/common/Loading/LoadingProduct';
-import ProductFilter from '@/components/pages/default/shop/ProductFilter';
-import ProductList from '@/components/pages/default/shop/ProductList';
-import ProductNotFound from '@/components/pages/default/shop/ProductNotFound';
+import ProductFilter from '@/components/pages/(default)/shop/ProductFilter';
+import ProductList from '@/components/pages/(default)/shop/ProductList';
+import ProductNotFound from '@/components/pages/(default)/shop/ProductNotFound';
 import SetHeader from '@/services/utils/set-header';
 
 function ShopViews() {

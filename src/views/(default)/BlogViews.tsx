@@ -1,8 +1,8 @@
 import LoadingBlog from '@/components/common/Loading/LoadingBlog';
-import BlogFilter from '@/components/pages/default/blog/BlogFilter';
-import BlogList from '@/components/pages/default/blog/BlogList';
-import BlogNotFound from '@/components/pages/default/blog/BlogNotFound';
-import BlogTitle from '@/components/pages/default/blog/BlogTitle';
+import BlogFilter from '@/components/pages/(default)/blog/BlogFilter';
+import BlogList from '@/components/pages/(default)/blog/BlogList';
+import BlogNotFound from '@/components/pages/(default)/blog/BlogNotFound';
+import BlogTitle from '@/components/pages/(default)/blog/BlogTitle';
 import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
 import {
   getAllBlogs,

@@ -1,10 +1,10 @@
-import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
-import SettingsUser from '@/components/pages/auth/settings/SettingsUser';
-import SettingNotifications from '@/components/pages/auth/settings/SettingNotifications';
 import { useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import SetHeader from '@/services/utils/set-header';
+import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
+import SettingsUser from '@/components/pages/(logged-in)/settings/SettingsUser';
+import SettingNotifications from '@/components/pages/(logged-in)/settings/SettingNotifications';
 function SettingViews() {
   const location = useLocation();
   const layoutRef = useRef(null);

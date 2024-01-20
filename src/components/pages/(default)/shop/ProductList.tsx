@@ -1,12 +1,12 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
 import { useSelector } from 'react-redux';
 import gsap from 'gsap';
-import PreviewProduct from '@/components/ui/product/PreviewProduct';
+import PreviewProduct from '@/components/(ui)/product/PreviewProduct';
 import {
   getAllProducts,
   getTotalPageProduct,
 } from '@/services/redux/slice/productSlice';
-import Pagination from '@/components/ui/pagination/Pagination';
+import Pagination from '@/components/(ui)/pagination/Pagination';
 const ProductList = () => {
   const products = useSelector(getAllProducts);
   const total = useSelector(getTotalPageProduct);

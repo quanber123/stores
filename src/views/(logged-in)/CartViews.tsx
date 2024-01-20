@@ -1,9 +1,9 @@
-import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
 import { useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import CartList from '@/components/pages/auth/cart/CartList';
 import SetHeader from '@/services/utils/set-header';
+import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
+import CartList from '@/components/pages/(logged-in)/cart/CartList';
 
 function CartViews() {
   const location = useLocation();

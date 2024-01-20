@@ -1,5 +1,5 @@
-import OrderPreview from '@/components/ui/order/PreviewOrder';
-import Pagination from '@/components/ui/pagination/Pagination';
+import OrderPreview from '@/components/(ui)/order/PreviewOrder';
+import Pagination from '@/components/(ui)/pagination/Pagination';
 import { Order } from '@/interfaces/interfaces';
 import React, { useMemo } from 'react';
 type Props = {

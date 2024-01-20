@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Users', 'Settings', 'Address', 'DefaultAddress'],
+  tagTypes: ['Users', 'Settings', 'Address', 'UserAddress', 'DefaultAddress'],
   endpoints: (builder) => {
     return {
       getUser: builder.query({
@@ -104,8 +104,17 @@ export const userApi = createApi({
         }),
         invalidatesTags: [{ type: 'Settings', id: 'LIST' }],
       }),
-      getAddress: builder.query({
-        query: ({ token }) => ({
+      getProvinces: builder.query({
+        query: () => 'https://provinces.open-api.vn/api/p/',
+      }),
+      getDistricts: builder.query({
+        query: (code) => `https://provinces.open-api.vn/api/p/${code}?depth=2`,
+      }),
+      getWards: builder.query({
+        query: (code) => `https://provinces.open-api.vn/api/d/${code}?depth=2`,
+      }),
+      getAddressUser: builder.query({
+        query: (token) => ({
           url: 'users/address',
           method: 'GET',
           headers: {
@@ -133,7 +142,7 @@ export const userApi = createApi({
           },
           body: body,
         }),
-        invalidatesTags: ['Address', 'DefaultAddress'],
+        invalidatesTags: ['UserAddress', 'DefaultAddress'],
       }),
       updateAddress: builder.mutation({
         query: ({ token, id, body }) => ({
@@ -144,7 +153,7 @@ export const userApi = createApi({
           },
           body: body,
         }),
-        invalidatesTags: ['Address', 'DefaultAddress'],
+        invalidatesTags: ['UserAddress', 'DefaultAddress'],
       }),
       deleteAddress: builder.mutation({
         query: ({ token, id }) => ({
@@ -170,7 +179,10 @@ export const {
   useUpdateAvatarMutation,
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
-  useGetAddressQuery,
+  useGetProvincesQuery,
+  useGetDistrictsQuery,
+  useGetWardsQuery,
+  useGetAddressUserQuery,
   useGetDefaultAddressQuery,
   useCreateAddressMutation,
   useUpdateAddressMutation,

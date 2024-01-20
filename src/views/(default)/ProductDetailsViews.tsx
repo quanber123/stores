@@ -1,13 +1,13 @@
 import { Navigate, useLocation, useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
-import RelatedProducts from '@/components/pages/default/product-details/RelatedProducts';
 import gsap from 'gsap';
 import { useGetProductByIdQuery } from '@/services/redux/features/productFeatures';
 import Loading from '@/components/common/Loading/Loading';
-import Images from '@/components/pages/default/product-details/Images';
-import Description from '@/components/pages/default/product-details/Description';
-import ProductDetails from '@/components/pages/default/product-details/ProductsDetails';
-import Breadcrumbs from '@/components/ui/breadcrumbs/Breadcrumbs';
+import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
+import RelatedProducts from '@/components/pages/(default)/product-details/RelatedProducts';
+import Images from '@/components/pages/(default)/product-details/Images';
+import Description from '@/components/pages/(default)/product-details/Description';
+import ProductDetails from '@/components/pages/(default)/product-details/ProductsDetails';
 import SetHeader from '@/services/utils/set-header';
 function ProductDetailsViews() {
   const { id } = useParams();
