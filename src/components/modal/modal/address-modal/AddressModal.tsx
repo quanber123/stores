@@ -53,7 +53,6 @@ const AddressModal = () => {
         : null,
     [dataAddress, isSuccessAddress, currAddress]
   );
-  console.log(dataAddress);
   return (
     <Modal>
       <section

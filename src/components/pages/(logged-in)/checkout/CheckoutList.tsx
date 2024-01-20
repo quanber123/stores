@@ -15,7 +15,7 @@ import { FaLocationDot } from 'react-icons/fa6';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-import { useGetDefaultAddressQuery } from '@/services/redux/features/userFeatures';
+import { useGetAddressUserQuery } from '@/services/redux/features/userFeatures';
 type Props = {
   orders: Cart[];
 };
@@ -31,7 +31,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
     data: dataAddress,
     isSuccess: isSuccessAddress,
     isLoading: isLoadingAddress,
-  } = useGetDefaultAddressQuery({ token: token });
+  } = useGetAddressUserQuery(token, { skip: !token });
   const [
     createPayment,
     {
@@ -43,7 +43,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   const addressUser = useMemo(
     () =>
       dataAddress
-        ? `${dataAddress.address}, ${dataAddress.district}, ${dataAddress.city},${dataAddress.state}`
+        ? `${dataAddress[0].address}, ${dataAddress[0].district}, ${dataAddress[0].city},${dataAddress[0].state}`
         : '',
     [dataAddress]
   );
@@ -132,10 +132,10 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         {isSuccessAddress && dataAddress && !isLoadingAddress && (
           <div className='flex items-center gap-[20px]'>
             <p className='font-bold'>
-              {dataAddress.name} | {dataAddress.phone}
+              {dataAddress[0].name} | {dataAddress[0].phone}
             </p>
             <p>{addressUser}</p>
-            {dataAddress.isDefault && (
+            {dataAddress[0].isDefault && (
               <div className='px-2 text-[12px] border border-purple text-purple'>
                 Default
               </div>

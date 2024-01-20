@@ -4,11 +4,7 @@ import BlogList from '@/components/pages/(default)/blog/BlogList';
 import BlogNotFound from '@/components/pages/(default)/blog/BlogNotFound';
 import BlogTitle from '@/components/pages/(default)/blog/BlogTitle';
 import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
-import {
-  getAllBlogs,
-  getCurrentPageBlog,
-  setAllBlogs,
-} from '@/services/redux/slice/blogSlice';
+import { getAllBlogs, setAllBlogs } from '@/services/redux/slice/blogSlice';
 import SetHeader from '@/services/utils/set-header';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,8 +13,7 @@ function BlogViews() {
   const dispatch = useDispatch();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const currentPageBlog = useSelector(getCurrentPageBlog);
-  const currentPage = Number(searchQuery.get('page')) || currentPageBlog;
+  const currentPage = Number(searchQuery.get('page')) || 1;
   const {
     data: dataBlogs,
     isSuccess: isSuccessBlog,

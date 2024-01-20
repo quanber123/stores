@@ -4,7 +4,7 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Users', 'Settings', 'Address', 'UserAddress', 'DefaultAddress'],
+  tagTypes: ['Users', 'Settings', 'Address'],
   endpoints: (builder) => {
     return {
       getUser: builder.query({
@@ -123,16 +123,6 @@ export const userApi = createApi({
         }),
         providesTags: (result) => providesList(result, 'Address'),
       }),
-      getDefaultAddress: builder.query({
-        query: ({ token }) => ({
-          url: 'users/address/default',
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }),
-        providesTags: (result) => providesList(result, 'DefaultAddress'),
-      }),
       createAddress: builder.mutation({
         query: ({ token, body }) => ({
           url: 'users/address',
@@ -142,7 +132,7 @@ export const userApi = createApi({
           },
           body: body,
         }),
-        invalidatesTags: ['UserAddress', 'DefaultAddress'],
+        invalidatesTags: ['Address'],
       }),
       updateAddress: builder.mutation({
         query: ({ token, id, body }) => ({
@@ -153,7 +143,7 @@ export const userApi = createApi({
           },
           body: body,
         }),
-        invalidatesTags: ['UserAddress', 'DefaultAddress'],
+        invalidatesTags: ['Address'],
       }),
       deleteAddress: builder.mutation({
         query: ({ token, id }) => ({
@@ -163,7 +153,7 @@ export const userApi = createApi({
             Authorization: `Bearer ${token}`,
           },
         }),
-        invalidatesTags: ['Address', 'DefaultAddress'],
+        invalidatesTags: ['Address'],
       }),
     };
   },
@@ -183,7 +173,6 @@ export const {
   useGetDistrictsQuery,
   useGetWardsQuery,
   useGetAddressUserQuery,
-  useGetDefaultAddressQuery,
   useCreateAddressMutation,
   useUpdateAddressMutation,
   useDeleteAddressMutation,

@@ -230,7 +230,7 @@ const AddAddressModal = () => {
                 onChange={handleChangeForm}
                 aria-label='state'
               >
-                <option value='' disabled selected hidden>
+                <option value='' disabled hidden>
                   City
                 </option>
                 {renderedProvinces}
@@ -249,7 +249,7 @@ const AddAddressModal = () => {
                 onChange={handleChangeForm}
                 aria-label='city'
               >
-                <option value='' disabled selected hidden>
+                <option value='' disabled hidden>
                   District
                 </option>
                 {renderedDistricts}
@@ -268,7 +268,7 @@ const AddAddressModal = () => {
                 onChange={handleChangeForm}
                 aria-label='district'
               >
-                <option value='' disabled selected hidden>
+                <option value='' disabled hidden>
                   Ward
                 </option>
                 {renderedWards}
