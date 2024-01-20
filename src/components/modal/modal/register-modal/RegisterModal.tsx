@@ -200,6 +200,7 @@ function RegisterModal() {
               onFocus={() => setFocusInput('password')}
               onBlur={() => setFocusInput(null)}
               onChange={handleChangeForm}
+              autoComplete='new-password'
             />
             <div
               className={`focus-input-register ${

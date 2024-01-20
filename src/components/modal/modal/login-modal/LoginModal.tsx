@@ -166,6 +166,7 @@ function LoginModal() {
               onFocus={() => setFocusInput('password')}
               onBlur={() => setFocusInput(null)}
               onChange={handleChangeForm}
+              autoComplete='current-password'
             />
             <div
               className={`focus-input-login ${
