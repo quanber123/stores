@@ -3,7 +3,6 @@ import {
   useCallback,
   ChangeEvent,
   useMemo,
-  useRef,
   useContext,
   useEffect,
 } from 'react';
@@ -22,6 +21,7 @@ import { useCreateCartMutation } from '@/services/redux/features/productFeatures
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { useSelector } from 'react-redux';
 import { accessToken } from '@/services/redux/slice/authSlice';
+import useClickOutside from '@/hooks/useClickOutside';
 const ProductModal = () => {
   const token = useSelector(accessToken);
   const [
@@ -29,7 +29,7 @@ const ProductModal = () => {
     { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
   ] = useCreateCartMutation();
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
-  const modalRef = useRef<HTMLElement | null>(null);
+  const [modalRef, clickOutside] = useClickOutside('visibleProductModal');
   const { _id, name, price, salePrice, finalPrice, images, details } =
     state.visibleProductModal as Product;
   const [count, setCount] = useState<number>(1);
@@ -144,17 +144,6 @@ const ProductModal = () => {
       }
     });
   }, [count]);
-  const clickOutsideModal = useCallback((e: React.MouseEvent) => {
-    const dialogDemission = modalRef.current?.getBoundingClientRect();
-    if (
-      e.clientX < dialogDemission!.left ||
-      e.clientX > dialogDemission!.right ||
-      e.clientY < dialogDemission!.top ||
-      e.clientY > dialogDemission!.bottom
-    ) {
-      closeAllModal();
-    }
-  }, []);
   const handleAddToCart = useCallback(() => {
     if (token) {
       const cart = {
@@ -200,7 +189,7 @@ const ProductModal = () => {
         className={`quick-view-product ${
           state.visibleProductModal?._id ? 'active' : ''
         } overflow-y-auto laptop:overflow-hidden`}
-        onClick={clickOutsideModal}
+        onClick={clickOutside}
       >
         <article ref={modalRef} className='container flex flex-col gap-[10px]'>
           <button

@@ -1,4 +1,10 @@
-import { useState, useEffect, useCallback, useRef, useContext } from 'react';
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useContext,
+  MutableRefObject,
+} from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
@@ -13,11 +19,12 @@ import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 import Modal from '@/Modal';
 import { ModalContext } from '../../hooks/modalContext';
+import useClickOutside from '@/hooks/useClickOutside';
 function LoginModal() {
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const modalRef = useRef<HTMLFormElement | null>(null);
+  const [modalRef, clickOutside] = useClickOutside('visibleLoginModal');
   const [
     loginUser,
     {
@@ -51,17 +58,6 @@ function LoginModal() {
   const handleLoginUser = () => {
     loginUser(form);
   };
-  const clickOutsideModal = useCallback((e: React.MouseEvent) => {
-    const dialogDemission = modalRef.current?.getBoundingClientRect();
-    if (
-      e.clientX < dialogDemission!.left ||
-      e.clientX > dialogDemission!.right ||
-      e.clientY < dialogDemission!.top ||
-      e.clientY > dialogDemission!.bottom
-    ) {
-      setVisibleModal('visibleLoginModal');
-    }
-  }, []);
   useEffect(() => {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
       closeAllModal();
@@ -93,10 +89,10 @@ function LoginModal() {
     <Modal>
       <section
         className={`${state.visibleLoginModal ? 'active' : ''} login-form`}
-        onClick={clickOutsideModal}
+        onClick={clickOutside}
       >
         <form
-          ref={modalRef}
+          ref={modalRef as MutableRefObject<HTMLFormElement>}
           className='px-[24px] tablet:px-[55px] py-[75px]'
           onSubmit={(e) => e.preventDefault()}
         >
@@ -132,6 +128,7 @@ function LoginModal() {
               onFocus={() => setFocusInput('email')}
               onBlur={() => setFocusInput(null)}
               onChange={handleChangeForm}
+              autoComplete='username'
             />
             <div
               className={`focus-input-login ${

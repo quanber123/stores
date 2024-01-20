@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { MutableRefObject, useContext, useEffect, useState } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaXmark, FaLightbulb } from 'react-icons/fa6';
 import { useDispatch } from 'react-redux';
@@ -14,12 +14,13 @@ import { setAuth, setToken } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
 import { ModalContext } from '../../hooks/modalContext';
+import useClickOutside from '@/hooks/useClickOutside';
 
 function RegisterModal() {
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const modalRef = useRef<HTMLFormElement | null>(null);
+  const [modalRef, clickOutside] = useClickOutside('visibleRegisterModal');
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -49,17 +50,6 @@ function RegisterModal() {
       password: form.password,
     });
   };
-  const clickOutsideModal = useCallback((e: React.MouseEvent) => {
-    const dialogDemission = modalRef.current?.getBoundingClientRect();
-    if (
-      e.clientX < dialogDemission!.left ||
-      e.clientX > dialogDemission!.right ||
-      e.clientY < dialogDemission!.top ||
-      e.clientY > dialogDemission!.bottom
-    ) {
-      setVisibleModal('visibleRegisterModal');
-    }
-  }, []);
   useEffect(() => {
     if (
       isSuccessRegister &&
@@ -94,10 +84,10 @@ function RegisterModal() {
         className={`${
           state.visibleRegisterModal ? 'active' : ''
         } register-form`}
-        onClick={clickOutsideModal}
+        onClick={clickOutside}
       >
         <form
-          ref={modalRef}
+          ref={modalRef as MutableRefObject<HTMLFormElement>}
           className='px-[24px] tablet:px-[55px] py-[75px]'
           onSubmit={(e) => e.preventDefault()}
         >
@@ -136,6 +126,7 @@ function RegisterModal() {
               onFocus={() => setFocusInput('name')}
               onBlur={() => setFocusInput(null)}
               onChange={handleChangeForm}
+              autoComplete='username'
             />
             <div
               className={`focus-input-register ${
@@ -163,6 +154,7 @@ function RegisterModal() {
               onFocus={() => setFocusInput('email')}
               onBlur={() => setFocusInput(null)}
               onChange={handleChangeForm}
+              autoComplete='username'
             />
             <div
               className={`focus-input-register ${
