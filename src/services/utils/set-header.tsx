@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { capitalize } from './format';
 import { Helmet } from 'react-helmet';
 import { useSelector } from 'react-redux';
-import { getAllTags } from '../redux/slice/tagSlice';
+import { getAllTags } from '../redux/slice/labelSlice';
 type Props = {
   title: string;
   description?: string;

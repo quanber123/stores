@@ -6,9 +6,11 @@ import {
   FaMagnifyingGlass,
   FaXmark,
 } from 'react-icons/fa6';
-import { getAllCategories } from '@/services/redux/slice/categorySlice';
+import {
+  getAllCategories,
+  getAllTags,
+} from '@/services/redux/slice/labelSlice';
 import { capitalize } from '@/services/utils/format';
-import { getAllTags } from '@/services/redux/slice/tagSlice';
 import useQueryString from '@/hooks/useQueryString';
 const ProductFilter = () => {
   const [queryString, handleChangeQuery] = useQueryString();

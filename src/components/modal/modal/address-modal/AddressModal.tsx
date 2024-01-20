@@ -1,19 +1,26 @@
 import Modal from '@/Modal';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { ModalContext } from '../../hooks/modalContext';
 import { FaRegCircleDot, FaRegCircle } from 'react-icons/fa6';
 import { useGetAddressUserQuery } from '@/services/redux/features/userFeatures';
-import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  accessToken,
+  getCurrAddress,
+  setCurrDelivery,
+} from '@/services/redux/slice/authSlice';
+import { Address } from '@/interfaces/interfaces';
 const AddressModal = () => {
   const token = useSelector(accessToken);
+  const dispatch = useDispatch();
+  const address = useSelector(getCurrAddress);
   const { state, setVisibleModal } = useContext(ModalContext);
   const { data: dataAddress, isSuccess: isSuccessAddress } =
     useGetAddressUserQuery(token, { skip: !token });
-  const [currAddress, setCurrAddress] = useState(null);
+  const [currAddress, setCurrAddress] = useState<Address | null>(address);
   useEffect(() => {
-    if (isSuccessAddress && dataAddress) {
-      setCurrAddress(dataAddress[0]._id);
+    if (isSuccessAddress && dataAddress && !address) {
+      setCurrAddress(dataAddress[0]);
     }
   }, [isSuccessAddress, dataAddress]);
   const renderedAddress = useMemo(
@@ -23,9 +30,9 @@ const AddressModal = () => {
             <div
               key={a._id}
               className='flex items-start gap-[10px] cursor-pointer'
-              onClick={() => setCurrAddress(a._id)}
+              onClick={() => setCurrAddress(a)}
             >
-              {currAddress === a._id ? (
+              {currAddress?._id === a._id ? (
                 <FaRegCircleDot className='mt-2 text-purple' />
               ) : (
                 <FaRegCircle className='mt-2 text-gray' />
@@ -53,6 +60,10 @@ const AddressModal = () => {
         : null,
     [dataAddress, isSuccessAddress, currAddress]
   );
+  const handleSetCurrDelivery = useCallback(() => {
+    dispatch(setCurrDelivery(currAddress));
+    setVisibleModal('visibleAddressModal');
+  }, [dispatch, currAddress]);
   return (
     <Modal>
       <section
@@ -83,7 +94,10 @@ const AddressModal = () => {
             >
               Cancel
             </button>
-            <button className='w-[140px] h-[40px] bg-purple hover:bg-darkGray text-white'>
+            <button
+              className='w-[140px] h-[40px] bg-purple hover:bg-darkGray text-white'
+              onClick={handleSetCurrDelivery}
+            >
               Confirm
             </button>
           </div>

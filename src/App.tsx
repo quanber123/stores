@@ -6,11 +6,15 @@ import {
   setAuth,
   setToken,
 } from './services/redux/slice/authSlice';
-import { setAllCategories } from './services/redux/slice/categorySlice';
-import { setAllTags } from './services/redux/slice/tagSlice';
+import {
+  setAllCategories,
+  setAllTags,
+} from './services/redux/slice/labelSlice';
 import { useGetUserQuery } from './services/redux/features/userFeatures';
-import { useGetTagsQuery } from './services/redux/features/tagsFeatures';
-import { useGetCategoriesQuery } from './services/redux/features/categoryFeatures';
+import {
+  useGetCategoriesQuery,
+  useGetTagsQuery,
+} from './services/redux/features/labelFeatures';
 import { DropdownProvider } from './components/dropdown/hooks/dropdownContext';
 import Loading from './components/common/Loading/Loading';
 import { setAllCarts } from './services/redux/slice/productSlice';

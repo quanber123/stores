@@ -1,14 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slice/authSlice';
 import productReducer from './slice/productSlice';
-// import favoriteReducer from './slice/favoriteSlice';
 import blogReducer from './slice/blogSlice';
-import categoryReducer from './slice/categorySlice';
-import tagReducer from './slice/tagSlice';
+import labelReducer from './slice/labelSlice';
 import { productApi } from './features/productFeatures';
-import { tagApi } from './features/tagsFeatures';
-import { emailApi } from './features/emailFeatures';
-import { categoryApi } from './features/categoryFeatures';
+import { labelApi } from './features/labelFeatures';
 import { userApi } from './features/userFeatures';
 import { blogApi } from './features/blogFeatures';
 export const store = configureStore({
@@ -16,24 +12,18 @@ export const store = configureStore({
     auth: authReducer,
     products: productReducer,
     blogs: blogReducer,
-    // favorite: favoriteReducer,
-    category: categoryReducer,
-    tags: tagReducer,
+    label: labelReducer,
     [userApi.reducerPath]: userApi.reducer,
-    [emailApi.reducerPath]: emailApi.reducer,
     [productApi.reducerPath]: productApi.reducer,
     [blogApi.reducerPath]: blogApi.reducer,
-    [tagApi.reducerPath]: tagApi.reducer,
-    [categoryApi.reducerPath]: categoryApi.reducer,
+    [labelApi.reducerPath]: labelApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       userApi.middleware,
-      emailApi.middleware,
       productApi.middleware,
       blogApi.middleware,
-      tagApi.middleware,
-      categoryApi.middleware
+      labelApi.middleware
     ),
 });
 

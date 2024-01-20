@@ -3,13 +3,18 @@ import React, {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { Cart } from '@/interfaces/interfaces';
 import { capitalizeFirstLetter } from '@/services/utils/format';
 import { useCreatePaymentMutation } from '@/services/redux/features/productFeatures';
-import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  accessToken,
+  getCurrAddress,
+  setCurrDelivery,
+} from '@/services/redux/slice/authSlice';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FaLocationDot } from 'react-icons/fa6';
 import LazyLoadImage from '@/services/utils/lazyload-image';
@@ -20,18 +25,18 @@ type Props = {
   orders: Cart[];
 };
 const CheckoutList: React.FC<Props> = ({ orders }) => {
-  const { setVisibleModal } = useContext(ModalContext);
   const token = useSelector(accessToken);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { setVisibleModal } = useContext(ModalContext);
+  const currAddress = useSelector(getCurrAddress);
   const [paymentMethod, setPaymentMethod] = useState(
     window.localStorage.getItem('cozastore-payment') || 'cash'
   );
+  const message = useRef<HTMLInputElement | null>(null);
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const {
-    data: dataAddress,
-    isSuccess: isSuccessAddress,
-    isLoading: isLoadingAddress,
-  } = useGetAddressUserQuery(token, { skip: !token });
+  const { data: dataAddress, isSuccess: isSuccessAddress } =
+    useGetAddressUserQuery(token, { skip: !token });
   const [
     createPayment,
     {
@@ -42,11 +47,16 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   ] = useCreatePaymentMutation();
   const addressUser = useMemo(
     () =>
-      dataAddress
-        ? `${dataAddress[0].address}, ${dataAddress[0].district}, ${dataAddress[0].city},${dataAddress[0].state}`
+      currAddress
+        ? `${currAddress.address}, ${currAddress.district}, ${currAddress.city},${currAddress.state}`
         : '',
-    [dataAddress]
+    [currAddress]
   );
+  useEffect(() => {
+    if (isSuccessAddress && dataAddress) {
+      dispatch(setCurrDelivery(dataAddress[0]));
+    }
+  }, [isSuccessAddress, dataAddress]);
   const renderedOrders = useMemo(() => {
     return orders.map((o) => {
       return (
@@ -92,6 +102,8 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         token: token,
         totalPrice: totalPrice,
         products: orders,
+        message: message.current?.value,
+        address: addressUser,
         type: paymentMethod,
       });
     } else {
@@ -102,7 +114,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         },
       });
     }
-  }, [paymentMethod, dataAddress]);
+  }, [paymentMethod, dataAddress, addressUser]);
   useEffect(() => {
     isSuccessPayment &&
       setSearchQuery((prevQuery) => {
@@ -129,13 +141,13 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
           <FaLocationDot />
           <h2>Delivery address</h2>
         </div>
-        {isSuccessAddress && dataAddress && !isLoadingAddress && (
+        {currAddress && (
           <div className='flex items-center gap-[20px]'>
             <p className='font-bold'>
-              {dataAddress[0].name} | {dataAddress[0].phone}
+              {currAddress.name} | {currAddress.phone}
             </p>
             <p>{addressUser}</p>
-            {dataAddress[0].isDefault && (
+            {currAddress.isDefault && (
               <div className='px-2 text-[12px] border border-purple text-purple'>
                 Default
               </div>
@@ -148,7 +160,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
             </button>
           </div>
         )}
-        {isSuccessAddress && dataAddress === null && !isLoadingAddress && (
+        {!currAddress && (
           <button
             className='flex items-center gap-[5px] border border-purple w-max px-4'
             onClick={() => setVisibleModal('visibleAddressModal')}
@@ -172,6 +184,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         <div className='flex-1 flex items-center gap-[20px] text-sm'>
           <label htmlFor='message'>Message:</label>
           <input
+            ref={message}
             className='w-4/5 bg-lightGray px-4 py-2'
             type='text'
             placeholder='Note to sellers...'

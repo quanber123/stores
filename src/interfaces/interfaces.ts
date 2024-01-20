@@ -173,3 +173,23 @@ export interface Settings {
     created_at: string;
   }>;
 }
+
+export interface Address {
+  geoinfo: {
+    region: {
+      latitude: null | string | number;
+      longitude: null | string | number;
+    };
+    geoinfo_confirm: boolean;
+  };
+  _id: string;
+  userId: string;
+  name: string;
+  phone: string;
+  state: string;
+  city: string;
+  address: string;
+  district: string;
+  zipcode: string | number | null;
+  isDefault: boolean;
+}

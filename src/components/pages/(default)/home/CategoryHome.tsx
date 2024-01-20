@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewCategory from '@/components/(ui)/category/PreviewCategory';
-import { getAllCategories } from '@/services/redux/slice/categorySlice';
+import { getAllCategories } from '@/services/redux/slice/labelSlice';
 function CategoryHome() {
   const categories = useSelector(getAllCategories);
   const categoryRef = useRef<Array<HTMLElement | null>>([]);

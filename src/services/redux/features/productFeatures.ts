@@ -9,7 +9,6 @@ export const productApi = createApi({
     return {
       getProducts: builder.query({
         query: (query) => {
-          // if (!query) return `products?page=1`;
           return `products?${query.search}`;
         },
         providesTags: (result) => providesList(result, 'Products'),
@@ -82,7 +81,7 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       createPayment: builder.mutation({
-        query: ({ token, type, totalPrice, products }) => ({
+        query: ({ token, type, totalPrice, message, address, products }) => ({
           url: `create-payment-${type}`,
           method: 'POST',
           headers: {
@@ -91,9 +90,11 @@ export const productApi = createApi({
           body: {
             totalPrice: totalPrice,
             products: products,
+            message: message,
+            address: address,
           },
         }),
-        invalidatesTags: ['Carts'],
+        invalidatesTags: ['Carts', 'Orders'],
       }),
       getAllOrders: builder.query({
         query: ({ token, query }) => ({
