@@ -26,7 +26,7 @@ const AddressModal = () => {
   const renderedAddress = useMemo(
     () =>
       isSuccessAddress
-        ? dataAddress.map((a: any) => (
+        ? dataAddress.map((a: Address) => (
             <div
               key={a._id}
               className='flex items-start gap-[10px] cursor-pointer'
@@ -54,7 +54,16 @@ const AddressModal = () => {
                   </div>
                 )}
               </div>
-              <button className='ml-auto text-purple'>Edit</button>
+              <button
+                className='ml-auto text-purple'
+                onClick={() =>
+                  setVisibleModal({
+                    visibleUpdateAddressModal: a,
+                  })
+                }
+              >
+                Edit
+              </button>
             </div>
           ))
         : null,

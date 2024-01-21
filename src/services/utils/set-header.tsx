@@ -52,4 +52,4 @@ const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
   );
 };
 
-export default React.memo(SetHeader);
+export default SetHeader;

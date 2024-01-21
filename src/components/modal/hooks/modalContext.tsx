@@ -59,7 +59,6 @@ export const ModalProvider = ({ children }: { children: any }) => {
     setVisibleModal,
     closeAllModal,
   };
-
   return (
     <ModalContext.Provider value={contextValue}>
       {children}
