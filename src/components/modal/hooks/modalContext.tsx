@@ -1,4 +1,4 @@
-import { Product } from '@/interfaces/interfaces';
+import { Address, Product } from '@/interfaces/interfaces';
 import { createContext, useCallback, useReducer } from 'react';
 type AlertModalState = {
   status: string;
@@ -16,7 +16,8 @@ type InitialState = {
   visibleConfirmModal: ConfirmModalState;
   visibleAddressModal: boolean;
   visibleAddAddressModal: boolean;
-  visibleUpdateAddressModal: boolean;
+  visibleUpdateAddressModal: Address;
+  visibleReviewsModal: any;
 };
 const SET_VISIBLE_MODAL = 'SET_VISIBLE_MODAL';
 const CLOSE_ALL_MODAL = 'CLOSE_ALL_MODAL';

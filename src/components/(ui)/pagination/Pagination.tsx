@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ReactPaginate from 'react-paginate';
 import scrollElement from '@/services/utils/scroll-elements';
@@ -7,7 +7,9 @@ type Props = {
 };
 const Pagination: React.FC<Props> = ({ totalPage }) => {
   const [query, setQuery] = useSearchParams();
-  const currPage = Number(query.get('page')) - 1 || 0;
+  const currPage = useMemo(() => {
+    return query.get('page') ? Number(query.get('page')) - 1 : 0;
+  }, [query, setQuery]);
   const handlePageClick = useCallback(
     (selectedItem: { selected: number }) => {
       const newPage = selectedItem.selected + 1;

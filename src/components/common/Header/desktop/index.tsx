@@ -5,7 +5,7 @@ import gsap from 'gsap';
 import Router from './Route';
 import Logo from './Logo';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-const CartModal = lazy(
+const CartDropdown = lazy(
   () => import('@/components/dropdown/dropdown/cart-dropdown/CartDropdown')
 );
 const FavoriteDropdown = lazy(
@@ -22,10 +22,11 @@ const UserModal = lazy(
   () => import('@/components/dropdown/dropdown/user-dropdown/UserDropdown')
 );
 const LoginModal = lazy(
-  () => import('@/components/modal/modal/login-modal/LoginModal')
+  () => import('@/components/modal/modal/(default)/login-modal/LoginModal')
 );
 const RegisterModal = lazy(
-  () => import('@/components/modal/modal/register-modal/RegisterModal')
+  () =>
+    import('@/components/modal/modal/(default)/register-modal/RegisterModal')
 );
 function DesktopNavBar() {
   const { setVisibleModal } = useContext(ModalContext);
@@ -74,7 +75,7 @@ function DesktopNavBar() {
       {user.email ? (
         <Suspense>
           <div className='ml-auto flex items-center gap-[20px]'>
-            <CartModal />
+            <CartDropdown />
             <FavoriteDropdown />
             <NotificationsModal />
             <UserModal user={user} />

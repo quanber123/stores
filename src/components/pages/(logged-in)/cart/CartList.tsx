@@ -5,7 +5,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
-import { getAllCarts } from '@/services/redux/slice/productSlice';
+import { getAllCarts } from '@/services/redux/slice/authSlice';
 import { useSelector } from 'react-redux';
 import { capitalizeFirstLetter } from '@/services/utils/format';
 import { useNavigate } from 'react-router-dom';
@@ -26,6 +26,7 @@ function CartList() {
   const navigate = useNavigate();
   const token = useSelector(accessToken);
   const cart = useSelector(getAllCarts);
+  console.log(cart);
   const [quantity, setQuantity] = useState<number[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Cart[]>([]);
   const [isSelectedAll, setIsSelectedAll] = useState(false);

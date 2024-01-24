@@ -1,117 +1,120 @@
+import {
+  useGetAllFavoritesQuery,
+  usePostFavoritesMutation,
+} from '@/services/redux/features/productFeatures';
+import {
+  accessToken,
+  getAllFavorites,
+  setAllFavorites,
+} from '@/services/redux/slice/authSlice';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { FaHeart } from 'react-icons/fa6';
-import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { DropdownContext } from '../../hooks/dropdownContext';
+import LazyLoadImage from '@/services/utils/lazyload-image';
+import { capitalizeFirstLetter } from '@/services/utils/format';
+import './FavoriteDropdown.css';
 // import { useState } from 'react';
 // import { getFavorite, removeFormFavorite } from '@/store/slice/favoriteSlice';
 function FavoriteDropdown() {
+  const token = useSelector(accessToken);
+  const dispatch = useDispatch();
+  const [searchQuery] = useSearchParams();
+  const getToken = searchQuery.get('token') ?? '';
   const navigate = useNavigate();
-  // const favorite = useSelector(getFavorite);
-  // const visibleModal = useSelector(getVisibleFavoriteDropdown);
-  // const [removeItem, setRemoveItem] = useState<string | null>(null);
-  const handleCheckFavorite = () => {
-    if (window.innerWidth > 640) {
-    } else {
-      navigate('/Favorite');
+  const { state, setVisibleDropdown, closeDropdown } =
+    useContext(DropdownContext);
+  const favorites = useSelector(getAllFavorites);
+  const { data: favoriteData, isSuccess: isSuccessFavorite } =
+    useGetAllFavoritesQuery(token ?? getToken, {
+      skip: token || getToken ? false : true,
+    });
+  const [postFavorite] = usePostFavoritesMutation();
+  useEffect(() => {
+    if (isSuccessFavorite && favoriteData) {
+      dispatch(setAllFavorites(favoriteData));
     }
-  };
-  // const redirectFavorite = () => {
-  //   dispatch(setVisibleFavoriteDropdown());
-  //   navigate('/favorite');
-  // };
-  // const handleRemoveFavorite = (_id: string, price: number) => {
-  //   dispatch(
-  //     removeFormFavorite({
-  //       _id: _id,
-  //       price: price,
-  //     })
-  //   );
-  //   dispatch(
-  //     setVisibleAlertModal({
-  //       status: 'success',
-  //       message: 'Success: Deleted Product!',
-  //       color: 'green',
-  //       backgroundColor: 'lightGreen',
-  //     })
-  //   );
-  // };
-  // const renderedFavorite = favorite?.map((f) => {
-  //   return (
-  //     <article
-  //       key={f._id}
-  //       className='text-semiBoldGray flex items-center gap-[20px]'
-  //     >
-  //       <div
-  //         className='relative rounded-[12px] overflow-hidden'
-  //         onMouseEnter={() => setRemoveItem(f._id)}
-  //         onMouseLeave={() => setRemoveItem(null)}
-  //       >
-  //         <img className='w-[150px] h-[80px]' src={f.image} alt='' />
-  //         <div
-  //           className={`${
-  //             f._id === removeItem ? 'w-full h-full' : 'w-0 h-0'
-  //           } absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-white text-lg bg-overlayPurple flex justify-center items-center`}
-  //           style={{ transition: 'all 0.3s ease' }}
-  //         >
-  //           <FaHeart
-  //             className='cursor-pointer'
-  //             onClick={() => handleRemoveFavorite(f._id, f.price)}
-  //           />
-  //         </div>
-  //       </div>
-  //       <div className='flex flex-col gap-[5px]'>
-  //         <h3 className='font-bold'>{f.name}</h3>
-  //         <p className='flex items-center gap-[10px]'>
-  //           <span>Size: {f.size}</span>
-  //           <span>Color: {f.color}</span>
-  //         </p>
-  //         <p>
-  //           Quantity: <span className='font-bold'>{f.quantity}</span>
-  //         </p>
-  //         <p>
-  //           Total Price: <span className='font-bold'>{f.totalPrice}$</span>
-  //         </p>
-  //       </div>
-  //     </article>
-  //   );
-  // });
+  }, [isSuccessFavorite, favoriteData]);
+  const handleRedirect = useCallback(
+    (id: string) => {
+      navigate(`/shop/${id}`);
+      closeDropdown();
+    },
+    [navigate]
+  );
+  const renderedFavorite = useMemo(() => {
+    return favorites.favorite?.products?.map((p) => {
+      return (
+        <article
+          key={p._id}
+          className='text-semiBoldGray flex justify-between gap-[20px]'
+        >
+          <div className='relative rounded-[12px] overflow-hidden'>
+            <LazyLoadImage
+              src={p.images[0]}
+              alt={p.name}
+              className='w-[150px] h-[80px]'
+            />
+          </div>
+          <div className='flex-1 flex flex-col justify-between gap-[5px]'>
+            <h3
+              className='font-bold cursor-pointer'
+              onClick={() => handleRedirect(p._id)}
+            >
+              {capitalizeFirstLetter(p.name)}
+            </h3>
+            <button
+              className='w-max ml-auto px-4 py-2 text-base rounded-[2px] text-white bg-purple hover:bg-darkGray'
+              onClick={() => postFavorite({ token: token, productId: p._id })}
+            >
+              Unlike
+            </button>
+          </div>
+        </article>
+      );
+    });
+  }, [favorites.favorite]);
   return (
     <>
       <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
         <div className='flex items-center gap-[20px]'>
           <FaHeart
             className='text-lg hover:text-purple transition-colors cursor-pointer'
-            onClick={handleCheckFavorite}
+            onClick={() => setVisibleDropdown('visibleFavoriteDropdown')}
           />
           <p className='block tablet:hidden font-bold'>Your Favorite</p>
-          {/* {favorite.length ? (
+          {favorites.favorite?.products?.length ? (
             <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
-              {favorite.length}
+              {favorites.favorite.products.length}
             </span>
           ) : (
             <></>
-          )} */}
+          )}
         </div>
-        {/* <div className={`favorite-modal ${visibleModal ? 'active' : ''}`}>
-          <div className='pl-[16px] pr-[32px] flex justify-between items-center'>
-            <h3 className='text-md text-semiBoldGray font-bold'>
-              Your Favorite
-            </h3>
-            <button
-              className='text-purple font-bold'
-              onClick={redirectFavorite}
-            >
-              See all
-            </button>
-          </div>
-          <div className='pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-y-auto'>
-            {favorite.length ? (
+        <div
+          className={`favorite-modal ${
+            state.visibleFavoriteDropdown ? 'active' : ''
+          }`}
+        >
+          <h3 className='pl-[16px] text-md text-semiBoldGray font-bold'>
+            Your Favorite
+          </h3>
+          <div className='flex-1 pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-auto'>
+            {favorites.favorite?.products?.length ? (
               renderedFavorite
             ) : (
-              <p className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full text-purple font-bold text-xl text-center'>
-                No Product In Your Favorite
-              </p>
+              <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px]'>
+                {/* <LazyLoadImage
+                  className='w-[100px] h-[100px] rounded-[2px]'
+                  src={cartImg}
+                  alt='cart-img'
+                /> */}
+                <p className='font-bold'>No products yet.</p>
+              </div>
             )}
           </div>
-        </div> */}
+        </div>
       </div>
     </>
   );

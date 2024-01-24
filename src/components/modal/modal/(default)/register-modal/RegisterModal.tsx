@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { setAuth, setToken } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import useClickOutside from '@/hooks/useClickOutside';
 
 function RegisterModal() {

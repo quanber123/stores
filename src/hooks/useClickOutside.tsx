@@ -1,9 +1,9 @@
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import React, { useCallback, useContext, useRef } from 'react';
 
-const useClickOutside = (modal: string) => {
+const useClickOutside = (modal: any) => {
   const { setVisibleModal } = useContext(ModalContext);
-  const modalRef = useRef<HTMLElement | HTMLFormElement | null>(null);
+  const modalRef = useRef<any | null>(null);
   const clickOutside = useCallback(
     (e: React.MouseEvent) => {
       const dialogDemission = modalRef.current?.getBoundingClientRect();

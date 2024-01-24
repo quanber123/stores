@@ -12,9 +12,13 @@ const OrdersList: React.FC<Props> = ({ orders, totalPage }) => {
     [orders]
   );
   return (
-    <section className='flex-1 flex flex-col items-center gap-[20px] text-darkGray'>
-      <div className='w-full flex flex-col'>{renderedOrders}</div>
-      <Pagination totalPage={totalPage as number} />
+    <section className='flex-1 flex flex-col items-start gap-[20px] text-darkGray'>
+      <div className='w-full flex flex-col gap-[20px]'>{renderedOrders}</div>
+      {totalPage > 1 && (
+        <div className='container'>
+          <Pagination totalPage={totalPage as number} />
+        </div>
+      )}
     </section>
   );
 };

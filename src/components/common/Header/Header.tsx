@@ -4,21 +4,30 @@ import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import './Header.css';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-import ConfirmModal from '@/components/modal/modal/confirm-modal/ConfirmModal';
 const ProductModal = lazy(
-  () => import('@/components/modal/modal/product-modal/ProductModal')
+  () => import('@/components/modal/modal/(default)/product-modal/ProductModal')
+);
+const ConfirmModal = lazy(
+  () =>
+    import('@/components/modal/modal/(logged-in)/confirm-modal/ConfirmModal')
 );
 const AlertModal = lazy(
-  () => import('@/components/modal/modal/alert-modal/AlertModal')
+  () => import('@/components/modal/modal/(default)/alert-modal/AlertModal')
 );
 const AddressModal = lazy(
-  () => import('@/components/modal/modal/address-modal/AddressModal')
+  () =>
+    import('@/components/modal/modal/(logged-in)/address-modal/AddressModal')
 );
 const AddAddressModal = lazy(
-  () => import('@/components/modal/modal/address-modal/AddAddress')
+  () => import('@/components/modal/modal/(logged-in)/address-modal/AddAddress')
 );
 const UpdateAddressModal = lazy(
-  () => import('@/components/modal/modal/address-modal/UpdateAddress')
+  () =>
+    import('@/components/modal/modal/(logged-in)/address-modal/UpdateAddress')
+);
+const ReviewsModal = lazy(
+  () =>
+    import('@/components/modal/modal/(logged-in)/reviews-modal/ReviewsModal')
 );
 function Header() {
   const { state, setVisibleModal } = useContext(ModalContext);
@@ -60,6 +69,9 @@ function Header() {
         {state.visibleAddressModal && <AddressModal />}
         {state.visibleAddAddressModal && <AddAddressModal />}
         {state.visibleUpdateAddressModal && <UpdateAddressModal />}
+      </Suspense>
+      <Suspense fallback={<LoadingV2 />}>
+        {state.visibleReviewsModal && <ReviewsModal />}
       </Suspense>
     </header>
   );

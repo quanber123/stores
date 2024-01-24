@@ -16,9 +16,9 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
   const { setVisibleModal } = useContext(ModalContext);
   const [updateOrder] = useUpdateOrderMutation();
   const handleRedirect = useCallback(
-    (id: string) => {
+    (id: string, type: string) => {
       scrollElement();
-      navigate(`/shop/${id}`);
+      navigate(`/${type}/${id}`);
     },
     [navigate]
   );
@@ -101,12 +101,26 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                   <>
                     <button
                       className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
-                      onClick={() => handleRedirect(p.id)}
+                      onClick={() => handleRedirect(p.id, 'shop')}
                     >
                       Repurchase
                     </button>
-                    {order.paymentInfo.status === 'PAID' && (
-                      <button className='w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'>
+                    {order.paymentInfo.status === 'PAID' && p.isReview ? (
+                      <button
+                        className='w-[150px] py-2 border border-darkGray  bg-darkGray text-white rounded-[4px]'
+                        onClick={() => handleRedirect(p.id, 'shop')}
+                      >
+                        See reviews
+                      </button>
+                    ) : (
+                      <button
+                        className='w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'
+                        onClick={() =>
+                          setVisibleModal({
+                            visibleReviewsModal: { ...p, orderId: order._id },
+                          })
+                        }
+                      >
                         Reviews
                       </button>
                     )}

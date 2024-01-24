@@ -33,6 +33,7 @@ export default {
       darkBlue: 'var(--dark-blue)',
       purple: 'var(--purple)',
       red: 'var(--red)',
+      yellow: 'var(--yellow)',
       white: 'var(--white)',
       overlayGray: 'var(--overlay-gray)',
       overlayBlack: 'var(--overlay-black)',

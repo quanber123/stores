@@ -1,6 +1,6 @@
 import Modal from '@/Modal';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import { FaRegCircleDot, FaRegCircle } from 'react-icons/fa6';
 import { useGetAddressUserQuery } from '@/services/redux/features/userFeatures';
 import { useDispatch, useSelector } from 'react-redux';

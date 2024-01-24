@@ -18,7 +18,7 @@ import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
 import './LoginModal.css';
 import Modal from '@/Modal';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import useClickOutside from '@/hooks/useClickOutside';
 function LoginModal() {
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);

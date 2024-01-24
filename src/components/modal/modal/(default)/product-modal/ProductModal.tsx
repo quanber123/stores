@@ -16,7 +16,7 @@ import {
 import { useSlider } from '@/hooks/useSlider';
 import { Product } from '@/interfaces/interfaces';
 import Modal from '@/Modal';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { useSelector } from 'react-redux';

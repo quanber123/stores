@@ -5,6 +5,7 @@ import {
   accessToken,
   setAuth,
   setToken,
+  setAllFavorites,
 } from './services/redux/slice/authSlice';
 import {
   setAllCategories,
@@ -17,8 +18,7 @@ import {
 } from './services/redux/features/labelFeatures';
 import { DropdownProvider } from './components/dropdown/hooks/dropdownContext';
 import Loading from './components/common/Loading/Loading';
-import { setAllCarts } from './services/redux/slice/productSlice';
-import { useGetAllCartsQuery } from './services/redux/features/productFeatures';
+import { useGetAllFavoritesQuery } from './services/redux/features/productFeatures';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
@@ -30,10 +30,6 @@ function App() {
   const token = useSelector(accessToken);
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(
     token || getToken,
-    { skip: token || getToken ? false : true }
-  );
-  const { data: cartsData, isSuccess: isSuccessCart } = useGetAllCartsQuery(
-    token,
     { skip: token || getToken ? false : true }
   );
   const { data: dataCategories, isSuccess: isSuccessCategories } =
@@ -59,11 +55,6 @@ function App() {
     }
   }, [isSuccessUser, dataUser]);
   useEffect(() => {
-    if (isSuccessCart && cartsData) {
-      dispatch(setAllCarts(cartsData));
-    }
-  }, [isSuccessCart, cartsData]);
-  useEffect(() => {
     if (isSuccessCategories && dataCategories) {
       dispatch(setAllCategories(dataCategories));
     }
@@ -73,6 +64,7 @@ function App() {
       dispatch(setAllTags(dataTags));
     }
   }, [isSuccessTags]);
+
   return (
     <>
       <Suspense fallback={<Loading />}>

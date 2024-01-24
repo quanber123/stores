@@ -1,6 +1,6 @@
 import Modal from '@/Modal';
 import { useCallback, useContext } from 'react';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 const ConfirmModal = () => {
   const { state, closeAllModal } = useContext(ModalContext);
   const closeModal = useCallback(() => {
@@ -9,7 +9,7 @@ const ConfirmModal = () => {
   }, [state.visibleConfirmModal]);
   return (
     <Modal>
-      <div
+      <section
         className={`${
           state.visibleConfirmModal.message ? 'block' : 'hidden'
         } fixed top-0 left-0 w-full h-full bg-overlayBlack z-[1000] flex justify-center items-center`}
@@ -26,7 +26,7 @@ const ConfirmModal = () => {
             <button onClick={closeModal}>Yes</button>
           </div>
         </div>
-      </div>
+      </section>
     </Modal>
   );
 };

@@ -9,11 +9,15 @@ import React, {
 } from 'react';
 import { FaCartPlus, FaHeart, FaFacebookF, FaFaceDizzy } from 'react-icons/fa6';
 import { Product } from '@/interfaces/interfaces';
-import { useCreateCartMutation } from '@/services/redux/features/productFeatures';
+import {
+  useCreateCartMutation,
+  useGetFavoriteByProductQuery,
+  usePostFavoritesMutation,
+} from '@/services/redux/features/productFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
+import { accessToken, getAllFavorites } from '@/services/redux/slice/authSlice';
 import { FacebookShareButton } from 'react-share';
 import { useLocation } from 'react-router-dom';
 type Props = {
@@ -28,6 +32,15 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
     createCart,
     { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },
   ] = useCreateCartMutation();
+  const { data: dataFavorite, isSuccess: isSuccessFavorite } =
+    useGetFavoriteByProductQuery(product._id);
+  const favorites = useSelector(getAllFavorites);
+  const likedFavorites = useMemo(() => {
+    return (
+      favorites.favorite?.products?.find((p) => p._id === product._id) || null
+    );
+  }, [product._id, favorites.favorite]);
+  const [postFavorite] = usePostFavoritesMutation();
   const { setVisibleModal, closeAllModal } = useContext(ModalContext);
   const { _id, name, price, salePrice, finalPrice, images, details } = product;
   const [count, setCount] = useState<number>(1);
@@ -42,7 +55,6 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
     });
     return hashtags.join(' ');
   }, [details]);
-  console.log(renderedTags);
   //cache total quantity of product
   const totalQuantity = useMemo(
     () =>
@@ -275,21 +287,29 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
             )}
           </button>
         </div>
-        <div className='flex justify-center desktop:justify-start items-center gap-[20px]'>
-          <button className='btn-wishlist hover:text-purple flex justify-center items-center'>
-            <span>Add to Wishlist</span>
+        <div className='flex justify-center desktop:justify-start items-center gap-[20px] text-md'>
+          <button
+            className={`btn-wishlist hover:text-purple flex justify-center items-center gap-[10px] ${
+              likedFavorites ? 'text-purple' : 'text-gray'
+            }`}
+            onClick={() =>
+              postFavorite({ token: token, productId: product._id })
+            }
+          >
             <FaHeart />
+            {isSuccessFavorite && <p>Liked ({dataFavorite})</p>}
           </button>
           <span>|</span>
-          <FacebookShareButton
-            url={`${client_url}${location.pathname}`}
-            hashtag={renderedTags}
-          >
-            <button className='btn-facebook hover:text-purple flex justify-center items-center'>
-              <span>Share to Facebook</span>
+          <div className='flex items-center gap-[10px]'>
+            <p>Share:</p>
+            <FacebookShareButton
+              url={`${client_url}${location.pathname}`}
+              hashtag={renderedTags}
+              className='btn-facebook hover:text-purple flex justify-center items-center'
+            >
               <FaFacebookF />
-            </button>
-          </FacebookShareButton>
+            </FacebookShareButton>
+          </div>
         </div>
       </div>
     </section>

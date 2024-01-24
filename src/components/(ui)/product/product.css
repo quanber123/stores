@@ -64,29 +64,3 @@
   background-color: #333333;
   color: #fff;
 }
-
-.btn-wishlist,
-.btn-facebook {
-  position: relative;
-}
-
-.btn-wishlist > span,
-.btn-facebook > span {
-  position: absolute;
-  top: -200%;
-  left: -200%;
-  width: max-content;
-  padding: 1px 12px;
-  box-shadow: 0px 2px 10px #ccc;
-  color: #999999 !important;
-  font-size: 12px;
-  opacity: 0;
-  border: 1px solid #ccc;
-  transition: opacity 0.3s;
-  z-index: 20;
-}
-
-.btn-wishlist:hover > span,
-.btn-facebook:hover > span {
-  opacity: 1;
-}

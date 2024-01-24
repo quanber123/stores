@@ -4,7 +4,15 @@ const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
   baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
-  tagTypes: ['Products', 'Banners', 'Carts', 'Orders'],
+  tagTypes: [
+    'Products',
+    'Banners',
+    'Carts',
+    'Favorites',
+    'FavoritesDetails',
+    'Orders',
+    'Reviews',
+  ],
   endpoints: (builder) => {
     return {
       getProducts: builder.query({
@@ -23,7 +31,7 @@ export const productApi = createApi({
       }),
       getAllCarts: builder.query({
         query: (token) => ({
-          url: 'carts',
+          url: `carts`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,6 +88,33 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Carts'],
       }),
+      getFavoriteByProduct: builder.query({
+        query: (productId) => `/products/favorite/${productId}`,
+        providesTags: (result) => providesList(result, 'FavoritesDetails'),
+      }),
+      getAllFavorites: builder.query({
+        query: (token) => ({
+          url: `users/favorites`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }),
+        providesTags: (result) => providesList(result, 'Favorites'),
+      }),
+      postFavorites: builder.mutation({
+        query: ({ token, productId }) => ({
+          url: 'users/favorites',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: {
+            productId: productId,
+          },
+        }),
+        invalidatesTags: ['Favorites', 'FavoritesDetails'],
+      }),
       createPayment: builder.mutation({
         query: ({ token, type, totalPrice, message, address, products }) => ({
           url: `create-payment-${type}`,
@@ -128,6 +163,21 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Orders'],
       }),
+      getReviews: builder.query({
+        query: ({ id, query }) => `products/reviews/${id}?${query}`,
+        providesTags: (result) => providesList(result, 'Reviews'),
+      }),
+      reviewsProduct: builder.mutation({
+        query: ({ token, reviews }) => ({
+          url: 'products/reviews',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: reviews,
+        }),
+        invalidatesTags: ['Orders', 'Reviews'],
+      }),
     };
   },
 });
@@ -141,8 +191,13 @@ export const {
   useUpdateCartMutation,
   useDeleteCartByIdMutation,
   useDeleteManyCartsMutation,
+  useGetFavoriteByProductQuery,
+  useGetAllFavoritesQuery,
+  usePostFavoritesMutation,
   useCreatePaymentMutation,
   useGetAllOrdersQuery,
   useGetOrderByIdQuery,
   useUpdateOrderMutation,
+  useGetReviewsQuery,
+  useReviewsProductMutation,
 } = productApi;

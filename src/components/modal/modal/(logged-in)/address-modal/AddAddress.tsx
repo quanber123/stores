@@ -1,11 +1,11 @@
 import Modal from '@/Modal';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import {
+  useCreateAddressMutation,
   useGetDistrictsQuery,
   useGetProvincesQuery,
   useGetWardsQuery,
-  useUpdateAddressMutation,
 } from '@/services/redux/features/userFeatures';
 import { useSelector } from 'react-redux';
 import { accessToken } from '@/services/redux/slice/authSlice';
@@ -14,35 +14,27 @@ import {
   validatePhoneNumber,
 } from '@/services/utils/validate';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
-import { Address } from '@/interfaces/interfaces';
-const UpdateAddressModal = () => {
+const AddAddressModal = () => {
   const token = useSelector(accessToken);
   const { state, setVisibleModal } = useContext(ModalContext);
-  const address = useMemo(
-    () =>
-      typeof state?.visibleUpdateAddressModal === 'object'
-        ? (state?.visibleUpdateAddressModal as Address)
-        : ({} as Address),
-    [state.visibleUpdateAddressModal]
-  );
   const [err, setErr] = useState(false);
   const [form, setForm] = useState({
-    name: address.name,
-    phone: address.phone,
+    name: '',
+    phone: '',
     state: {
       code: null,
-      name: address.state,
+      name: '',
     },
     city: {
       code: null,
-      name: address.city,
+      name: '',
     },
     district: {
       code: null,
-      name: address.district,
+      name: '',
     },
-    address: address.address,
-    isDefault: address.isDefault,
+    address: '',
+    isDefault: false,
   });
   const { data: dataProvinces, isSuccess: isSuccessProvinces } =
     useGetProvincesQuery(null);
@@ -53,13 +45,13 @@ const UpdateAddressModal = () => {
     { skip: !form.city.code }
   );
   const [
-    updateAddress,
+    createAddress,
     {
-      data: dataUpdate,
-      isSuccess: isSuccessUpdate,
-      isLoading: isLoadingUpdate,
+      data: dataCreate,
+      isSuccess: isSuccessCreate,
+      isLoading: isLoadingCreate,
     },
-  ] = useUpdateAddressMutation();
+  ] = useCreateAddressMutation();
   const handleChangeForm = useCallback(
     (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
       const { name, type, value, dataset } = e.target;
@@ -126,9 +118,8 @@ const UpdateAddressModal = () => {
         form.address,
       ])
     ) {
-      updateAddress({
+      createAddress({
         token: token,
-        id: address._id,
         body: {
           name: form.name,
           phone: form.phone,
@@ -142,9 +133,9 @@ const UpdateAddressModal = () => {
     } else {
       setErr(true);
     }
-  }, [validatePhoneNumber, updateAddress, form]);
+  }, [validatePhoneNumber, createAddress, form]);
   useEffect(() => {
-    if (isSuccessUpdate) {
+    if (isSuccessCreate) {
       setForm({
         name: '',
         phone: '',
@@ -166,11 +157,11 @@ const UpdateAddressModal = () => {
       setVisibleModal({
         visibleAlertModal: {
           status: 'success',
-          message: `${dataUpdate?.message}`,
+          message: `${dataCreate?.message}`,
         },
       });
     }
-  }, [isSuccessUpdate]);
+  }, [isSuccessCreate]);
   useEffect(() => {
     if (err) {
       const timer = setTimeout(() => {
@@ -179,20 +170,20 @@ const UpdateAddressModal = () => {
       return () => clearTimeout(timer);
     }
   }, [err]);
-  if (isLoadingUpdate) {
+  if (isLoadingCreate) {
     return <LoadingV2 />;
   }
   return (
     <Modal>
       <section
         className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-overlayBlack flex justify-center items-center text-darkGray ${
-          state.visibleUpdateAddressModal
+          state.visibleAddAddressModal
             ? 'w-full h-full z-[999]'
             : 'w-0 h-0 -z-10'
         }`}
       >
         <div className='bg-white w-4/5 laptop:w-1/3 p-6 flex flex-col justify-between gap-[40px] rounded'>
-          <p className='text-lg font-semiBold'>Update Address</p>
+          <p className='text-lg font-semiBold'>New Address</p>
           <div className='flex flex-col gap-[20px]'>
             <div className='text-sm flex justify-between gap-[20px]'>
               <input
@@ -240,7 +231,7 @@ const UpdateAddressModal = () => {
                 aria-label='state'
               >
                 <option value='' disabled hidden>
-                  {address.state}
+                  City
                 </option>
                 {renderedProvinces}
               </select>
@@ -258,8 +249,8 @@ const UpdateAddressModal = () => {
                 onChange={handleChangeForm}
                 aria-label='city'
               >
-                <option value={address.city} disabled hidden>
-                  {address.city}
+                <option value='' disabled hidden>
+                  District
                 </option>
                 {renderedDistricts}
               </select>
@@ -277,8 +268,8 @@ const UpdateAddressModal = () => {
                 onChange={handleChangeForm}
                 aria-label='district'
               >
-                <option value={address.district} disabled hidden>
-                  {address.district}
+                <option value='' disabled hidden>
+                  Ward
                 </option>
                 {renderedWards}
               </select>
@@ -300,11 +291,7 @@ const UpdateAddressModal = () => {
               />
             </div>
           </div>
-          <div
-            className={`flex items-center gap-[10px] ${
-              address.isDefault ? 'cursor-no-drop opacity-80' : ''
-            }`}
-          >
+          <div className='flex items-center gap-[10px]'>
             <input
               data-type='string'
               type='checkbox'
@@ -312,25 +299,15 @@ const UpdateAddressModal = () => {
               id='isDefault'
               checked={form.isDefault}
               onChange={handleChangeForm}
-              disabled={address.isDefault}
             />
-            <label
-              htmlFor='isDefault'
-              className={`text-gray ${
-                address.isDefault ? 'cursor-no-drop' : ''
-              }`}
-            >
+            <label htmlFor='isDefault' className='text-gray'>
               Set as Default Address
             </label>
           </div>
           <div className='flex justify-end gap-[20px]'>
             <button
               className='w-[140px] h-[40px] border border-purple hover:border-darkGray text-purple hover:text-darkGray'
-              onClick={() =>
-                setVisibleModal({
-                  visibleUpdateModal: {},
-                })
-              }
+              onClick={() => setVisibleModal('visibleAddAddressModal')}
             >
               Cancel
             </button>
@@ -347,4 +324,4 @@ const UpdateAddressModal = () => {
   );
 };
 
-export default UpdateAddressModal;
+export default AddAddressModal;

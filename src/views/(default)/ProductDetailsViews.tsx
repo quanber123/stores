@@ -19,18 +19,18 @@ function ProductDetailsViews() {
     isLoading: isLoadingProduct,
     isFetching: isFetchingProduct,
   } = useGetProductByIdQuery(id, { skip: !id });
-  const imageRef = useRef(null);
-  const productRef = useRef(null);
-  const descriptionRef = useRef(null);
-  const relatedRef = useRef(null);
+  const imageRef = useRef<HTMLElement | null>(null);
+  const productRef = useRef<HTMLElement | null>(null);
+  const descriptionRef = useRef<HTMLElement | null>(null);
+  const relatedRef = useRef<HTMLElement | null>(null);
   useLayoutEffect(() => {
-    const ctx = gsap.context(() => {
-      if (
-        imageRef.current &&
-        productRef.current &&
-        descriptionRef.current &&
-        relatedRef.current
-      ) {
+    if (
+      imageRef.current &&
+      productRef.current &&
+      descriptionRef.current &&
+      relatedRef.current
+    ) {
+      const ctx = gsap.context(() => {
         gsap.from(imageRef.current, {
           x: -200,
           opacity: 0,
@@ -50,11 +50,11 @@ function ProductDetailsViews() {
           opacity: 0,
           duration: 1,
         });
-      }
-    });
-    return () => {
-      ctx.revert();
-    };
+      });
+      return () => {
+        ctx.revert();
+      };
+    }
   }, [productData, id]);
   if (isLoadingProduct || isFetchingProduct) {
     return <Loading />;

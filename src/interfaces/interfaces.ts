@@ -80,6 +80,15 @@ export interface Cart {
     totalPrice: number;
   };
 }
+export interface Favorite {
+  _id: string;
+  products: Array<{
+    _id: string;
+    images: string[];
+    name: string;
+  }>;
+  userId: String;
+}
 export interface Order {
   _id: string;
   created_at: string;
@@ -101,6 +110,7 @@ export interface Order {
         salePrice: number;
         finalPrice: number;
         totalPrice: number;
+        isReview: boolean;
       }
     ];
     qrCode: string | null;

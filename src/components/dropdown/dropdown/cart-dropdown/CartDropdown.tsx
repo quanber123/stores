@@ -1,17 +1,35 @@
 import { FaCartShopping } from 'react-icons/fa6';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useContext, useEffect, useMemo } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
-import { getAllCarts } from '@/services/redux/slice/productSlice';
+import {
+  accessToken,
+  getAllCarts,
+  setAllCarts,
+} from '@/services/redux/slice/authSlice';
 import { capitalizeFirstLetter } from '@/services/utils/format';
 import cartImg from '@/assets/images/cart.png';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import './CartDropdown.css';
+import { useGetAllCartsQuery } from '@/services/redux/features/productFeatures';
 function CartDropdown() {
+  const token = useSelector(accessToken);
+  const dispatch = useDispatch();
+  const [searchQuery] = useSearchParams();
+  const getToken = searchQuery.get('token') ?? '';
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   const navigate = useNavigate();
   const cart = useSelector(getAllCarts);
+  const { data: cartsData, isSuccess: isSuccessCart } = useGetAllCartsQuery(
+    token,
+    { skip: token || getToken ? false : true }
+  );
+  useEffect(() => {
+    if (isSuccessCart && cartsData) {
+      dispatch(setAllCarts(cartsData));
+    }
+  }, [isSuccessCart, cartsData]);
   const handleCheckCart = () => {
     if (window.innerWidth > 640) {
       setVisibleDropdown('visibleCartDropdown');
@@ -23,23 +41,31 @@ function CartDropdown() {
     setVisibleDropdown('visibleCartDropdown');
     navigate('/cart');
   };
-  const renderedCart = cart?.cart?.map((c) => {
-    return (
-      <article
-        key={c._id}
-        className='text-semiBoldGray flex items-center gap-[20px]'
-      >
-        <div className='relative rounded-[12px] overflow-hidden'>
-          <img className='w-[150px] h-[80px]' src={c.product.image} alt='' />
-        </div>
-        <div className='flex flex-col gap-[5px]'>
-          <h3 className='font-bold'>{capitalizeFirstLetter(c.product.name)}</h3>
-          <p>Size: {c.product.size}</p>
-          <p>Color: {c.product.color}</p>
-        </div>
-      </article>
-    );
-  });
+  const renderedCart = useMemo(() => {
+    return cart.cart.map((c) => {
+      return (
+        <article
+          key={c._id}
+          className='text-semiBoldGray flex items-center gap-[20px]'
+        >
+          <div className='relative rounded-[12px] overflow-hidden'>
+            <LazyLoadImage
+              src={c.product.image}
+              alt={c.product.name}
+              className='w-[150px] h-[80px]'
+            />
+          </div>
+          <div className='flex flex-col gap-[5px]'>
+            <h3 className='font-bold'>
+              {capitalizeFirstLetter(c.product.name)}
+            </h3>
+            <p>Size: {c.product?.size}</p>
+            <p>Color: {c.product?.color}</p>
+          </div>
+        </article>
+      );
+    });
+  }, [cart.cart]);
   return (
     <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
       <button className='flex items-center gap-[20px]'>

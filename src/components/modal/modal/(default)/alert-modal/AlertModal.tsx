@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import { FaCheck, FaXmark } from 'react-icons/fa6';
 import Modal from '@/Modal';
-import { ModalContext } from '../../hooks/modalContext';
+import { ModalContext } from '../../../hooks/modalContext';
 import './AlertModal.css';
 function AlertModal() {
   const { state } = useContext(ModalContext);
