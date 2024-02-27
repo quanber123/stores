@@ -1,4 +1,4 @@
-import { Address, Product } from '@/interfaces/interfaces';
+import { Address } from '@/interfaces/interfaces';
 import { createContext, useCallback, useReducer } from 'react';
 type AlertModalState = {
   status: string;
@@ -12,7 +12,6 @@ type InitialState = {
   visibleLoginModal: boolean;
   visibleRegisterModal: boolean;
   visibleAlertModal?: AlertModalState;
-  visibleProductModal?: Product;
   visibleConfirmModal: ConfirmModalState;
   visibleAddressModal: boolean;
   visibleAddAddressModal: boolean;

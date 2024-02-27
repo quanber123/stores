@@ -48,7 +48,9 @@ const ProductList = () => {
   }, [products]);
   return (
     <section className='container min-h-[60vh] m-auto flex flex-col gap-[40px]'>
-      <div className='product-list'>{renderedProducts}</div>
+      <div className='grid laptop:grid-cols-2 desktop:grid-cols-4 gap-[40px]'>
+        {renderedProducts}
+      </div>
       <Pagination totalPage={total as number} />
     </section>
   );

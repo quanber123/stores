@@ -28,56 +28,6 @@ function BannerHome() {
       dispatch(setAllBanners(dataBanners));
     }
   }, [isSuccessBanners]);
-  const renderedBanners = useMemo(() => {
-    return banners?.map((i, index) => {
-      return (
-        <article
-          key={index}
-          className='absolute w-full h-full flex justify-center items-center overflow-hidden'
-        >
-          <img
-            ref={indexImage === index ? imgRef : null}
-            className={`absolute w-[100vw] h-[100vh] aspect-[4/3] ${
-              indexImage === index ? 'opacity-100' : 'opacity-0 '
-            }`}
-            src={i.image}
-            alt={i.content}
-            key={index}
-            // loading='eager'
-            {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
-              React.ImgHTMLAttributes<HTMLImageElement>,
-              HTMLImageElement
-            >)}
-          />
-          <div
-            style={{ display: indexImage === index ? 'flex' : 'none' }}
-            className='container absolute z-20 flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
-          >
-            <h3
-              ref={indexImage === index ? contentRef : null}
-              className='text-md laptop:text-xl font-medium capitalize'
-            >
-              {i.content}
-            </h3>
-            <p
-              ref={indexImage === index ? categoryRef : null}
-              className='text-2xl laptop:text-4xl font-semiBold capitalize'
-            >
-              {i.category}
-            </p>
-            <button
-              style={{ transform: 'translateY(120px)', opacity: 0 }}
-              ref={indexImage === index ? btnRef : null}
-              className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-darkGray hover:bg-purple rounded-[23px]'
-              onClick={() => navigate('/shop', { replace: true })}
-            >
-              Shop Now
-            </button>
-          </div>
-        </article>
-      );
-    });
-  }, [banners, indexImage]);
   useLayoutEffect(() => {
     if (
       imgRef.current === null ||
@@ -132,6 +82,55 @@ function BannerHome() {
       ctx.revert();
     };
   }, [indexImage, banners]);
+  const renderedBanners = useMemo(() => {
+    return banners?.map((i, index) => {
+      return (
+        <article
+          key={index}
+          className='absolute w-full h-full flex justify-center items-center overflow-hidden'
+        >
+          <img
+            ref={indexImage === index ? imgRef : null}
+            className={`absolute w-[100vw] h-[100vh] aspect-[4/3] ${
+              indexImage === index ? 'opacity-100' : 'opacity-0 '
+            }`}
+            src={i.image}
+            alt={i.content}
+            // loading='eager'
+            {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
+              React.ImgHTMLAttributes<HTMLImageElement>,
+              HTMLImageElement
+            >)}
+          />
+          <div
+            style={{ display: indexImage === index ? 'flex' : 'none' }}
+            className='container absolute z-20 flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
+          >
+            <h3
+              ref={indexImage === index ? contentRef : null}
+              className='text-md laptop:text-xl font-medium capitalize'
+            >
+              {i.content}
+            </h3>
+            <p
+              ref={indexImage === index ? categoryRef : null}
+              className='text-2xl laptop:text-4xl font-semiBold capitalize'
+            >
+              {i.category}
+            </p>
+            <button
+              style={{ transform: 'translateY(120px)', opacity: 0 }}
+              ref={indexImage === index ? btnRef : null}
+              className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-darkGray hover:bg-purple rounded-[23px]'
+              onClick={() => navigate('/shop', { replace: true })}
+            >
+              Shop Now
+            </button>
+          </div>
+        </article>
+      );
+    });
+  }, [banners, indexImage]);
   return (
     <div
       className={`relative w-[100vw] h-[100vh] laptop:aspect-[4/2] flex justify-center overflow-hidden`}

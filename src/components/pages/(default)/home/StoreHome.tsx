@@ -108,7 +108,9 @@ function StoreHome() {
       >
         Store Overview
       </h2>
-      <div className='container product-list mt-4'>{renderedProduct}</div>
+      <div className='container mt-4 grid laptop:grid-cols-2 desktop:grid-cols-4 gap-[40px]'>
+        {renderedProduct}
+      </div>
       <button
         ref={btnRef}
         className='px-6 py-2 bg-semiBoldGray hover:bg-purple text-white text-md rounded-[23px]'

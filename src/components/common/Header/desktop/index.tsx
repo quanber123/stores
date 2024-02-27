@@ -31,47 +31,33 @@ const RegisterModal = lazy(
 function DesktopNavBar() {
   const { setVisibleModal } = useContext(ModalContext);
   const user = useSelector(authInfo);
-  const imgRef = useRef(null);
-  const routeRefs = useRef<Array<HTMLElement | null>>([]);
+  const navRef = useRef(null);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       gsap.fromTo(
-        imgRef.current,
+        navRef.current,
         {
-          translateX: -200,
+          translateY: -200,
           opacity: 0,
         },
         {
-          translateX: 0,
+          translateY: 0,
           opacity: 1,
           duration: 0.5,
         }
       );
-      routeRefs.current.forEach((ref, index) => {
-        gsap.fromTo(
-          ref,
-          {
-            y: -100,
-            opacity: 0,
-          },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 1,
-            delay: index * 0.3 + 0.3,
-            ease: 'bounce.out',
-          }
-        );
-      });
     });
     return () => {
       ctx.revert();
     };
   }, []);
   return (
-    <nav className='container h-[60px] flex justify-start items-center gap-[80px]'>
-      <Logo imgRef={imgRef} />
-      <Router routeRefs={routeRefs} />
+    <nav
+      ref={navRef}
+      className='container h-[60px] flex justify-start items-center gap-[80px]'
+    >
+      <Logo />
+      <Router />
       {user.email ? (
         <Suspense>
           <div className='ml-auto flex items-center gap-[20px]'>

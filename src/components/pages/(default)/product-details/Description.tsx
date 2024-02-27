@@ -139,7 +139,7 @@ const Description: React.FC<Props> = ({ product, refEl }) => {
             tab === 2 ? 'active' : ''
           } flex flex-col gap-[10px] py-8`}
         >
-          {isSuccessReviews && dataReviews?.reviews && (
+          {isSuccessReviews && dataReviews?.reviews.length !== 0 && (
             <div className='flex flex-col gap-[40px] items-start'>
               <div className='flex items-center gap-[20px]'>
                 <p className='text-xl text-purple font-medium flex gap-[5px]'>

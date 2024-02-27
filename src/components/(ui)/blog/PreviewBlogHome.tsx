@@ -29,7 +29,7 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
         />
       </div>
       <div className='flex flex-col gap-[5px]'>
-        <p className='text-sm'>
+        <p className='text-sm line-clamp-1'>
           By{' '}
           <span className='text-darkGray font-bold'>
             {capitalizeFirstLetter(blog.author)}
@@ -40,7 +40,7 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
           </span>
         </p>
         <p
-          className='line-camp-text text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'
+          className='line-clamp-2 h-[72px] text-md tablet:text-lg hover:text-purple transition-colors cursor-pointer'
           onClick={() => handleLinkClick(blog._id)}
         >
           {blog?.title}

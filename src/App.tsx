@@ -18,7 +18,6 @@ import {
 } from './services/redux/features/labelFeatures';
 import { DropdownProvider } from './components/dropdown/hooks/dropdownContext';
 import Loading from './components/common/Loading/Loading';
-import { useGetAllFavoritesQuery } from './services/redux/features/productFeatures';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));

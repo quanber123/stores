@@ -50,8 +50,8 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
           <div
             key={p._id}
             className={`${
-              order.paymentInfo.status === 'PAID' ||
-              order.paymentInfo.status === 'CANCELLED'
+              order.paymentInfo.status.toUpperCase() === 'PAID' ||
+              order.paymentInfo.status.toUpperCase() === 'CANCELLED'
                 ? 'my-4'
                 : ''
             }`}
@@ -96,8 +96,8 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 <p className='text-md text-red font-bold'>{p.totalPrice}đ</p>
               </div>
               <div className='flex items-center gap-[20px]'>
-                {(order.paymentInfo.status === 'PAID' ||
-                  order.paymentInfo.status === 'CANCELLED') && (
+                {(order.paymentInfo.status.toUpperCase() === 'PAID' ||
+                  order.paymentInfo.status.toUpperCase() === 'CANCELLED') && (
                   <>
                     <button
                       className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
@@ -105,7 +105,8 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                     >
                       Repurchase
                     </button>
-                    {order.paymentInfo.status === 'PAID' && p.isReview ? (
+                    {order.paymentInfo.status.toUpperCase() === 'PAID' &&
+                    p.isReview ? (
                       <button
                         className='w-[150px] py-2 border border-darkGray  bg-darkGray text-white rounded-[4px]'
                         onClick={() => handleRedirect(p.id, 'shop')}
@@ -126,7 +127,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                     )}
                   </>
                 )}
-                {order.paymentInfo.status === 'DELIVERING' && (
+                {order.paymentInfo.status.toUpperCase() === 'DELIVERING' && (
                   <button
                     className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                     onClick={() =>
@@ -151,7 +152,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
   return (
     <div className='flex flex-col'>
       {renderedProducts}
-      {order.paymentInfo.status === 'PENDING' && (
+      {order.paymentInfo.status.toUpperCase() === 'PENDING' && (
         <div className='container bg-white py-4 flex flex-col items-end gap-[20px]'>
           <p className='text-md'>
             Total money:{' '}

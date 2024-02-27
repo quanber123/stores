@@ -12,7 +12,6 @@ import {
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
 } from '@/services/redux/features/userFeatures';
-import { capitalize } from '@/services/utils/format';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 
@@ -70,8 +69,8 @@ const SettingNotifications = () => {
           className='flex flex-col tablet:flex-row justify-between items-center gap-[10px]'
           key={s.description}
         >
-          <p className='text-sm text-gray font-bold'>
-            {capitalize(s.description)}
+          <p className='text-sm text-gray font-bold capitalize'>
+            {s.description}
           </p>
           <EditButtonNotify
             isActive={s.enabled}

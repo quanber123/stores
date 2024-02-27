@@ -1,5 +1,5 @@
 import { authInfo } from '@/services/redux/slice/authSlice';
-import { Suspense, useLayoutEffect } from 'react';
+import { Suspense, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, Outlet } from 'react-router-dom';
 import Loading from '@/components/common/Loading/Loading';
@@ -8,7 +8,7 @@ function Auth() {
   const user = useSelector(authInfo);
   const navigate = useNavigate();
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     if (!user.email) {
       navigate('/not-found', { replace: true });
     } else if (!user.isVerified) {

@@ -146,14 +146,16 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
       };
       createCart({ token, cart });
     } else {
-      setVisibleModal({
-        visibleAlertModal: {
-          status: 'failed',
-          message: 'Failed: You need to be logged in!',
-        },
-      });
+      setVisibleModal('visibleLoginModal');
     }
   }, [selectedColor, selectedSize, count]);
+  const handlePostFavorite = useCallback(() => {
+    if (token) {
+      postFavorite({ token: token, productId: product._id });
+    } else {
+      setVisibleModal('visibleLoginModal');
+    }
+  }, []);
   if (isLoadingCreate) {
     <LoadingV2 />;
   }
@@ -292,12 +294,10 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
             className={`btn-wishlist hover:text-purple flex justify-center items-center gap-[10px] ${
               likedFavorites ? 'text-purple' : 'text-gray'
             }`}
-            onClick={() =>
-              postFavorite({ token: token, productId: product._id })
-            }
+            onClick={handlePostFavorite}
           >
             <FaHeart />
-            {isSuccessFavorite && <p>Liked ({dataFavorite})</p>}
+            {isSuccessFavorite && <p>Liked ({dataFavorite.totalLiked})</p>}
           </button>
           <span>|</span>
           <div className='flex items-center gap-[10px]'>
