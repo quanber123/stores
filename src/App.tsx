@@ -5,7 +5,6 @@ import {
   accessToken,
   setAuth,
   setToken,
-  setAllFavorites,
 } from './services/redux/slice/authSlice';
 import {
   setAllCategories,
