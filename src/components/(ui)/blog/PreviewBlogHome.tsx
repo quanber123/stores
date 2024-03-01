@@ -20,7 +20,7 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
       className='flex flex-col gap-[15px] flex-shrink-0 flex-grow-0'
       style={style}
     >
-      <div className='blog-preview overflow-hidden w-full max-h-[240px] cursor-pointer'>
+      <div className='overflow-hidden w-full max-h-[240px] cursor-pointer'>
         <LazyLoadImage
           className='w-full h-[240px] hover:scale-110'
           style={{ transition: 'all 0.3s linear' }}

@@ -51,7 +51,10 @@ function Header() {
     }
   }, [state.visibleAlertModal?.status]);
   return (
-    <header className='w-full bg-white z-[999] flex justify-center items-center text-sm'>
+    <header
+      style={{ boxShadow: '0 0px 3px 0px rgba(0, 0, 0, 0.2)' }}
+      className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'
+    >
       {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
       <Suspense fallback={<LoadingV2 />}>
         {state.visibleAlertModal?.status && <AlertModal />}

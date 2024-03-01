@@ -104,7 +104,7 @@ function BannerHome() {
           />
           <div
             style={{ display: indexImage === index ? 'flex' : 'none' }}
-            className='container absolute z-20 flex flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
+            className='container absolute z-20 flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
           >
             <h3
               ref={indexImage === index ? contentRef : null}
