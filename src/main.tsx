@@ -13,7 +13,10 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 
-if ('serviceWorker' in navigator) {
+if (
+  'serviceWorker' in navigator &&
+  import.meta.env.ENVIRONMENT === 'production'
+) {
   navigator.serviceWorker
     .register('/sw.js')
     .then((registration) => {
