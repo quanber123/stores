@@ -129,7 +129,7 @@ function BannerHome() {
         );
       })
     );
-  }, [dataBanners, indexImage]);
+  }, [dataBanners, indexImage, isSuccessBanners]);
   return (
     <div
       className={`relative w-[100vw] h-[100vh] laptop:aspect-[4/2] flex justify-center overflow-hidden`}

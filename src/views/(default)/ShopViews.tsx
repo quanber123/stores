@@ -10,7 +10,7 @@ import SetHeader from '@/services/utils/set-header';
 function ShopViews() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const currentPage = Number(searchQuery.get('page')) || 0;
+  const currentPage = Number(searchQuery.get('page')) || 1;
   const {
     data: dataProducts,
     isSuccess: isSuccessProduct,
