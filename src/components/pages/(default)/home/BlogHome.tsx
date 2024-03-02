@@ -1,31 +1,20 @@
-import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewBlogHome from '@/components/(ui)/blog/PreviewBlogHome';
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa6';
-import {
-  getAllBlogsOverview,
-  setAllBlogsOverView,
-} from '@/services/redux/slice/blogSlice';
 import { useCarousel } from '@/hooks/useCarousel';
 import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
+import { Blog } from '@/interfaces/interfaces';
 function BlogHome() {
-  const dispatch = useDispatch();
-  const blogs = useSelector(getAllBlogsOverview);
-  const { width, indexSlider, breakpoints, handlePrev, handleNext } =
-    useCarousel(blogs.length);
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
   const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery({
     search: 'page=1',
   });
-  useEffect(() => {
-    if (isSuccessBlogs && dataBlogs) {
-      dispatch(setAllBlogsOverView(dataBlogs));
-    }
-  }, [isSuccessBlogs]);
+  const { width, indexSlider, breakpoints, handlePrev, handleNext } =
+    useCarousel(isSuccessBlogs && dataBlogs.blogs.length);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       blogRefs.current
@@ -60,17 +49,20 @@ function BlogHome() {
     };
   }, [isVisible]);
   const renderedBlog = useMemo(() => {
-    return blogs.map((b, index) => {
-      return (
-        <PreviewBlogHome
-          style={{ width: `calc(${width}% - 20px)` }}
-          key={index}
-          blog={b}
-          refEl={(el) => (blogRefs.current[index] = el)}
-        />
-      );
-    });
-  }, [blogs, breakpoints]);
+    return (
+      isSuccessBlogs &&
+      dataBlogs.blogs.map((b: Blog, index: number) => {
+        return (
+          <PreviewBlogHome
+            style={{ width: `calc(${width}% - 20px)` }}
+            key={index}
+            blog={b}
+            refEl={(el) => (blogRefs.current[index] = el)}
+          />
+        );
+      })
+    );
+  }, [dataBlogs, breakpoints, isSuccessBlogs]);
   return (
     <div
       ref={containerRef}
@@ -97,7 +89,7 @@ function BlogHome() {
             {renderedBlog}
           </div>
         </div>
-        {blogs.length > breakpoints ? (
+        {isSuccessBlogs && dataBlogs.blogs.length > breakpoints && (
           <div className='text-xl'>
             <FaAngleLeft
               className='absolute z-50 top-1/2 -left-[1%] cursor-pointer text-gray hover:text-semiBoldGray transition-colors'
@@ -108,8 +100,6 @@ function BlogHome() {
               onClick={handleNext}
             />
           </div>
-        ) : (
-          <></>
         )}
       </div>
     </div>

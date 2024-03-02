@@ -203,3 +203,11 @@ export interface Address {
   zipcode: string | number | null;
   isDefault: boolean;
 }
+
+export interface StatusOrder {
+  _id: string;
+  name: string;
+  number: number;
+  color: string;
+  backgroundColor: string;
+}

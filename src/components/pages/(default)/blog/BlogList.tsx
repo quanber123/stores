@@ -1,15 +1,13 @@
 import { useRef, useMemo, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import PreviewBlog from '@/components/(ui)/blog/PreviewBlog';
-import { useSelector } from 'react-redux';
-import {
-  getAllBlogs,
-  getTotalPageBlog,
-} from '@/services/redux/slice/blogSlice';
 import Pagination from '@/components/(ui)/pagination/Pagination';
-function BlogList() {
-  const blogs = useSelector(getAllBlogs);
-  const total = useSelector(getTotalPageBlog);
+import { Blog } from '@/interfaces/interfaces';
+type Props = {
+  blogs: Blog[];
+  total: number;
+};
+const BlogList: React.FC<Props> = ({ blogs, total }) => {
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const renderedBlog = useMemo(() => {
     return blogs.map((b, index) => {
@@ -45,6 +43,6 @@ function BlogList() {
       <Pagination totalPage={total} />
     </div>
   );
-}
+};
 
 export default BlogList;

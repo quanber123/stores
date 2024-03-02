@@ -1,10 +1,4 @@
-import { useEffect, useLayoutEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  getAllProducts,
-  getCurrentPageProduct,
-  setAllProducts,
-} from '@/services/redux/slice/productSlice';
+import { useLayoutEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { useGetProductsQuery } from '@/services/redux/features/productFeatures';
 import LoadingProduct from '@/components/common/Loading/LoadingProduct';
@@ -15,11 +9,8 @@ import SetHeader from '@/services/utils/set-header';
 
 function ShopViews() {
   const location = useLocation();
-  const dispatch = useDispatch();
-  const products = useSelector(getAllProducts);
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const currentPageProduct = useSelector(getCurrentPageProduct);
-  const currentPage = Number(searchQuery.get('page')) || currentPageProduct;
+  const currentPage = Number(searchQuery.get('page')) || 0;
   const {
     data: dataProducts,
     isSuccess: isSuccessProduct,
@@ -38,12 +29,6 @@ function ShopViews() {
       return newQuery.toString();
     });
   }, []);
-
-  useEffect(() => {
-    if (isSuccessProduct) {
-      dispatch(setAllProducts(dataProducts));
-    }
-  }, [isSuccessProduct, dataProducts, searchQuery]);
   return (
     <>
       <SetHeader
@@ -54,8 +39,17 @@ function ShopViews() {
       <main className='gap-[40px]'>
         <ProductFilter />
         {isFetchingProduct && <LoadingProduct />}
-        {products?.length && !isFetchingProduct && <ProductList />}
-        {products?.length === 0 && !isFetchingProduct && <ProductNotFound />}
+        {isSuccessProduct &&
+          dataProducts.products.length > 0 &&
+          !isFetchingProduct && (
+            <ProductList
+              products={dataProducts.products}
+              total={dataProducts.totalPage}
+            />
+          )}
+        {isSuccessProduct &&
+          dataProducts.products.length === 0 &&
+          !isFetchingProduct && <ProductNotFound />}
       </main>
     </>
   );

@@ -1,15 +1,13 @@
 import { useRef, useLayoutEffect, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import PreviewProduct from '@/components/(ui)/product/PreviewProduct';
-import {
-  getAllProducts,
-  getTotalPageProduct,
-} from '@/services/redux/slice/productSlice';
 import Pagination from '@/components/(ui)/pagination/Pagination';
-const ProductList = () => {
-  const products = useSelector(getAllProducts);
-  const total = useSelector(getTotalPageProduct);
+import { Product } from '@/interfaces/interfaces';
+type Props = {
+  products: Product[];
+  total: number;
+};
+const ProductList: React.FC<Props> = ({ products, total }) => {
   const productRefs = useRef<Array<HTMLElement | null>>([]);
   const renderedProducts = useMemo(
     () =>

@@ -4,13 +4,10 @@ import BlogList from '@/components/pages/(default)/blog/BlogList';
 import BlogNotFound from '@/components/pages/(default)/blog/BlogNotFound';
 import BlogTitle from '@/components/pages/(default)/blog/BlogTitle';
 import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
-import { getAllBlogs, setAllBlogs } from '@/services/redux/slice/blogSlice';
 import SetHeader from '@/services/utils/set-header';
 import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 function BlogViews() {
-  const dispatch = useDispatch();
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const currentPage = Number(searchQuery.get('page')) || 1;
@@ -31,12 +28,6 @@ function BlogViews() {
       });
     }
   }, []);
-  useEffect(() => {
-    if (isSuccessBlog) {
-      dispatch(setAllBlogs(dataBlogs));
-    }
-  }, [isSuccessBlog, dataBlogs, searchQuery]);
-  const blogs = useSelector(getAllBlogs);
   return (
     <>
       <SetHeader
@@ -48,8 +39,12 @@ function BlogViews() {
         <BlogTitle />
         <section className='container flex flex-col-reverse desktop:flex-row gap-[80px]'>
           {isFetchingBlog ? <LoadingBlog /> : <></>}
-          {blogs.length && !isFetchingBlog ? <BlogList /> : <></>}
-          {!blogs.length && !isFetchingBlog ? <BlogNotFound /> : <></>}
+          {isSuccessBlog && dataBlogs.blogs.length && !isFetchingBlog && (
+            <BlogList blogs={dataBlogs.blogs} total={dataBlogs.totalPage} />
+          )}
+          {isSuccessBlog && !dataBlogs.blogs.length && !isFetchingBlog && (
+            <BlogNotFound />
+          )}
           <BlogFilter />
         </section>
       </main>

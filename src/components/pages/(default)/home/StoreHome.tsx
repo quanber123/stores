@@ -1,18 +1,12 @@
-import { useRef, useLayoutEffect, useMemo, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useRef, useLayoutEffect, useMemo } from 'react';
 import gsap from 'gsap';
 import { useObserver } from '@/hooks/useObserver';
 import PreviewProduct from '@/components/(ui)/product/PreviewProduct';
 import scrollElement from '@/services/utils/scroll-elements';
 import { useNavigate } from 'react-router-dom';
-import {
-  getAllProductsOverview,
-  setAllProductsOverview,
-} from '@/services/redux/slice/productSlice';
 import { useGetProductsQuery } from '@/services/redux/features/productFeatures';
+import { Product } from '@/interfaces/interfaces';
 function StoreHome() {
-  const dispatch = useDispatch();
-  const products = useSelector(getAllProductsOverview);
   const navigate = useNavigate();
   const titleRef = useRef(null);
   const productRefs = useRef<Array<HTMLElement | null>>([]);
@@ -22,24 +16,22 @@ function StoreHome() {
   const { data: dataProducts, isSuccess: isSuccessProducts } =
     useGetProductsQuery({ search: 'page=1' });
   const renderedProduct = useMemo(() => {
-    return products.map((p, index) => (
-      <PreviewProduct
-        key={index}
-        product={p}
-        refEl={(el) => (productRefs.current[index] = el)}
-      />
-    ));
-  }, [products]);
+    return (
+      isSuccessProducts &&
+      dataProducts.products.map((p: Product, index: number) => (
+        <PreviewProduct
+          key={index}
+          product={p}
+          refEl={(el) => (productRefs.current[index] = el)}
+        />
+      ))
+    );
+  }, [dataProducts]);
 
   const handleLinkClick = () => {
     scrollElement();
     navigate('/shop');
   };
-  useEffect(() => {
-    if (isSuccessProducts && dataProducts) {
-      dispatch(setAllProductsOverview(dataProducts));
-    }
-  }, [isSuccessProducts]);
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       productRefs.current.forEach((ref, index) => {

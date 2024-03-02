@@ -1,7 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './slice/authSlice';
-import productReducer from './slice/productSlice';
-import blogReducer from './slice/blogSlice';
 import labelReducer from './slice/labelSlice';
 import { productApi } from './features/productFeatures';
 import { labelApi } from './features/labelFeatures';
@@ -10,8 +8,6 @@ import { blogApi } from './features/blogFeatures';
 export const store = configureStore({
   reducer: {
     auth: authReducer,
-    products: productReducer,
-    blogs: blogReducer,
     label: labelReducer,
     [userApi.reducerPath]: userApi.reducer,
     [productApi.reducerPath]: productApi.reducer,

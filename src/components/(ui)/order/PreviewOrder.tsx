@@ -50,14 +50,14 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
           <div
             key={p._id}
             className={`${
-              order.paymentInfo.status.toUpperCase() === 'PAID' ||
-              order.paymentInfo.status.toUpperCase() === 'CANCELLED'
+              order.paymentInfo.status === 'delivered' ||
+              order.paymentInfo.status === 'cancel'
                 ? 'my-4'
                 : ''
             }`}
           >
             <div className='container relative bg-white border-lightGray border-b py-4 flex items-center gap-[20px]'>
-              <p className='absolute right-[1%] top-[10%] text-md text-red font-semiBold'>
+              <p className='absolute right-[1%] top-[10%] text-md text-red font-semiBold uppercase'>
                 {order.paymentInfo.status}
               </p>
               <LazyLoadImage
@@ -96,8 +96,8 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 <p className='text-md text-red font-bold'>{p.totalPrice}đ</p>
               </div>
               <div className='flex items-center gap-[20px]'>
-                {(order.paymentInfo.status.toUpperCase() === 'PAID' ||
-                  order.paymentInfo.status.toUpperCase() === 'CANCELLED') && (
+                {(order.paymentInfo.status === 'delivered' ||
+                  order.paymentInfo.status === 'cancel') && (
                   <>
                     <button
                       className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
@@ -105,36 +105,37 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                     >
                       Repurchase
                     </button>
-                    {order.paymentInfo.status.toUpperCase() === 'PAID' &&
-                    p.isReview ? (
+                    {order.paymentInfo.status === 'delivered' && p.isReview && (
                       <button
                         className='w-[150px] py-2 border border-darkGray  bg-darkGray text-white rounded-[4px]'
                         onClick={() => handleRedirect(p.id, 'shop')}
                       >
                         See reviews
                       </button>
-                    ) : (
-                      <button
-                        className='w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'
-                        onClick={() =>
-                          setVisibleModal({
-                            visibleReviewsModal: { ...p, orderId: order._id },
-                          })
-                        }
-                      >
-                        Reviews
-                      </button>
                     )}
+                    {order.paymentInfo.status === 'delivered' &&
+                      !p.isReview && (
+                        <button
+                          className='w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'
+                          onClick={() =>
+                            setVisibleModal({
+                              visibleReviewsModal: { ...p, orderId: order._id },
+                            })
+                          }
+                        >
+                          Reviews
+                        </button>
+                      )}
                   </>
                 )}
-                {order.paymentInfo.status.toUpperCase() === 'DELIVERING' && (
+                {order.paymentInfo.status === 'processing' && (
                   <button
                     className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                     onClick={() =>
                       handleUpdateCart(
                         token,
                         order.paymentInfo.orderCode,
-                        'PAID',
+                        'delivered',
                         'Are you sure you have received the goods?'
                       )
                     }
