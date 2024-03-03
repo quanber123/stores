@@ -3,7 +3,6 @@ import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-import './Header.css';
 const ConfirmModal = lazy(
   () =>
     import('@/components/modal/modal/(logged-in)/confirm-modal/ConfirmModal')

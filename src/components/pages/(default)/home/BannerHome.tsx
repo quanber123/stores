@@ -100,15 +100,16 @@ function BannerHome() {
               >)}
             />
             <div
-              style={{ display: indexImage === index ? 'flex' : 'none' }}
-              className='container absolute z-20 flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]'
+              className={`container absolute z-20 ${
+                indexImage === index ? 'flex' : 'hidden'
+              } flex-col tablet:justify-start justify-center tablet:items-start items-center gap-[20px]`}
             >
-              <h3
+              <p
                 ref={indexImage === index ? contentRef : null}
                 className='text-md laptop:text-xl font-medium capitalize'
               >
                 {b.content}
-              </h3>
+              </p>
               <p
                 ref={indexImage === index ? categoryRef : null}
                 className='text-2xl laptop:text-4xl font-semiBold capitalize'
