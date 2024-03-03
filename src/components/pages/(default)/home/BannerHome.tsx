@@ -91,9 +91,7 @@ function BannerHome() {
           >
             <img
               ref={indexImage === index ? imgRef : null}
-              className={`absolute`}
-              width='100vw'
-              height='100vh'
+              className='absolute w-[100vw] h-[100vh]'
               src={b.image}
               alt={b.content}
               {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
