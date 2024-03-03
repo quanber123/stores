@@ -4,7 +4,9 @@ function Logo() {
   const navigate = useNavigate();
   return (
     <img
-      className='w-[150px] h-full object-contain cursor-pointer'
+      className='object-contain cursor-pointer'
+      height='100%'
+      width='150px'
       src={logo}
       alt='logo'
       onClick={() => navigate('/')}

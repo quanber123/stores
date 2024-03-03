@@ -3,7 +3,7 @@
   content: '';
   top: 50%;
   left: 0;
-  width: 100%;
+  width: max-content;
   height: 3px;
   background-color: #333333;
   transform: rotate(0);
