@@ -3,9 +3,7 @@ import LazyComponent from '@/hooks/useLazyComponent';
 import SetHeader from '@/services/utils/set-header';
 import { Suspense, lazy } from 'react';
 import { useLocation } from 'react-router-dom';
-const BannerHome = lazy(
-  () => import('@/components/pages/(default)/home/BannerHome')
-);
+import BannerHome from '@/components/pages/(default)/home/BannerHome';
 const CategoryHome = lazy(
   () => import('@/components/pages/(default)/home/CategoryHome')
 );
@@ -25,11 +23,7 @@ function HomeViews() {
         isBlockIndex={false}
       />
       <main className='pb-[84px] gap-[80px]'>
-        <LazyComponent>
-          <Suspense fallback={<LoadingComponents />}>
-            <BannerHome />
-          </Suspense>
-        </LazyComponent>
+        <BannerHome />
         <LazyComponent>
           <Suspense fallback={<LoadingComponents />}>
             <CategoryHome />
