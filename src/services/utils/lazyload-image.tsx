@@ -39,7 +39,7 @@ function LazyLoadImage(props: LazyLoadImageProps) {
   return inView ? (
     <img
       {...props}
-      {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
+      {...({ fetchpriority: 'low' } as React.DetailedHTMLProps<
         React.ImgHTMLAttributes<HTMLImageElement>,
         HTMLImageElement
       >)}
