@@ -3,16 +3,14 @@ import {
   useUpdateAvatarMutation,
   useUpdateProfileMutation,
 } from '@/services/redux/features/userFeatures';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 type Props = {
   id: string | null;
   name: string | null;
   value?: string | File | null;
 };
 const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const { setVisibleModal } = useContext(ModalContext);
   const [editBtn, setEditBtn] = useState(false);
   const [

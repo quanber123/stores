@@ -9,11 +9,9 @@ import {
   useGetOrderByIdQuery,
   useUpdateOrderMutation,
 } from '@/services/redux/features/productFeatures';
-import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
 function SuccessViews() {
   const navigate = useNavigate();
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
   const code = searchQuery.get('orderCode');

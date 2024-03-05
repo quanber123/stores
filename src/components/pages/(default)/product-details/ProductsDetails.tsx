@@ -17,7 +17,7 @@ import {
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useSelector } from 'react-redux';
-import { accessToken, getAllFavorites } from '@/services/redux/slice/authSlice';
+import { getAllFavorites } from '@/services/redux/slice/authSlice';
 import { FacebookShareButton } from 'react-share';
 import { useLocation } from 'react-router-dom';
 type Props = {
@@ -27,7 +27,7 @@ type Props = {
 const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   const location = useLocation();
   const client_url = import.meta.env.VITE_CLIENT_URL;
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const [
     createCart,
     { isSuccess: isSuccessCreate, isLoading: isLoadingCreate },

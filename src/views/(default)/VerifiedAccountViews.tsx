@@ -2,11 +2,7 @@ import {
   useResendEmailMutation,
   useVerifiedEmailMutation,
 } from '@/services/redux/features/userFeatures';
-import {
-  accessToken,
-  authInfo,
-  setAuth,
-} from '@/services/redux/slice/authSlice';
+import { authInfo, setAuth } from '@/services/redux/slice/authSlice';
 import {
   useCallback,
   useContext,
@@ -26,7 +22,7 @@ function VerifiedAccountViews() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector(authInfo);
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const [code, setCode] = useState('');
   const formRef = useRef(null);
   const [

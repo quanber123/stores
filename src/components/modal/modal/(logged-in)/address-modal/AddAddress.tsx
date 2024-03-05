@@ -7,15 +7,12 @@ import {
   useGetProvincesQuery,
   useGetWardsQuery,
 } from '@/services/redux/features/userFeatures';
-import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import {
   validateEmptyStr,
   validatePhoneNumber,
 } from '@/services/utils/validate';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 const AddAddressModal = () => {
-  const token = useSelector(accessToken);
   const { state, setVisibleModal } = useContext(ModalContext);
   const [err, setErr] = useState(false);
   const [form, setForm] = useState({
@@ -119,7 +116,7 @@ const AddAddressModal = () => {
       ])
     ) {
       createAddress({
-        token: token,
+        token: window.localStorage.getItem('coza-store-token'),
         body: {
           name: form.name,
           phone: form.phone,

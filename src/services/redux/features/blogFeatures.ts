@@ -22,7 +22,7 @@ export const blogApi = createApi({
         providesTags: (result) => providesList(result, 'Blogs'),
       }),
       postComment: builder.mutation({
-        query: ({ id, userId, text }) => ({
+        query: ({ id, text }) => ({
           url: `blogs/${id}/comments`,
           method: 'POST',
           headers: {
@@ -31,7 +31,6 @@ export const blogApi = createApi({
             )}`,
           },
           body: {
-            userId: userId,
             text: text,
           },
         }),

@@ -1,6 +1,5 @@
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { useGetAllOrdersQuery } from '@/services/redux/features/productFeatures';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import { useLayoutEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
@@ -11,7 +10,7 @@ import OrdersList from '@/components/pages/(logged-in)/purchase/OrdersList';
 
 function PurchaseViews() {
   const location = useLocation();
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const [searchQuery, setSearchQuery] = useSearchParams();
   const page = Number(searchQuery.get('page')) || 1;
   const { data: dataOrders, isFetching: isFetchingOrders } =

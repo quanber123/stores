@@ -1,18 +1,16 @@
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { Order } from '@/interfaces/interfaces';
 import { useUpdateOrderMutation } from '@/services/redux/features/productFeatures';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import scrollElement from '@/services/utils/scroll-elements';
 import React, { useCallback, useContext, useMemo } from 'react';
-import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 type Props = {
   order: Order;
 };
 const OrderPreview: React.FC<Props> = ({ order }) => {
   const navigate = useNavigate();
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const { setVisibleModal } = useContext(ModalContext);
   const [updateOrder] = useUpdateOrderMutation();
   const handleRedirect = useCallback(
@@ -24,7 +22,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
   );
   const handleUpdateCart = useCallback(
     (
-      token: string,
+      token: string | null,
       orderId: string | number,
       status: string,
       message: string

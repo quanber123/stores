@@ -58,7 +58,7 @@ function DesktopNavBar() {
     >
       <Logo />
       <Router />
-      {user.email ? (
+      {user.id ? (
         <Suspense>
           <div className='ml-auto flex items-center gap-[20px]'>
             <CartDropdown />

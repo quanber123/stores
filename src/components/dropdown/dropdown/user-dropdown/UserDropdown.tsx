@@ -14,7 +14,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(removeAuth());
-    window.open('http://localhost:3000/api/auth/logout', '_self');
+    window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, '_self');
   };
   return (
     <div
@@ -24,7 +24,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
       <img
         className='w-[32px] h-[32px] rounded-full cursor-pointer'
         src={user.image}
-        alt={user.email}
+        alt={user.name}
       />
       <div
         className={`user-modal ${state.visibleUserDropdown ? 'active' : ''}`}
@@ -37,7 +37,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
           />
           <div>
             <h3 className='font-bold text-base'>{user.name}</h3>
-            <p className='text-darkGray'>{user.email.slice(0, 20)}...</p>
+            <p className='text-darkGray'>{user.name.slice(0, 20)}...</p>
           </div>
         </div>
         <div className='mx-[26px] my-[16px] flex flex-col gap-[20px] text-darkGray font-bold'>

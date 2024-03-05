@@ -3,14 +3,13 @@ import {
   usePostFavoritesMutation,
 } from '@/services/redux/features/productFeatures';
 import {
-  accessToken,
   getAllFavorites,
   setAllFavorites,
 } from '@/services/redux/slice/authSlice';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { FaHeart } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { DropdownContext } from '../../hooks/dropdownContext';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import { capitalizeFirstLetter } from '@/services/utils/format';
@@ -18,18 +17,14 @@ import './FavoriteDropdown.css';
 // import { useState } from 'react';
 // import { getFavorite, removeFormFavorite } from '@/store/slice/favoriteSlice';
 function FavoriteDropdown() {
-  const token = useSelector(accessToken);
   const dispatch = useDispatch();
-  const [searchQuery] = useSearchParams();
-  const getToken = searchQuery.get('token') ?? '';
   const navigate = useNavigate();
+  const token = window.localStorage.getItem('coza-store-token');
   const { state, setVisibleDropdown, closeDropdown } =
     useContext(DropdownContext);
   const favorites = useSelector(getAllFavorites);
   const { data: favoriteData, isSuccess: isSuccessFavorite } =
-    useGetAllFavoritesQuery(token ?? getToken, {
-      skip: token || getToken ? false : true,
-    });
+    useGetAllFavoritesQuery(token, { skip: !token });
   const [postFavorite] = usePostFavoritesMutation();
   useEffect(() => {
     if (isSuccessFavorite && favoriteData) {
@@ -66,7 +61,12 @@ function FavoriteDropdown() {
             </h3>
             <button
               className='w-max ml-auto px-4 py-2 text-base rounded-[2px] text-white bg-purple hover:bg-darkGray'
-              onClick={() => postFavorite({ token: token, productId: p._id })}
+              onClick={() =>
+                postFavorite({
+                  token: window.localStorage.getItem('coza-store-token'),
+                  productId: p._id,
+                })
+              }
             >
               Unlike
             </button>

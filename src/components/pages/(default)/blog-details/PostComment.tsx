@@ -28,7 +28,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
 
   const handlePostComment = useCallback(() => {
     if (comment) {
-      postComment({ id: id, userId: user._id, text: comment });
+      postComment({ id: id, text: comment });
     } else {
       setVisibleModal({
         visibleAlertModal: {
@@ -89,7 +89,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
       ) : (
         <></>
       )}
-      {!user.email ? (
+      {!user.id ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
             Please{' '}
@@ -112,7 +112,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
       ) : (
         <></>
       )}
-      {user.email && !user.isVerified ? (
+      {user.id && !user.isVerified ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
             Please{' '}

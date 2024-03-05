@@ -3,27 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useContext, useEffect, useMemo } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
-import {
-  accessToken,
-  getAllCarts,
-  setAllCarts,
-} from '@/services/redux/slice/authSlice';
+import { getAllCarts, setAllCarts } from '@/services/redux/slice/authSlice';
 import { capitalizeFirstLetter } from '@/services/utils/format';
 import cartImg from '@/assets/images/cart.png';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import './CartDropdown.css';
 import { useGetAllCartsQuery } from '@/services/redux/features/productFeatures';
 function CartDropdown() {
-  const token = useSelector(accessToken);
   const dispatch = useDispatch();
-  const [searchQuery] = useSearchParams();
-  const getToken = searchQuery.get('token') ?? '';
+  const token = window.localStorage.getItem('coza-store-token');
   const { state, setVisibleDropdown } = useContext(DropdownContext);
   const navigate = useNavigate();
   const cart = useSelector(getAllCarts);
   const { data: cartsData, isSuccess: isSuccessCart } = useGetAllCartsQuery(
     token,
-    { skip: token || getToken ? false : true }
+    { skip: !token }
   );
   useEffect(() => {
     if (isSuccessCart && cartsData) {

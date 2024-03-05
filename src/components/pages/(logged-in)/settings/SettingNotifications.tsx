@@ -3,7 +3,6 @@ import { FaRegBell } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  accessToken,
   authInfo,
   getSettings,
   setSettings,
@@ -19,7 +18,7 @@ const SettingNotifications = () => {
   const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const user = useSelector(authInfo);
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const settings = useSelector(getSettings);
   const {
     data: settingsData,

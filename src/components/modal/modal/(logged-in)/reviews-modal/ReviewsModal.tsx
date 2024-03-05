@@ -4,7 +4,7 @@ import { ModalContext } from '../../../hooks/modalContext';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import { FaRegStar, FaStar } from 'react-icons/fa6';
 import { useSelector } from 'react-redux';
-import { accessToken, authInfo } from '@/services/redux/slice/authSlice';
+import { authInfo } from '@/services/redux/slice/authSlice';
 import { hidePartialUsername } from '@/services/utils/format';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useReviewsProductMutation } from '@/services/redux/features/productFeatures';
@@ -14,7 +14,6 @@ import { validateEmptyStr } from '@/services/utils/validate';
 const ReviewsModal = () => {
   const user = useSelector(authInfo);
   const { state, setVisibleModal } = useContext(ModalContext);
-  const token = useSelector(accessToken);
   const [
     reviewsProduct,
     {
@@ -80,7 +79,7 @@ const ReviewsModal = () => {
   const handleReviews = () => {
     if (!validateEmptyStr(reviewsForm.reviews)) {
       reviewsProduct({
-        token: token,
+        token: window.localStorage.getItem('coza-store-token'),
         reviews: {
           ...reviewsForm,
           rate: rate,
@@ -168,8 +167,8 @@ const ReviewsModal = () => {
                 <p className='text-[12px] text-gray'>
                   The account will be displayed as{' '}
                   {reviewsForm.showUser
-                    ? user.email
-                    : hidePartialUsername(user.email)}
+                    ? user.name
+                    : hidePartialUsername(user.name)}
                 </p>
               </label>
             </div>

@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import gsap from 'gsap';
 import cancelImg from '@/assets/images/cancel.png';
 import {
@@ -14,7 +13,7 @@ import {
 function CancelViews() {
   const location = useLocation();
   const navigate = useNavigate();
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
   const code = searchQuery.get('orderCode');

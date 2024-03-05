@@ -1,11 +1,7 @@
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  accessToken,
-  setAuth,
-  setToken,
-} from './services/redux/slice/authSlice';
+import { useDispatch } from 'react-redux';
+import { setAuth } from './services/redux/slice/authSlice';
 import {
   setAllCategories,
   setAllTags,
@@ -25,7 +21,7 @@ function App() {
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const getToken = searchQuery.get('token') ?? '';
-  const token = useSelector(accessToken);
+  const token = getToken || window.localStorage.getItem('coza-store-token');
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(
     token || getToken,
     { skip: token || getToken ? false : true }
@@ -35,7 +31,6 @@ function App() {
   const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery(null);
   useEffect(() => {
     if (getToken) {
-      dispatch(setToken(getToken));
       window.localStorage.setItem('coza-store-token', getToken);
     }
   }, [getToken]);
@@ -56,13 +51,10 @@ function App() {
     if (isSuccessCategories && dataCategories) {
       dispatch(setAllCategories(dataCategories));
     }
-  }, [isSuccessCategories]);
-  useEffect(() => {
     if (isSuccessTags && dataTags) {
       dispatch(setAllTags(dataTags));
     }
-  }, [isSuccessTags]);
-
+  }, [isSuccessCategories, isSuccessTags]);
   return (
     <>
       <Suspense fallback={<Loading />}>

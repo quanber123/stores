@@ -10,7 +10,7 @@ import {
 } from '@/services/utils/validate';
 import { useRegisterUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
-import { setAuth, setToken } from '@/services/redux/slice/authSlice';
+import { setAuth } from '@/services/redux/slice/authSlice';
 import './RegisterModal.css';
 import Modal from '@/Modal';
 import { ModalContext } from '../../../hooks/modalContext';
@@ -58,7 +58,6 @@ function RegisterModal() {
     ) {
       closeAllModal();
       dispatch(setAuth(dataRegister));
-      dispatch(setToken(dataRegister.accessToken));
       navigate('/verified', { replace: true });
     }
     if (errorRegister && 'data' in errorRegister) {

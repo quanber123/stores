@@ -7,7 +7,6 @@ import {
 } from '@/interfaces/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
-  accessToken: string;
   user: User;
   settings: Settings;
   currDelivery: Address;
@@ -22,7 +21,6 @@ type InitialState = {
   };
 };
 const initialState: InitialState = {
-  accessToken: window.localStorage.getItem('coza-store-token') || '',
   user: {} as User,
   settings: {} as Settings,
   currDelivery: {} as Address,
@@ -41,15 +39,7 @@ const authSlice = createSlice({
   initialState: initialState,
   reducers: {
     setAuth: (state, action) => {
-      state.user._id = action.payload.user._id;
-      state.user.email = action.payload.user.email;
-      state.user.name = action.payload.user.name;
-      state.user.image = action.payload.user.image;
-      state.user.isVerified = action.payload.user.isVerified;
-    },
-    setToken: (state, action) => {
-      state.accessToken = action.payload;
-      window.localStorage.setItem('coza-store-token', action.payload);
+      state.user = action.payload.user;
     },
     setSettings: (state, action) => {
       state.settings._id = action.payload.settings._id;
@@ -72,7 +62,6 @@ const authSlice = createSlice({
     },
     removeAuth: (state) => {
       window.localStorage.removeItem('coza-store-token');
-      (state.accessToken = ''), (state.user = {} as User);
       state.settings = {} as Settings;
       state.currDelivery = {} as Address;
       state.cart = {
@@ -86,8 +75,6 @@ const authSlice = createSlice({
     },
   },
 });
-export const accessToken = (state: { auth: InitialState }) =>
-  state.auth.accessToken;
 export const authInfo = (state: { auth: InitialState }) => state.auth.user;
 export const getSettings = (state: { auth: InitialState }) =>
   state.auth.settings;
@@ -98,7 +85,6 @@ export const getAllFavorites = (state: { auth: InitialState }) =>
   state.auth.favorite;
 export const {
   setAuth,
-  setToken,
   setSettings,
   setCurrDelivery,
   setAllCarts,

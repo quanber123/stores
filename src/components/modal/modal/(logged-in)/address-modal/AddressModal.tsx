@@ -5,13 +5,12 @@ import { FaRegCircleDot, FaRegCircle } from 'react-icons/fa6';
 import { useGetAddressUserQuery } from '@/services/redux/features/userFeatures';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  accessToken,
   getCurrAddress,
   setCurrDelivery,
 } from '@/services/redux/slice/authSlice';
 import { Address } from '@/interfaces/interfaces';
 const AddressModal = () => {
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const dispatch = useDispatch();
   const address = useSelector(getCurrAddress);
   const { state, setVisibleModal } = useContext(ModalContext);

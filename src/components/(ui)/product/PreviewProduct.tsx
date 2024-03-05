@@ -6,7 +6,7 @@ import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useCallback, useContext, useMemo } from 'react';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useSelector } from 'react-redux';
-import { accessToken, getAllFavorites } from '@/services/redux/slice/authSlice';
+import { getAllFavorites } from '@/services/redux/slice/authSlice';
 import { usePostFavoritesMutation } from '@/services/redux/features/productFeatures';
 type Props = {
   product: Product;
@@ -14,7 +14,7 @@ type Props = {
   style?: React.CSSProperties;
 };
 function PreviewProduct({ product, refEl, style }: Props) {
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const { setVisibleModal } = useContext(ModalContext);
   const { _id, images, name, price, sale, salePrice } = product;
   const favorites = useSelector(getAllFavorites);

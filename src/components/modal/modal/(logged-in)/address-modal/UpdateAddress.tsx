@@ -7,8 +7,6 @@ import {
   useGetWardsQuery,
   useUpdateAddressMutation,
 } from '@/services/redux/features/userFeatures';
-import { useSelector } from 'react-redux';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import {
   validateEmptyStr,
   validatePhoneNumber,
@@ -16,7 +14,6 @@ import {
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { Address } from '@/interfaces/interfaces';
 const UpdateAddressModal = () => {
-  const token = useSelector(accessToken);
   const { state, setVisibleModal } = useContext(ModalContext);
   const address = useMemo(
     () =>
@@ -127,7 +124,7 @@ const UpdateAddressModal = () => {
       ])
     ) {
       updateAddress({
-        token: token,
+        token: window.localStorage.getItem('coza-store-token'),
         id: address._id,
         body: {
           name: form.name,

@@ -11,7 +11,6 @@ import { capitalizeFirstLetter } from '@/services/utils/format';
 import { useCreatePaymentMutation } from '@/services/redux/features/productFeatures';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  accessToken,
   getCurrAddress,
   setCurrDelivery,
 } from '@/services/redux/slice/authSlice';
@@ -25,7 +24,7 @@ type Props = {
   orders: Cart[];
 };
 const CheckoutList: React.FC<Props> = ({ orders }) => {
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { setVisibleModal } = useContext(ModalContext);

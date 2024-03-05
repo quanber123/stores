@@ -93,7 +93,7 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
         </div>
       </div>
       <div className='pr-4 flex flex-col gap-[20px] h-full max-h-[50vh] overflow-y-auto'>
-        {renderedComments?.length ? (
+        {renderedComments?.length > 0 ? (
           renderedComments
         ) : (
           <p className='text-lg'>Be the first to comment.</p>

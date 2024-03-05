@@ -16,7 +16,6 @@ import {
 } from '@/services/redux/features/productFeatures';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useDebounce } from '@/hooks/useDebounce';
-import { accessToken } from '@/services/redux/slice/authSlice';
 import cartImg from '@/assets/images/cart.png';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import scrollElement from '@/services/utils/scroll-elements';
@@ -24,7 +23,7 @@ import { Cart } from '@/interfaces/interfaces';
 function CartList() {
   const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const token = useSelector(accessToken);
+  const token = window.localStorage.getItem('coza-store-token');
   const cart = useSelector(getAllCarts);
   console.log(cart);
   const [quantity, setQuantity] = useState<number[]>([]);

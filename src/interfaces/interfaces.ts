@@ -153,6 +153,7 @@ export interface Blog {
     {
       user: {
         _id: string;
+        id: string;
         name: string;
         image: string;
       };
@@ -164,7 +165,8 @@ export interface Blog {
 
 export interface User {
   _id: string;
-  email: string;
+  id: string;
+  email: string | null;
   name: string;
   image: string;
   isVerified: boolean;

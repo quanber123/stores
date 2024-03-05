@@ -2,6 +2,7 @@ import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { lazy } from 'react';
 import App from '@/App';
 import { ModalProvider } from '@/components/modal/hooks/modalContext';
+import ProtectedRoute from '@/auth/ProtectedRoute';
 const HomeViews = lazy(() => import('@/views/(default)/HomeViews'));
 const AboutViews = lazy(() => import('@/views/(default)/AboutViews'));
 const ShopViews = lazy(() => import('@/views/(default)/ShopViews'));
@@ -12,7 +13,6 @@ const BlogViews = lazy(() => import('@/views/(default)/BlogViews'));
 const BlogDetailsViews = lazy(
   () => import('@/views/(default)/BlogDetailsViews')
 );
-const Auth = lazy(() => import('@/auth/Auth'));
 const SettingViews = lazy(() => import('@/views/(logged-in)/SettingViews'));
 const VerifiedAccountViews = lazy(
   () => import('@/views/(default)/VerifiedAccountViews')
@@ -71,34 +71,52 @@ const routes: RouteObject[] = [
         element: <VerifiedAccountViews />,
       },
       {
-        path: '',
-        element: <Auth />,
-        children: [
-          {
-            path: 'settings',
-            element: <SettingViews />,
-          },
-          {
-            path: 'cart',
-            element: <CartViews />,
-          },
-          {
-            path: 'checkout',
-            element: <CheckoutViews />,
-          },
-          {
-            path: 'success',
-            element: <SuccessViews />,
-          },
-          {
-            path: 'cancel',
-            element: <CancelViews />,
-          },
-          {
-            path: 'purchase',
-            element: <PurchaseViews />,
-          },
-        ],
+        path: 'settings',
+        element: (
+          <ProtectedRoute>
+            <SettingViews />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'cart',
+        element: (
+          <ProtectedRoute>
+            <CartViews />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'checkout',
+        element: (
+          <ProtectedRoute>
+            <CheckoutViews />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'success',
+        element: (
+          <ProtectedRoute>
+            <SuccessViews />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'cancel',
+        element: (
+          <ProtectedRoute>
+            <CancelViews />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: 'purchase',
+        element: (
+          <ProtectedRoute>
+            <PurchaseViews />
+          </ProtectedRoute>
+        ),
       },
       {
         path: '*',
