@@ -5,17 +5,16 @@ import { useAuth } from '@/context/AuthProvider';
 type ProtectedRouteProps = PropsWithChildren;
 
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
-  const [user] = useAuth();
+  const user = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-    if (user === null) {
-      navigate('/login', { replace: true });
-    } else if (user.id && !user?.verified) {
-      navigate('/verified');
-    } else {
+    if (user.user === null) {
       navigate('/not-found', { replace: true });
     }
-  }, [navigate, user]);
+    if (user.user.id && !user.user?.isVerified) {
+      navigate('/verified');
+    }
+  }, [navigate, user.user]);
 
   return children;
 }
