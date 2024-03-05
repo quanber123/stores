@@ -1,6 +1,6 @@
 import { FaCartShopping } from 'react-icons/fa6';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useMemo } from 'react';
 import { DropdownContext } from '../../hooks/dropdownContext';
 import { getAllCarts, setAllCarts } from '@/services/redux/slice/authSlice';
