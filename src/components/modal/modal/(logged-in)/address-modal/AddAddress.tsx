@@ -88,24 +88,24 @@ const AddAddressModal = () => {
   const renderedDistricts = useMemo(
     () =>
       isSuccessDistricts
-        ? (dataDistricts?.districts || []).map((p: any) => (
+        ? (dataDistricts || []).map((p: any) => (
             <option key={p.code} value={p.name} data-code={p.code}>
               {p.name}
             </option>
           ))
         : null,
-    [isSuccessDistricts, dataDistricts, form.state.code]
+    [dataProvinces, isSuccessDistricts, dataDistricts, form.state.code]
   );
   const renderedWards = useMemo(
     () =>
       isSuccessWards
-        ? (dataWards?.wards || []).map((p: any) => (
+        ? (dataWards || []).map((p: any) => (
             <option key={p.code} value={p.name} data-code={p.code}>
               {p.name}
             </option>
           ))
         : null,
-    [isSuccessWards, dataWards, form.city.code]
+    [dataDistricts, isSuccessWards, dataWards, form.city.code]
   );
   const handleSubmit = useCallback(() => {
     if (

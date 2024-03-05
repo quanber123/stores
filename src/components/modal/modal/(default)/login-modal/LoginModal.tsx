@@ -50,10 +50,10 @@ function LoginModal() {
     [form]
   );
   const googleLogin = () => {
-    window.open('http://localhost:3000/api/auth/google', '_self');
+    window.open(`${import.meta.env.VITE_BACKEND_URL}auth/google`, '_self');
   };
   const facebookLogin = () => {
-    window.open('http://localhost:3000/api/auth/facebook', '_self');
+    window.open(`${import.meta.env.VITE_BACKEND_URL}auth/facebook`, '_self');
   };
   const handleLoginUser = () => {
     loginUser(form);

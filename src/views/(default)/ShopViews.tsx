@@ -19,7 +19,10 @@ function ShopViews() {
     {
       search: searchQuery.toString(),
     },
-    { skip: !searchQuery.size }
+    {
+      skip: !searchQuery.size,
+      pollingInterval: import.meta.env.VITE_DEFAULT_POLLING,
+    }
   );
 
   useLayoutEffect(() => {

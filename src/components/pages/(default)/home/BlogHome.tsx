@@ -10,9 +10,12 @@ function BlogHome() {
   const titleRef = useRef(null);
   const blogRefs = useRef<Array<HTMLElement | null>>([]);
   const { isVisible, containerRef } = useObserver();
-  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery({
-    search: 'page=1',
-  });
+  const { data: dataBlogs, isSuccess: isSuccessBlogs } = useGetBlogsQuery(
+    {
+      search: 'page=1',
+    },
+    { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING }
+  );
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
     useCarousel(isSuccessBlogs && dataBlogs.blogs.length);
   useLayoutEffect(() => {

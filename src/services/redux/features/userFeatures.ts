@@ -105,13 +105,22 @@ export const userApi = createApi({
         invalidatesTags: [{ type: 'Settings', id: 'LIST' }],
       }),
       getProvinces: builder.query({
-        query: () => 'https://provinces.open-api.vn/api/p/',
+        query: () => ({
+          url: '/provinces/getAll',
+          method: 'GET',
+        }),
       }),
       getDistricts: builder.query({
-        query: (code) => `https://provinces.open-api.vn/api/p/${code}?depth=2`,
+        query: (code) => ({
+          url: `/districts/getByProvince?provinceCode=${code}`,
+          method: 'GET',
+        }),
       }),
       getWards: builder.query({
-        query: (code) => `https://provinces.open-api.vn/api/d/${code}?depth=2`,
+        query: (code) => ({
+          url: `/wards/getByDistrict?districtCode=${code}`,
+          method: 'GET',
+        }),
       }),
       getAddressUser: builder.query({
         query: (token) => ({

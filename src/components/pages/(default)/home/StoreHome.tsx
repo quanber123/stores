@@ -14,7 +14,10 @@ function StoreHome() {
   const btnRef = useRef(null);
   const { isVisible, containerRef } = useObserver();
   const { data: dataProducts, isSuccess: isSuccessProducts } =
-    useGetProductsQuery({ search: 'page=1' });
+    useGetProductsQuery(
+      { search: 'page=1' },
+      { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING }
+    );
   const renderedProduct = useMemo(() => {
     return (
       isSuccessProducts &&
