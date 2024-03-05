@@ -13,6 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 console.log(import.meta.env.VITE_ENVIRONMENT);
+console.log(import.meta.env.VITE_BACKEND_URL);
 if (
   'serviceWorker' in navigator &&
   import.meta.env.VITE_ENVIRONMENT === 'production'
