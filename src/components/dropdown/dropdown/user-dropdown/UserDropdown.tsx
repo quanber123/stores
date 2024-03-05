@@ -14,7 +14,7 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
   const dispatch = useDispatch();
   const handleLogout = () => {
     dispatch(removeAuth());
-    window.open(`${import.meta.env.VITE_BACKEND_URL}/auth/logout`, '_self');
+    window.open(`${import.meta.env.VITE_BACKEND_URL}auth/logout`, '_self');
   };
   return (
     <div
