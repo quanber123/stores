@@ -1,7 +1,6 @@
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { useGetAllOrdersQuery } from '@/services/redux/features/productFeatures';
 import { useLayoutEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import SetHeader from '@/services/utils/set-header';
 import NotFoundPurchase from '@/components/pages/(logged-in)/purchase/NotFoundPurchase';

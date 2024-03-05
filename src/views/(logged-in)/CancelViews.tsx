@@ -3,7 +3,6 @@ import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useEffect } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import gsap from 'gsap';
 import cancelImg from '@/assets/images/cancel.png';
 import {
