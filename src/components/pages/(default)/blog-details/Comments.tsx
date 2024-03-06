@@ -71,7 +71,7 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
           <p>Share:</p>
           <div className='flex gap-[10px]'>
             <FacebookShareButton
-              url={`${client_url}${location.pathname}`}
+              url={`${window.location.href}`}
               hashtag={renderedTags}
             >
               <FacebookIcon size={36} round />
