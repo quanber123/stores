@@ -8,6 +8,10 @@ function Logo() {
       src={logo}
       alt='logo'
       onClick={() => navigate('/')}
+      {...({ fetchpriority: 'low' } as React.DetailedHTMLProps<
+        React.ImgHTMLAttributes<HTMLImageElement>,
+        HTMLImageElement
+      >)}
     />
   );
 }

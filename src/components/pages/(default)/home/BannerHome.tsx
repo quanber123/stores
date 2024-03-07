@@ -93,7 +93,7 @@ function BannerHome() {
           >
             <img
               ref={indexImage === index ? imgRef : null}
-              className='absolute w-[100vw] h-[100vh]'
+              className='absolute w-[100vw] h-[50vh] tablet:h-[100vh]'
               src={b.image}
               alt={b.content}
               {...({ fetchpriority: 'low' } as React.DetailedHTMLProps<
@@ -134,7 +134,7 @@ function BannerHome() {
   }, [dataBanners, indexImage, isSuccessBanners]);
   return (
     <div
-      className={`relative w-[100vw] h-[100vh] flex justify-center overflow-hidden`}
+      className={`relative w-[100vw] h-[50vh] tablet:h-[100vh] flex justify-center overflow-hidden`}
     >
       {renderedBanners}
       <button

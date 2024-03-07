@@ -13,7 +13,7 @@ function Router() {
     {
       link: 'shop?page=1',
     },
-    { link: 'blogs?page=1' },
+    { link: 'blog?page=1' },
     // {
     //   link: 'contact',
     // },

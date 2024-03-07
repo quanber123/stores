@@ -49,14 +49,13 @@ const UserDropdown: React.FC<Props> = ({ user }) => {
             <FaGear className='text-md' />
             <span>Settings</span>
           </Link>
-          <Link
-            to={''}
+          <button
             className='flex items-center gap-[15px]'
             onClick={handleLogout}
           >
             <FaArrowRightFromBracket className='text-md' />
             <span>Logout</span>
-          </Link>
+          </button>
         </div>
       </div>
     </div>

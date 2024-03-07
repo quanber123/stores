@@ -48,6 +48,7 @@ export const ModalContext = createContext({} as InitialModalContext);
 
 export const ModalProvider = ({ children }: { children: any }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  console.log(state);
   const setVisibleModal = useCallback((modal: any) => {
     dispatch({ type: SET_VISIBLE_MODAL, payload: { modal } });
   }, []);

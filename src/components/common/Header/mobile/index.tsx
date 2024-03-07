@@ -1,16 +1,24 @@
-// import { FaRightToBracket } from 'react-icons/fa6';
+import { useCallback, useState } from 'react';
 import Bars from './Bars';
 import Logo from './Logo';
-import { useSelector } from 'react-redux';
-import { authInfo } from '@/services/redux/slice/authSlice';
-import NotificationsModal from '@/components/dropdown/dropdown/notifications-dropdown/NotificationsDropdown';
+import './index.css';
+import Route from './Route';
 function MobileNavBar() {
-  const user = useSelector(authInfo);
+  const [dropdownRoutes, setDropdownRoutes] = useState(false);
+  const handleDropdownRoutes = useCallback(() => {
+    setDropdownRoutes((prevState) => !prevState);
+  }, []);
   return (
     <nav className='container relative h-[60px] flex justify-between items-center gap-[20px]'>
-      <Bars />
       <Logo />
-      {user ? <NotificationsModal /> : <></>}
+      <Bars
+        dropdownRoutes={dropdownRoutes}
+        handleDropdownRoutes={handleDropdownRoutes}
+      />
+      <Route
+        dropdownRoutes={dropdownRoutes}
+        handleDropdownRoutes={handleDropdownRoutes}
+      />
     </nav>
   );
 }
