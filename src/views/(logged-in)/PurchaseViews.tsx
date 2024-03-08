@@ -31,7 +31,7 @@ function PurchaseViews() {
         {!dataOrders?.orders?.length && !isFetchingOrders && (
           <NotFoundPurchase />
         )}
-        {dataOrders?.orders?.length && !isFetchingOrders && (
+        {dataOrders?.orders?.length > 0 && !isFetchingOrders && (
           <OrdersList
             orders={dataOrders.orders}
             totalPage={dataOrders.totalPage}

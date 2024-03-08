@@ -54,12 +54,12 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 : ''
             }`}
           >
-            <div className='container relative bg-white border-lightGray border-b py-4 flex items-center gap-[20px]'>
+            <div className='container relative bg-white border-lightGray border-b py-4 flex flex-col mobileLg:flex-row mobileLg:items-center gap-[20px]'>
               <p className='absolute right-[1%] top-[10%] text-md text-red font-semiBold uppercase'>
                 {order.paymentInfo.status}
               </p>
               <LazyLoadImage
-                className='w-[80px] h-[80px]'
+                className='w-[160px] mobileLg:w-[80px] h-[80px]'
                 src={p.image}
                 alt={p.name}
               />
@@ -71,19 +71,19 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 </div>
                 <p>x{p.quantity}</p>
               </div>
-              <div className='ml-auto flex items-center gap-[10px]'>
+              <div className='ml-auto flex items-center gap-[10px] font-bold'>
                 <p
                   className={`${
                     p.salePrice > 0 ? 'line-through text-gray' : ''
                   }`}
                 >
-                  {p.price}đ
+                  {p.price}VND
                 </p>
                 {p.salePrice > 0 && <p className='text-red'>{p.salePrice}đ</p>}
               </div>
             </div>
-            <div className='container relative bg-white py-4 flex flex-col items-end gap-[20px]'>
-              <p className='absolute bottom-4 left-4 text-gray text-sm'>
+            <div className='container bg-white py-4 flex flex-col items-end gap-[20px]'>
+              <p className='text-gray text-sm'>
                 Payment Methods:{' '}
                 <span className='capitalize font-bold'>
                   {order.paymentMethod}
@@ -93,19 +93,19 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 <p>Into money:</p>
                 <p className='text-md text-red font-bold'>{p.totalPrice}đ</p>
               </div>
-              <div className='flex items-center gap-[20px]'>
+              <div className='w-full flex flex-col tablet:flex-row justify-end items-center gap-[20px]'>
                 {(order.paymentInfo.status === 'delivered' ||
                   order.paymentInfo.status === 'cancel') && (
                   <>
                     <button
-                      className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
+                      className='w-full tablet:w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                       onClick={() => handleRedirect(p.id, 'shop')}
                     >
                       Repurchase
                     </button>
                     {order.paymentInfo.status === 'delivered' && p.isReview && (
                       <button
-                        className='w-[150px] py-2 border border-darkGray  bg-darkGray text-white rounded-[4px]'
+                        className='w-full tablet:w-[150px] py-2 border border-darkGray  bg-darkGray text-white rounded-[4px]'
                         onClick={() => handleRedirect(p.id, 'shop')}
                       >
                         See reviews
@@ -114,7 +114,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                     {order.paymentInfo.status === 'delivered' &&
                       !p.isReview && (
                         <button
-                          className='w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'
+                          className='w-full tablet:w-[150px] py-2 border border-darkGray bg-white hover:bg-darkGray text-darkGray hover:text-white rounded-[4px]'
                           onClick={() =>
                             setVisibleModal({
                               visibleReviewsModal: { ...p, orderId: order._id },
@@ -128,7 +128,7 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                 )}
                 {order.paymentInfo.status === 'processing' && (
                   <button
-                    className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
+                    className='w-full tablet:w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                     onClick={() =>
                       handleUpdateCart(
                         token,
@@ -159,10 +159,10 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
               {order.paymentInfo.amount}đ
             </span>
           </p>
-          <div className='flex justify-end items-center gap-[20px]'>
+          <div className='w-full flex flex-col tablet:flex-row justify-end tablet:items-center gap-[20px]'>
             {order.paymentMethod === 'transfer' && (
               <button
-                className='w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
+                className='w-full tablet:w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                 onClick={() =>
                   window.open(order.paymentInfo?.checkoutUrl, '_self')
                 }
@@ -171,12 +171,12 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
               </button>
             )}
             <button
-              className='w-[150px] hover:bg-darkGray hover:text-white py-2 border border-darkGray rounded-[4px]'
+              className='w-full tablet:w-[150px] hover:bg-darkGray hover:text-white py-2 border border-darkGray rounded-[4px]'
               onClick={() =>
                 handleUpdateCart(
                   token,
                   order.paymentInfo.orderCode,
-                  'CANCELLED',
+                  'CANCEL',
                   'Do you want to cancel this order?'
                 )
               }

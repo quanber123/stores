@@ -23,11 +23,11 @@ const OrdersFilter = () => {
       statusOrder.map((s) => {
         return (
           <div
-            className='relative flex-1 flex justify-center items-center'
+            className='w-full relative flex-1 flex justify-center items-center'
             key={s._id}
           >
             <button
-              className={`w-full h-full py-4 uppercase ${
+              className={`w-full h-full py-4 uppercase text-start laptop:text-center ${
                 queryString['status'] === s.name ? 'text-purple' : ''
               } `}
               onClick={() => handleChangeQuery('status', s.name)}
@@ -47,10 +47,10 @@ const OrdersFilter = () => {
     [statusOrder, queryString]
   );
   return (
-    <section className='container my-4 bg-white flex justify-between items-center text-darkGray font-medium'>
-      <div className='relative flex-1 flex justify-center items-center'>
+    <section className='container my-4 bg-white flex flex-col laptop:flex-row justify-between items-center text-darkGray font-bold'>
+      <div className='w-full relative flex-1 flex justify-center items-center'>
         <button
-          className={`w-full h-full  py-4  ${
+          className={`w-full h-full py-4 text-start laptop:text-center  ${
             !queryString['status'] ? 'text-purple' : ''
           }`}
           data-name='status'
