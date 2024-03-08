@@ -41,12 +41,12 @@ function PreviewProduct({ product, refEl, style }: Props) {
     <article
       ref={refEl}
       style={style}
-      className='m-auto flex flex-col flex-shrink-0 flex-grow-1 gap-[20px]'
+      className='m-auto flex flex-col flex-shrink-0 flex-grow-1 gap-[20px] text-sm tablet:text-base'
     >
       <div className='relative w-full overflow-hidden cursor-pointer'>
         <LazyLoadImage
           style={{ transition: 'all 0.2s linear' }}
-          className='w-full h-[350px] hover:scale-110'
+          className='w-full tablet:h-[350px] hover:scale-110'
           src={images[0]}
           alt={name}
         />

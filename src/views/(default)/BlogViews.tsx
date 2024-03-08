@@ -41,7 +41,7 @@ function BlogViews() {
       <main className='gap-[80px]'>
         <BlogTitle />
         <section className='container flex flex-col-reverse desktop:flex-row gap-[80px]'>
-          {isFetchingBlog ? <LoadingBlog /> : <></>}
+          {isFetchingBlog && !isSuccessBlog && <LoadingBlog />}
           {isSuccessBlog && dataBlogs.blogs.length && !isFetchingBlog && (
             <BlogList blogs={dataBlogs.blogs} total={dataBlogs.totalPage} />
           )}

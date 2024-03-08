@@ -28,7 +28,7 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
   return (
     <article
       ref={refEl}
-      className='relative flex flex-col gap-[10px] tablet:gap-[20px]'
+      className='relative flex flex-col gap-[10px] tablet:gap-[20px] text-sm tablet:text-base'
     >
       <div className='w-full overflow-hidden cursor-pointer'>
         <LazyLoadImage

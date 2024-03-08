@@ -39,9 +39,9 @@ function ShopViews() {
         description={`Explore cozastore's fashion products`}
         isBlockIndex={false}
       />
-      <main className='gap-[40px]'>
+      <main className='gap-[20px] tablet:gap-[40px]'>
         <ProductFilter />
-        {isFetchingProduct && <LoadingProduct />}
+        {isFetchingProduct && !isSuccessProduct && <LoadingProduct />}
         {isSuccessProduct &&
           dataProducts.products.length > 0 &&
           !isFetchingProduct && (

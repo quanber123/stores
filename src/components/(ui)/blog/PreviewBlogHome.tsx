@@ -17,7 +17,7 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
   return (
     <article
       ref={refEl}
-      className='flex flex-col gap-[15px] flex-shrink-0 flex-grow-0'
+      className='flex flex-col gap-[15px] flex-shrink-0 flex-grow-0 text-sm tablet:text-base'
       style={style}
     >
       <div className='overflow-hidden w-full max-h-[240px] cursor-pointer'>
