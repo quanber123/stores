@@ -182,14 +182,14 @@ const AddAddressModal = () => {
         <div className='bg-white w-4/5 laptop:w-1/3 p-6 flex flex-col justify-between gap-[40px] rounded'>
           <p className='text-lg font-semiBold'>New Address</p>
           <div className='flex flex-col gap-[20px]'>
-            <div className='text-sm flex justify-between gap-[20px]'>
+            <div className='text-sm flex flex-col tablet:flex-row justify-between gap-[20px]'>
               <input
                 data-type='string'
                 className={`${
                   err && validateEmptyStr(form.name)
                     ? 'border-red'
                     : 'border-lightGray'
-                } w-1/2 p-2 border rounded-[2px]`}
+                } tablet:w-1/2 p-2 border rounded-[2px]`}
                 type='text'
                 name='name'
                 value={form.name}
@@ -203,7 +203,7 @@ const AddAddressModal = () => {
                   err && !validatePhoneNumber(form.phone)
                     ? 'border-red'
                     : 'border-lightGray'
-                } w-1/2 p-2 border border-lightGray rounded-[2px]`}
+                } tablet:w-1/2 p-2 border border-lightGray rounded-[2px]`}
                 type='text'
                 name='phone'
                 value={form.phone}
@@ -212,7 +212,7 @@ const AddAddressModal = () => {
                 onChange={handleChangeForm}
               />
             </div>
-            <div className='flex gap-[20px]'>
+            <div className='flex flex-col tablet:flex-row gap-[20px]'>
               <select
                 data-type='object'
                 name='state'
@@ -301,15 +301,15 @@ const AddAddressModal = () => {
               Set as Default Address
             </label>
           </div>
-          <div className='flex justify-end gap-[20px]'>
+          <div className='flex flex-col mobileLg:flex-row justify-end gap-[20px]'>
             <button
-              className='w-[140px] h-[40px] border border-purple hover:border-darkGray text-purple hover:text-darkGray'
+              className='mobileLg:w-[140px] h-[40px] border border-purple hover:border-darkGray text-purple hover:text-darkGray'
               onClick={() => setVisibleModal('visibleAddAddressModal')}
             >
               Cancel
             </button>
             <button
-              className='w-[140px] h-[40px] bg-purple hover:bg-darkGray text-white'
+              className='mobileLg:w-[140px] h-[40px] bg-purple hover:bg-darkGray text-white'
               onClick={handleSubmit}
             >
               Submit

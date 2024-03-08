@@ -37,7 +37,7 @@ const ProductList: React.FC<Props> = ({ products, total }) => {
               x: 0,
               opacity: 1,
               duration: 0.5,
-              delay: index * 0.3,
+              delay: index * 0.1,
             }
           );
         });

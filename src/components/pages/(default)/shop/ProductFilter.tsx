@@ -141,7 +141,7 @@ const ProductFilter = () => {
             x: 0,
             opacity: 1,
             // duration: 0.5,
-            delay: (3 - index) * 0.3,
+            delay: (3 - index) * 0.2,
           }
         );
       });
