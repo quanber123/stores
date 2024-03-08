@@ -309,7 +309,7 @@ function CartList() {
           </table>
         </div>
       ) : (
-        <div className='flex flex-col justify-center items-center gap-[10px]'>
+        <div className='py-32 flex flex-col justify-center items-center gap-[10px]'>
           <LazyLoadImage
             className='w-[100px] h-[100px] mobile:w-[200px] mobile:h-[200px] rounded-[2px]'
             src={cartImg}
