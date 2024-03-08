@@ -46,7 +46,7 @@ function PreviewProduct({ product, refEl, style }: Props) {
       <div className='relative w-full overflow-hidden cursor-pointer'>
         <LazyLoadImage
           style={{ transition: 'all 0.2s linear' }}
-          className='max-w-[290px] w-full h-[350px] hover:scale-110'
+          className='w-full h-[350px] hover:scale-110'
           src={images[0]}
           alt={name}
         />
