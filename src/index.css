@@ -102,18 +102,18 @@ main {
 /* width */
 ::-webkit-scrollbar {
   width: 4px;
+  height: 4px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
   background: var(--light-gray);
-  /* border-radius: 5px; */
+  border-radius: 2px;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--medium-gray);
-  border-radius: 5px;
+  border-radius: 2px;
 }
 
 /* Handle on hover */
@@ -512,20 +512,6 @@ button {
 .btn-filter.active:hover::before,
 .btn-search.active:hover::before {
   border-top: 12px solid var(--purple);
-}
-.dropdown-filter {
-  font-size: 15px;
-  height: 0;
-  background-color: var(--light-gray);
-  display: flex;
-  justify-content: space-between;
-  transition: all 0.2s linear;
-  -webkit-transition: all 0.3s linear;
-  overflow: hidden;
-}
-.dropdown-filter.active {
-  padding: 40px 28px;
-  height: 218px;
 }
 .dropdown-search {
   position: relative;

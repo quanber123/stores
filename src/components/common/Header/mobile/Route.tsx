@@ -1,7 +1,7 @@
 import { DropdownContext } from '@/components/dropdown/hooks/dropdownContext';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import scrollElement from '@/services/utils/scroll-elements';
-import { Suspense, lazy, useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import {
   FaRightToBracket,
@@ -9,6 +9,9 @@ import {
   FaCircleInfo,
   FaStore,
   FaNewspaper,
+  FaBell,
+  FaHeart,
+  FaCartShopping,
   FaClipboard,
   FaGear,
   FaArrowRightFromBracket,
@@ -16,13 +19,6 @@ import {
 import { useAuth } from '@/context/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { removeAuth } from '@/services/redux/slice/authSlice';
-const LoginModal = lazy(
-  () => import('@/components/modal/modal/(default)/login-modal/LoginModal')
-);
-const RegisterModal = lazy(
-  () =>
-    import('@/components/modal/modal/(default)/register-modal/RegisterModal')
-);
 
 type Props = {
   dropdownRoutes: boolean;
@@ -107,13 +103,42 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
             </div>
             <div className='flex flex-col gap-[20px]'>
               <Link
+                to='/'
+                className='flex items-center gap-[15px]'
+                onClick={redirect}
+              >
+                <FaBell className='text-base' />
+                <span>Notifications</span>
+              </Link>
+              <Link
+                to='/'
+                className='flex items-center gap-[15px]'
+                onClick={redirect}
+              >
+                <FaHeart className='text-base' />
+                <span>Favorites</span>
+              </Link>
+              <Link
+                to='/cart'
+                className='flex items-center gap-[15px]'
+                onClick={redirect}
+              >
+                <FaCartShopping className='text-base' />
+                <span>Cart</span>
+              </Link>
+              <Link
                 to='/purchase?page=1'
                 className='flex items-center gap-[15px]'
+                onClick={redirect}
               >
                 <FaClipboard className='text-base' />
                 <span>My Purchase</span>
               </Link>
-              <Link to='/settings' className='flex items-center gap-[15px]'>
+              <Link
+                to='/settings'
+                className='flex items-center gap-[15px]'
+                onClick={redirect}
+              >
                 <FaGear className='text-base' />
                 <span>Settings</span>
               </Link>
@@ -141,10 +166,6 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
           <p>Logout</p>
         </button>
       )}
-      <Suspense>
-        <LoginModal />
-        <RegisterModal />
-      </Suspense>
     </section>
   );
 };

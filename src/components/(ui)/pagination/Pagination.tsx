@@ -25,14 +25,14 @@ const Pagination: React.FC<Props> = ({ totalPage }) => {
   return (
     <ReactPaginate
       forcePage={currPage}
-      className='flex items-center gap-[10px] font-bold text-darkGray'
+      className='flex items-center gap-[10px] font-bold text-darkGray text-sm tablet:text-base'
       nextLabel='Next'
       onPageChange={handlePageClick}
-      pageRangeDisplayed={5}
-      marginPagesDisplayed={3}
+      pageRangeDisplayed={2}
+      marginPagesDisplayed={2}
       pageCount={totalPage}
       previousLabel='Previous'
-      pageClassName='border-2 border-lightGray w-[36px] h-[32px] rounded-[4px] flex justify-center items-center cursor-pointer'
+      pageClassName='border-2 border-lightGray w-[32px] tablet:w-[36px] h-[28px] tablet:h-[32px] rounded-[4px] flex justify-center items-center cursor-pointer'
       pageLinkClassName='w-full h-full flex justify-center items-center'
       nextClassName='text-darkGray'
       breakLabel='...'

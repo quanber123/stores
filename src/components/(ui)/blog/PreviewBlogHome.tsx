@@ -12,7 +12,7 @@ function PreviewBlogHome({ blog, refEl, style }: propsBLog) {
   const navigate = useNavigate();
   const handleLinkClick = (id: string | number) => {
     scrollElement();
-    navigate(`/blogs/${id}`);
+    navigate(`/blog/${id}`);
   };
   return (
     <article

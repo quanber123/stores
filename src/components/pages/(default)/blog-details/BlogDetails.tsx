@@ -3,14 +3,15 @@ import { capitalizeFirstLetter, formatDate } from '@/services/utils/format';
 import { FaRegClock, FaRegEye, FaQuoteRight } from 'react-icons/fa6';
 
 import { Blog } from '@/interfaces/interfaces';
+import LazyLoadImage from '@/services/utils/lazyload-image';
 type Props = {
   blogDetails: Blog;
 };
 const BlogDetails: React.FC<Props> = ({ blogDetails }) => {
   return (
-    <section className='container mt-8 target:mt-0 flex flex-col gap-[20px]'>
+    <section className='container flex flex-col gap-[20px]'>
       <div className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></div>
-      <img
+      <LazyLoadImage
         className='w-full desktop:h-[600px] object-fill'
         src={blogDetails?.imgSrc}
         alt={blogDetails?.title}

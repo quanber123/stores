@@ -21,13 +21,6 @@ const NotificationsModal = lazy(
 const UserModal = lazy(
   () => import('@/components/dropdown/dropdown/user-dropdown/UserDropdown')
 );
-const LoginModal = lazy(
-  () => import('@/components/modal/modal/(default)/login-modal/LoginModal')
-);
-const RegisterModal = lazy(
-  () =>
-    import('@/components/modal/modal/(default)/register-modal/RegisterModal')
-);
 function DesktopNavBar() {
   const { setVisibleModal } = useContext(ModalContext);
   const user = useSelector(authInfo);
@@ -83,8 +76,6 @@ function DesktopNavBar() {
               Register
             </button>
           </div>
-          <LoginModal />
-          <RegisterModal />
         </Suspense>
       )}
     </nav>

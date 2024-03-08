@@ -55,7 +55,7 @@ function BlogDetailsViews() {
 `}
         isBlockIndex={false}
       />
-      <main ref={blogRef} className='relative gap-[40px]'>
+      <main ref={blogRef} className='relative tablet:gap-[40px] gap-[20px]'>
         <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>
         <Breadcrumbs
           breadcrumbs={location.pathname}

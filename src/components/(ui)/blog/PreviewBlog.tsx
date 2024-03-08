@@ -17,7 +17,7 @@ const PreviewBlog: React.FC<Props> = ({ blog, refEl }) => {
   const navigate = useNavigate();
   const handleLinkClick = (id: number | string) => {
     scrollElement();
-    navigate(`/blogs/${id}`, { replace: true });
+    navigate(`/blog/${id}`, { replace: true });
   };
   const tags = useMemo(() => {
     return blog.tags

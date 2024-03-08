@@ -17,7 +17,7 @@ const Breadcrumbs: React.FC<Props> = ({ breadcrumbs, currentId }) => {
     );
   }, [breadcrumbs]);
   return (
-    <section className='container text-white'>
+    <section className='container text-white text-[12px] tablet:text-base'>
       <ul
         className={`flex items-center gap-[10px] py-8 ${
           subNavigate === 'blogs' ? 'text-white' : 'text-mediumGray'
@@ -28,13 +28,13 @@ const Breadcrumbs: React.FC<Props> = ({ breadcrumbs, currentId }) => {
         </li>
         <li>&gt;</li>
         {renderedBreadCrumbs}
-        {currentId ? (
+        {currentId && (
           <>
             <li>&gt;</li>
-            <li className='text-purple'>{capitalizeFirstLetter(currentId)}</li>
+            <li className='text-purple line-clamp-1'>
+              {capitalizeFirstLetter(currentId)}
+            </li>
           </>
-        ) : (
-          <></>
         )}
       </ul>
     </section>

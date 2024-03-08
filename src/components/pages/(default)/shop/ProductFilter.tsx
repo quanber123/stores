@@ -68,7 +68,7 @@ const ProductFilter = () => {
     const type = 'tag';
     return tags.map((t) => {
       return (
-        <li key={t._id} className='w-1/4'>
+        <li key={t._id} className='tablet:w-1/4'>
           <button
             className={`border hover:border-purple hover:text-purple text-sm px-4 py-[4px] rounded-2xl ${
               queryString[type]?.replace(/\+/g, ' ') === t.name
@@ -162,7 +162,7 @@ const ProductFilter = () => {
   }, []);
   return (
     <section className='container mt-[40px] flex flex-col gap-[40px]'>
-      <div className='block laptop:flex justify-between items-center gap-[40px]'>
+      <div className='block laptop:flex justify-between items-center gap-[40px] text-sm tablet:text-base'>
         <ul className='flex justify-center items-center gap-[20px]'>
           <li
             ref={(el) => (subRouteRefs.current[0] = el)}
@@ -201,14 +201,19 @@ const ProductFilter = () => {
         </div>
       </div>
       <div>
-        <div className={`dropdown-filter ${dropdownFilter ? 'active' : ''}`}>
-          <div className='flex flex-col gap-[10px]'>
+        <div
+          style={{ transition: 'height 0.2s linear' }}
+          className={`bg-lightGray flex flex-col tablet:flex-row tablet:justify-between overflow-y-auto ${
+            dropdownFilter ? 'tablet:h-[218px] h-[50vh]' : 'h-0'
+          }`}
+        >
+          <div className='tablet:w-1/2 m-4 flex flex-col gap-[10px]'>
             <h3 className='font-bold text-semiBoldGray'>Sort By</h3>
             <ul className='flex flex-col gap-[5px] text-darkGray'>
               {renderSortBtn}
             </ul>
           </div>
-          <div className='flex flex-col gap-[10px]'>
+          <div className='tablet:w-1/2 m-4 flex flex-col gap-[10px]'>
             <h3 className='font-bold text-semiBoldGray'>Tags</h3>
             <ul className='flex flex-wrap gap-[5px]'>{renderedTags}</ul>
           </div>

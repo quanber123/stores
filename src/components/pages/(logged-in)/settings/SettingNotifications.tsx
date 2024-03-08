@@ -65,7 +65,7 @@ const SettingNotifications = () => {
     return settings.notifications?.map((s) => {
       return (
         <div
-          className='flex flex-col tablet:flex-row justify-between items-center gap-[10px]'
+          className='flex flex-col tablet:flex-row justify-between tablet:items-center gap-[10px]'
           key={s.description}
         >
           <p className='text-sm text-gray font-bold capitalize'>

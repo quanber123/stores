@@ -3,6 +3,7 @@ import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/context/AuthProvider';
 const ConfirmModal = lazy(
   () =>
     import('@/components/modal/modal/(logged-in)/confirm-modal/ConfirmModal')
@@ -25,9 +26,17 @@ const ReviewsModal = lazy(
   () =>
     import('@/components/modal/modal/(logged-in)/reviews-modal/ReviewsModal')
 );
+const LoginModal = lazy(
+  () => import('@/components/modal/modal/(default)/login-modal/LoginModal')
+);
+const RegisterModal = lazy(
+  () =>
+    import('@/components/modal/modal/(default)/register-modal/RegisterModal')
+);
 function Header() {
   const { state, setVisibleModal } = useContext(ModalContext);
   const [isDesktop, setIsDesktop] = useState(window.innerWidth > 640);
+  const user = useAuth();
   useEffect(() => {
     const handleResize = () => {
       setIsDesktop(window.innerWidth > 640);
@@ -69,6 +78,12 @@ function Header() {
       <Suspense fallback={<LoadingV2 />}>
         {state.visibleReviewsModal && <ReviewsModal />}
       </Suspense>
+      {!user.user.id && (
+        <Suspense>
+          <LoginModal />
+          <RegisterModal />
+        </Suspense>
+      )}
     </header>
   );
 }

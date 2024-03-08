@@ -41,10 +41,12 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
             src={c.user?.image}
             alt={c.user?.name}
           />
-          <div className='w-full p-4 bg-overlayGray rounded-[26px] flex flex-col gap-[5px]'>
-            <div className='text-sm flex justify-between'>
-              <h6 className='text-darkGray font-bold'>{c.user?.name}</h6>
-              <p className='text-semiBoldGray font-bold'>
+          <div className='w-full px-4 py-2 tablet:p-4 bg-overlayGray rounded-[16px] tablet:rounded-[26px] flex flex-col gap-[5px]'>
+            <div className='text-sm flex flex-col tablet:flex-row justify-between'>
+              <h6 className='text-darkGray font-bold order-2 tablet:order-1'>
+                {c.user?.name}
+              </h6>
+              <p className='text-semiBoldGray font-bold order-1 tablet:order-2 line-clamp-1'>
                 {formatTime(c.created_at)}
               </p>
             </div>
@@ -57,8 +59,8 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
     });
   }, [blogDetails]);
   return (
-    <section className='container flex flex-col gap-[30px]'>
-      <div className='flex justify-between items-center gap-[20px] py-4 border-t border-b border-gray'>
+    <section className='container flex flex-col gap-[30px] tablet:text-base text-sm'>
+      <div className='flex flex-col tablet:flex-row justify-between tablet:items-center gap-[20px] py-4 border-t border-b border-gray'>
         <div className='flex items-center gap-[10px]'>
           <FaRegComment />
           <p>
@@ -67,7 +69,7 @@ const Comments: React.FC<Props> = ({ blogDetails }) => {
               : `${blogDetails.totalComments} comment`}
           </p>
         </div>
-        <div className='flex items-center gap-[10px]'>
+        <div className='ml-auto flex items-center gap-[10px]'>
           <p>Share:</p>
           <div className='flex gap-[10px]'>
             <FacebookShareButton
