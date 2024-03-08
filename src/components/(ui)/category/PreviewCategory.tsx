@@ -12,7 +12,7 @@ const PreviewCategory: React.FC<Props> = ({ category, refEl }) => {
     <article ref={refEl} className='cursor-pointer'>
       <div className='category relative flex justify-center items-center border border-lightGray'>
         <LazyLoadImage
-          className='w-[296px] mobile:w-[332px] desktop:w-[396px] h-[210px] desktop:h-[268px]'
+          className='w-[296px] mobile:w-[332px] desktop:w-[396px] tablet:h-[210px] desktop:h-[268px]'
           src={category.image}
           alt={category.name}
         />
