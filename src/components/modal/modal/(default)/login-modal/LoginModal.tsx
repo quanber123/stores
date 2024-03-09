@@ -75,14 +75,7 @@ function LoginModal() {
         },
       });
     }
-  }, [
-    loginUser,
-    navigate,
-    isSuccessLogin,
-    isLoadingUser,
-    statusLogin,
-    errorLogin,
-  ]);
+  }, [isSuccessLogin, isLoadingUser, statusLogin, errorLogin]);
   return (
     <Modal>
       <section
