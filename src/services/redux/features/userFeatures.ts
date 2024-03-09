@@ -164,6 +164,15 @@ export const userApi = createApi({
         }),
         invalidatesTags: ['Address'],
       }),
+      sendContact: builder.mutation({
+        query: (body) => ({
+          url: `contact`,
+          method: 'POST',
+          body: {
+            ...body,
+          },
+        }),
+      }),
     };
   },
 });
@@ -185,4 +194,5 @@ export const {
   useCreateAddressMutation,
   useUpdateAddressMutation,
   useDeleteAddressMutation,
+  useSendContactMutation,
 } = userApi;

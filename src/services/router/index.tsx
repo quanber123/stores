@@ -13,6 +13,7 @@ const BlogViews = lazy(() => import('@/views/(default)/BlogViews'));
 const BlogDetailsViews = lazy(
   () => import('@/views/(default)/BlogDetailsViews')
 );
+const ContactViews = lazy(() => import('@/views/(default)/ContactViews'));
 const SettingViews = lazy(() => import('@/views/(logged-in)/SettingViews'));
 const VerifiedAccountViews = lazy(
   () => import('@/views/(default)/VerifiedAccountViews')
@@ -65,6 +66,10 @@ const routes: RouteObject[] = [
             element: <BlogDetailsViews />,
           },
         ],
+      },
+      {
+        path: 'contact',
+        element: <ContactViews />,
       },
       {
         path: 'verified',

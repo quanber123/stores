@@ -178,6 +178,9 @@ export const productApi = createApi({
         }),
         invalidatesTags: ['Orders', 'Reviews'],
       }),
+      getAllStores: builder.query({
+        query: () => `stores`,
+      }),
     };
   },
 });
@@ -200,4 +203,5 @@ export const {
   useUpdateOrderMutation,
   useGetReviewsQuery,
   useReviewsProductMutation,
+  useGetAllStoresQuery,
 } = productApi;

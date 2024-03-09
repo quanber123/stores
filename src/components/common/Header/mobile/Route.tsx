@@ -12,6 +12,7 @@ import {
   FaBell,
   FaHeart,
   FaCartShopping,
+  FaPhone,
   FaClipboard,
   FaGear,
   FaArrowRightFromBracket,
@@ -44,9 +45,10 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
       icon: <FaStore className='text-base' />,
     },
     { link: 'blog?page=1', icon: <FaNewspaper className='text-base' /> },
-    // {
-    //   link: 'contact',
-    // },
+    {
+      link: 'contact',
+      icon: <FaPhone className='text-base' />,
+    },
   ];
   const redirect = useCallback(() => {
     closeAllModal();

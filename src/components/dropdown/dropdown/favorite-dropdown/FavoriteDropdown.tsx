@@ -76,47 +76,48 @@ function FavoriteDropdown() {
     });
   }, [favorites.favorite]);
   return (
-    <>
-      <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
-        <div className='flex items-center gap-[20px]'>
-          <FaHeart
-            className='text-lg hover:text-purple transition-colors cursor-pointer'
-            onClick={() => setVisibleDropdown('visibleFavoriteDropdown')}
-          />
-          <p className='block tablet:hidden font-bold'>Your Favorite</p>
+    <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
+      <button className='flex items-center gap-[20px]'>
+        <FaHeart
+          className='text-lg hover:text-purple transition-colors cursor-pointer'
+          onClick={() => setVisibleDropdown('visibleFavoriteDropdown')}
+        />
+        <p className='block tablet:hidden font-bold'>Your Favorite</p>
+        {favorites.favorite?.products?.length ? (
+          <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
+            {favorites.favorite.products.length}
+          </span>
+        ) : (
+          <></>
+        )}
+      </button>
+      <div
+        className={`favorite-modal ${
+          state.visibleFavoriteDropdown ? 'active' : ''
+        }`}
+      >
+        <h3 className='pl-[16px] py-[12px] text-md text-semiBoldGray font-bold'>
+          Your Favorite
+        </h3>
+        <div className='flex-1 pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-auto'>
           {favorites.favorite?.products?.length ? (
-            <span className='hidden tablet:flex absolute -top-1/2 -right-[10px] w-[18px] h-[16px] text-[12px] justify-center items-center z-10 bg-purple text-white'>
-              {favorites.favorite.products.length}
-            </span>
+            renderedFavorite
           ) : (
-            <></>
-          )}
-        </div>
-        <div
-          className={`favorite-modal ${
-            state.visibleFavoriteDropdown ? 'active' : ''
-          }`}
-        >
-          <h3 className='pl-[16px] text-md text-semiBoldGray font-bold'>
-            Your Favorite
-          </h3>
-          <div className='flex-1 pl-[16px] pr-[32px] flex flex-col gap-[20px] overflow-auto'>
-            {favorites.favorite?.products?.length ? (
-              renderedFavorite
-            ) : (
-              <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px]'>
-                {/* <LazyLoadImage
+            <div className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center gap-[10px]'>
+              {/* <LazyLoadImage
                   className='w-[100px] h-[100px] rounded-[2px]'
                   src={cartImg}
                   alt='cart-img'
                 /> */}
-                <p className='font-bold'>No products yet.</p>
-              </div>
-            )}
-          </div>
+              <p className='font-bold'>No products yet.</p>
+            </div>
+          )}
         </div>
+        <button className='py-2 flex justify-center items-center font-bold border-t border-lightGray hover:bg-lightGray'>
+          Open Favorites
+        </button>
       </div>
-    </>
+    </div>
   );
 }
 

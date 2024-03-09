@@ -283,8 +283,13 @@ function CartList() {
                         `(${selectedProduct.length})`}
                     </p>
                     <button
-                      className='text-sm font-bold'
+                      className={`text-sm font-bold ${
+                        selectedProduct.length === 0
+                          ? 'cursor-not-allowed'
+                          : 'cursor-pointer'
+                      }`}
                       onClick={handleDeleteManyCart}
+                      disabled={selectedProduct.length === 0}
                     >
                       Delete
                     </button>

@@ -14,9 +14,9 @@ function Router() {
       link: 'shop?page=1',
     },
     { link: 'blog?page=1' },
-    // {
-    //   link: 'contact',
-    // },
+    {
+      link: 'contact',
+    },
   ];
   const redirect = useCallback(() => {
     closeAllModal();

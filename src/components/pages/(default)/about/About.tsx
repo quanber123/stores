@@ -122,7 +122,7 @@ function About() {
         </div>
         <h2
           ref={aboutTitleRef}
-          className='absolute top-1/2 left-1/2 z-20 text-white text-3xl font-bold'
+          className='absolute top-1/2 left-1/2 z-20 text-white text-2xl tablet:text-3xl font-bold'
           style={{ transform: 'translate(-50%, -50%)' }}
         >
           About
