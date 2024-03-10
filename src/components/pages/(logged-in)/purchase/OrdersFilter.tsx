@@ -1,22 +1,24 @@
 import useQueryString from '@/hooks/useQueryString';
 import { StatusOrder } from '@/interfaces/interfaces';
 import axios from 'axios';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const OrdersFilter = () => {
   const [statusOrder, setStatusOrder] = useState<StatusOrder[]>([]);
   const endpoints = import.meta.env.VITE_BACKEND_URL;
   const [queryString, handleChangeQuery] = useQueryString();
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await axios.get(`${endpoints}status-order`);
+  const fetchData = useCallback(async () => {
+    try {
+      const res = await axios.get(`${endpoints}status-order`);
+      if (res.status === 200) {
         setStatusOrder(res.data);
-      } catch (error) {
-        console.log('get data orders was wrong!');
       }
-    };
-    statusOrder.length === 0 && fetchData();
+    } catch (error) {
+      console.log('get data orders was wrong!');
+    }
+  }, []);
+  useEffect(() => {
+    fetchData();
   }, []);
   const renderedFilters = useMemo(
     () =>
