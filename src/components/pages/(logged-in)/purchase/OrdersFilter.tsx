@@ -20,30 +20,32 @@ const OrdersFilter = () => {
   }, []);
   const renderedFilters = useMemo(
     () =>
-      statusOrder.map((s) => {
-        return (
-          <div
-            className='w-full relative flex-1 flex justify-center items-center'
-            key={s._id}
-          >
-            <button
-              className={`w-full h-full py-4 uppercase text-start laptop:text-center ${
-                queryString['status'] === s.name ? 'text-purple' : ''
-              } `}
-              onClick={() => handleChangeQuery('status', s.name)}
-              data-name='status'
-            >
-              {s.name}
-            </button>
+      statusOrder
+        .sort((a, b) => a.number - b.number)
+        .map((s) => {
+          return (
             <div
-              style={{ transition: 'all 0.3s ease' }}
-              className={`absolute left-1/2 -translate-x-1/2 bottom-0 ${
-                queryString['status'] === s.name ? 'w-full' : 'w-0'
-              } h-[2px] bg-purple`}
-            ></div>
-          </div>
-        );
-      }),
+              className='w-full relative flex-1 flex justify-center items-center'
+              key={s._id}
+            >
+              <button
+                className={`w-full h-full py-4 uppercase text-start laptop:text-center ${
+                  queryString['status'] === s.name ? 'text-purple' : ''
+                } `}
+                onClick={() => handleChangeQuery('status', s.name)}
+                data-name='status'
+              >
+                {s.name}
+              </button>
+              <div
+                style={{ transition: 'all 0.3s ease' }}
+                className={`absolute left-1/2 -translate-x-1/2 bottom-0 ${
+                  queryString['status'] === s.name ? 'w-full' : 'w-0'
+                } h-[2px] bg-purple`}
+              ></div>
+            </div>
+          );
+        }),
     [statusOrder, queryString]
   );
   return (
