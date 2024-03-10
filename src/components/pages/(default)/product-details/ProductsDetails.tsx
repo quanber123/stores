@@ -130,23 +130,32 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
     });
   }, [count]);
   const handleAddToCart = useCallback(() => {
-    if (token) {
-      const cart = {
-        id: _id,
-        name: name,
-        image: images[0],
-        size: selectedSize,
-        color: selectedColor,
-        price: price,
-        amountSalePrice: salePrice > 0 ? price - salePrice : 0,
-        salePrice: salePrice,
-        finalPrice: finalPrice,
-        quantity: count,
-        totalPrice: finalPrice * count,
-      };
-      createCart({ token, cart });
+    if (getQuantity && getQuantity.quantity < count) {
+      setVisibleModal({
+        visibleAlertModal: {
+          status: 'failed',
+          message: 'Product quantity cannot exceed inventory quantity!',
+        },
+      });
     } else {
-      setVisibleModal('visibleLoginModal');
+      if (token) {
+        const cart = {
+          id: _id,
+          name: name,
+          image: images[0],
+          size: selectedSize,
+          color: selectedColor,
+          price: price,
+          amountSalePrice: salePrice > 0 ? price - salePrice : 0,
+          salePrice: salePrice,
+          finalPrice: finalPrice,
+          quantity: count,
+          totalPrice: finalPrice * count,
+        };
+        createCart({ token, cart });
+      } else {
+        setVisibleModal('visibleLoginModal');
+      }
     }
   }, [selectedColor, selectedSize, count]);
   const handlePostFavorite = useCallback(() => {
@@ -255,11 +264,12 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
           <></>
         )}
       </div>
-      <div>
+      <div className='h-[42px]'>
         <p className='text-sm text-darkGray font-bold'>
           You can only add products when you have selected the size and color
-          and the item is available
+          and the item is available.
         </p>
+        {/* <p>Product quantity cannot exceed inventory quantity.</p> */}
       </div>
       <div className='text-gray flex flex-col tablet:flex-row items-center gap-[20px] tablet:gap-[80px]'>
         <div>
