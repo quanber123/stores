@@ -7,7 +7,7 @@ import {
 } from '@/interfaces/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
-  user: User;
+  user: User | null;
   settings: Settings;
   currDelivery: Address;
   cart: {
@@ -21,7 +21,7 @@ type InitialState = {
   };
 };
 const initialState: InitialState = {
-  user: {} as User,
+  user: null,
   settings: {} as Settings,
   currDelivery: {} as Address,
   cart: {

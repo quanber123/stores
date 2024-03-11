@@ -2,22 +2,19 @@ import { useContext, useEffect, useMemo } from 'react';
 import { FaRegBell } from 'react-icons/fa6';
 import EditButtonNotify from './EditButtonNotify';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  authInfo,
-  getSettings,
-  setSettings,
-} from '@/services/redux/slice/authSlice';
+import { getSettings, setSettings } from '@/services/redux/slice/authSlice';
 import {
   useGetSettingsQuery,
   useUpdatedSettingsMutation,
 } from '@/services/redux/features/userFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const SettingNotifications = () => {
   const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
-  const user = useSelector(authInfo);
+  const user = useAuth();
   const token = window.localStorage.getItem('coza-store-token');
   const settings = useSelector(getSettings);
   const {
@@ -25,8 +22,8 @@ const SettingNotifications = () => {
     isSuccess: isSuccessData,
     isLoading: isLoadingSettings,
   } = useGetSettingsQuery(
-    { token: token, id: user._id },
-    { skip: !user._id ? true : false }
+    { token: token, id: user?.id },
+    { skip: !user?.id ? true : false }
   );
   const [
     toggleNotify,
@@ -76,7 +73,7 @@ const SettingNotifications = () => {
             toggleNotify={() =>
               toggleNotify({
                 token: token,
-                id: user._id,
+                id: user.id,
                 enabled: s.enabled,
                 idNotify: s._id,
               })

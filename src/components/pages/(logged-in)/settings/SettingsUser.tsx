@@ -1,19 +1,18 @@
-import { authInfo } from '@/services/redux/slice/authSlice';
 import { validateImage } from '@/services/utils/validate';
 import React, { useCallback, useContext, useRef, useState } from 'react';
 import { FaRegUser, FaCameraRetro } from 'react-icons/fa6';
-import { useSelector } from 'react-redux';
 import EditButtonUser from './EditButtonUser';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const SettingsUser = () => {
   const { setVisibleModal } = useContext(ModalContext);
-  const user = useSelector(authInfo);
+  const user = useAuth();
   const fileRef = useRef<HTMLInputElement>(null);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [fields, setFields] = useState({
-    _id: user._id,
-    name: user.name,
+    id: user?.id,
+    name: user?.name,
   });
   const [previewImg, setPreviewImg] = useState<string | null>(null);
   const handleClickImage = () => {
@@ -28,7 +27,7 @@ const SettingsUser = () => {
         return { ...prevState, [name]: value };
       });
     },
-    [fields]
+    [user, fields]
   );
   const handleChangeFile = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,7 +73,7 @@ const SettingsUser = () => {
             onChange={handleChangeProfile}
           />
         </div>
-        <EditButtonUser id={fields._id} name='name' value={fields.name} />
+        <EditButtonUser id={fields.id} name='name' value={fields.name} />
       </div>
       <div className='flex flex-wrap gap-[20px] tablet:gap-[40px]'>
         <div>
@@ -95,11 +94,11 @@ const SettingsUser = () => {
             type='file'
             onChange={handleChangeFile}
           />
-          {user.image && user.name ? (
+          {user?.image && user?.name ? (
             <img
               className='w-full h-full cursor-pointer'
-              src={previewImg || user.image}
-              alt={user.name}
+              src={previewImg || user?.image}
+              alt={user?.name}
             />
           ) : (
             <></>
@@ -114,7 +113,7 @@ const SettingsUser = () => {
             />
           </div>
         </div>
-        <EditButtonUser id={user._id} name='image' value={selectedFile} />
+        <EditButtonUser id={user?.id} name='image' value={selectedFile} />
       </div>
     </section>
   );

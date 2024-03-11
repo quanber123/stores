@@ -2,7 +2,7 @@ import {
   useResendEmailMutation,
   useVerifiedEmailMutation,
 } from '@/services/redux/features/userFeatures';
-import { authInfo, setAuth } from '@/services/redux/slice/authSlice';
+import { setAuth } from '@/services/redux/slice/authSlice';
 import {
   useCallback,
   useContext,
@@ -12,16 +12,17 @@ import {
   useState,
 } from 'react';
 import gsap from 'gsap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import SetHeader from '@/services/utils/set-header';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/hooks/useAuth';
 function VerifiedAccountViews() {
   const location = useLocation();
+  const user = useAuth();
   const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const user = useSelector(authInfo);
   const token = window.localStorage.getItem('coza-store-token');
   const [code, setCode] = useState('');
   const formRef = useRef(null);

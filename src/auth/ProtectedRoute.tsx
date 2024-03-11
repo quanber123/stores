@@ -1,20 +1,19 @@
+import { useAuth } from '@/hooks/useAuth';
 import { PropsWithChildren, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '@/context/AuthProvider';
 type ProtectedRouteProps = PropsWithChildren;
-
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const user = useAuth();
   const navigate = useNavigate();
+  console.log(user);
   useEffect(() => {
-    if (user.user === null) {
+    if (!user) {
       navigate('/not-found', { replace: true });
-    }
-    if (user.user.id && !user.user?.isVerified) {
+    } else if (user?.id && !user?.isVerified) {
       navigate('/verified');
     }
-  }, [navigate, user.user]);
+  }, [navigate, user]);
 
   return children;
 }

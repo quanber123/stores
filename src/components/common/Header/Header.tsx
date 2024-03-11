@@ -3,7 +3,7 @@ import DesktopNavBar from './desktop';
 import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-import { useAuth } from '@/context/AuthProvider';
+import { useAuth } from '@/hooks/useAuth';
 const ConfirmModal = lazy(
   () =>
     import('@/components/modal/modal/(logged-in)/confirm-modal/ConfirmModal')
@@ -78,7 +78,7 @@ function Header() {
       <Suspense fallback={<LoadingV2 />}>
         {state.visibleReviewsModal && <ReviewsModal />}
       </Suspense>
-      {!user.user.id && (
+      {user === null && (
         <Suspense>
           <LoginModal />
           <RegisterModal />

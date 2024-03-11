@@ -61,6 +61,7 @@ function LoginModal() {
   useEffect(() => {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
       closeAllModal();
+      window.localStorage.setItem('coza-store-token', dataLogin.accessToken);
       dispatch(setAuth(dataLogin));
       dataLogin.user.isVerified
         ? navigate('/', { replace: true })

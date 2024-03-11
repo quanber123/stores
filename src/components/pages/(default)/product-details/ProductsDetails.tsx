@@ -142,6 +142,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
         const cart = {
           id: _id,
           name: name,
+          category: details.category.name,
           image: images[0],
           size: selectedSize,
           color: selectedColor,

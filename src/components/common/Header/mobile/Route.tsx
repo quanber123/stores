@@ -17,9 +17,9 @@ import {
   FaGear,
   FaArrowRightFromBracket,
 } from 'react-icons/fa6';
-import { useAuth } from '@/context/AuthProvider';
 import { useDispatch } from 'react-redux';
 import { removeAuth } from '@/services/redux/slice/authSlice';
+import { useAuth } from '@/hooks/useAuth';
 
 type Props = {
   dropdownRoutes: boolean;
@@ -93,15 +93,15 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
       } h-full bg-overlayGray transition-all overflow-y-auto flex flex-col gap-[20px] text-md text-semiBoldGray font-bold`}
     >
       <div className='mx-8 py-4 border-b-2 border-semiBoldGray flex flex-col gap-[32px]'>
-        {user.user.id ? (
+        {user?.id ? (
           <>
             <div className='flex items-center gap-[20px]'>
               <img
                 className='w-[36px] h-[36px] rounded-full'
-                src={user.user.image}
-                alt={user.user.name}
+                src={user.image}
+                alt={user.name}
               />
-              <p>{user.user.name}</p>
+              <p>{user.name}</p>
             </div>
             <div className='flex flex-col gap-[20px]'>
               <Link
@@ -159,7 +159,7 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
       <ul className='m-8 pb-4 h-max flex flex-col gap-[24px] border-b-2 border-semiBoldGray'>
         {route}
       </ul>
-      {user.user.id && (
+      {user.id && (
         <button
           className='mx-8 mb-4 flex items-center gap-[20px]'
           onClick={handleLogout}
