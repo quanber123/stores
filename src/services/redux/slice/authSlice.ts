@@ -8,7 +8,7 @@ import {
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
   user: User | null;
-  settings: Settings;
+  settings: Settings | null;
   currDelivery: Address;
   cart: {
     cart: Cart[];
@@ -22,7 +22,7 @@ type InitialState = {
 };
 const initialState: InitialState = {
   user: null,
-  settings: {} as Settings,
+  settings: null,
   currDelivery: {} as Address,
   cart: {
     cart: [],
@@ -42,11 +42,7 @@ const authSlice = createSlice({
       state.user = action.payload.user;
     },
     setSettings: (state, action) => {
-      state.settings._id = action.payload.settings._id;
-      state.settings.user = action.payload.settings.user;
-      state.settings.notifications = [...action.payload.settings.notifications];
-      state.settings.created_at = action.payload.settings.created_at;
-      state.settings.updated_at = action.payload.settings.updated_at;
+      state.settings = action.payload.settings;
     },
     setCurrDelivery: (state, action) => {
       state.currDelivery = action.payload;

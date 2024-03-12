@@ -6,7 +6,6 @@ type ProtectedRouteProps = PropsWithChildren;
 export default function ProtectedRoute({ children }: ProtectedRouteProps) {
   const user = useAuth();
   const navigate = useNavigate();
-  console.log(user);
   useEffect(() => {
     if (!user) {
       navigate('/not-found', { replace: true });

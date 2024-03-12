@@ -59,29 +59,32 @@ const SettingNotifications = () => {
     }
   }, [dataToggle, isSuccessToggle, isLoadingToggle, errorToggle]);
   const renderedSettings = useMemo(() => {
-    return settings.notifications?.map((s) => {
-      return (
-        <div
-          className='flex flex-col tablet:flex-row justify-between tablet:items-center gap-[10px]'
-          key={s.description}
-        >
-          <p className='text-sm text-gray font-bold capitalize'>
-            {s.description}
-          </p>
-          <EditButtonNotify
-            isActive={s.enabled}
-            toggleNotify={() =>
-              toggleNotify({
-                token: token,
-                id: user.id,
-                enabled: s.enabled,
-                idNotify: s._id,
-              })
-            }
-          />
-        </div>
-      );
-    });
+    return (
+      settings &&
+      settings.notifications?.map((s) => {
+        return (
+          <div
+            className='flex flex-col tablet:flex-row justify-between tablet:items-center gap-[10px]'
+            key={s.description}
+          >
+            <p className='text-sm text-gray font-bold capitalize'>
+              {s.description}
+            </p>
+            <EditButtonNotify
+              isActive={s.enabled}
+              toggleNotify={() =>
+                toggleNotify({
+                  token: token,
+                  id: user.id,
+                  enabled: s.enabled,
+                  idNotify: s._id,
+                })
+              }
+            />
+          </div>
+        );
+      })
+    );
   }, [settings]);
   if (isLoadingToggle) {
     return <LoadingV2 />;
