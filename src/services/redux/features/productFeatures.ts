@@ -116,24 +116,35 @@ export const productApi = createApi({
         invalidatesTags: ['Favorites', 'FavoritesDetails'],
       }),
       createPayment: builder.mutation({
-        query: ({ token, type, totalPrice, message, address, products }) => ({
+        query: ({
+          token,
+          type,
+          totalPrice,
+          user_name,
+          phone,
+          message,
+          address,
+          products,
+        }) => ({
           url: `create-payment-${type}`,
           method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
           },
           body: {
-            totalPrice: totalPrice,
-            products: products,
+            user_name: user_name,
+            phone: phone,
             message: message,
             address: address,
+            totalPrice: totalPrice,
+            products: products,
           },
         }),
         invalidatesTags: ['Carts', 'Orders'],
       }),
       getAllOrders: builder.query({
         query: ({ token, query }) => ({
-          url: `orders?${query}`,
+          url: `user_orders?${query}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -143,7 +154,7 @@ export const productApi = createApi({
       }),
       getOrderById: builder.query({
         query: ({ token, id, paymentMethod }) => ({
-          url: `orders/${id}?payment=${paymentMethod}`,
+          url: `user_orders/${id}?payment=${paymentMethod}`,
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -151,14 +162,12 @@ export const productApi = createApi({
         }),
       }),
       updateOrder: builder.mutation({
-        query: ({ token, orderId, status }) => ({
-          url: `orders/${orderId}`,
+        query: ({ orderId, status, userId }) => ({
+          url: `user_orders/${orderId}`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             status: status,
+            userId: userId,
           },
         }),
         invalidatesTags: ['Orders'],

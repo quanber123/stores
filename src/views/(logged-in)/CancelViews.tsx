@@ -9,7 +9,9 @@ import {
   useGetOrderByIdQuery,
   useUpdateOrderMutation,
 } from '@/services/redux/features/productFeatures';
+import { useAuth } from '@/hooks/useAuth';
 function CancelViews() {
+  const user = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const token = window.localStorage.getItem('coza-store-token');
@@ -52,9 +54,9 @@ function CancelViews() {
   useEffect(() => {
     if (isSuccessOrder && dataOrder.status === 'CANCELLED') {
       updateOrder({
-        token: token,
         orderId: code,
         status: dataOrder.status,
+        userId: user.id,
       });
     }
   }, [isSuccessOrder, dataOrder]);

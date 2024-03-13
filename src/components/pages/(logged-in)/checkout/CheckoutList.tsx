@@ -102,6 +102,8 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
         token: token,
         totalPrice: totalPrice,
         products: orders,
+        user_name: currAddress.name,
+        phone: currAddress.phone,
         message: message.current?.value,
         address: addressUser,
         type: paymentMethod,

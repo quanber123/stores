@@ -9,8 +9,10 @@ import {
   useGetOrderByIdQuery,
   useUpdateOrderMutation,
 } from '@/services/redux/features/productFeatures';
+import { useAuth } from '@/hooks/useAuth';
 function SuccessViews() {
   const navigate = useNavigate();
+  const user = useAuth();
   const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
@@ -51,7 +53,7 @@ function SuccessViews() {
   }, [navigate]);
   useEffect(() => {
     if (isSuccessOrder && dataOrder.data.status === 'PAID') {
-      updateOrder({ token: token, orderId: code, status: 'DELIVERING' });
+      updateOrder({ orderId: code, status: 'DELIVERING', userId: user.id });
     }
   }, [isSuccessOrder, dataOrder]);
   return (
