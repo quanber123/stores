@@ -1,4 +1,5 @@
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/hooks/useAuth';
 import { Order } from '@/interfaces/interfaces';
 import { useUpdateOrderMutation } from '@/services/redux/features/productFeatures';
 import LazyLoadImage from '@/services/utils/lazyload-image';
@@ -10,7 +11,7 @@ type Props = {
 };
 const OrderPreview: React.FC<Props> = ({ order }) => {
   const navigate = useNavigate();
-  const token = window.localStorage.getItem('coza-store-token');
+  const user = useAuth();
   const { setVisibleModal } = useContext(ModalContext);
   const [updateOrder] = useUpdateOrderMutation();
   const handleRedirect = useCallback(
@@ -22,9 +23,9 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
   );
   const handleUpdateCart = useCallback(
     (
-      token: string | null,
       orderId: string | number,
       status: string,
+      userId: string | number,
       message: string
     ) => {
       setVisibleModal({
@@ -32,9 +33,9 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
           message: message,
           function: () =>
             updateOrder({
-              token: token,
               orderId: orderId,
               status: status,
+              userId: userId,
             }),
         },
       });
@@ -131,9 +132,9 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
                     className='w-full tablet:w-[150px] py-2 bg-purple hover:bg-darkGray text-white rounded-[4px]'
                     onClick={() =>
                       handleUpdateCart(
-                        token,
                         order.paymentInfo.orderCode,
                         'delivered',
+                        user.id,
                         'Are you sure you have received the goods?'
                       )
                     }
@@ -174,9 +175,9 @@ const OrderPreview: React.FC<Props> = ({ order }) => {
               className='w-full tablet:w-[150px] hover:bg-darkGray hover:text-white py-2 border border-darkGray rounded-[4px]'
               onClick={() =>
                 handleUpdateCart(
-                  token,
                   order.paymentInfo.orderCode,
                   'CANCEL',
+                  user.id,
                   'Do you want to cancel this order?'
                 )
               }

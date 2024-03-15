@@ -1,8 +1,8 @@
 import { ModalContext } from '@/components/modal/hooks/modalContext';
-import React, { useCallback, useContext, useRef } from 'react';
+import React, { useCallback, useContext, useRef, useEffect } from 'react';
 
 const useClickOutside = (modal: any) => {
-  const { setVisibleModal } = useContext(ModalContext);
+  const { setVisibleModal, closeAllModal } = useContext(ModalContext);
   const modalRef = useRef<any | null>(null);
   const clickOutside = useCallback(
     (e: React.MouseEvent) => {
@@ -18,6 +18,18 @@ const useClickOutside = (modal: any) => {
     },
     [setVisibleModal, modalRef, modal]
   );
+  const handleKeyPress = useCallback((e: KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeAllModal();
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener('keydown', handleKeyPress);
+    return () => {
+      document.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [handleKeyPress]);
   return [modalRef, clickOutside] as const;
 };
 
