@@ -21,32 +21,14 @@ if (
   'serviceWorker' in navigator &&
   import.meta.env.VITE_ENVIRONMENT === 'production'
 ) {
-  navigator.serviceWorker
-    .getRegistrations()
-    .then((registrations) => {
-      for (let registration of registrations) {
-        registration
-          .unregister()
-          .then((success) => {
-            console.log('Service Worker unregistered:', success);
-            navigator.serviceWorker
-              .register('/sw.js')
-              .then((registration) => {
-                console.log(
-                  'Service Worker registered with scope:',
-                  registration.scope
-                );
-              })
-              .catch((error) => {
-                console.error('Error registering Service Worker:', error);
-              });
-          })
-          .catch((error) => {
-            console.error('Error unregistering Service Worker:', error);
-          });
-      }
-    })
-    .catch((error) => {
-      console.error('Error getting Service Worker registrations:', error);
-    });
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register('/sw.js')
+      .then((registration) => {
+        console.log('Service Worker registered:', registration);
+      })
+      .catch((error) => {
+        console.error('Service Worker registration failed:', error);
+      });
+  });
 }
