@@ -179,7 +179,7 @@ function RegisterModal() {
               className={`text-mediumGray ${
                 focusInput === 'password' || form.password ? 'active' : ''
               }`}
-              htmlFor='password'
+              htmlFor='password-register'
             >
               Password
             </label>

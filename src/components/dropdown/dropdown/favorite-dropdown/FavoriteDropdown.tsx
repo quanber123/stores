@@ -77,7 +77,10 @@ function FavoriteDropdown() {
   }, [favorites.favorite]);
   return (
     <div className='relative text-semiBoldGray hover:text-purple transition-colors cursor-pointer'>
-      <button className='flex items-center gap-[20px]'>
+      <button
+        className='flex items-center gap-[20px]'
+        aria-label='favorite-btn'
+      >
         <FaHeart
           className='text-lg hover:text-purple transition-colors cursor-pointer'
           onClick={() => setVisibleDropdown('visibleFavoriteDropdown')}
