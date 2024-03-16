@@ -7,7 +7,6 @@ import BlogDetails from '@/components/pages/(default)/blog-details/BlogDetails';
 import Comments from '@/components/pages/(default)/blog-details/Comments';
 import PostComment from '@/components/pages/(default)/blog-details/PostComment';
 import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
-import SetHeader from '@/services/utils/set-header';
 function BlogDetailsViews() {
   const { id } = useParams();
   const location = useLocation();
@@ -47,14 +46,10 @@ function BlogDetailsViews() {
   if (errorBlog && 'data' in errorBlog) {
     return <Navigate to={`/not-found/${id}`} />;
   }
-  return isSuccessBlog && blogData && !isFetchingBlog ? (
-    <>
-      <SetHeader
-        title={blogData.blog.title}
-        description={`Check out ${blogData.blog.title} blog for the latest fashion news.
-`}
-        isBlockIndex={false}
-      />
+  return (
+    isSuccessBlog &&
+    blogData &&
+    !isFetchingBlog && (
       <main ref={blogRef} className='relative tablet:gap-[40px] gap-[20px]'>
         <section className='bg-darkGray absolute top-0 left-0 w-full h-[250px] tablet:h-[450px] -z-10'></section>
         <Breadcrumbs
@@ -65,9 +60,7 @@ function BlogDetailsViews() {
         <Comments blogDetails={blogData.blog} />
         <PostComment id={blogData.blog._id} />
       </main>
-    </>
-  ) : (
-    <></>
+    )
   );
 }
 

@@ -1,12 +1,10 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import SetHeader from '@/services/utils/set-header';
 import gsap from 'gsap';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
 import CheckoutList from '@/components/pages/(logged-in)/checkout/CheckoutList';
 
 function CheckoutViews() {
-  const location = useLocation();
   const navigate = useNavigate();
   const [searchQuery] = useSearchParams();
   const layoutRef = useRef(null);
@@ -42,13 +40,10 @@ function CheckoutViews() {
     }
   }, [navigate]);
   return (
-    <>
-      <SetHeader title={location.pathname} isBlockIndex={true} />
-      <main ref={layoutRef} className='bg-lightGray'>
-        <Breadcrumbs breadcrumbs={location.pathname} />
-        {tempOrders.length && <CheckoutList orders={tempOrders} />}
-      </main>
-    </>
+    <main ref={layoutRef} className='bg-lightGray'>
+      <Breadcrumbs breadcrumbs={location.pathname} />
+      {tempOrders.length && <CheckoutList orders={tempOrders} />}
+    </main>
   );
 }
 

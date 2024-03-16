@@ -1,4 +1,4 @@
-import { Navigate, useLocation, useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { useRef, useLayoutEffect } from 'react';
 import gsap from 'gsap';
 import { useGetProductByIdQuery } from '@/services/redux/features/productFeatures';
@@ -8,10 +8,8 @@ import RelatedProducts from '@/components/pages/(default)/product-details/Relate
 import Images from '@/components/pages/(default)/product-details/Images';
 import Description from '@/components/pages/(default)/product-details/Description';
 import ProductDetails from '@/components/pages/(default)/product-details/ProductsDetails';
-import SetHeader from '@/services/utils/set-header';
 function ProductDetailsViews() {
   const { id } = useParams();
-  const location = useLocation();
   const {
     data: productData,
     error: errorProduct,
@@ -62,13 +60,10 @@ function ProductDetailsViews() {
   if (errorProduct) {
     return <Navigate to={`/not-found/${id}`} />;
   }
-  return isSuccessProduct && productData && !isFetchingProduct ? (
-    <>
-      <SetHeader
-        title={productData.product.name}
-        description={`Check out ${productData.product.name} product for more information about fashion products.`}
-        isBlockIndex={false}
-      />
+  return (
+    isSuccessProduct &&
+    productData &&
+    !isFetchingProduct && (
       <main className='gap-[40px]'>
         <Breadcrumbs
           breadcrumbs={location.pathname}
@@ -84,9 +79,7 @@ function ProductDetailsViews() {
           refEl={relatedRef}
         />
       </main>
-    </>
-  ) : (
-    <></>
+    )
   );
 }
 

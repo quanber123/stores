@@ -1,7 +1,6 @@
-import SetHeader from '@/services/utils/set-header';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
 import cancelImg from '@/assets/images/cancel.png';
@@ -12,7 +11,6 @@ import {
 import { useAuth } from '@/hooks/useAuth';
 function CancelViews() {
   const user = useAuth();
-  const location = useLocation();
   const navigate = useNavigate();
   const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
@@ -61,34 +59,31 @@ function CancelViews() {
     }
   }, [isSuccessOrder, dataOrder]);
   return (
-    <>
-      <SetHeader title={location.pathname} isBlockIndex={false} />
-      <main className='bg-lightGray justify-center items-center text-darkGray'>
-        <div
-          ref={layoutRef}
-          className='w-1/2 py-16 rounded-[4px] bg-white flex flex-col justify-center items-center gap-[20px]'
-        >
-          <div className='w-[180px] h-[180px]'>
-            <LazyLoadImage
-              className='w-[180px] h-[180px]'
-              src={cancelImg}
-              alt='cancel-img'
-            />
-          </div>
-          <h1 className='text-xl font-bold'>Payment canceled !</h1>
-          <p>
-            We are sorry for the inconvenience this may cause and hope that you
-            will find suitable products in the future.
-          </p>
-          <button
-            className='bg-darkGray hover:bg-purple text-white px-8 py-3 text-md rounded-[4px]'
-            onClick={() => navigate('/', { replace: true })}
-          >
-            Go To Home
-          </button>
+    <main className='bg-lightGray justify-center items-center text-darkGray'>
+      <div
+        ref={layoutRef}
+        className='w-1/2 py-16 rounded-[4px] bg-white flex flex-col justify-center items-center gap-[20px]'
+      >
+        <div className='w-[180px] h-[180px]'>
+          <LazyLoadImage
+            className='w-[180px] h-[180px]'
+            src={cancelImg}
+            alt='cancel-img'
+          />
         </div>
-      </main>
-    </>
+        <h1 className='text-xl font-bold'>Payment canceled !</h1>
+        <p>
+          We are sorry for the inconvenience this may cause and hope that you
+          will find suitable products in the future.
+        </p>
+        <button
+          className='bg-darkGray hover:bg-purple text-white px-8 py-3 text-md rounded-[4px]'
+          onClick={() => navigate('/', { replace: true })}
+        >
+          Go To Home
+        </button>
+      </div>
+    </main>
   );
 }
 

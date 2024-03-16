@@ -51,7 +51,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
 
   return (
     <section className='container'>
-      {user.name && user.image && user.isVerified ? (
+      {user?.name && user?.image && user?.isVerified ? (
         <div className='flex items-start gap-[10px] tablet:gap-[20px]'>
           <img
             className='w-[32px] h-[32px] rounded-full'
@@ -88,7 +88,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
       ) : (
         <></>
       )}
-      {!user.id ? (
+      {!user?.id ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
             Please{' '}
@@ -111,7 +111,7 @@ const PostComment: React.FC<Props> = ({ id }) => {
       ) : (
         <></>
       )}
-      {user.id && !user.isVerified ? (
+      {user?.id && !user?.isVerified ? (
         <div className='flex justify-center py-4 bg-overlayGray rounded-[4px] text-darkGray'>
           <p>
             Please{' '}

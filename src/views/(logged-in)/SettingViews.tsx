@@ -1,7 +1,6 @@
 import { useLocation } from 'react-router-dom';
 import { useLayoutEffect, useRef } from 'react';
 import gsap from 'gsap';
-import SetHeader from '@/services/utils/set-header';
 import Breadcrumbs from '@/components/(ui)/breadcrumbs/Breadcrumbs';
 import SettingsUser from '@/components/pages/(logged-in)/settings/SettingsUser';
 import SettingNotifications from '@/components/pages/(logged-in)/settings/SettingNotifications';
@@ -30,7 +29,6 @@ function SettingViews() {
   }, []);
   return (
     <>
-      <SetHeader title={location.pathname} isBlockIndex={true} />
       <main ref={layoutRef} className='gap-[20px]'>
         <Breadcrumbs breadcrumbs={location.pathname} />
         <SettingsUser />

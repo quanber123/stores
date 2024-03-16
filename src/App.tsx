@@ -1,4 +1,9 @@
-import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAllCarts, setAuth } from './services/redux/slice/authSlice';
@@ -19,6 +24,8 @@ const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
 function App() {
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location.pathname);
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const getToken = searchQuery.get('token') ?? '';
@@ -34,6 +41,12 @@ function App() {
     token,
     { skip: !token }
   );
+  useEffect(() => {
+    document.title =
+      location.pathname.split('/')[1] !== ''
+        ? `${location.pathname.split('/')[1].toUpperCase()} | COZASTORE`
+        : 'COZASTORE';
+  }, [location.pathname]);
   useEffect(() => {
     if (getToken) {
       window.localStorage.setItem('coza-store-token', getToken);
