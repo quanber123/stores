@@ -1,7 +1,7 @@
 import { Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { setAuth } from './services/redux/slice/authSlice';
+import { setAllCarts, setAuth } from './services/redux/slice/authSlice';
 import {
   setAllCategories,
   setAllTags,
@@ -13,6 +13,7 @@ import {
 } from './services/redux/features/labelFeatures';
 import { DropdownProvider } from './components/dropdown/hooks/dropdownContext';
 import Loading from './components/common/Loading/Loading';
+import { useGetAllCartsQuery } from './services/redux/features/productFeatures';
 const Header = lazy(() => import('@/components/common/Header/Header'));
 const Scroll = lazy(() => import('@/components/common/ScrollElement/Scroll'));
 const Footer = lazy(() => import('@/components/common/Footer/Footer'));
@@ -29,6 +30,10 @@ function App() {
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery(null);
+  const { data: cartsData, isSuccess: isSuccessCart } = useGetAllCartsQuery(
+    token,
+    { skip: !token }
+  );
   useEffect(() => {
     if (getToken) {
       window.localStorage.setItem('coza-store-token', getToken);
@@ -55,6 +60,11 @@ function App() {
       dispatch(setAllTags(dataTags));
     }
   }, [isSuccessCategories, isSuccessTags]);
+  useEffect(() => {
+    if (isSuccessCart && cartsData) {
+      dispatch(setAllCarts(cartsData));
+    }
+  }, [isSuccessCart, cartsData]);
   return (
     <>
       <Suspense fallback={<Loading />}>

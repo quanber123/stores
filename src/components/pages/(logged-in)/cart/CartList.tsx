@@ -25,7 +25,6 @@ function CartList() {
   const navigate = useNavigate();
   const token = window.localStorage.getItem('coza-store-token');
   const cart = useSelector(getAllCarts);
-  console.log(cart);
   const [quantity, setQuantity] = useState<number[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Cart[]>([]);
   const [isSelectedAll, setIsSelectedAll] = useState(false);
