@@ -15,7 +15,7 @@ function BannerHome() {
   let btnPrev = useRef(null);
   const { data: dataBanners, isSuccess: isSuccessBanners } = useGetBannersQuery(
     null,
-    { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING }
+    { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000 }
   );
 
   const { indexImage, handlePrev, handleNext } = useSlider(

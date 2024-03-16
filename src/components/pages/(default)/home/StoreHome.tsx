@@ -16,7 +16,7 @@ function StoreHome() {
   const { data: dataProducts, isSuccess: isSuccessProducts } =
     useGetProductsQuery(
       { search: 'page=1' },
-      { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING }
+      { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000 }
     );
   const renderedProduct = useMemo(() => {
     return (

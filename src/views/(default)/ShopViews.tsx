@@ -21,7 +21,7 @@ function ShopViews() {
     },
     {
       skip: !searchQuery.size,
-      pollingInterval: import.meta.env.VITE_DEFAULT_POLLING,
+      pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000,
     }
   );
 

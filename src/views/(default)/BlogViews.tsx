@@ -19,7 +19,7 @@ function BlogViews() {
     { search: searchQuery.toString() },
     {
       skip: !searchQuery.size,
-      pollingInterval: import.meta.env.VITE_DEFAULT_POLLING,
+      pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000,
     }
   );
   useEffect(() => {

@@ -14,7 +14,7 @@ function BlogHome() {
     {
       search: 'page=1',
     },
-    { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING }
+    { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000 }
   );
   const { width, indexSlider, breakpoints, handlePrev, handleNext } =
     useCarousel(isSuccessBlogs && dataBlogs.blogs.length);

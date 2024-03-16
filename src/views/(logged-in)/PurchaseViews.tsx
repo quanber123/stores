@@ -13,7 +13,10 @@ function PurchaseViews() {
   const [searchQuery, setSearchQuery] = useSearchParams();
   const page = Number(searchQuery.get('page')) || 1;
   const { data: dataOrders, isFetching: isFetchingOrders } =
-    useGetAllOrdersQuery({ token, query: searchQuery.toString() });
+    useGetAllOrdersQuery(
+      { token, query: searchQuery.toString() },
+      { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000 }
+    );
   useLayoutEffect(() => {
     setSearchQuery((prevQuery) => {
       const newQuery = new URLSearchParams(prevQuery);
