@@ -3,16 +3,15 @@ import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { ModalContext } from '../../../hooks/modalContext';
 import LazyLoadImage from '@/services/utils/lazyload-image';
 import { FaRegStar, FaStar } from 'react-icons/fa6';
-import { useSelector } from 'react-redux';
-import { authInfo } from '@/services/redux/slice/authSlice';
 import { hidePartialUsername } from '@/services/utils/format';
 import useClickOutside from '@/hooks/useClickOutside';
 import { useReviewsProductMutation } from '@/services/redux/features/productFeatures';
 import LoadingV2 from '@/components/common/Loading/LoadingV2';
 import { validateEmptyStr } from '@/services/utils/validate';
+import { useAuth } from '@/hooks/useAuth';
 
 const ReviewsModal = () => {
-  const user = useSelector(authInfo);
+  const user = useAuth();
   const { state, setVisibleModal } = useContext(ModalContext);
   const [
     reviewsProduct,

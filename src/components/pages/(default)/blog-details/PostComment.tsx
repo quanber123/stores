@@ -1,12 +1,11 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { usePostCommentMutation } from '@/services/redux/features/blogFeatures';
-import { useSelector } from 'react-redux';
-import { authInfo } from '@/services/redux/slice/authSlice';
 import { FaPaperPlane } from 'react-icons/fa6';
 import scrollElement from '@/services/utils/scroll-elements';
 import ContentEditable, { ContentEditableEvent } from 'react-contenteditable';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
+import { useAuth } from '@/hooks/useAuth';
 
 type Props = {
   id: string;
@@ -15,7 +14,7 @@ type Props = {
 const PostComment: React.FC<Props> = ({ id }) => {
   const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const user = useSelector(authInfo);
+  const user = useAuth();
   const [comment, setComment] = useState('');
   const [postComment, { status: statusComment }] = usePostCommentMutation();
 
