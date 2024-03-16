@@ -159,7 +159,7 @@ const Route: React.FC<Props> = ({ dropdownRoutes, handleDropdownRoutes }) => {
       <ul className='m-8 pb-4 h-max flex flex-col gap-[24px] border-b-2 border-semiBoldGray'>
         {route}
       </ul>
-      {user.id && (
+      {user?.id && (
         <button
           className='mx-8 mb-4 flex items-center gap-[20px]'
           onClick={handleLogout}
