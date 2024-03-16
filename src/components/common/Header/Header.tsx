@@ -1,9 +1,9 @@
 import { Suspense, lazy, useContext, useEffect, useState } from 'react';
-import DesktopNavBar from './desktop';
-import MobileNavBar from './mobile';
 import LoadingV2 from '../Loading/LoadingV2';
 import { ModalContext } from '@/components/modal/hooks/modalContext';
 import { useAuth } from '@/hooks/useAuth';
+const DesktopNavBar = lazy(() => import('./desktop'));
+const MobileNavBar = lazy(() => import('./mobile'));
 const ConfirmModal = lazy(
   () =>
     import('@/components/modal/modal/(logged-in)/confirm-modal/ConfirmModal')
@@ -63,7 +63,7 @@ function Header() {
       style={{ boxShadow: '0 0px 3px 0px rgba(0, 0, 0, 0.2)' }}
       className='fixed w-full bg-white z-[999] flex justify-center items-center text-sm'
     >
-      {isDesktop ? <DesktopNavBar /> : <MobileNavBar />}
+      <Suspense>{isDesktop ? <DesktopNavBar /> : <MobileNavBar />}</Suspense>
       <Suspense fallback={<LoadingV2 />}>
         {state.visibleAlertModal?.status && <AlertModal />}
       </Suspense>

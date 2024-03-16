@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react';
 import Bars from './Bars';
 import Logo from './Logo';
-import './index.css';
 import Route from './Route';
+import './index.css';
 function MobileNavBar() {
   const [dropdownRoutes, setDropdownRoutes] = useState(false);
   const handleDropdownRoutes = useCallback(() => {
