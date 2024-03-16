@@ -7,6 +7,7 @@ import { useGetBlogsQuery } from '@/services/redux/features/blogFeatures';
 import SetHeader from '@/services/utils/set-header';
 import { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
+import '@/assets/css/blog_views.css';
 function BlogViews() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();

@@ -1,0 +1,21 @@
+.toggle-btn-notify {
+  position: relative;
+  overflow: hidden;
+}
+.toggle-btn-notify::after {
+  position: absolute;
+  content: '';
+  top: 50%;
+  left: 0;
+  margin: auto;
+  transform: translate(0, -50%);
+  width: 50%;
+  height: 95%;
+  background-color: var(--bg-gray);
+  border-radius: 50%;
+  transition: all 0.3s linear;
+}
+
+.toggle-btn-notify.active::after {
+  transform: translate(100%, -50%);
+}

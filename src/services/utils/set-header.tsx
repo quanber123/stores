@@ -22,7 +22,7 @@ const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
 
   return (
     <Helmet>
-      {title && (
+      {/* {title && (
         <title>{newTitle ? `${newTitle} | CozaStore` : 'CozaStore'}</title>
       )}
       {description && (
@@ -35,7 +35,7 @@ const SetHeader: React.FC<Props> = ({ title, description, isBlockIndex }) => {
       <meta
         name='robots'
         content={isBlockIndex ? 'noindex, nofollow' : 'index, follow'}
-      />
+      /> */}
     </Helmet>
   );
 };

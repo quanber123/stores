@@ -6,7 +6,7 @@ import ProductFilter from '@/components/pages/(default)/shop/ProductFilter';
 import ProductList from '@/components/pages/(default)/shop/ProductList';
 import ProductNotFound from '@/components/pages/(default)/shop/ProductNotFound';
 import SetHeader from '@/services/utils/set-header';
-
+import '@/assets/css/shop_views.css';
 function ShopViews() {
   const location = useLocation();
   const [searchQuery, setSearchQuery] = useSearchParams();
