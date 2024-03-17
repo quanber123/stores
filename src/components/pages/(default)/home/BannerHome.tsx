@@ -73,16 +73,17 @@ function BannerHome() {
         return (
           <article
             key={index}
-            className='absolute w-full h-full flex justify-center items-center overflow-hidden'
+            className='absolute w-full h-full desktop:h-[100vh] flex justify-center items-center overflow-hidden'
           >
             <img
-              className='absolute w-[100vw] h-[80vh] tablet:h-[100vh]'
+              className='absolute w-full h-full'
               style={{
                 transform:
                   indexImage === index ? `translateX(0)` : `translateX(100%)`,
                 transition: 'all 0.3s linear',
               }}
               src={b.image}
+              srcSet={`${b.imageMobile} 300w, ${b.imageTablet} 768w, ${b.imageLaptop} 1280w`}
               alt={b.content}
               {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
                 React.ImgHTMLAttributes<HTMLImageElement>,
@@ -126,7 +127,7 @@ function BannerHome() {
   }, [dataBanners, indexImage, isSuccessBanners]);
   return (
     <div
-      className={`relative w-[100vw] h-[80vh] tablet:h-[100vh] overflow-hidden`}
+      className={`relative w-[100vw] h-[50vh] tablet:h-[80vh] desktop:h-[100vh] overflow-hidden`}
     >
       {renderedBanners}
       <button

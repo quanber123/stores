@@ -12,6 +12,9 @@ export interface Banner {
   _id: string;
   id: string;
   image: string;
+  imageMobile: string;
+  imageTablet: string;
+  imageLaptop: string;
   content: string;
   sub_content: string;
   category: Category;
