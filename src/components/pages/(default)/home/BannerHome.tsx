@@ -83,7 +83,8 @@ function BannerHome() {
                 transition: 'all 0.3s linear',
               }}
               src={b.image}
-              srcSet={`${b.imageMobile} 300w, ${b.imageTablet} 768w, ${b.imageLaptop} 1280w`}
+              srcSet={`${b.imageMobile} 300w, ${b.imageTablet} 768w, ${b.imageLaptop} 1000w`}
+              sizes='(max-width: 400) 400px, (max-width: 768px) 768px, (max-width: 1000) 1000px'
               alt={b.content}
               {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
                 React.ImgHTMLAttributes<HTMLImageElement>,
