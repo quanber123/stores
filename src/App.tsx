@@ -25,7 +25,6 @@ const Footer = lazy(() => import('@/components/common/Footer/Footer'));
 function App() {
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location.pathname);
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
   const getToken = searchQuery.get('token') ?? '';

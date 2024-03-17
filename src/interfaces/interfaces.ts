@@ -10,9 +10,11 @@ export interface Tag {
 }
 export interface Banner {
   _id: string;
+  id: string;
   image: string;
   content: string;
-  category: string;
+  sub_content: string;
+  category: Category;
 }
 export interface Product {
   _id: string;

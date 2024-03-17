@@ -7,7 +7,6 @@ import { useGetBannersQuery } from '@/services/redux/features/productFeatures';
 import { Banner } from '@/interfaces/interfaces';
 function BannerHome() {
   const navigate = useNavigate();
-  let imgRef = useRef(null);
   let contentRef = useRef(null);
   let categoryRef = useRef(null);
   let btnRef = useRef(null);
@@ -23,7 +22,6 @@ function BannerHome() {
   );
   useLayoutEffect(() => {
     if (
-      imgRef.current === null ||
       contentRef.current === null ||
       categoryRef.current === null ||
       btnRef.current === null ||
@@ -33,20 +31,6 @@ function BannerHome() {
       return;
     }
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        imgRef.current,
-        {
-          scale: 0,
-          opacity: 0,
-          zIndex: -10,
-        },
-        {
-          scale: 1,
-          opacity: 1,
-          zIndex: 10,
-          duration: 0.5,
-        }
-      );
       gsap.from(contentRef.current, {
         y: -120,
         opacity: 0,
@@ -92,8 +76,12 @@ function BannerHome() {
             className='absolute w-full h-full flex justify-center items-center overflow-hidden'
           >
             <img
-              ref={indexImage === index ? imgRef : null}
               className='absolute w-[100vw] h-[80vh] tablet:h-[100vh]'
+              style={{
+                transform:
+                  indexImage === index ? `translateX(0)` : `translateX(100%)`,
+                transition: 'all 0.3s linear',
+              }}
               src={b.image}
               alt={b.content}
               {...({ fetchpriority: 'low' } as React.DetailedHTMLProps<
@@ -116,13 +104,17 @@ function BannerHome() {
                 ref={indexImage === index ? categoryRef : null}
                 className='text-2xl laptop:text-4xl font-semiBold capitalize'
               >
-                {b.category}
+                {b.sub_content}
               </p>
               <button
                 style={{ transform: 'translateY(120px)', opacity: 0 }}
                 ref={indexImage === index ? btnRef : null}
                 className='w-[128px] tablet:w-[162px] h-[36px] tablet:h-[46px] font-medium text-white bg-darkGray hover:bg-purple rounded-[23px]'
-                onClick={() => navigate('/shop', { replace: true })}
+                onClick={() =>
+                  navigate(`shop?category=${b.category.name}`, {
+                    replace: true,
+                  })
+                }
               >
                 Shop Now
               </button>
@@ -134,7 +126,7 @@ function BannerHome() {
   }, [dataBanners, indexImage, isSuccessBanners]);
   return (
     <div
-      className={`relative w-[100vw] h-[80vh] tablet:h-[100vh] flex justify-center overflow-hidden`}
+      className={`relative w-[100vw] h-[80vh] tablet:h-[100vh] overflow-hidden`}
     >
       {renderedBanners}
       <button
