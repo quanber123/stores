@@ -17,7 +17,6 @@ function BlogViews() {
   } = useGetBlogsQuery(
     { search: searchQuery.toString() },
     {
-      skip: !searchQuery.size,
       pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000,
     }
   );
