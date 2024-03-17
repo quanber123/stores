@@ -84,7 +84,7 @@ function BannerHome() {
               }}
               src={b.image}
               alt={b.content}
-              {...({ fetchpriority: 'low' } as React.DetailedHTMLProps<
+              {...({ fetchpriority: 'high' } as React.DetailedHTMLProps<
                 React.ImgHTMLAttributes<HTMLImageElement>,
                 HTMLImageElement
               >)}
