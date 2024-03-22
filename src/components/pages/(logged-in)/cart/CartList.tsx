@@ -23,7 +23,6 @@ import { Cart } from '@/interfaces/interfaces';
 function CartList() {
   const { setVisibleModal } = useContext(ModalContext);
   const navigate = useNavigate();
-  const token = window.localStorage.getItem('coza-store-token');
   const cart = useSelector(getAllCarts);
   const [quantity, setQuantity] = useState<number[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<Cart[]>([]);
