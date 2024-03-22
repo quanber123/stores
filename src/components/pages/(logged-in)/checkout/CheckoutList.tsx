@@ -35,7 +35,7 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   const message = useRef<HTMLInputElement | null>(null);
   const [searchQuery, setSearchQuery] = useSearchParams();
   const { data: dataAddress, isSuccess: isSuccessAddress } =
-    useGetAddressUserQuery(token, { skip: !token });
+    useGetAddressUserQuery(null, { skip: !token });
   const [
     createPayment,
     {
@@ -99,7 +99,6 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
   const handlePayment = useCallback(() => {
     if (dataAddress) {
       createPayment({
-        token: token,
         totalPrice: totalPrice,
         products: orders,
         user_name: currAddress.name,

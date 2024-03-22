@@ -40,22 +40,16 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'Banners'),
       }),
       getAllCarts: builder.query({
-        query: (token) => ({
+        query: () => ({
           url: `carts`,
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Carts'),
       }),
       createCart: builder.mutation({
-        query: ({ token, cart }) => ({
+        query: ({ cart }) => ({
           url: 'carts',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             cart: cart,
           },
@@ -80,12 +74,9 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       deleteManyCarts: builder.mutation({
-        query: ({ token, products }) => ({
+        query: ({ products }) => ({
           url: 'carts',
           method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             products: products,
           },
