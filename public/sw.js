@@ -1,4 +1,4 @@
-const cacheName = 'CozaStore-cache-v1';
+const cacheName = 'CozaStore-cache-v2';
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
