@@ -21,10 +21,7 @@ const SettingNotifications = () => {
     data: settingsData,
     isSuccess: isSuccessData,
     isLoading: isLoadingSettings,
-  } = useGetSettingsQuery(
-    { token: token, id: user?.id },
-    { skip: !user?.id ? true : false }
-  );
+  } = useGetSettingsQuery(user?.id, { skip: !user?.id });
   const [
     toggleNotify,
     {

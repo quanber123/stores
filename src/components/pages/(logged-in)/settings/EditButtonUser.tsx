@@ -10,7 +10,6 @@ type Props = {
   value?: string | File | null;
 };
 const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
-  const token = window.localStorage.getItem('coza-store-token');
   const { setVisibleModal } = useContext(ModalContext);
   const [editBtn, setEditBtn] = useState(false);
   const [
