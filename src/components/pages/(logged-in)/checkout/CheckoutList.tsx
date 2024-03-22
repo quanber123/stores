@@ -144,16 +144,18 @@ const CheckoutList: React.FC<Props> = ({ orders }) => {
           <h2>Delivery address</h2>
         </div>
         {currAddress && (
-          <div className='flex items-center gap-[20px]'>
-            <p className='font-bold'>
-              {currAddress.name} | {currAddress.phone}
-            </p>
-            <p>{addressUser}</p>
-            {currAddress.isDefault && (
-              <div className='px-2 text-[12px] border border-purple text-purple'>
-                Default
-              </div>
-            )}
+          <div className='flex items-center gap-[20px] text-sm laptop:text-base'>
+            <div className='flex desktop:flex-row flex-col gap-[12px]'>
+              <p className='font-bold'>
+                {currAddress.name} | {currAddress.phone}
+              </p>
+              <p>{addressUser}</p>
+              {currAddress.isDefault && (
+                <div className='px-2 text-[12px] border border-purple text-purple'>
+                  Default
+                </div>
+              )}
+            </div>
             <button
               className='text-purple text-sm'
               onClick={() => setVisibleModal('visibleAddressModal')}
