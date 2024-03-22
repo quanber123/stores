@@ -38,10 +38,10 @@ const EditButtonUser: React.FC<Props> = ({ id, name, value }) => {
       const imageData = new FormData();
       imageData.append('id', id);
       imageData.append('image', value);
-      updatedAvatar({ token, id: id, file: imageData });
+      updatedAvatar({ id: id, file: imageData });
     }
     if (name !== 'image') {
-      updateProfile({ token, id, name, value });
+      updateProfile({ id, name, value });
     }
   }, [id, name, value]);
   useEffect(() => {

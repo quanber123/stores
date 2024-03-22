@@ -15,7 +15,7 @@ const AddressModal = () => {
   const address = useSelector(getCurrAddress);
   const { state, setVisibleModal } = useContext(ModalContext);
   const { data: dataAddress, isSuccess: isSuccessAddress } =
-    useGetAddressUserQuery(token, { skip: !token });
+    useGetAddressUserQuery(null, { skip: !token });
   const [currAddress, setCurrAddress] = useState<Address | null>(address);
   useEffect(() => {
     if (isSuccessAddress && dataAddress && !address) {

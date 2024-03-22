@@ -124,7 +124,6 @@ const UpdateAddressModal = () => {
       ])
     ) {
       updateAddress({
-        token: window.localStorage.getItem('coza-store-token'),
         id: address._id,
         body: {
           name: form.name,

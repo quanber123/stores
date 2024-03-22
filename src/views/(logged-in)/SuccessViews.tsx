@@ -13,14 +13,12 @@ import { useAuth } from '@/hooks/useAuth';
 function SuccessViews() {
   const navigate = useNavigate();
   const user = useAuth();
-  const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
   const code = searchQuery.get('orderCode');
   const paymentMethod = searchQuery.get('paymentMethod');
   const { data: dataOrder, isSuccess: isSuccessOrder } = useGetOrderByIdQuery(
     {
-      token,
       id: code,
       paymentMethod: paymentMethod,
     },

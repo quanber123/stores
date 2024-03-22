@@ -12,14 +12,12 @@ import { useAuth } from '@/hooks/useAuth';
 function CancelViews() {
   const user = useAuth();
   const navigate = useNavigate();
-  const token = window.localStorage.getItem('coza-store-token');
   const layoutRef = useRef(null);
   const [searchQuery] = useSearchParams();
   const code = searchQuery.get('orderCode');
   const status = searchQuery.get('status');
   const { data: dataOrder, isSuccess: isSuccessOrder } = useGetOrderByIdQuery(
     {
-      token: token,
       id: code,
     },
     { skip: !code }

@@ -1,9 +1,19 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import providesList from '@/services/utils/providesList';
+import { getAuthToken } from '@/services/utils/getToken';
 const end_point = import.meta.env.VITE_BACKEND_URL;
 export const productApi = createApi({
   reducerPath: 'productApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${end_point}`,
+    prepareHeaders: (headers) => {
+      const token = getAuthToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: [
     'Products',
     'Banners',
@@ -53,12 +63,9 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       updateCart: builder.mutation({
-        query: ({ token, id, product }) => ({
+        query: ({ id, product }) => ({
           url: `carts/${id}`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             product: product,
           },
@@ -66,12 +73,9 @@ export const productApi = createApi({
         invalidatesTags: ['Carts'],
       }),
       deleteCartById: builder.mutation({
-        query: ({ token, id }) => ({
+        query: (id) => ({
           url: `carts/${id}`,
           method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         invalidatesTags: ['Carts'],
       }),
@@ -93,22 +97,16 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'FavoritesDetails'),
       }),
       getAllFavorites: builder.query({
-        query: (token) => ({
+        query: () => ({
           url: `users/favorites`,
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Favorites'),
       }),
       postFavorites: builder.mutation({
-        query: ({ token, productId }) => ({
+        query: (productId) => ({
           url: 'users/favorites',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             productId: productId,
           },
@@ -117,7 +115,6 @@ export const productApi = createApi({
       }),
       createPayment: builder.mutation({
         query: ({
-          token,
           type,
           totalPrice,
           user_name,
@@ -128,9 +125,6 @@ export const productApi = createApi({
         }) => ({
           url: `create-payment-${type}`,
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             user_name: user_name,
             phone: phone,
@@ -143,22 +137,16 @@ export const productApi = createApi({
         invalidatesTags: ['Carts', 'Orders'],
       }),
       getAllOrders: builder.query({
-        query: ({ token, query }) => ({
+        query: ({ query }) => ({
           url: `user_orders?${query}`,
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Orders'),
       }),
       getOrderById: builder.query({
-        query: ({ token, id, paymentMethod }) => ({
+        query: ({ id, paymentMethod }) => ({
           url: `user_orders/${id}?payment=${paymentMethod}`,
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
       }),
       updateOrder: builder.mutation({
@@ -177,12 +165,9 @@ export const productApi = createApi({
         providesTags: (result) => providesList(result, 'Reviews'),
       }),
       reviewsProduct: builder.mutation({
-        query: ({ token, reviews }) => ({
+        query: (reviews) => ({
           url: 'products/reviews',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: reviews,
         }),
         invalidatesTags: ['Orders', 'Reviews'],

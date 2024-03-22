@@ -7,12 +7,11 @@ import OrdersFilter from '@/components/pages/(logged-in)/purchase/OrdersFilter';
 import OrdersList from '@/components/pages/(logged-in)/purchase/OrdersList';
 
 function PurchaseViews() {
-  const token = window.localStorage.getItem('coza-store-token');
   const [searchQuery, setSearchQuery] = useSearchParams();
   const page = Number(searchQuery.get('page')) || 1;
   const { data: dataOrders, isFetching: isFetchingOrders } =
     useGetAllOrdersQuery(
-      { token, query: searchQuery.toString() },
+      { query: searchQuery.toString() },
       { pollingInterval: import.meta.env.VITE_DEFAULT_POLLING * 1000 }
     );
   useLayoutEffect(() => {

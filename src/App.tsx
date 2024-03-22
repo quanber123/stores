@@ -29,15 +29,14 @@ function App() {
   const [searchQuery, setSearchQuery] = useSearchParams();
   const getToken = searchQuery.get('token') ?? '';
   const token = getToken || window.localStorage.getItem('coza-store-token');
-  const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(
-    token || getToken,
-    { skip: token || getToken ? false : true }
-  );
+  const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(null, {
+    skip: token || getToken ? false : true,
+  });
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
   const { data: dataTags, isSuccess: isSuccessTags } = useGetTagsQuery(null);
   const { data: cartsData, isSuccess: isSuccessCart } = useGetAllCartsQuery(
-    token,
+    null,
     { skip: !token }
   );
   useEffect(() => {

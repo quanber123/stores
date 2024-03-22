@@ -21,7 +21,6 @@ function VerifiedAccountViews() {
   const { setVisibleModal } = useContext(ModalContext);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const token = window.localStorage.getItem('coza-store-token');
   const [code, setCode] = useState('');
   const formRef = useRef(null);
   const [
@@ -49,7 +48,7 @@ function VerifiedAccountViews() {
     [code]
   );
   const handleVerified = () => {
-    verifiedEmail({ token: token, email: user.email, code: code });
+    verifiedEmail({ email: user.email, code: code });
   };
   const handleResendEmail = () => {
     resendEmail(user.email);

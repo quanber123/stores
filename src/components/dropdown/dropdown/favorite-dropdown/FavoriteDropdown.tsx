@@ -24,7 +24,7 @@ function FavoriteDropdown() {
     useContext(DropdownContext);
   const favorites = useSelector(getAllFavorites);
   const { data: favoriteData, isSuccess: isSuccessFavorite } =
-    useGetAllFavoritesQuery(token, { skip: !token });
+    useGetAllFavoritesQuery(null, { skip: !token });
   const [postFavorite] = usePostFavoritesMutation();
   useEffect(() => {
     if (isSuccessFavorite && favoriteData) {
@@ -63,7 +63,6 @@ function FavoriteDropdown() {
               className='w-max ml-auto px-4 py-2 text-base rounded-[2px] text-white bg-purple hover:bg-darkGray'
               onClick={() =>
                 postFavorite({
-                  token: window.localStorage.getItem('coza-store-token'),
                   productId: p._id,
                 })
               }

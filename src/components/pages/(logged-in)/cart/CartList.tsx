@@ -66,7 +66,6 @@ function CartList() {
   useEffect(() => {
     if (debouncedCart !== null) {
       updatedCart({
-        token: token,
         id: cart.cart[debouncedCart]._id,
         product: {
           ...cart.cart[debouncedCart].product,
@@ -85,7 +84,7 @@ function CartList() {
       setVisibleModal({
         visibleConfirmModal: {
           message: 'Do you want to delete this product?',
-          function: () => deleteCartById({ token, id }),
+          function: () => deleteCartById(id),
         },
       });
     },
@@ -97,8 +96,7 @@ function CartList() {
         message: `Do you want to remove ${selectedProduct.length} ${
           selectedProduct.length > 1 ? 'products' : 'product'
         } ?`,
-        function: () =>
-          deleteManyCart({ token: token, products: selectedProduct }),
+        function: () => deleteManyCart({ products: selectedProduct }),
       },
     });
   }, [deleteManyCart, selectedProduct]);

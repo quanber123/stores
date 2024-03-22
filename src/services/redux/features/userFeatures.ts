@@ -1,29 +1,34 @@
+import { getAuthToken } from '@/services/utils/getToken';
 import providesList from '@/services/utils/providesList';
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 const end_point = import.meta.env.VITE_BACKEND_URL;
+
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: fetchBaseQuery({ baseUrl: `${end_point}` }),
+  baseQuery: fetchBaseQuery({
+    baseUrl: `${end_point}`,
+    prepareHeaders: (headers) => {
+      const token = getAuthToken();
+      if (token) {
+        headers.set('Authorization', `Bearer ${token}`);
+      }
+      return headers;
+    },
+  }),
   tagTypes: ['Users', 'Settings', 'Address'],
   endpoints: (builder) => {
     return {
       getUser: builder.query({
-        query: (token) => ({
+        query: () => ({
           url: 'auth/get-user',
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Users'),
       }),
       verifiedEmail: builder.mutation({
-        query: ({ token, code, email }) => ({
+        query: ({ code, email }) => ({
           url: 'auth/verify-email',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             code: code,
             email: email,
@@ -54,12 +59,9 @@ export const userApi = createApi({
         }),
       }),
       updateProfile: builder.mutation({
-        query: ({ token, id, name, value }) => ({
+        query: ({ id, name, value }) => ({
           url: `users/profile`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             id: id,
             name: name,
@@ -69,33 +71,24 @@ export const userApi = createApi({
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),
       updateAvatar: builder.mutation({
-        query: ({ token, id, file }) => ({
+        query: ({ id, file }) => ({
           url: `users/${id}/avatar`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: file,
         }),
         invalidatesTags: [{ type: 'Users', id: 'LIST' }],
       }),
       getSettings: builder.query({
-        query: ({ token, id }) => ({
+        query: (id) => ({
           url: `settings/${id}`,
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Settings'),
       }),
       updatedSettings: builder.mutation({
-        query: ({ token, id, enabled, idNotify }) => ({
+        query: ({ id, enabled, idNotify }) => ({
           url: 'settings',
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: {
             id: id,
             enabled: enabled,
@@ -123,44 +116,32 @@ export const userApi = createApi({
         }),
       }),
       getAddressUser: builder.query({
-        query: (token) => ({
+        query: () => ({
           url: 'users/address',
           method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         providesTags: (result) => providesList(result, 'Address'),
       }),
       createAddress: builder.mutation({
-        query: ({ token, body }) => ({
+        query: (body) => ({
           url: 'users/address',
           method: 'POST',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: body,
         }),
         invalidatesTags: ['Address'],
       }),
       updateAddress: builder.mutation({
-        query: ({ token, id, body }) => ({
+        query: ({ id, body }) => ({
           url: `users/address/${id}`,
           method: 'PUT',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
           body: body,
         }),
         invalidatesTags: ['Address'],
       }),
       deleteAddress: builder.mutation({
-        query: ({ token, id }) => ({
+        query: (id) => ({
           url: `users/address/${id}`,
           method: 'DELETE',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
         }),
         invalidatesTags: ['Address'],
       }),
