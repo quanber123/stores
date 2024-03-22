@@ -4,7 +4,7 @@ import {
   useNavigate,
   useSearchParams,
 } from 'react-router-dom';
-import { Suspense, lazy, useEffect } from 'react';
+import { Suspense, lazy, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { setAllCarts, setAuth } from './services/redux/slice/authSlice';
 import {
@@ -27,10 +27,10 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const getToken = searchQuery.get('token') ?? '';
-  const token = getToken || window.localStorage.getItem('coza-store-token');
+  const [token, setToken] = useState(localStorage.getItem('coza-store-token'));
+  const getToken = searchQuery.get('token');
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(null, {
-    skip: token || getToken ? false : true,
+    skip: !token,
   });
   const { data: dataCategories, isSuccess: isSuccessCategories } =
     useGetCategoriesQuery(null);
@@ -48,6 +48,7 @@ function App() {
   useEffect(() => {
     if (getToken) {
       window.localStorage.setItem('coza-store-token', getToken);
+      setToken(getToken);
     }
   }, [getToken]);
   useEffect(() => {
