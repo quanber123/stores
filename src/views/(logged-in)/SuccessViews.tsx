@@ -51,7 +51,7 @@ function SuccessViews() {
   }, [navigate]);
   useEffect(() => {
     if (isSuccessOrder && dataOrder.data.status === 'PAID') {
-      updateOrder({ orderId: code, status: 'DELIVERING', userId: user.id });
+      updateOrder({ orderId: code, status: 'PROCESSING', userId: user.id });
     }
   }, [isSuccessOrder, dataOrder]);
   return (
