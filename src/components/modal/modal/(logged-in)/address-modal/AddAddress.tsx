@@ -116,16 +116,13 @@ const AddAddressModal = () => {
       ])
     ) {
       createAddress({
-        token: window.localStorage.getItem('coza-store-token'),
-        body: {
-          name: form.name,
-          phone: form.phone,
-          state: form.state.name,
-          city: form.city.name,
-          district: form.district.name,
-          address: form.address,
-          isDefault: form.isDefault,
-        },
+        name: form.name,
+        phone: form.phone,
+        state: form.state.name,
+        city: form.city.name,
+        district: form.district.name,
+        address: form.address,
+        isDefault: form.isDefault,
       });
     } else {
       setErr(true);

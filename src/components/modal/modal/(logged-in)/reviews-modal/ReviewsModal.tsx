@@ -78,13 +78,10 @@ const ReviewsModal = () => {
   const handleReviews = () => {
     if (!validateEmptyStr(reviewsForm.reviews)) {
       reviewsProduct({
-        token: window.localStorage.getItem('coza-store-token'),
-        reviews: {
-          ...reviewsForm,
-          rate: rate,
-          productId: product.id,
-          orderId: product.orderId,
-        },
+        ...reviewsForm,
+        rate: rate,
+        productId: product.id,
+        orderId: product.orderId,
       });
     } else {
       setErr(true);

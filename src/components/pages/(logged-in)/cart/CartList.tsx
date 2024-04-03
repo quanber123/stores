@@ -60,7 +60,7 @@ function CartList() {
       setIndexCart(index);
       setQuantity(newQuantity);
     },
-    [quantity]
+    [quantity, indexCart]
   );
   useEffect(() => {
     if (debouncedCart !== null) {
