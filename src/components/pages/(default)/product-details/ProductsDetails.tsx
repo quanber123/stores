@@ -161,7 +161,7 @@ const ProductDetails: React.FC<Props> = ({ product, refEl }) => {
   }, [selectedColor, selectedSize, count]);
   const handlePostFavorite = useCallback(() => {
     if (token) {
-      postFavorite({ token: token, productId: product._id });
+      postFavorite(product._id);
     } else {
       setVisibleModal('visibleLoginModal');
     }

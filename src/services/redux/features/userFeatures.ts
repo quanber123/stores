@@ -152,9 +152,7 @@ export const userApi = createApi({
         query: (body) => ({
           url: `contact`,
           method: 'POST',
-          body: {
-            ...body,
-          },
+          body: body,
         }),
       }),
     };

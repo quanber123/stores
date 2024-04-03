@@ -32,7 +32,7 @@ function PreviewProduct({ product, refEl, style }: Props) {
   };
   const handlePostFavorite = useCallback(() => {
     if (token) {
-      postFavorite({ token: token, productId: product._id });
+      postFavorite(product._id);
     } else {
       setVisibleModal('visibleLoginModal');
     }

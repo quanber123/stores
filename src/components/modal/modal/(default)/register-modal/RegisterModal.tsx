@@ -217,22 +217,6 @@ function RegisterModal() {
               <></>
             )}
           </div>
-          {/* <div className='w-full h-[48px] my-8 relative'>
-          <input
-            className='w-full h-full px-[16px] border border-gray rounded-[23px]'
-            type='text'
-            name='code'
-            placeholder='Enter your code...'
-            value={form.code}
-            onChange={handleChangeForm}
-          />
-          <button
-            className='absolute top-1/2 right-[5px] -translate-y-1/2 h-4/5 px-[16px] bg-semiBoldGray hover:bg-purple text-white rounded-[23px]'
-            onClick={handleVerifiedEmail}
-          >
-            Send Code
-          </button>
-        </div> */}
           <div className='mt-8 w-full register-form-btn'>
             <button
               style={{
