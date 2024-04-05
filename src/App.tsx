@@ -27,8 +27,9 @@ function App() {
   const location = useLocation();
   const dispatch = useDispatch();
   const [searchQuery, setSearchQuery] = useSearchParams();
-  const [token, setToken] = useState(localStorage.getItem('coza-store-token'));
-  const getToken = searchQuery.get('token');
+  const [token, setToken] = useState(
+    localStorage.getItem('coza-store-token') || searchQuery.get('token')
+  );
   const { data: dataUser, isSuccess: isSuccessUser } = useGetUserQuery(null, {
     skip: !token,
   });
@@ -46,11 +47,11 @@ function App() {
         : 'COZASTORE';
   }, [location.pathname]);
   useEffect(() => {
-    if (getToken) {
+    if (token) {
       window.localStorage.setItem('coza-store-token', getToken);
-      setToken(getToken);
+      setToken(token);
     }
-  }, [getToken]);
+  }, [token]);
   useEffect(() => {
     if (isSuccessUser && dataUser) {
       dispatch(setAuth(dataUser));

@@ -7,6 +7,7 @@ import {
 } from '@/interfaces/interfaces';
 import { createSlice } from '@reduxjs/toolkit';
 type InitialState = {
+  token: string | null;
   user: User | null;
   settings: Settings | null;
   currDelivery: Address;
@@ -21,6 +22,7 @@ type InitialState = {
   };
 };
 const initialState: InitialState = {
+  token: window.localStorage.getItem('coza-store-token') || null,
   user: null,
   settings: null,
   currDelivery: {} as Address,
@@ -38,8 +40,11 @@ const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
   reducers: {
+    setToken: (state, action) => {
+      state.token = action.payload;
+    },
     setAuth: (state, action) => {
-      state.user = action.payload.user;
+      state.user = action.payload;
     },
     setSettings: (state, action) => {
       state.settings = action.payload.settings;
@@ -71,6 +76,7 @@ const authSlice = createSlice({
     },
   },
 });
+export const tokenUser = (state: { auth: InitialState }) => state.auth.token;
 export const authInfo = (state: { auth: InitialState }) => state.auth.user;
 export const getSettings = (state: { auth: InitialState }) =>
   state.auth.settings;
@@ -80,6 +86,7 @@ export const getAllCarts = (state: { auth: InitialState }) => state.auth.cart;
 export const getAllFavorites = (state: { auth: InitialState }) =>
   state.auth.favorite;
 export const {
+  setToken,
   setAuth,
   setSettings,
   setCurrDelivery,

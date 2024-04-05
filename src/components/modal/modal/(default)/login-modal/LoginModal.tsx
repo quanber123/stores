@@ -7,20 +7,21 @@ import {
 } from 'react';
 import logo from '@/assets/images/logo-01.png.webp';
 import { FaFacebookF, FaGoogle, FaXmark } from 'react-icons/fa6';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   ErrValidate,
   SuccessValidate,
   validateEmail,
 } from '@/services/utils/validate';
-import { setAuth } from '@/services/redux/slice/authSlice';
+import { authInfo, setToken } from '@/services/redux/slice/authSlice';
 import { useLoginUserMutation } from '@/services/redux/features/userFeatures';
 import { useNavigate } from 'react-router-dom';
-import './LoginModal.css';
 import Modal from '@/Modal';
 import { ModalContext } from '../../../hooks/modalContext';
 import useClickOutside from '@/hooks/useClickOutside';
+import './LoginModal.css';
 function LoginModal() {
+  const user = useSelector(authInfo);
   const { state, setVisibleModal, closeAllModal } = useContext(ModalContext);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -62,8 +63,8 @@ function LoginModal() {
     if (isSuccessLogin && !isLoadingUser && statusLogin === 'fulfilled') {
       closeAllModal();
       window.localStorage.setItem('coza-store-token', dataLogin.accessToken);
-      dispatch(setAuth(dataLogin));
-      dataLogin.user.isVerified
+      dispatch(setToken(dataLogin));
+      user?.isVerified
         ? navigate('/', { replace: true })
         : navigate('/verified', { replace: true });
     }
