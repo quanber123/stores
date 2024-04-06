@@ -42,6 +42,7 @@ function App() {
   );
   useEffect(() => {
     if (import.meta.env.VITE_ENVIRONMENT === 'production') {
+      console.log('Analytics started!');
       ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS);
       ReactGA.pageview(window.location.pathname + window.location.search);
     }
