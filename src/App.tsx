@@ -1,3 +1,4 @@
+import ReactGA from 'react-ga';
 import {
   Outlet,
   useLocation,
@@ -39,6 +40,12 @@ function App() {
     null,
     { skip: !token }
   );
+  useEffect(() => {
+    if (import.meta.env.VITE_ENVIRONMENT === 'production') {
+      ReactGA.initialize(import.meta.env.VITE_GOOGLE_ANALYTICS);
+      ReactGA.pageview(window.location.pathname + window.location.search);
+    }
+  }, []);
   useEffect(() => {
     document.title =
       location.pathname.split('/')[1] !== ''
